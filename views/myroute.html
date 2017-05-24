@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>首页</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <link rel="shortcut icon" href="./static/img/th.jpg" type="image/x-icon" />
+  <link rel="stylesheet" href="./static/css/style.css" />
+</head>
+
+<body>
+  <nav>
+    <ul>
+      <li><a href="/">首页</a></li>
+      <li><a href="/category">目录</a></li>
+      <li><a href="/about">关于</a></li>
+    </ul>
+  </nav>
+  <header>
+    <h2 style="text-align:center">本页测试数据库基本操作</h2>
+    <div class="description">
+      <form action="/user" method="POST">
+        <input type="text" name="username" placeholder="用户名"><br>
+        <input type="text" name="password" placeholder="密码"><br>
+        <input type="submit" value="提交">
+      </form>
+    </div>
+    <ul>
+        {{range $index, $elem := .userList}}
+        <li>{{$elem.Id}}:{{$elem.Username}}</li>
+        {{end}}
+    </ul>
+  </header>
+  <footer>
+    <div class="author">
+      Official website:
+      <a href="http://{{.Website}}">{{.Website}}</a> /
+      Contact me:
+      <a class="email" href="mailto:{{.Email}}">{{.Email}}</a>
+    </div>
+  </footer>
+  <div class="backdrop"></div>
+</body>
+</html>
