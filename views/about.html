@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>首页</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <link rel="shortcut icon" href="./static/img/th.jpg" type="image/x-icon" />
+  <link rel="stylesheet" href="./static/css/style.css" />
+</head>
+
+<body>
+  <nav>
+    <ul>
+      <li><a href="/">首页</a></li>
+      <li><a href="/category">目录</a></li>
+      <li><a href="/about">关于</a></li>
+    </ul>
+  </nav>
+  <header>
+    <h1 class="logo">beego 简介</h1>
+    <div class="description">
+      beego 是一个快速开发 Go 应用的 HTTP 框架，他可以用来快速开发 API、Web 及后端服务等各种应用，是一个 RESTful 的框架，主要设计灵感来源于 tornado、sinatra 和 flask 这三个框架，但是结合了 Go 本身的一些特性（interface、struct 嵌入等）而设计的一个框架。
+    </div>
+  </header>
+  <footer>
+    <div class="author">
+      Official website:
+      <a href="http://{{.Website}}">{{.Website}}</a> /
+      Contact me:
+      <a class="email" href="mailto:{{.Email}}">{{.Email}}</a>
+    </div>
+  </footer>
+  <div class="backdrop"></div>
+</body>
+</html>
