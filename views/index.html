@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>首页</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <link rel="shortcut icon" href="./static/img/th.jpg" type="image/x-icon" />
+  <link rel="stylesheet" href="./static/css/style.css" />
+</head>
+
+<body>
+  <nav>
+    <ul>
+      <li><a href="/">首页</a></li>
+      <li><a href="/category">目录</a></li>
+      <li><a href="/about">关于</a></li>
+	  <li><a href="/test">测试页</a></li>
+    </ul>
+  </nav>
+  <header>
+    <h1 class="logo">我的第一个Go Web程序</h1>
+    <div class="description">
+      <p>一、
+		部署简单。Go 编译生成的是一个静态可执行文件，除了 glibc 外没有其他外部依赖。这让部署变得异常方便：目标机器上只需要一个基础的系统和必要的管理、
+    监控工具，完全不需要操心应用所需的各种包、库的依赖关系，大大减轻了维护的负担。这和 Python 有着巨大的区别。由于历史的原因，
+    Python 的部署工具生态相当混乱【比如 setuptools, distutils, pip, buildout 的不同适用场合以及兼容性问题】。官方 PyPI 源又经常出问题，
+    需要搭建私有镜像，而维护这个镜像又要花费不少时间和精力。
+    </p>
+		<p>二、并发性好。Goroutine 和 channel 使得编写高并发的服务端软件变得相当容易，很多情况下完全不需要考虑锁机制以及由此带来的各种问题。单个 Go 应用也能有效的利用多个 CPU 核，并行执行的性能好。这和 Python 也是天壤之比。多线程和多进程的服务端程序编写起来并不简单，而且由于全局锁 GIL 的原因，多线程的 Python 程序并不能有效利用多核，只能用多进程的方式部署；如果用标准库里的 multiprocessing 包又会对监控和管理造成不少的挑战【我们用的 supervisor 管理进程，对 fork 支持不好】。部署 Python 应用的时候通常是每个 CPU 核部署一个应用，这会造成不少资源的浪费，比如假设某个 Python 应用启动后需要占用 100MB 内存，而服务器有 32 个 CPU 核，那么留一个核给系统、运行 31 个应用副本就要浪费 3GB 的内存资源。
+      </p>
+		<p>三、良好的语言设计。从学术的角度讲 Go 语言其实非常平庸，不支持许多高级的语言特性；但从工程的角度讲，Go 的设计是非常优秀的：规范足够简单灵活，有其他语言基础的程序员都能迅速上手。更重要的是 Go 自带完善的工具链，大大提高了团队协作的一致性。比如 gofmt 自动排版 Go 代码，很大程度上杜绝了不同人写的代码排版风格不一致的问题。把编辑器配置成在编辑存档的时候自动运行 gofmt，这样在编写代码的时候可以随意摆放位置，存档的时候自动变成正确排版的代码。此外还有 gofix, govet 等非常有用的工具。
+      </p>
+		<p>四、执行性能好。虽然不如 C 和 Java，但通常比原生 Python 应用还是高一个数量级的，适合编写一些瓶颈业务。内存占用也非常省。</p>
+    </div>
+  </header>
+  <footer>
+    <div class="author">
+      Official website:
+      <a href="http://{{.Website}}">{{.Website}}</a> /
+      Contact me:
+      <a class="email" href="mailto:{{.Email}}">{{.Email}}</a>
+    </div>
+  </footer>
+  <div class="backdrop"></div>
+</body>
+</html>
