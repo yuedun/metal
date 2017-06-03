@@ -18,13 +18,14 @@ func init() {
 	beego.Router("/user", &controllers.UserController{})
 	beego.Router("/user/?:username", &controllers.UserController{}, "get:GetUser")
 
+	beego.NSBefore(controllers.HasPermission)
 	//admin管理后台路由配置
 	ns := beego.NewNamespace("/admin",
 		beego.NSRouter("/", &controllers.AdminController{}),
 		beego.NSRouter("/login", &controllers.AdminController{}, "get:Login"),
 		beego.NSRouter("/welcome", &controllers.AdminController{}, "get:Welcome"),
 		beego.NSRouter("/user-list", &controllers.UserController{}, "get:UserList"),
-		beego.NSRouter("/user-add-ui", &controllers.UserController{}, "get:UserAddUI"),
+		beego.NSRouter("/user-add", &controllers.UserController{}, "get:UserAdd"),
 		beego.NSRouter("/user", &controllers.UserController{}),
 	)
 	//注册namespace

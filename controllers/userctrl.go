@@ -14,11 +14,15 @@ type UserController struct {
 
 var SexMap = map[int]string{0: "女", 1: "男"}
 
+func (this *UserController) UserAdd() {
+	this.TplName = "admin/user-add.html"
+}
+
 func (this *UserController) Post() {
 	username := this.GetString("username") //只能接收url后面的参数，不能接收body中的参数
 	sex, _ := this.GetInt("sex")
-	createdAt := time.Now().Format("2006-01-02 15:04:05")
-	updatedAt := time.Now().Format("2006-01-02 15:04:05")
+	createdAt := time.Now() //.Format("2006-01-02 15:04:05")
+	updatedAt := time.Now() //.Format("2006-01-02 15:04:05")
 	user := &Users{Username: username, Gender: SexMap[sex], CreatedAt: createdAt, UpdatedAt: updatedAt}
 	id, err := user.AddUser()
 	if nil != err {
@@ -52,4 +56,19 @@ func (this *UserController) Put() {
 		this.Data["json"] = map[string]interface{}{"result": true, "msg": upId}
 	}
 	this.ServeJSON()
+}
+func (this *UserController) UserList() {
+	user := new(Users)
+	userList, err := user.FindAllUser()
+	for _, u := range userList {
+		dateStr := u.CreatedAt.Format("2006-01-02 15:04:05")
+		fmt.Println(">>>>>>>>>>>>>", dateStr)
+	}
+	if nil != err {
+		this.Data["json"] = map[string]interface{}{"msg": err}
+		this.ServeJSON()
+	}
+	this.Data["userList"] = userList
+	this.Data["total"] = len(userList)
+	this.TplName = "admin/user-list.html"
 }

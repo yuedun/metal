@@ -2,7 +2,7 @@ package models
 
 import (
 	"fmt"
-	//	"time"
+	"time"
 
 	"github.com/astaxie/beego/orm"
 )
@@ -18,9 +18,14 @@ type Users struct {
 	Mobile    string
 	Email     string
 	Addr      string
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	Status    int
+}
+type UserPOJO struct {
+	Users
 	CreatedAt string
 	UpdatedAt string
-	Status    int
 }
 
 func init() {
