@@ -24,7 +24,7 @@ func init() {
 	orm.RegisterDataBase("default", "mysql", dbuser+":"+dbpass+"@/"+dbname+"?charset=utf8", maxIdle, maxConn)
 	orm.Debug = true //控制台打印查询语句
 	// 自动建表
-	orm.RunSyncdb("default", false, true)
+	// orm.RunSyncdb("default", false, true)
 }
 
 func main() {

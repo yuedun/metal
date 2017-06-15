@@ -23,9 +23,9 @@ type Users struct {
 	Status    int
 }
 type UserPOJO struct {
-	Users
-	CreatedAt string
-	UpdatedAt string
+	UserObj      Users
+	CreatedAtStr string
+	UpdatedAtStr string
 }
 
 func init() {
