@@ -59,16 +59,20 @@ func (this *UserController) Put() {
 }
 func (this *UserController) UserList() {
 	user := new(Users)
+	var userPojo = []UserPOJO{}
 	userList, err := user.FindAllUser()
-	for _, u := range userList {
-		dateStr := u.CreatedAt.Format("2006-01-02 15:04:05")
-		fmt.Println(">>>>>>>>>>>>>", dateStr)
+	for index, u := range userList {
+		userp := new(UserPOJO)
+		userp.UserObj = u
+		userp.CreatedAtStr = u.CreatedAt.Format("2006-01-02 15:04:05")
+		userp.UpdatedAtStr = u.UpdatedAt.Format("2006-01-02 15:04:05")
+		userPojo = append(userPojo[:index], *userp)
 	}
 	if nil != err {
 		this.Data["json"] = map[string]interface{}{"msg": err}
 		this.ServeJSON()
 	}
-	this.Data["userList"] = userList
-	this.Data["total"] = len(userList)
+	this.Data["userList"] = userPojo
+	this.Data["total"] = len(userPojo)
 	this.TplName = "admin/user-list.html"
 }
