@@ -1,339 +1,339 @@
 Copyright (C)2014 www.H-ui.net	guojunhui	1:45 2014/12/31
 ==========================================================
---------------ÓÃĞÄ×öÕ¾£¬×ö²»Ò»ÑùµÄÕ¾--------------
+--------------ç”¨å¿ƒåšç«™ï¼Œåšä¸ä¸€æ ·çš„ç«™--------------
 
-H-ui.admin v2.0 ×ñÑ­LGPLĞ­Òé£¬½«ÓÀ¾ÃĞÔÌá¹©ÎŞ³¥·şÎñ¡£
+H-ui.admin v2.0 éµå¾ªLGPLåè®®ï¼Œå°†æ°¸ä¹…æ€§æä¾›æ— å¿æœåŠ¡ã€‚
 
-Èç¹ûÏë×öÆ¤·ô¶¨ÖÆ£¬Ö»ĞèÒªĞŞ¸ÄH-ui.admin.css µÚ10¡ª¡ª23ĞĞ´úÂë¡£
+å¦‚æœæƒ³åšçš®è‚¤å®šåˆ¶ï¼Œåªéœ€è¦ä¿®æ”¹H-ui.admin.css ç¬¬10â€”â€”23è¡Œä»£ç ã€‚
 
-Í¬Ê±£¬H-ui.adminÒ²Ìá¹©¶¨ÖÆ·şÎñ£¡£¨ÎªÁËÉú´æ£¬¶¨ÖÆĞèÒªÊÕÈ¡Ò»Ğ©ÊÕ·ÑÅ¶~£©
+åŒæ—¶ï¼ŒH-ui.adminä¹Ÿæä¾›å®šåˆ¶æœåŠ¡ï¼ï¼ˆä¸ºäº†ç”Ÿå­˜ï¼Œå®šåˆ¶éœ€è¦æ”¶å–ä¸€äº›æ”¶è´¹å“¦~ï¼‰
 
-H-uiÒ»Ö±±ü³Ğ¡°²»Çó¶àìÅ£¬ÊµÓÃÎªÖ÷£¡¡±µÄ×ÚÖ¼,Îª¹ã´ó¹¤³ÌÊ¦Ìá¹©×îÊµÓÃ£¬×îÒ×ÓÃµÄÇ°¶Ë´úÂë¡£
+H-uiä¸€ç›´ç§‰æ‰¿â€œä¸æ±‚å¤šç‚«ï¼Œå®ç”¨ä¸ºä¸»ï¼â€çš„å®—æ—¨,ä¸ºå¹¿å¤§å·¥ç¨‹å¸ˆæä¾›æœ€å®ç”¨ï¼Œæœ€æ˜“ç”¨çš„å‰ç«¯ä»£ç ã€‚
 
-Èç¹ûÄúÓĞÏîÄ¿Ò²ÔÚÊ¹ÓÃH-ui.admin,Çë±£ÁôÍøÕ¾ºóÌ¨µ×²¿°æÈ¨ĞÅÏ¢£¬Ğ»Ğ»£¡
+å¦‚æœæ‚¨æœ‰é¡¹ç›®ä¹Ÿåœ¨ä½¿ç”¨H-ui.admin,è¯·ä¿ç•™ç½‘ç«™åå°åº•éƒ¨ç‰ˆæƒä¿¡æ¯ï¼Œè°¢è°¢ï¼
 
-Äú¿ÉÒÔÁªÏµ×÷Õß£¬ÒÔ±ãÔÚ´ËÕ¹ÏÖ°¸Àı£¬Ò²ÎªÄúµÄÆ·ÅÆÍÆ¹ã¾¡Ò»Ğ©Ãà±¡Ö®Á¦¡£
+æ‚¨å¯ä»¥è”ç³»ä½œè€…ï¼Œä»¥ä¾¿åœ¨æ­¤å±•ç°æ¡ˆä¾‹ï¼Œä¹Ÿä¸ºæ‚¨çš„å“ç‰Œæ¨å¹¿å°½ä¸€äº›ç»µè–„ä¹‹åŠ›ã€‚
 
---------------ÓÃĞÄ×öÕ¾£¬×ö²»Ò»ÑùµÄÕ¾--------------
+--------------ç”¨å¿ƒåšç«™ï¼Œåšä¸ä¸€æ ·çš„ç«™--------------
 ==========================================================
-\¸ß¸ßÊÖ\WWW.GOGOUP.COM\ADMIN
-©¦  _blank.html				¿Õ°×Ò³(Ã¿´ÎÎÒÃÇ¶¼ÄÃ¿Õ°×Ò³È¥´´½¨£¬ÕâÑù±È½Ï¸É¾»£¡)
-©¦  _footer.html			Ò³½Å¹«¹²´úÂëÆ¬¶Î
-©¦  _header.html			Í·²¿¹«¹²´úÂëÆ¬¶Î
-©¦  _meta.html				meta¹«¹²´úÂëÆ¬¶Î
-©¦  robots.txt				ËÑË÷ÒıÇæÅÀ³æÅäÖÃÎÄ¼ş
-©¦  login.html				¹ÜÀíÔ±µÇÂ½
-©¦  index.html				Ê×Ò³(Ö÷¿ò¼Ü)
-©¦  welcome.html			ÎÒµÄ×ÀÃæ£¨Ä¬ÈÏÓÀÔ¶´ò¿ªµÄÒ³Ãæ£©
-©¦  ÓÃ»§ÖĞĞÄ
-©¦  user-add.html			ÓÃ»§Ìí¼Ó
-©¦  user-list				ÓÃ»§¹ÜÀí(list)
-©¦  user-view.html			ÓÃ»§ĞÅÏ¢(pop)
-©¦  ×ÊÑ¶¹ÜÀí
-©¦  artice-class.html			×ÊÑ¶·ÖÀà
+\é«˜é«˜æ‰‹\WWW.GOGOUP.COM\ADMIN
+â”‚  _blank.html				ç©ºç™½é¡µ(æ¯æ¬¡æˆ‘ä»¬éƒ½æ‹¿ç©ºç™½é¡µå»åˆ›å»ºï¼Œè¿™æ ·æ¯”è¾ƒå¹²å‡€ï¼)
+â”‚  _footer.html			é¡µè„šå…¬å…±ä»£ç ç‰‡æ®µ
+â”‚  _header.html			å¤´éƒ¨å…¬å…±ä»£ç ç‰‡æ®µ
+â”‚  _meta.html				metaå…¬å…±ä»£ç ç‰‡æ®µ
+â”‚  robots.txt				æœç´¢å¼•æ“çˆ¬è™«é…ç½®æ–‡ä»¶
+â”‚  login.html				ç®¡ç†å‘˜ç™»é™†
+â”‚  index.html				é¦–é¡µ(ä¸»æ¡†æ¶)
+â”‚  welcome.html			æˆ‘çš„æ¡Œé¢ï¼ˆé»˜è®¤æ°¸è¿œæ‰“å¼€çš„é¡µé¢ï¼‰
+â”‚  ç”¨æˆ·ä¸­å¿ƒ
+â”‚  user-add.html			ç”¨æˆ·æ·»åŠ 
+â”‚  user-list				ç”¨æˆ·ç®¡ç†(list)
+â”‚  user-view.html			ç”¨æˆ·ä¿¡æ¯(pop)
+â”‚  èµ„è®¯ç®¡ç†
+â”‚  artice-class.html			èµ„è®¯åˆ†ç±»
 
-©¦  artice-add.html			×ÊÑ¶Ìí¼Ó
-©¦  artice-list.html			×ÊÑ¶¹ÜÀí(list)
-©¦  artice-view.html			×ÊÑ¶Ô¤ÀÀ(pop)
-©¦  Í¼Æ¬¿â
-©¦  picture-class.html			Í¼Æ¬·ÖÀà
-©¦  picture-add.html			Í¼Æ¬Ìí¼Ó
-©¦  picture-list.html			Í¼Æ¬¹ÜÀí(list)
-©¦  picture-show.html			Í¼Æ¬Ô¤ÀÀ(pop)
-©¦  ²úÆ·¿â
-©¦  product-brand.html			Æ·ÅÆ¹ÜÀí
-©¦  product-class.html			²úÆ··ÖÀà
-©¦  product-add.html			²úÆ·Ìí¼Ó(list)
-©¦  product-list.html			²úÆ·ÁĞ±í(list)
+â”‚  artice-add.html			èµ„è®¯æ·»åŠ 
+â”‚  artice-list.html			èµ„è®¯ç®¡ç†(list)
+â”‚  artice-view.html			èµ„è®¯é¢„è§ˆ(pop)
+â”‚  å›¾ç‰‡åº“
+â”‚  picture-class.html			å›¾ç‰‡åˆ†ç±»
+â”‚  picture-add.html			å›¾ç‰‡æ·»åŠ 
+â”‚  picture-list.html			å›¾ç‰‡ç®¡ç†(list)
+â”‚  picture-show.html			å›¾ç‰‡é¢„è§ˆ(pop)
+â”‚  äº§å“åº“
+â”‚  product-brand.html			å“ç‰Œç®¡ç†
+â”‚  product-class.html			äº§å“åˆ†ç±»
+â”‚  product-add.html			äº§å“æ·»åŠ (list)
+â”‚  product-list.html			äº§å“åˆ—è¡¨(list)
 
-©¦  product-show.html			²úÆ·Ô¤ÀÀ(pop)
-©¦  Ò³Ãæ¹ÜÀí
-©¦  page-moban.html			Ä£°æ¹ÜÀí
+â”‚  product-show.html			äº§å“é¢„è§ˆ(pop)
+â”‚  é¡µé¢ç®¡ç†
+â”‚  page-moban.html			æ¨¡ç‰ˆç®¡ç†
 
-©¦  page-flink.html			ÓÑÇéÁ´½Ó
+â”‚  page-flink.html			å‹æƒ…é“¾æ¥
 
-©¦  ÏµÍ³¹ÜÀí
-©¦  system-base.html			»ù±¾ÉèÖÃ
+â”‚  ç³»ç»Ÿç®¡ç†
+â”‚  system-base.html			åŸºæœ¬è®¾ç½®
 
-©¦  system-lanmu.html			À¸Ä¿ÉèÖÃ
+â”‚  system-lanmu.html			æ ç›®è®¾ç½®
 
-©¦  system-data.html			Êı¾İ×Öµä
-©¦  system-log.html			ÏµÍ³ÈÕÖ¾(list)
+â”‚  system-data.html			æ•°æ®å­—å…¸
+â”‚  system-log.html			ç³»ç»Ÿæ—¥å¿—(list)
 
-©¦  ¹ÜÀíÔ±¹ÜÀí
-©¦  admin-list.html			¹ÜÀíÔ±-ÁĞ±í
-©¦  admin-password-edit.html		¹ÜÀíÔ±-ÃÜÂë-±à¼­£¨pop£©
-©¦  admin-role-edit.html		¹ÜÀíÔ±-½ÇÉ«-±à¼­£¨pop£©
-©¦  admin-role.html			¹ÜÀíÔ±-½ÇÉ«
-©¦  Í³¼Æ¹ÜÀí
-©¦  tongji-list.html	Í³¼ÆÁĞ±í(list)
+â”‚  ç®¡ç†å‘˜ç®¡ç†
+â”‚  admin-list.html			ç®¡ç†å‘˜-åˆ—è¡¨
+â”‚  admin-password-edit.html		ç®¡ç†å‘˜-å¯†ç -ç¼–è¾‘ï¼ˆpopï¼‰
+â”‚  admin-role-edit.html		ç®¡ç†å‘˜-è§’è‰²-ç¼–è¾‘ï¼ˆpopï¼‰
+â”‚  admin-role.html			ç®¡ç†å‘˜-è§’è‰²
+â”‚  ç»Ÿè®¡ç®¡ç†
+â”‚  tongji-list.html	ç»Ÿè®¡åˆ—è¡¨(list)
 
 
-©À©¤css
-©¦      dropzone.css			ÍÏ×§ÉÏ´«²å¼şÑùÊ½
-©¦      H-ui.admin.css			H-ui.adminÑùÊ½
-©¦      H-ui.css			h-ui CSS¿â
-©¦      H-ui.login.css			H-ui.adminºóÌ¨µÇÂ¼ÑùÊ½
-©¦      
-©À©¤images				UIÏà¹ØµÄÍ¼Æ¬ËØ²Ä
-©¦      acrossTab-bg.png
-©¦      acrossTab-close.png
-©¦      acrossTab.png
-©¦      admin-login-bg.jpg
-©¦      admin-loginform-bg.png
-©¦      hamburger-retina.gif
-©¦      hamburger.gif
-©¦      icon-add.png
-©¦      icon-pass.png
-©¦      icon-user.png
-©¦      icon_arrow.png
-©¦      icon_jt2.png
-©¦      logo.png
-©¦      sort_asc.png
-©¦      sort_both.png
-©¦      sort_desc.png
-©¦      toTop.png
-©¦      
-©À©¤js
-©¦      ajaxfileupload.js		Òì²½ÉÏ´«ÎÄ¼şµÄjQuery²å¼ş
-©¦      DD_belatedPNG_0.0.8a-min.js	½â¾öIE6pngÍ¸Ã÷
-©¦      de_DE.txt			±í¸ñÅÅĞò²å¼şÓïÑÔÅäÖÃ
-©¦      dropzone.min.js			ÍÏ×§ÉÏ´«²å¼ş
-©¦      H-ui.admin.js			±¾Õ¾Ïà¹ØµÄjs
-©¦      H-ui.js				H-uiºËĞÄ½Å±¾
-©¦      html5.js			html5²å¼ş£¬ÈÃµÍ°æ±¾IEÖ§³Öhtml5ÔªËØ
-©¦      jquery.cookie.js		jQuery.cookie
-©¦      jquery.dataTables.min.js	±í¸ñÅÅĞò²å¼ş
-©¦      jquery.min.js			jQueryÀà¿â
-©¦      page.js				·­Ò³½Å±¾
-©¦      pagenav.cn.js			·­Ò³½Å±¾
-©¦      passwordStrength-min.js		ÃÜÂëÇ¿¶ÈĞ£Ñé
-©¦      preview.js			Í¼Æ¬Ô¤ÀÀ²å¼ş
-©¦      Validform_v5.3.2_min.js		±íµ¥ÑéÖ¤²å¼ş
-©¦
-©À©¤font				×ÖÌåÍ¼±ê²å¼ş
-©¦      fontawesome-webfont.eot
-©¦      fontawesome-webfont.svg
-©¦      fontawesome-webfont.ttf
-©¦      fontawesome-webfont.woff
-©¦      FontAwesome.otf
-©¦      font-awesome-ie7.css		×ÖÌåÍ¼±êÑùÊ½
-©¦      font-awesome-ie7.min.css	×ÖÌåÍ¼±êÑùÊ½Ñ¹Ëõ°æ£¨Ò»°ãÒıÓÃ´Ë°æ£©
-©¦      font-awesome.css		×ÖÌåÍ¼±êÑùÊ½IE7¼æÈİ°æ
-©¦      font-awesome.min.css		×ÖÌåÍ¼±êÑùÊ½IE7¼æÈİÑ¹Ëõ°æ£¨Ò»°ãÒıÓÃ´Ë°æ£©
-©¦
-©À©¤layer				µ¯³ö²ã²å¼ş
-©¦  ©¦	layer.min.js 
-©¦  ©À©¤extend
-©¦  ©¦      layer.ext.js
-©¦  ©¦      
-©¦  ©¸©¤skin
-©¦      ©¦  layer.css
-©¦      ©¦  layer.ext.css
-©¦      ©¦  
-©¦      ©¸©¤default
-©¦              icon_ext.png
-©¦              textbg.png
-©¦              xubox_ico0.png
-©¦              xubox_loading0.gif
-©¦              xubox_loading1.gif
-©¦              xubox_loading2.gif
-©¦              xubox_loading3.gif
-©¦              xubox_title0.png
-©À©¤plugin				²å¼ş
-©¦  ©À©¤datePicker			ÈÕÆÚ²å¼ş
-©¦  ©¦      datePicker-min.css
-©¦  ©¦      datePicker.css
-©¦  ©¦      jquery.bgiframe.min.js
-©¦  ©¦      jquery.datePicker-min.js
-©¦  ©¦      jquery.datePicker.js
-©¦  ©¦               
-©¦  ©À©¤My97DatePicker			My97ÈÕÆÚ²å¼ş
-©¦  ©¦  ©¦  calendar.js
-©¦  ©¦  ©¦  WdatePicker.js
-©¦  ©¦  ©¦  
-©¦  ©¦  ©À©¤lang
-©¦  ©¦  ©¦      en.js
-©¦  ©¦  ©¦      zh-cn.js
-©¦  ©¦  ©¦      zh-tw.js
-©¦  ©¦  ©¦      
-©¦  ©¦  ©¸©¤skin
-©¦  ©¦      ©¦  datePicker.gif
-©¦  ©¦      ©¦  WdatePicker.css
-©¦  ©¦      ©¦  
-©¦  ©¦      ©À©¤default
-©¦  ©¦      ©¦      datepicker.css
-©¦  ©¦      ©¦      img.gif
-©¦  ©¦      ©¦      
-©¦  ©¦      ©À©¤twoer
-©¦  ©¦      ©¦      datepicker-dev.css
-©¦  ©¦      ©¦      datepicker.css
-©¦  ©¦      ©¦      img.gif
-©¦  ©¦      ©¦      img.png
-©¦  ©¦      ©¦      
-©¦  ©¦      ©¸©¤whyGreen
-©¦  ©¦              bg.jpg
-©¦  ©¦              datepicker.css
-©¦  ©¦              img.gif
-©¦  ©¦      
-©¦  ©À©¤swfupload			ÎÄ¼şÉÏ´«²å¼ş
-©¦  ©¦      swfupload.queue-min.js
-©¦  ©¦      swfupload.queue.js
-©¦  ©¦      swfupload.swf
-©¦  ©¦      swfuploadbutton.swf
-©¦  ©¦      swfuploadv2.2-min.js
-©¦  ©¦      swfuploadv2.2.js
-©¦  ©¦      thanks.php
-©¦  ©¦      upload.php
-©¦  ©¦      Validform.swfupload.handler-min.js
-©¦  ©¦      Validform.swfupload.handler.js
-©¦  ©¦      XPButtonUploadText_61x22.png
-©¦  ©¦      
-©¦  ©¸©¤umeditor			°Ù¶È±à¼­Æ÷²å¼ş
-©¦      ©¦  index.html
-©¦      ©¦  umeditor.config.js
-©¦      ©¦  umeditor.js
-©¦      ©¦  umeditor.min.js
-©¦      ©¦  
-©¦      ©À©¤dialogs
-©¦      ©¦  ©À©¤emotion
-©¦      ©¦  ©¦  ©¦  emotion.css
-©¦      ©¦  ©¦  ©¦  emotion.js
-©¦      ©¦  ©¦  ©¦  
-©¦      ©¦  ©¦  ©¸©¤images
-©¦      ©¦  ©¦          0.gif
-©¦      ©¦  ©¦          bface.gif
-©¦      ©¦  ©¦          cface.gif
-©¦      ©¦  ©¦          fface.gif
-©¦      ©¦  ©¦          jxface2.gif
-©¦      ©¦  ©¦          neweditor-tab-bg.png
-©¦      ©¦  ©¦          tface.gif
-©¦      ©¦  ©¦          wface.gif
-©¦      ©¦  ©¦          yface.gif
-©¦      ©¦  ©¦          
-©¦      ©¦  ©À©¤formula
-©¦      ©¦  ©¦  ©¦  formula.css
-©¦      ©¦  ©¦  ©¦  formula.html
-©¦      ©¦  ©¦  ©¦  formula.js
-©¦      ©¦  ©¦  ©¦  
-©¦      ©¦  ©¦  ©¸©¤images
-©¦      ©¦  ©¦          formula.png
-©¦      ©¦  ©¦          
-©¦      ©¦  ©À©¤image
-©¦      ©¦  ©¦  ©¦  image.css
-©¦      ©¦  ©¦  ©¦  image.js
-©¦      ©¦  ©¦  ©¦  
-©¦      ©¦  ©¦  ©¸©¤images
-©¦      ©¦  ©¦          close.png
-©¦      ©¦  ©¦          upload1.png
-©¦      ©¦  ©¦          upload2.png
-©¦      ©¦  ©¦          
-©¦      ©¦  ©À©¤link
-©¦      ©¦  ©¦      link.js
-©¦      ©¦  ©¦      
-©¦      ©¦  ©À©¤map
-©¦      ©¦  ©¦      map.html
-©¦      ©¦  ©¦      map.js
-©¦      ©¦  ©¦      
-©¦      ©¦  ©¸©¤video
-©¦      ©¦      ©¦  video.css
-©¦      ©¦      ©¦  video.js
-©¦      ©¦      ©¦  
-©¦      ©¦      ©¸©¤images
-©¦      ©¦              center_focus.jpg
-©¦      ©¦              left_focus.jpg
-©¦      ©¦              none_focus.jpg
-©¦      ©¦              right_focus.jpg
-©¦      ©¦              
-©¦      ©À©¤jsp
-©¦      ©¦      commons-fileupload-1.2.2.jar
-©¦      ©¦      getContent.jsp
-©¦      ©¦      imageUp.jsp
-©¦      ©¦      ueditor-mini.jar
-©¦      ©¦      Uploader.java
-©¦      ©¦      
-©¦      ©À©¤lang
-©¦      ©¦  ©À©¤en
-©¦      ©¦  ©¦  ©¦  en.js
-©¦      ©¦  ©¦  ©¦  
-©¦      ©¦  ©¦  ©¸©¤images
-©¦      ©¦  ©¦          addimage.png
-©¦      ©¦  ©¦          alldeletebtnhoverskin.png
-©¦      ©¦  ©¦          alldeletebtnupskin.png
-©¦      ©¦  ©¦          background.png
-©¦      ©¦  ©¦          button.png
-©¦      ©¦  ©¦          copy.png
-©¦      ©¦  ©¦          deletedisable.png
-©¦      ©¦  ©¦          deleteenable.png
-©¦      ©¦  ©¦          imglabel.png
-©¦      ©¦  ©¦          listbackground.png
-©¦      ©¦  ©¦          localimage.png
-©¦      ©¦  ©¦          music.png
-©¦      ©¦  ©¦          rotateleftdisable.png
-©¦      ©¦  ©¦          rotateleftenable.png
-©¦      ©¦  ©¦          rotaterightdisable.png
-©¦      ©¦  ©¦          rotaterightenable.png
-©¦      ©¦  ©¦          upload.png
-©¦      ©¦  ©¦          
-©¦      ©¦  ©¸©¤zh-cn
-©¦      ©¦      ©¦  zh-cn.js
-©¦      ©¦      ©¦  
-©¦      ©¦      ©¸©¤images
-©¦      ©¦              copy.png
-©¦      ©¦              imglabel.png
-©¦      ©¦              localimage.png
-©¦      ©¦              music.png
-©¦      ©¦              upload.png
-©¦      ©¦              
-©¦      ©À©¤themes
-©¦      ©¦  ©¸©¤default
-©¦      ©¦      ©À©¤css
-©¦      ©¦      ©¦      umeditor.css
-©¦      ©¦      ©¦      umeditor.min.css
-©¦      ©¦      ©¦      
-©¦      ©¦      ©¸©¤images
-©¦      ©¦              caret.png
-©¦      ©¦              close.png
-©¦      ©¦              icons.gif
-©¦      ©¦              icons.png
-©¦      ©¦              ok.gif
-©¦      ©¦              pop-bg.png
-©¦      ©¦              spacer.gif
-©¦      ©¦              videologo.gif
-©¦      ©¦              
-©¦      ©¸©¤third-party
-©¦          ©¦  jquery.min.js
-©¦          ©¦  
-©¦          ©¸©¤mathquill
-©¦              ©¦  mathquill.css
-©¦              ©¦  mathquill.js
-©¦              ©¦  mathquill.min.js
-©¦              ©¦  
-©¦              ©¸©¤font
-©¦                  ©¦  Symbola.eot
-©¦                  ©¦  Symbola.otf
-©¦                  ©¦  Symbola.svg
-©¦                  ©¦  Symbola.ttf
-©¦                  ©¦  Symbola.woff
-©¦                  ©¦  
-©¦                  ©¸©¤stixgeneral-bundle
-©¦                          STIXFontLicense2010.txt
-©¦                          stixgeneral-webfont.eot
-©¦                          stixgeneral-webfont.svg
-©¦                          stixgeneral-webfont.ttf
-©¦                          stixgeneral-webfont.woff
-©¦                          stixgeneralbol-webfont.eot
-©¦                          stixgeneralbol-webfont.svg
-©¦                          stixgeneralbol-webfont.ttf
-©¦                          stixgeneralbol-webfont.woff
-©¦                          stixgeneralbolita-webfont.eot
-©¦                          stixgeneralbolita-webfont.svg
-©¦                          stixgeneralbolita-webfont.ttf
-©¦                          stixgeneralbolita-webfont.woff
-©¦                          stixgeneralitalic-webfont.eot
-©¦                          stixgeneralitalic-webfont.svg
-©¦                          stixgeneralitalic-webfont.ttf
-©¦                          stixgeneralitalic-webfont.woff
-©¦                          
-©¸©¤temp				ÁÙÊ±Ä¿Â¼
+â”œâ”€css
+â”‚      dropzone.css			æ‹–æ‹½ä¸Šä¼ æ’ä»¶æ ·å¼
+â”‚      H-ui.admin.css			H-ui.adminæ ·å¼
+â”‚      H-ui.css			h-ui CSSåº“
+â”‚      H-ui.login.css			H-ui.adminåå°ç™»å½•æ ·å¼
+â”‚      
+â”œâ”€images				UIç›¸å…³çš„å›¾ç‰‡ç´ æ
+â”‚      acrossTab-bg.png
+â”‚      acrossTab-close.png
+â”‚      acrossTab.png
+â”‚      admin-login-bg.jpg
+â”‚      admin-loginform-bg.png
+â”‚      hamburger-retina.gif
+â”‚      hamburger.gif
+â”‚      icon-add.png
+â”‚      icon-pass.png
+â”‚      icon-user.png
+â”‚      icon_arrow.png
+â”‚      icon_jt2.png
+â”‚      logo.png
+â”‚      sort_asc.png
+â”‚      sort_both.png
+â”‚      sort_desc.png
+â”‚      toTop.png
+â”‚      
+â”œâ”€js
+â”‚      ajaxfileupload.js		å¼‚æ­¥ä¸Šä¼ æ–‡ä»¶çš„jQueryæ’ä»¶
+â”‚      DD_belatedPNG_0.0.8a-min.js	è§£å†³IE6pngé€æ˜
+â”‚      de_DE.txt			è¡¨æ ¼æ’åºæ’ä»¶è¯­è¨€é…ç½®
+â”‚      dropzone.min.js			æ‹–æ‹½ä¸Šä¼ æ’ä»¶
+â”‚      H-ui.admin.js			æœ¬ç«™ç›¸å…³çš„js
+â”‚      H-ui.js				H-uiæ ¸å¿ƒè„šæœ¬
+â”‚      html5.js			html5æ’ä»¶ï¼Œè®©ä½ç‰ˆæœ¬IEæ”¯æŒhtml5å…ƒç´ 
+â”‚      jquery.cookie.js		jQuery.cookie
+â”‚      jquery.dataTables.min.js	è¡¨æ ¼æ’åºæ’ä»¶
+â”‚      jquery.min.js			jQueryç±»åº“
+â”‚      page.js				ç¿»é¡µè„šæœ¬
+â”‚      pagenav.cn.js			ç¿»é¡µè„šæœ¬
+â”‚      passwordStrength-min.js		å¯†ç å¼ºåº¦æ ¡éªŒ
+â”‚      preview.js			å›¾ç‰‡é¢„è§ˆæ’ä»¶
+â”‚      Validform_v5.3.2_min.js		è¡¨å•éªŒè¯æ’ä»¶
+â”‚
+â”œâ”€font				å­—ä½“å›¾æ ‡æ’ä»¶
+â”‚      fontawesome-webfont.eot
+â”‚      fontawesome-webfont.svg
+â”‚      fontawesome-webfont.ttf
+â”‚      fontawesome-webfont.woff
+â”‚      FontAwesome.otf
+â”‚      font-awesome-ie7.css		å­—ä½“å›¾æ ‡æ ·å¼
+â”‚      font-awesome-ie7.min.css	å­—ä½“å›¾æ ‡æ ·å¼å‹ç¼©ç‰ˆï¼ˆä¸€èˆ¬å¼•ç”¨æ­¤ç‰ˆï¼‰
+â”‚      font-awesome.css		å­—ä½“å›¾æ ‡æ ·å¼IE7å…¼å®¹ç‰ˆ
+â”‚      font-awesome.min.css		å­—ä½“å›¾æ ‡æ ·å¼IE7å…¼å®¹å‹ç¼©ç‰ˆï¼ˆä¸€èˆ¬å¼•ç”¨æ­¤ç‰ˆï¼‰
+â”‚
+â”œâ”€layer				å¼¹å‡ºå±‚æ’ä»¶
+â”‚  â”‚	layer.min.js 
+â”‚  â”œâ”€extend
+â”‚  â”‚      layer.ext.js
+â”‚  â”‚      
+â”‚  â””â”€skin
+â”‚      â”‚  layer.css
+â”‚      â”‚  layer.ext.css
+â”‚      â”‚  
+â”‚      â””â”€default
+â”‚              icon_ext.png
+â”‚              textbg.png
+â”‚              xubox_ico0.png
+â”‚              xubox_loading0.gif
+â”‚              xubox_loading1.gif
+â”‚              xubox_loading2.gif
+â”‚              xubox_loading3.gif
+â”‚              xubox_title0.png
+â”œâ”€plugin				æ’ä»¶
+â”‚  â”œâ”€datePicker			æ—¥æœŸæ’ä»¶
+â”‚  â”‚      datePicker-min.css
+â”‚  â”‚      datePicker.css
+â”‚  â”‚      jquery.bgiframe.min.js
+â”‚  â”‚      jquery.datePicker-min.js
+â”‚  â”‚      jquery.datePicker.js
+â”‚  â”‚               
+â”‚  â”œâ”€My97DatePicker			My97æ—¥æœŸæ’ä»¶
+â”‚  â”‚  â”‚  calendar.js
+â”‚  â”‚  â”‚  WdatePicker.js
+â”‚  â”‚  â”‚  
+â”‚  â”‚  â”œâ”€lang
+â”‚  â”‚  â”‚      en.js
+â”‚  â”‚  â”‚      zh-cn.js
+â”‚  â”‚  â”‚      zh-tw.js
+â”‚  â”‚  â”‚      
+â”‚  â”‚  â””â”€skin
+â”‚  â”‚      â”‚  datePicker.gif
+â”‚  â”‚      â”‚  WdatePicker.css
+â”‚  â”‚      â”‚  
+â”‚  â”‚      â”œâ”€default
+â”‚  â”‚      â”‚      datepicker.css
+â”‚  â”‚      â”‚      img.gif
+â”‚  â”‚      â”‚      
+â”‚  â”‚      â”œâ”€twoer
+â”‚  â”‚      â”‚      datepicker-dev.css
+â”‚  â”‚      â”‚      datepicker.css
+â”‚  â”‚      â”‚      img.gif
+â”‚  â”‚      â”‚      img.png
+â”‚  â”‚      â”‚      
+â”‚  â”‚      â””â”€whyGreen
+â”‚  â”‚              bg.jpg
+â”‚  â”‚              datepicker.css
+â”‚  â”‚              img.gif
+â”‚  â”‚      
+â”‚  â”œâ”€swfupload			æ–‡ä»¶ä¸Šä¼ æ’ä»¶
+â”‚  â”‚      swfupload.queue-min.js
+â”‚  â”‚      swfupload.queue.js
+â”‚  â”‚      swfupload.swf
+â”‚  â”‚      swfuploadbutton.swf
+â”‚  â”‚      swfuploadv2.2-min.js
+â”‚  â”‚      swfuploadv2.2.js
+â”‚  â”‚      thanks.php
+â”‚  â”‚      upload.php
+â”‚  â”‚      Validform.swfupload.handler-min.js
+â”‚  â”‚      Validform.swfupload.handler.js
+â”‚  â”‚      XPButtonUploadText_61x22.png
+â”‚  â”‚      
+â”‚  â””â”€umeditor			ç™¾åº¦ç¼–è¾‘å™¨æ’ä»¶
+â”‚      â”‚  index.html
+â”‚      â”‚  umeditor.config.js
+â”‚      â”‚  umeditor.js
+â”‚      â”‚  umeditor.min.js
+â”‚      â”‚  
+â”‚      â”œâ”€dialogs
+â”‚      â”‚  â”œâ”€emotion
+â”‚      â”‚  â”‚  â”‚  emotion.css
+â”‚      â”‚  â”‚  â”‚  emotion.js
+â”‚      â”‚  â”‚  â”‚  
+â”‚      â”‚  â”‚  â””â”€images
+â”‚      â”‚  â”‚          0.gif
+â”‚      â”‚  â”‚          bface.gif
+â”‚      â”‚  â”‚          cface.gif
+â”‚      â”‚  â”‚          fface.gif
+â”‚      â”‚  â”‚          jxface2.gif
+â”‚      â”‚  â”‚          neweditor-tab-bg.png
+â”‚      â”‚  â”‚          tface.gif
+â”‚      â”‚  â”‚          wface.gif
+â”‚      â”‚  â”‚          yface.gif
+â”‚      â”‚  â”‚          
+â”‚      â”‚  â”œâ”€formula
+â”‚      â”‚  â”‚  â”‚  formula.css
+â”‚      â”‚  â”‚  â”‚  formula.html
+â”‚      â”‚  â”‚  â”‚  formula.js
+â”‚      â”‚  â”‚  â”‚  
+â”‚      â”‚  â”‚  â””â”€images
+â”‚      â”‚  â”‚          formula.png
+â”‚      â”‚  â”‚          
+â”‚      â”‚  â”œâ”€image
+â”‚      â”‚  â”‚  â”‚  image.css
+â”‚      â”‚  â”‚  â”‚  image.js
+â”‚      â”‚  â”‚  â”‚  
+â”‚      â”‚  â”‚  â””â”€images
+â”‚      â”‚  â”‚          close.png
+â”‚      â”‚  â”‚          upload1.png
+â”‚      â”‚  â”‚          upload2.png
+â”‚      â”‚  â”‚          
+â”‚      â”‚  â”œâ”€link
+â”‚      â”‚  â”‚      link.js
+â”‚      â”‚  â”‚      
+â”‚      â”‚  â”œâ”€map
+â”‚      â”‚  â”‚      map.html
+â”‚      â”‚  â”‚      map.js
+â”‚      â”‚  â”‚      
+â”‚      â”‚  â””â”€video
+â”‚      â”‚      â”‚  video.css
+â”‚      â”‚      â”‚  video.js
+â”‚      â”‚      â”‚  
+â”‚      â”‚      â””â”€images
+â”‚      â”‚              center_focus.jpg
+â”‚      â”‚              left_focus.jpg
+â”‚      â”‚              none_focus.jpg
+â”‚      â”‚              right_focus.jpg
+â”‚      â”‚              
+â”‚      â”œâ”€jsp
+â”‚      â”‚      commons-fileupload-1.2.2.jar
+â”‚      â”‚      getContent.jsp
+â”‚      â”‚      imageUp.jsp
+â”‚      â”‚      ueditor-mini.jar
+â”‚      â”‚      Uploader.java
+â”‚      â”‚      
+â”‚      â”œâ”€lang
+â”‚      â”‚  â”œâ”€en
+â”‚      â”‚  â”‚  â”‚  en.js
+â”‚      â”‚  â”‚  â”‚  
+â”‚      â”‚  â”‚  â””â”€images
+â”‚      â”‚  â”‚          addimage.png
+â”‚      â”‚  â”‚          alldeletebtnhoverskin.png
+â”‚      â”‚  â”‚          alldeletebtnupskin.png
+â”‚      â”‚  â”‚          background.png
+â”‚      â”‚  â”‚          button.png
+â”‚      â”‚  â”‚          copy.png
+â”‚      â”‚  â”‚          deletedisable.png
+â”‚      â”‚  â”‚          deleteenable.png
+â”‚      â”‚  â”‚          imglabel.png
+â”‚      â”‚  â”‚          listbackground.png
+â”‚      â”‚  â”‚          localimage.png
+â”‚      â”‚  â”‚          music.png
+â”‚      â”‚  â”‚          rotateleftdisable.png
+â”‚      â”‚  â”‚          rotateleftenable.png
+â”‚      â”‚  â”‚          rotaterightdisable.png
+â”‚      â”‚  â”‚          rotaterightenable.png
+â”‚      â”‚  â”‚          upload.png
+â”‚      â”‚  â”‚          
+â”‚      â”‚  â””â”€zh-cn
+â”‚      â”‚      â”‚  zh-cn.js
+â”‚      â”‚      â”‚  
+â”‚      â”‚      â””â”€images
+â”‚      â”‚              copy.png
+â”‚      â”‚              imglabel.png
+â”‚      â”‚              localimage.png
+â”‚      â”‚              music.png
+â”‚      â”‚              upload.png
+â”‚      â”‚              
+â”‚      â”œâ”€themes
+â”‚      â”‚  â””â”€default
+â”‚      â”‚      â”œâ”€css
+â”‚      â”‚      â”‚      umeditor.css
+â”‚      â”‚      â”‚      umeditor.min.css
+â”‚      â”‚      â”‚      
+â”‚      â”‚      â””â”€images
+â”‚      â”‚              caret.png
+â”‚      â”‚              close.png
+â”‚      â”‚              icons.gif
+â”‚      â”‚              icons.png
+â”‚      â”‚              ok.gif
+â”‚      â”‚              pop-bg.png
+â”‚      â”‚              spacer.gif
+â”‚      â”‚              videologo.gif
+â”‚      â”‚              
+â”‚      â””â”€third-party
+â”‚          â”‚  jquery.min.js
+â”‚          â”‚  
+â”‚          â””â”€mathquill
+â”‚              â”‚  mathquill.css
+â”‚              â”‚  mathquill.js
+â”‚              â”‚  mathquill.min.js
+â”‚              â”‚  
+â”‚              â””â”€font
+â”‚                  â”‚  Symbola.eot
+â”‚                  â”‚  Symbola.otf
+â”‚                  â”‚  Symbola.svg
+â”‚                  â”‚  Symbola.ttf
+â”‚                  â”‚  Symbola.woff
+â”‚                  â”‚  
+â”‚                  â””â”€stixgeneral-bundle
+â”‚                          STIXFontLicense2010.txt
+â”‚                          stixgeneral-webfont.eot
+â”‚                          stixgeneral-webfont.svg
+â”‚                          stixgeneral-webfont.ttf
+â”‚                          stixgeneral-webfont.woff
+â”‚                          stixgeneralbol-webfont.eot
+â”‚                          stixgeneralbol-webfont.svg
+â”‚                          stixgeneralbol-webfont.ttf
+â”‚                          stixgeneralbol-webfont.woff
+â”‚                          stixgeneralbolita-webfont.eot
+â”‚                          stixgeneralbolita-webfont.svg
+â”‚                          stixgeneralbolita-webfont.ttf
+â”‚                          stixgeneralbolita-webfont.woff
+â”‚                          stixgeneralitalic-webfont.eot
+â”‚                          stixgeneralitalic-webfont.svg
+â”‚                          stixgeneralitalic-webfont.ttf
+â”‚                          stixgeneralitalic-webfont.woff
+â”‚                          
+â””â”€temp				ä¸´æ—¶ç›®å½•
         card.jpg
