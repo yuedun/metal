@@ -10,6 +10,9 @@ import (
 )
 
 func init() {
+	dbuser := beego.AppConfig.String("mysqluser")
+	dbpass := beego.AppConfig.String("mysqlpass")
+	dbname := beego.AppConfig.String("mysqldb")
 	orm.RegisterDriver("mysql", orm.DRMySQL)
 	maxIdle := 5
 	maxConn := 5
@@ -18,8 +21,10 @@ func init() {
 	// 参数3        对应的链接字符串
 	// 参数4(可选)  设置最大空闲连接
 	// 参数5(可选)  设置最大数据库连接 (go >= 1.2)
-	orm.RegisterDataBase("default", "mysql", "root:root@/metal?charset=utf8", maxIdle, maxConn)
+	orm.RegisterDataBase("default", "mysql", dbuser+":"+dbpass+"@/"+dbname+"?charset=utf8", maxIdle, maxConn)
 	orm.Debug = true //控制台打印查询语句
+	// 自动建表
+	// orm.RunSyncdb("default", false, true)
 }
 
 func main() {
