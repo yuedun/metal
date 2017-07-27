@@ -3,10 +3,13 @@
 ### 目录结构
 在clone源码之前，首先在本地创建一个作为`GOPATH`的目录，比如：`mygopro`，mygopro下创建src目录，最后才在src目录下克隆项目代码，这么做的原因是src目录只存放源码，而gopath目录目录下会在项目启动或其他命令执行以后生成pkg和bin两个文件夹，这两个文件夹是不需要提交到git上的，每次命令执行都会生成。特别说明一下，beego的目录规则不太符合以上规则，它会直接在项目根目录下生成可执行文件，而不是在gopath的bin目录下。
 ### 环境安装说明
-* 系统变量中配置GOROOT=<GO的安装目录>
+* 系统变量中配置GOROOT=【GO的安装目录】
 * 在系统变量中配置GOPATH=项目根目录（是指mygopro，而不是src下的项目）
-* 在系统变量中配置GOBIN（目前没发现有什么作用，暂时不配置）
+* 在系统变量中配置GOBIN，命令行中执行go install在GOPATH/bin目录下生成可执行文件
 * 在系统变量Path中添加%GOPATH%\bin，作用是执行第三方命令，比如beego会在该目录下安装gee命令
+
+`go build`和`go install`命令的区别：
+go build会在执行该命令的目录下生成可执行文件，go install会在bin目录下生成可执行文件
 
 ```bash
 >cd %GOPATH%/src
@@ -46,7 +49,6 @@ ip 变量的存储地址: 20818a220
 ### 再看一段代码
 
 * 网络摘录
-
 先放一段代码，人工运行一下，看看自己能做对几题？
 ```go
 package main
@@ -141,3 +143,16 @@ fmt.Println("&*a\t=\t",&*a)  //无法抵消，会报错
 
 先简单说明一下，&是取一个变量的内存地址，*会取得实际值，*<变量名>=&<变量名>
 
+## struct和interface的区别
+struct定义数据结构，interface定义函数集合。
+可以在struct上定义函数：
+```go
+type User struct {
+  Name string
+}
+
+func (this *User) GetName(){
+  
+}
+```
+将GetName函数挂载到User上。interface是定义了一系列函数签名，没有具体实现，如果一个数据结构（struct）实现了这些函数，则实现了继承。
