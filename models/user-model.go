@@ -23,9 +23,9 @@ type Users struct {
 	Status    int
 }
 type UserPOJO struct {
-	UserObj      Users
-	CreatedAtStr string
-	UpdatedAtStr string
+	Users
+	CreatedAt string
+	UpdatedAt string
 }
 
 func init() {
@@ -70,4 +70,16 @@ func (user *Users) UpdateUser() (int64, error) {
 	o.Using("default")
 	id, err := o.Update(user, "username", "email") //要修改的对象和需要修改的字段
 	return id, err
+}
+
+// 通过id删除用户
+func (user *Users) DeleteUser() (int64, error) {
+	o := orm.NewOrm()
+	o.Using("default")
+	id, err := o.Delete(user, "id") //要修改的对象和需要修改的字段
+	if err != nil {
+		return id, err
+	} else {
+		return id, nil
+	}
 }
