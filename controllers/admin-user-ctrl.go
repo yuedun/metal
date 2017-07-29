@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	. "metal/models"
 	"strconv"
 	"time"
@@ -24,23 +25,25 @@ func (this *UserController) Post() {
 	mobile := this.GetString("mobile")
 	email := this.GetString("email")
 	addr := this.GetString("addr")
+	description := this.GetString("description")
 	createdAt := time.Now()
 	updatedAt := time.Now()
 	user := &Users{
-		Username:  username,
-		Gender:    SexMap[sex],
-		Mobile:    mobile,
-		Email:     email,
-		Addr:      addr,
-		CreatedAt: createdAt,
-		UpdatedAt: updatedAt,
+		Username:    username,
+		Gender:      SexMap[sex],
+		Mobile:      mobile,
+		Email:       email,
+		Addr:        addr,
+		Description: description,
+		CreatedAt:   createdAt,
+		UpdatedAt:   updatedAt,
 	}
 	id, err := user.AddUser()
 	if nil != err {
-		this.Data["json"] = map[string]interface{}{"msg": id}
+		this.Data["json"] = map[string]interface{}{"msg": err}
 		this.ServeJSON()
 	} else {
-		this.Data["json"] = map[string]interface{}{"msg": err}
+		this.Data["json"] = map[string]interface{}{"msg": id}
 		this.ServeJSON()
 	}
 }
@@ -50,34 +53,14 @@ func (this *UserController) Post() {
  * /admin/user/:id
  * this.Ctx.Input.Param(":id")
  */
-func (this *UserController) Get() {
+func (this *UserController) UserGet() {
 	idstr := this.Ctx.Input.Param(":id")
+	fmt.Println(">>>>>>>>>", idstr)
 	id, _ := strconv.Atoi(idstr)
 	user := &Users{Id: id}
-	user, err := user.FindUser()
-	if nil != err {
-		this.Data["json"] = map[string]interface{}{"result": false, "msg": this.Ctx.Input.Params()}
-	} else {
-		this.Data["json"] = map[string]interface{}{"result": true, "msg": user}
-	}
-	this.ServeJSON()
-}
-
-/**
- * 通过如下方式获取路由参数
- * /admin/user/get
- *
- */
-func (this *UserController) GetUser() {
-	username := this.Ctx.Input.Param(":username")
-	user := &Users{Username: username}
-	user, err := user.FindUser()
-	if nil != err {
-		this.Data["json"] = map[string]interface{}{"result": false, "msg": this.Ctx.Input.Params()}
-	} else {
-		this.Data["json"] = map[string]interface{}{"result": true, "msg": user}
-	}
-	this.ServeJSON()
+	userObj, _ := user.FindUserById()
+	this.Data["user"] = userObj
+	this.TplName = "admin/user-show.html"
 }
 
 /**

@@ -45,7 +45,7 @@
         <th width="150">邮箱</th>
         <th width="">地址</th>
         <th width="130">加入时间</th>
-		<th width="130">更新时间</th>
+		    <th width="130">更新时间</th>
         <th width="70">状态</th>
         <th width="100">操作</th>
       </tr>
@@ -55,7 +55,7 @@
       <tr class="text-c">
         <td><input type="checkbox" value="1" name=""></td>
         <td>{{$elem.Id}}</td>
-        <td><u style="cursor:pointer" class="text-primary" onclick="user_show('10001','360','','张三','user-show.html')">{{$elem.Username}}</u></td>
+        <td><u style="cursor:pointer" class="text-primary" onclick="user_show('{{$elem.Id}}','400','','{{$elem.Username}}','/admin/user/{{$elem.Id}}')">{{$elem.Username}}</u></td>
         <td>{{$elem.Gender}}</td>
         <td>{{$elem.Mobile}}</td>
         <td>{{$elem.Email}}</td>
