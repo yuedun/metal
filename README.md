@@ -77,6 +77,7 @@ func main() {
     fmt.Println("x = ",x)
 }
 ```
+结果后面给出。
 
 #### 解释
 
