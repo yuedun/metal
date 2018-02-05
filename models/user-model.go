@@ -11,16 +11,17 @@ import (
  * 模型与数据库字段多少不一定要匹配
  */
 type Users struct {
-	Id        int
-	Username  string
-	Password  string
-	Gender    string
-	Mobile    string
-	Email     string
-	Addr      string
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	Status    int
+	Id          int
+	Username    string
+	Password    string
+	Gender      string
+	Mobile      string
+	Email       string
+	Addr        string
+	Description string
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
+	Status      int
 }
 type UserPOJO struct {
 	Users
@@ -43,6 +44,14 @@ func (user *Users) AddUser() (int64, error) {
 	//每次操作都需要新建一个Ormer变量，当然也可以全局设置
 	//需要 切换数据库 和 事务处理 的话，不要使用全局保存的 Ormer 对象。
 	return o.Insert(user)
+}
+
+// 通过id查找用户
+func (user *Users) FindUserById() (*Users, error) {
+	o := orm.NewOrm()
+	o.Using("default")
+	err := o.Read(user, "id")
+	return user, err
 }
 
 // 通过用户名查找用户

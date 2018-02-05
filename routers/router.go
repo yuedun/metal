@@ -35,6 +35,7 @@ func init() {
 		beego.NSRouter("/user-list", &controllers.UserController{}, "get:UserList"),
 		beego.NSRouter("/user-add", &controllers.UserController{}, "get:UserAdd"),
 		beego.NSRouter("/user", &controllers.UserController{}),
+		beego.NSRouter("/user/:id", &controllers.UserController{}, "get:UserGet"),
 	)
 	//注册namespace
 	beego.AddNamespace(ns)
