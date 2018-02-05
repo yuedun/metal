@@ -8,6 +8,7 @@ import (
 
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/context"
+	"time"
 )
 
 // 权限验证
@@ -50,6 +51,28 @@ func (c *MainController) MyRoute() {
 	c.Data["userList"] = userList
 	c.TplName = "myroute.html" //其他数据相关的可以写到if块中，本行最好不要
 
+}
+
+// @router /user [post]
+func (this *MainController) AddUser() {
+	var username = this.GetString("username")
+	var password = this.GetString("password")
+	user := &Users{
+		Username: username,
+		Password: password,
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+	}
+
+	id, err:=user.AddUser()
+	if err !=nil {
+		fmt.Printf("%v", err)
+		this.Data["json"] = map[string]interface{}{"msg": err}
+		this.ServeJSON()
+	} else {
+		fmt.Printf(">>id:%d", id)
+		this.TplName = "myroute.html"
+	}
 }
 
 // @route /getUserByName [get]
