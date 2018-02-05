@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	_ "metal/routers"
+	"time"
 
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
@@ -25,9 +26,11 @@ func init() {
 	orm.Debug = true //控制台打印查询语句
 	// 自动建表
 	// orm.RunSyncdb("default", false, true)
+	// 设置为 UTC 时间
+	orm.DefaultTimeLoc = time.UTC
 }
 
 func main() {
-	fmt.Println(">>>>>>>>>>>>>>>>>>>>>>>\n\n浏览器访问：http://127.0.0.1:8081\n\n>>>>>>>>>>>>>>>>>>>>>>>")
+	fmt.Println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n浏览器访问：http://127.0.0.1:8081\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
 	beego.Run()
 }

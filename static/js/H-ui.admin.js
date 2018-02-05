@@ -402,4 +402,8 @@ $(function () {
 		oUl.stop().animate({ 'left': -num * 100 }, 100)
 	}
 	/*jQuery("#Hui-tabNav").slide({mainCell:".Hui-tabNav-wp #min_title_list li",prevCell:"#js-tabNav-prev",nextCell:"#js-tabNav-next",autoPage:false,effect:"leftLoop",vis:10,pnLoop:false,trigger:"click"});*/
+<<<<<<< HEAD
+=======
+
+>>>>>>> mysql-branch
 }); 
