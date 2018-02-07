@@ -15,6 +15,20 @@ type UserController struct {
 
 var SexMap = map[int]string{0: "女", 1: "男"}
 
+func (this *UserController) Get() {
+	fmt.Print("index")
+	this.TplName = "admin/index.html"
+}
+func (this *UserController) Login() {
+	this.TplName = "admin/login.html"
+}
+func (this *UserController) ToLogin() {
+	this.TplName = "admin/index.html"
+}
+func (this *UserController) Welcome() {
+	this.TplName = "admin/welcome.html"
+}
+
 func (this *UserController) UserAdd() {
 	this.TplName = "admin/user-add.html"
 }
@@ -38,12 +52,12 @@ func (this *UserController) Post() {
 		CreatedAt:   createdAt,
 		UpdatedAt:   updatedAt,
 	}
-	id, err := user.AddUser()
+	id, err := user.Save()
 	if nil != err {
-		this.Data["json"] = map[string]interface{}{"msg": err}
+		this.Data["json"] = map[string]any{"msg": err}
 		this.ServeJSON()
 	} else {
-		this.Data["json"] = map[string]interface{}{"msg": id}
+		this.Data["json"] = map[string]any{"msg": id}
 		this.ServeJSON()
 	}
 }
@@ -75,9 +89,9 @@ func (this *UserController) Put() {
 	user := &Users{Id: userId, Username: username, Email: email}
 	upId, err := user.UpdateUser()
 	if nil != err {
-		this.Data["json"] = map[string]interface{}{"result": false, "msg": err}
+		this.Data["json"] = map[string]any{"result": false, "msg": err}
 	} else {
-		this.Data["json"] = map[string]interface{}{"result": true, "msg": upId}
+		this.Data["json"] = map[string]any{"result": true, "msg": upId}
 	}
 	this.ServeJSON()
 }
@@ -99,7 +113,7 @@ func (this *UserController) UserList() {
 		userPojo = append(userPojo[:index], *userp)
 	}
 	if nil != err {
-		this.Data["json"] = map[string]interface{}{"msg": err}
+		this.Data["json"] = map[string]any{"msg": err}
 		this.ServeJSON()
 	}
 	this.Data["userList"] = userPojo
@@ -118,9 +132,9 @@ func (this *UserController) Delete() {
 	user := &Users{Id: idstr}
 	id, err := user.DeleteUser()
 	if nil != err {
-		this.Data["json"] = map[string]interface{}{"result": false, "msg": err}
+		this.Data["json"] = map[string]any{"result": false, "msg": err}
 	} else {
-		this.Data["json"] = map[string]interface{}{"result": true, "msg": id}
+		this.Data["json"] = map[string]any{"result": true, "msg": id}
 	}
 	this.ServeJSON()
 }

@@ -37,10 +37,9 @@ func init() {
 }
 
 // 添加用户
-func (user *Users) AddUser() (int64, error) {
+func (user *Users) Save() (int64, error) {
 	//	var o Ormer
 	o := orm.NewOrm()
-	o.Using("default")
 	//每次操作都需要新建一个Ormer变量，当然也可以全局设置
 	//需要 切换数据库 和 事务处理 的话，不要使用全局保存的 Ormer 对象。
 	return o.Insert(user)
@@ -49,7 +48,6 @@ func (user *Users) AddUser() (int64, error) {
 // 通过id查找用户
 func (user *Users) FindUserById() (*Users, error) {
 	o := orm.NewOrm()
-	o.Using("default")
 	err := o.Read(user, "id")
 	return user, err
 }
@@ -57,7 +55,6 @@ func (user *Users) FindUserById() (*Users, error) {
 // 通过用户名查找用户
 func (user *Users) FindUser() (*Users, error) {
 	o := orm.NewOrm()
-	o.Using("default")
 	err := o.Read(user, "username")
 	return user, err
 }
@@ -65,7 +62,6 @@ func (user *Users) FindUser() (*Users, error) {
 //获取用户列表
 func (user *Users) FindAllUser() ([]Users, error) {
 	o := orm.NewOrm()
-	o.Using("default")
 	var users []Users
 	num, err := o.Raw("SELECT * FROM users").QueryRows(&users)
 	fmt.Println("查询到", num, "条数据")
@@ -76,7 +72,6 @@ func (user *Users) FindAllUser() ([]Users, error) {
 // 通过id修改用户
 func (user *Users) UpdateUser() (int64, error) {
 	o := orm.NewOrm()
-	o.Using("default")
 	id, err := o.Update(user, "username", "email") //要修改的对象和需要修改的字段
 	return id, err
 }
@@ -84,7 +79,6 @@ func (user *Users) UpdateUser() (int64, error) {
 // 通过id删除用户
 func (user *Users) DeleteUser() (int64, error) {
 	o := orm.NewOrm()
-	o.Using("default")
 	id, err := o.Delete(user, "id") //要修改的对象和需要修改的字段
 	if err != nil {
 		return id, err

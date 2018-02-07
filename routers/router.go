@@ -29,9 +29,10 @@ func init() {
 	//admin管理后台路由配置
 	ns := beego.NewNamespace("/admin",
 		beego.NSBefore(controllers.HasAdminPermission), //过滤器
-		beego.NSRouter("/", &controllers.AdminController{}),
-		beego.NSRouter("/login", &controllers.AdminController{}, "get:Login"),
-		beego.NSRouter("/welcome", &controllers.AdminController{}, "get:Welcome"),
+		beego.NSRouter("/", &controllers.UserController{}),
+		beego.NSRouter("/login", &controllers.UserController{}, "get:Login"),
+		beego.NSRouter("/to-login", &controllers.UserController{}, "post:ToLogin"),
+		beego.NSRouter("/welcome", &controllers.UserController{}, "get:Welcome"),
 		beego.NSRouter("/user-list", &controllers.UserController{}, "get:UserList"),
 		beego.NSRouter("/user-add", &controllers.UserController{}, "get:UserAdd"),
 		beego.NSRouter("/user", &controllers.UserController{}),
