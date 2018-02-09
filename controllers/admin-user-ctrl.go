@@ -15,18 +15,15 @@ type UserController struct {
 
 var SexMap = map[int]string{0: "女", 1: "男"}
 
-func (this *UserController) Get() {
-	fmt.Print("index")
-	this.TplName = "admin/index.html"
-}
 func (this *UserController) Login() {
 	this.TplName = "admin/login.html"
 }
 func (this *UserController) ToLogin() {
-	this.TplName = "admin/index.html"
+	fmt.Println(">>>>>>>>>>>>tologin")
+	this.Redirect("/admin/welcome", 302)
 }
 func (this *UserController) Welcome() {
-	this.TplName = "admin/welcome.html"
+	this.TplName = "admin/index.html"
 }
 
 func (this *UserController) UserAdd() {
@@ -55,11 +52,11 @@ func (this *UserController) Post() {
 	id, err := user.Save()
 	if nil != err {
 		this.Data["json"] = map[string]any{"msg": err}
-		this.ServeJSON()
 	} else {
 		this.Data["json"] = map[string]any{"msg": id}
-		this.ServeJSON()
 	}
+	//this.ServeJSON()
+	this.Redirect("/admin/user-list", 302)
 }
 
 /**
