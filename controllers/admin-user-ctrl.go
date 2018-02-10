@@ -41,7 +41,7 @@ func (this *UserController) Post() {
 	updatedAt := time.Now()
 	user := &Users{
 		Username:    username,
-		Gender:      SexMap[sex],
+		Gender:      sex,
 		Mobile:      mobile,
 		Email:       email,
 		Addr:        addr,
@@ -105,6 +105,7 @@ func (this *UserController) UserList() {
 	for index, u := range userList {
 		userp := new(UserPOJO)
 		userp.Users = u
+		userp.Gender = SexMap[u.Gender]
 		userp.CreatedAt = u.CreatedAt.Format("2006-01-02 15:04:05")
 		userp.UpdatedAt = u.UpdatedAt.Format("2006-01-02 15:04:05")
 		userPojo = append(userPojo[:index], *userp)

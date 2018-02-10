@@ -8,6 +8,10 @@
 * 在系统变量中配置GOBIN，命令行中执行go install在GOPATH/bin目录下生成可执行文件
 * 在系统变量Path中添加%GOPATH%\bin，作用是执行第三方命令，比如beego会在该目录下安装gee命令
 
+### 项目启动
+`go get`安装依赖
+`go get -u github.com/beego/bee`安装beego命令行工具
+
 `go build`和`go install`命令的区别：
 go build会在执行该命令的目录下生成可执行文件，go install会在bin目录下生成可执行文件
 

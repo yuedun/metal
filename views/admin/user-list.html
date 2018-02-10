@@ -58,7 +58,7 @@ desired effect
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-              <table id="example1" class="table table-bordered table-striped">
+              <table id="userlist" class="table table-bordered table-striped">
                 <thead>
                 <tr>
                   <th>ID</th>
@@ -220,8 +220,7 @@ desired effect
 <!-- page script -->
 <script>
   $(function () {
-    $('#example1').DataTable()
-    $('#example2').DataTable({
+    $('#userlist').DataTable({
       'paging'      : true,
       'lengthChange': false,
       'searching'   : false,

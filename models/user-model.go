@@ -14,17 +14,18 @@ type Users struct {
 	Id          int
 	Username    string
 	Password    string
-	Gender      string
+	Gender      int //0女，1男
 	Mobile      string
 	Email       string
 	Addr        string
 	Description string
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
-	Status      int
+	Status      int //0不可用，1可用
 }
 type UserPOJO struct {
 	Users
+	Gender    string
 	CreatedAt string
 	UpdatedAt string
 }
