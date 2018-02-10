@@ -33,8 +33,8 @@ func init() {
 		beego.NSRouter("/login", &controllers.UserController{}, "get:Login"),
 		beego.NSRouter("/to-login", &controllers.UserController{}, "post:ToLogin"),
 		beego.NSRouter("/welcome", &controllers.UserController{}, "get:Welcome"),
-		beego.NSRouter("/user-list", &controllers.UserController{}, "get:UserList"),
-		beego.NSRouter("/user-add", &controllers.UserController{}, "get:UserAdd"),
+		beego.NSRouter("/user-list", &controllers.UserController{}, "get:UserListRoute"),
+		beego.NSRouter("/user-add", &controllers.UserController{}, "get:UserAddRoute"),
 		beego.NSRouter("/user", &controllers.UserController{}),
 		beego.NSRouter("/user/:id", &controllers.UserController{}, "get:UserGet"),
 	)

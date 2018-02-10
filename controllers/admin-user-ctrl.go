@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	//"encoding/json"
 	"fmt"
 	. "metal/models"
 	"strconv"
@@ -26,7 +27,7 @@ func (this *UserController) Welcome() {
 	this.TplName = "admin/index.html"
 }
 
-func (this *UserController) UserAdd() {
+func (this *UserController) UserAddRoute() {
 	this.TplName = "admin/user-add.html"
 }
 
@@ -98,7 +99,7 @@ func (this *UserController) Put() {
  * /admin/user/:id
  * this.Ctx.Input.Param(":id")
  */
-func (this *UserController) UserList() {
+func (this *UserController) UserListRoute() {
 	user := new(Users)
 	var userPojo = []UserPOJO{}
 	userList, err := user.FindAllUser()
@@ -125,14 +126,19 @@ func (this *UserController) UserList() {
  * this.Ctx.Input.Param(":id")
  */
 func (this *UserController) Delete() {
-	idstr, err := this.GetInt("userId")
-
-	user := &Users{Id: idstr}
-	id, err := user.DeleteUser()
-	if nil != err {
-		this.Data["json"] = map[string]any{"result": false, "msg": err}
-	} else {
-		this.Data["json"] = map[string]any{"result": true, "msg": id}
-	}
+	id:=this.GetString("userId")
+	//var obj=map[string]string{}
+	//json.Unmarshal(id, &obj)
+	fmt.Println(">>>>>>>>>",id)
+	//idstr:= this.Ctx.Input.Param("userId")
+	//id, _:=strconv.Atoi(idstr)
+	//fmt.Print(">>>>>>>",idstr)
+	//user := &Users{Id: id}
+	//id64, err := user.DeleteUser()
+	//if nil != err {
+	//	this.Data["json"] = map[string]any{"result": false, "msg": err}
+	//} else {
+	//	this.Data["json"] = map[string]any{"result": true, "msg": id64}
+	//}
 	this.ServeJSON()
 }
