@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	//"encoding/json"
 	"fmt"
 	. "metal/models"
 	"strconv"
@@ -26,7 +27,7 @@ func (this *UserController) Welcome() {
 	this.TplName = "admin/index.html"
 }
 
-func (this *UserController) UserAdd() {
+func (this *UserController) UserAddRoute() {
 	this.TplName = "admin/user-add.html"
 }
 
@@ -98,7 +99,7 @@ func (this *UserController) Put() {
  * /admin/user/:id
  * this.Ctx.Input.Param(":id")
  */
-func (this *UserController) UserList() {
+func (this *UserController) UserListRoute() {
 	user := new(Users)
 	var userPojo = []UserPOJO{}
 	userList, err := user.FindAllUser()
@@ -124,15 +125,14 @@ func (this *UserController) UserList() {
  * /admin/user/:id
  * this.Ctx.Input.Param(":id")
  */
-func (this *UserController) Delete() {
-	idstr, err := this.GetInt("userId")
-
-	user := &Users{Id: idstr}
-	id, err := user.DeleteUser()
+func (this *UserController) DeleteUser() {
+	id,_:=this.GetInt("userId")
+	user := &Users{Id: id}
+	id64, err := user.DeleteUser()
 	if nil != err {
 		this.Data["json"] = map[string]any{"result": false, "msg": err}
 	} else {
-		this.Data["json"] = map[string]any{"result": true, "msg": id}
+		this.Data["json"] = map[string]any{"result": true, "msg": id64}
 	}
 	this.ServeJSON()
 }
