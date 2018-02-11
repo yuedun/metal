@@ -41,8 +41,8 @@ func (this *MainController) MyRoute() {
 	this.Data["Website"] = "http://yuedun.duapp.com"
 	this.Data["Email"] = "huo.win.n@gmail.com"
 	this.Data["content"] = "这是一个自定义控制器"
-	user := &Users{}
-	userList, err := user.FindAllUser()
+	user := &User{}
+	userList, err := user.GetAll()
 	if nil != err {
 		this.Data["json"] = map[string]any{"msg": err}
 		this.ServeJSON()
@@ -56,7 +56,7 @@ func (this *MainController) MyRoute() {
 func (this *MainController) AddUser() {
 	username := this.GetString("username")
 	password := this.GetString("password")
-	user := &Users{
+	user := &User{
 		Username:  username,
 		Password:  password,
 		CreatedAt: time.Now(),
@@ -67,7 +67,7 @@ func (this *MainController) AddUser() {
 		this.Data["json"] = map[string]any{"msg": err}
 		this.ServeJSON()
 	}
-	userList, err := user.FindAllUser()
+	userList, err := user.GetAll()
 	this.Data["userList"] = userList
 	this.TplName = "myroute.html" //其他数据相关的可以写到if块中，本行最好不要
 }
@@ -75,8 +75,8 @@ func (this *MainController) AddUser() {
 // @route /getUserByName [get]
 func (this *MainController) GetUser() {
 	username := this.Ctx.Input.Param(":username")
-	user := &Users{Username: username}
-	user, err := user.FindUser()
+	user := &User{Username: username}
+	user, err := user.GetByName()
 	if nil != err {
 		this.Data["json"] = map[string]any{"result": false, "msg": this.Ctx.Input.Params()}
 	} else {

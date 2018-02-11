@@ -206,6 +206,54 @@ desired effect
 </div>
 <!-- ./wrapper -->
 
+<!-- 弹窗内容-->
+<div id="update-dialog" style="display: none;">
+  <div class="col-md-6">
+    <!-- general form elements -->
+    <div class="box box-primary">
+      <div class="box-header with-border">
+        <h3 class="box-title">Quick Example</h3>
+      </div>
+      <!-- /.box-header -->
+      <!-- form start -->
+      <form role="form" method="post" onsubmit="return false">
+        <div class="box-body">
+          <div class="form-group">
+            <label for="name">name</label>
+            <input type="text" class="form-control" id="username" name="username" placeholder="username">
+          </div>
+          <div class="form-group">
+            <label for="gender">gender</label>
+            <select name="sex" class="form-control">
+              <option value="0">女</option>
+              <option value="1">男</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="mobile">mobile</label>
+            <input type="text" class="form-control" id="mobile" name="mobile" placeholder="mobile">
+          </div>
+          <div class="form-group">
+            <label for="email">email</label>
+            <input type="text" class="form-control" id="email" name="email" placeholder="email">
+          </div>
+          <div class="form-group">
+            <label for="address">address</label>
+            <input type="text" class="form-control" id="address" name="addr" placeholder="addr">
+          </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+          <input type="hidden" id="userId">
+          <button type="submit" class="btn btn-primary J-submit">Submit</button>
+        </div>
+      </form>
+    </div>
+    <!-- /.box -->
+  </div>
+</div>
+<!-- /弹窗内容-->
+
 <!-- REQUIRED JS SCRIPTS -->
 
 <!-- jQuery 3 -->
@@ -223,9 +271,12 @@ desired effect
 <script src="../../static/dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../../static/dist/js/demo.js"></script>
+<!-- layer -->
+<script src="../../static/plugins/layer/layer.js"></script>
 <!-- page script -->
 <script>
   $(function () {
+    //列表
     $('#userlist').DataTable({
       'paging'      : true,
       'lengthChange': false,
@@ -234,6 +285,7 @@ desired effect
       'info'        : true,
       'autoWidth'   : false
     })
+    //删除
     $("#userlist").on("click", ".J-delete", function() {
       var id=$(this).closest("tr").data("id");
       if (confirm("确定删除？")) {
@@ -252,7 +304,7 @@ desired effect
           },
           success:function(data,textStatus,jqXHR){
             alert("删除成功！")
-            // location.reload();
+            location.reload();
           },
           error:function(xhr,textStatus){
             console.log('错误')
@@ -265,12 +317,56 @@ desired effect
         })
       }
     });
+    //修改
     $("#userlist").on("click", ".J-update", function() {
       var id=$(this).closest("tr").data("id");
-      $.post("/admin/user", {}, function(data) {
-        alert(data)
+      $.get("/admin/user/"+id, function(data) {
+        $("#userId").val(id);
+        $("#username").val(data.result.Username);
+        $("#email").val(data.result.Email);
+        $("#mobile").val(data.result.Mobile);
+        $("#email").val(data.result.Email);
+        $("#address").val(data.result.Addr);
+        layer.open({
+          type: 1,
+          area: ['500px', 'auto'],
+          shadeClose: true, //点击遮罩关闭
+          content: $("#update-dialog")
+        });
       })
     });
+    
+    //修改
+    $("#update-dialog form").on("click", ".J-submit", function() {
+      $.ajax({
+        url:'/admin/user',
+        type:'PUT', //GET
+        async:true,    //或false,是否异步
+        data:{
+          userId: $("#userId").val(),
+          username:$("#username").val(),
+          email: $("#email").val(),
+          mobile: $("#mobile").val(),
+          email: $("#email").val(),
+          addr: $("#address").val()
+        },
+        timeout:5000,    //超时时间
+        dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+        beforeSend:function(xhr){
+          
+        },
+        success:function(data,textStatus,jqXHR){
+          layer.msg("修改成功！")
+          location.reload();
+        },
+        error:function(xhr,textStatus){
+          
+        },
+        complete:function(){
+          
+        }
+      })
+    })
   })
 </script>
 </body>
