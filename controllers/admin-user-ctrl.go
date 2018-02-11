@@ -40,7 +40,7 @@ func (this *UserController) Post() {
 	description := this.GetString("description")
 	createdAt := time.Now()
 	updatedAt := time.Now()
-	user := &Users{
+	user := &User{
 		Username:    username,
 		Gender:      sex,
 		Mobile:      mobile,
@@ -69,10 +69,14 @@ func (this *UserController) UserGet() {
 	idstr := this.Ctx.Input.Param(":id")
 	fmt.Println(">>>>>>>>>", idstr)
 	id, _ := strconv.Atoi(idstr)
-	user := &Users{Id: id}
-	userObj, _ := user.FindUserById()
-	this.Data["user"] = userObj
-	this.TplName = "admin/user-show.html"
+	user := &User{Id: id}
+	userObj, err := user.GetById()
+	fmt.Println(userObj)
+	if err != nil {
+		this.Data["json"] = map[string]any{"msg": err}
+	}
+	this.Data["json"] = map[string]any{"msg": err, "result": userObj}
+	this.ServeJSON()
 }
 
 /**
@@ -81,11 +85,14 @@ func (this *UserController) UserGet() {
  * this.Ctx.Input.Param(":id")
  */
 func (this *UserController) Put() {
-	userId, _ := this.GetInt("id")
+	userId, _ := this.GetInt("userId")
 	username := this.GetString("username") //只能接收url后面的参数，不能接收body中的参数
 	email := this.GetString("email")
-	user := &Users{Id: userId, Username: username, Email: email}
-	upId, err := user.UpdateUser()
+	mobile := this.GetString("mobile")
+	addr := this.GetString("addr")
+	updatedAt := time.Now()
+	user := &User{Id: userId, Username: username, Email: email, Mobile: mobile, Addr: addr, UpdatedAt: updatedAt}
+	upId, err := user.Update()
 	if nil != err {
 		this.Data["json"] = map[string]any{"result": false, "msg": err}
 	} else {
@@ -100,12 +107,12 @@ func (this *UserController) Put() {
  * this.Ctx.Input.Param(":id")
  */
 func (this *UserController) UserListRoute() {
-	user := new(Users)
+	user := new(User)
 	var userPojo = []UserPOJO{}
-	userList, err := user.FindAllUser()
+	userList, err := user.GetAll()
 	for index, u := range userList {
 		userp := new(UserPOJO)
-		userp.Users = u
+		userp.User = u
 		userp.Gender = SexMap[u.Gender]
 		userp.CreatedAt = u.CreatedAt.Format("2006-01-02 15:04:05")
 		userp.UpdatedAt = u.UpdatedAt.Format("2006-01-02 15:04:05")
@@ -126,9 +133,9 @@ func (this *UserController) UserListRoute() {
  * this.Ctx.Input.Param(":id")
  */
 func (this *UserController) DeleteUser() {
-	id,_:=this.GetInt("userId")
-	user := &Users{Id: id}
-	id64, err := user.DeleteUser()
+	id, _ := this.GetInt("userId")
+	user := &User{Id: id}
+	id64, err := user.Delete()
 	if nil != err {
 		this.Data["json"] = map[string]any{"result": false, "msg": err}
 	} else {

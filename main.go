@@ -5,6 +5,8 @@ import (
 	_ "metal/routers"
 	"time"
 
+	//"time"
+
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
@@ -22,11 +24,11 @@ func init() {
 	// 参数3        对应的链接字符串
 	// 参数4(可选)  设置最大空闲连接
 	// 参数5(可选)  设置最大数据库连接 (go >= 1.2)
-	orm.RegisterDataBase("default", "mysql", dbuser+":"+dbpass+"@/"+dbname+"?charset=utf8", maxIdle, maxConn)
+	orm.RegisterDataBase("default", "mysql", dbuser+":"+dbpass+"@/"+dbname+"?charset=utf8&parseTime=true&loc=Asia%2FShanghai", maxIdle, maxConn)
 	orm.Debug = true //控制台打印查询语句
 	// 自动建表
 	// orm.RunSyncdb("default", false, true)
-	// 设置为 UTC 时间
+	// 设置为 UTC 时间(default：本地时区)
 	orm.DefaultTimeLoc = time.UTC
 }
 
