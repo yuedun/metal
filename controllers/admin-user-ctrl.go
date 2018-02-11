@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	//"encoding/json"
 	"fmt"
 	. "metal/models"
 	"strconv"
@@ -15,7 +16,18 @@ type UserController struct {
 
 var SexMap = map[int]string{0: "女", 1: "男"}
 
-func (this *UserController) UserAdd() {
+func (this *UserController) Login() {
+	this.TplName = "admin/login.html"
+}
+func (this *UserController) ToLogin() {
+	fmt.Println(">>>>>>>>>>>>tologin")
+	this.Redirect("/admin/welcome", 302)
+}
+func (this *UserController) Welcome() {
+	this.TplName = "admin/index.html"
+}
+
+func (this *UserController) UserAddRoute() {
 	this.TplName = "admin/user-add.html"
 }
 
@@ -28,9 +40,9 @@ func (this *UserController) Post() {
 	description := this.GetString("description")
 	createdAt := time.Now()
 	updatedAt := time.Now()
-	user := &Users{
+	user := &User{
 		Username:    username,
-		Gender:      SexMap[sex],
+		Gender:      sex,
 		Mobile:      mobile,
 		Email:       email,
 		Addr:        addr,
@@ -38,14 +50,14 @@ func (this *UserController) Post() {
 		CreatedAt:   createdAt,
 		UpdatedAt:   updatedAt,
 	}
-	id, err := user.AddUser()
+	id, err := user.Save()
 	if nil != err {
-		this.Data["json"] = map[string]interface{}{"msg": err}
-		this.ServeJSON()
+		this.Data["json"] = map[string]any{"msg": err}
 	} else {
-		this.Data["json"] = map[string]interface{}{"msg": id}
-		this.ServeJSON()
+		this.Data["json"] = map[string]any{"msg": id}
 	}
+	//this.ServeJSON()
+	this.Redirect("/admin/user-list", 302)
 }
 
 /**
@@ -57,10 +69,14 @@ func (this *UserController) UserGet() {
 	idstr := this.Ctx.Input.Param(":id")
 	fmt.Println(">>>>>>>>>", idstr)
 	id, _ := strconv.Atoi(idstr)
-	user := &Users{Id: id}
-	userObj, _ := user.FindUserById()
-	this.Data["user"] = userObj
-	this.TplName = "admin/user-show.html"
+	user := &User{Id: id}
+	userObj, err := user.GetById()
+	fmt.Println(userObj)
+	if err != nil {
+		this.Data["json"] = map[string]any{"msg": err}
+	}
+	this.Data["json"] = map[string]any{"msg": err, "result": userObj}
+	this.ServeJSON()
 }
 
 /**
@@ -69,15 +85,18 @@ func (this *UserController) UserGet() {
  * this.Ctx.Input.Param(":id")
  */
 func (this *UserController) Put() {
-	userId, _ := this.GetInt("id")
+	userId, _ := this.GetInt("userId")
 	username := this.GetString("username") //只能接收url后面的参数，不能接收body中的参数
 	email := this.GetString("email")
-	user := &Users{Id: userId, Username: username, Email: email}
-	upId, err := user.UpdateUser()
+	mobile := this.GetString("mobile")
+	addr := this.GetString("addr")
+	updatedAt := time.Now()
+	user := &User{Id: userId, Username: username, Email: email, Mobile: mobile, Addr: addr, UpdatedAt: updatedAt}
+	upId, err := user.Update()
 	if nil != err {
-		this.Data["json"] = map[string]interface{}{"result": false, "msg": err}
+		this.Data["json"] = map[string]any{"result": false, "msg": err}
 	} else {
-		this.Data["json"] = map[string]interface{}{"result": true, "msg": upId}
+		this.Data["json"] = map[string]any{"result": true, "msg": upId}
 	}
 	this.ServeJSON()
 }
@@ -87,19 +106,20 @@ func (this *UserController) Put() {
  * /admin/user/:id
  * this.Ctx.Input.Param(":id")
  */
-func (this *UserController) UserList() {
-	user := new(Users)
+func (this *UserController) UserListRoute() {
+	user := new(User)
 	var userPojo = []UserPOJO{}
-	userList, err := user.FindAllUser()
+	userList, err := user.GetAll()
 	for index, u := range userList {
 		userp := new(UserPOJO)
-		userp.Users = u
+		userp.User = u
+		userp.Gender = SexMap[u.Gender]
 		userp.CreatedAt = u.CreatedAt.Format("2006-01-02 15:04:05")
 		userp.UpdatedAt = u.UpdatedAt.Format("2006-01-02 15:04:05")
 		userPojo = append(userPojo[:index], *userp)
 	}
 	if nil != err {
-		this.Data["json"] = map[string]interface{}{"msg": err}
+		this.Data["json"] = map[string]any{"msg": err}
 		this.ServeJSON()
 	}
 	this.Data["userList"] = userPojo
@@ -112,15 +132,14 @@ func (this *UserController) UserList() {
  * /admin/user/:id
  * this.Ctx.Input.Param(":id")
  */
-func (this *UserController) Delete() {
-	idstr, err := this.GetInt("userId")
-
-	user := &Users{Id: idstr}
-	id, err := user.DeleteUser()
+func (this *UserController) DeleteUser() {
+	id, _ := this.GetInt("userId")
+	user := &User{Id: id}
+	id64, err := user.Delete()
 	if nil != err {
-		this.Data["json"] = map[string]interface{}{"result": false, "msg": err}
+		this.Data["json"] = map[string]any{"result": false, "msg": err}
 	} else {
-		this.Data["json"] = map[string]interface{}{"result": true, "msg": id}
+		this.Data["json"] = map[string]any{"result": true, "msg": id64}
 	}
 	this.ServeJSON()
 }
