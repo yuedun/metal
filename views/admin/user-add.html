@@ -1,166 +1,226 @@
-<<<<<<< HEAD
-<!DOCTYPE HTML>
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
 <html>
-<head>
-<meta charset="utf-8">
-<meta name="renderer" content="webkit|ie-comp|ie-stand">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-<!--[if lt IE 9]>
-<script type="text/javascript" src="http://libs.useso.com/js/html5shiv/3.7/html5shiv.min.js"></script>
-<script type="text/javascript" src="http://libs.useso.com/js/respond.js/1.4.2/respond.min.js"></script>
-<script type="text/javascript" src="http://cdn.bootcss.com/css3pie/2.0beta1/PIE_IE678.js"></script>
-<![endif]-->
-<link type="text/css" rel="stylesheet" href="../../static/css/H-ui.css"/>
-<link type="text/css" rel="stylesheet" href="../../static/css/H-ui.admin.css"/>
-<link type="text/css" rel="stylesheet" href="../../static/font/font-awesome.min.css"/>
-<!--[if IE 7]>
-<link href="http://www.bootcss.com/p/font-awesome/assets/css/font-awesome-ie7.min.css" rel="stylesheet" type="text/css" />
-<![endif]-->
-<title>添加用户</title>
-</head>
-<body>
-<div class="pd-20">
-  <div class="Huiform">
-    <form action="/admin/user" method="post">
-      <table class="table table-bg">
-        <tbody>
-          <tr>
-            <th width="100" class="text-r"><span class="c-red">*</span> 用户名：</th>
-            <td><input type="text" style="width:200px" class="input-text" value="" placeholder="" id="username" name="username" datatype="*2-16" nullmsg="用户名不能为空"></td>
-          </tr>
-          <tr>
-            <th class="text-r"><span class="c-red">*</span> 性别：</th>
-            <td><label>
-                <input name="sex" type="radio" id="six_1" value="1" checked>
-                男</label>
-              <label>
-                <input type="radio" name="sex" value="0" id="six_0">
-                女</label></td>
-          </tr>
-          <tr>
-            <th class="text-r"><span class="c-red">*</span> 手机：</th>
-            <td><input type="text" style="width:300px" class="input-text" value="" placeholder="" id="user-tel" name="mobile"></td>
-          </tr>
-          <tr>
-            <th class="text-r">邮箱：</th>
-            <td><input type="text" style="width:300px" class="input-text" value="" placeholder="" id="user-email" name="email"></td>
-          </tr>
-          <tr>
-            <th class="text-r">头像：</th>
-            <td><input type="file" class="" name="" multiple></td>
-          </tr>
-          <tr>
-            <th class="text-r">地址：</th>
-            <td><input type="text" style="width:300px" class="input-text" value="" placeholder="" id="user-address" name="addr"></td>
-          </tr>
-          <tr>
-            <th class="text-r">简介：</th>
-            <td><textarea class="input-text" name="description" id="user-info" style="height:100px;width:300px;"></textarea></td>
-          </tr>
-          <tr>
-            <th></th>
-            <td><button class="btn btn-success radius" type="submit"><i class="icon-ok"></i> 确定</button></td>
-          </tr>
-        </tbody>
-      </table>
-    </form>
+{{template "admin/html-head.html"}}
+<!--
+BODY TAG OPTIONS:
+=================
+Apply one or more of the following classes to get the
+desired effect
+|---------------------------------------------------------|
+| SKINS         | skin-blue                               |
+|               | skin-black                              |
+|               | skin-purple                             |
+|               | skin-yellow                             |
+|               | skin-red                                |
+|               | skin-green                              |
+|---------------------------------------------------------|
+|LAYOUT OPTIONS | fixed                                   |
+|               | layout-boxed                            |
+|               | layout-top-nav                          |
+|               | sidebar-collapse                        |
+|               | sidebar-mini                            |
+|---------------------------------------------------------|
+-->
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+  <!-- Main Header -->
+  {{template "admin/html-header.html"}}
+  <!-- Left side column. contains the logo and sidebar -->
+  {{template "admin/html-aside.html"}}
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        General Form Elements
+        <small>Preview</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Forms</a></li>
+        <li class="active">General Elements</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <!-- left column -->
+        <div class="col-md-6">
+          <!-- general form elements -->
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Quick Example</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form role="form" method="post" action="/admin/user">
+              <div class="box-body">
+                <div class="form-group">
+                  <label for="name">name</label>
+                  <input type="text" class="form-control" id="username" name="username" placeholder="username">
+                </div>
+                <div class="form-group">
+                  <label for="gender">gender</label>
+                  <select name="sex" class="form-control">
+                    <option value="0">女</option>
+                    <option value="1">男</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="mobile">mobile</label>
+                  <input type="text" class="form-control" id="mobile" name="mobile" placeholder="mobile">
+                </div>
+                <div class="form-group">
+                  <label for="email">email</label>
+                  <input type="text" class="form-control" id="email" name="email" placeholder="email">
+                </div>
+                <div class="form-group">
+                  <label for="address">address</label>
+                  <input type="text" class="form-control" id="address" name="addr" placeholder="addr">
+                </div>
+              </div>
+              <!-- /.box-body -->
+              <div class="box-footer">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </form>
+          </div>
+          <!-- /.box -->
+        </div>
+        <!--/.col (left) -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
   </div>
+  <!-- /.content-wrapper -->
+
+  <!-- Main Footer -->
+  <footer class="main-footer">
+    <!-- To the right -->
+    <div class="pull-right hidden-xs">
+      Anything you want
+    </div>
+    <!-- Default to the left -->
+    <strong>Copyright &copy; 2016 <a href="#">Company</a>.</strong> All rights reserved.
+  </footer>
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Create the tabs -->
+    <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+      <li class="active"><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
+      <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
+    </ul>
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <!-- Home tab content -->
+      <div class="tab-pane active" id="control-sidebar-home-tab">
+        <h3 class="control-sidebar-heading">Recent Activity</h3>
+        <ul class="control-sidebar-menu">
+          <li>
+            <a href="javascript:;">
+              <i class="menu-icon fa fa-birthday-cake bg-red"></i>
+
+              <div class="menu-info">
+                <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
+
+                <p>Will be 23 on April 24th</p>
+              </div>
+            </a>
+          </li>
+        </ul>
+        <!-- /.control-sidebar-menu -->
+
+        <h3 class="control-sidebar-heading">Tasks Progress</h3>
+        <ul class="control-sidebar-menu">
+          <li>
+            <a href="javascript:;">
+              <h4 class="control-sidebar-subheading">
+                Custom Template Design
+                <span class="pull-right-container">
+                    <span class="label label-danger pull-right">70%</span>
+                  </span>
+              </h4>
+
+              <div class="progress progress-xxs">
+                <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
+              </div>
+            </a>
+          </li>
+        </ul>
+        <!-- /.control-sidebar-menu -->
+
+      </div>
+      <!-- /.tab-pane -->
+      <!-- Stats tab content -->
+      <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
+      <!-- /.tab-pane -->
+      <!-- Settings tab content -->
+      <div class="tab-pane" id="control-sidebar-settings-tab">
+        <form method="post">
+          <h3 class="control-sidebar-heading">General Settings</h3>
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Report panel usage
+              <input type="checkbox" class="pull-right" checked>
+            </label>
+
+            <p>
+              Some information about this general settings option
+            </p>
+          </div>
+          <!-- /.form-group -->
+        </form>
+      </div>
+      <!-- /.tab-pane -->
+    </div>
+  </aside>
+  <!-- /.control-sidebar -->
+  <!-- Add the sidebar's background. This div must be placed
+  immediately after the control sidebar -->
+  <div class="control-sidebar-bg"></div>
 </div>
-<script type="text/javascript" src="http://cdn.bootcss.com/jquery/2.1.3/jquery.min.js"></script>
-<script type="text/javascript" src="js/Validform_v5.3.2_min.js"></script> 
-<script type="text/javascript" src="js/H-ui.js"></script> 
-<script type="text/javascript" src="js/H-ui.admin.js"></script> 
-<script type="text/javascript">
-$(".Huiform").Validform(); 
-</script>
+<!-- ./wrapper -->
+
+<!-- REQUIRED JS SCRIPTS -->
+
+<!-- jQuery 3 -->
+<script src="../../static/bower_components/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="../../static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- DataTables -->
+<script src="../../static/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="../../static/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<!-- SlimScroll -->
+<script src="../../static/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="../../static/bower_components/fastclick/lib/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="../../static/dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../../static/dist/js/demo.js"></script>
+<!-- page script -->
 <script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "//hm.baidu.com/hm.js?080836300300be57b7f34f4b3e97d911";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F080836300300be57b7f34f4b3e97d911' type='text/javascript'%3E%3C/script%3E"));
+  $(function () {
+    $('#example1').DataTable()
+    $('#example2').DataTable({
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : false,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false
+    })
+  })
 </script>
 </body>
-=======
-<!DOCTYPE HTML>
-<html>
-<head>
-<meta charset="utf-8">
-<meta name="renderer" content="webkit|ie-comp|ie-stand">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-<!--[if lt IE 9]>
-<script type="text/javascript" src="http://libs.useso.com/js/html5shiv/3.7/html5shiv.min.js"></script>
-<script type="text/javascript" src="http://libs.useso.com/js/respond.js/1.4.2/respond.min.js"></script>
-<script type="text/javascript" src="http://cdn.bootcss.com/css3pie/2.0beta1/PIE_IE678.js"></script>
-<![endif]-->
-<link type="text/css" rel="stylesheet" href="../../static/css/H-ui.css"/>
-<link type="text/css" rel="stylesheet" href="../../static/css/H-ui.admin.css"/>
-<link type="text/css" rel="stylesheet" href="../../static/font/font-awesome.min.css"/>
-<!--[if IE 7]>
-<link href="http://www.bootcss.com/p/font-awesome/assets/css/font-awesome-ie7.min.css" rel="stylesheet" type="text/css" />
-<![endif]-->
-<title>添加用户</title>
-</head>
-<body>
-<div class="pd-20">
-  <div class="Huiform">
-    <form action="/admin/user" method="post">
-      <table class="table table-bg">
-        <tbody>
-          <tr>
-            <th width="100" class="text-r"><span class="c-red">*</span> 用户名：</th>
-            <td><input type="text" style="width:200px" class="input-text" value="" placeholder="" id="username" name="username" datatype="*2-16" nullmsg="用户名不能为空"></td>
-          </tr>
-          <tr>
-            <th class="text-r"><span class="c-red">*</span> 性别：</th>
-            <td><label>
-                <input name="sex" type="radio" id="six_1" value="1" checked>
-                男</label>
-              <label>
-                <input type="radio" name="sex" value="0" id="six_0">
-                女</label></td>
-          </tr>
-          <tr>
-            <th class="text-r"><span class="c-red">*</span> 手机：</th>
-            <td><input type="text" style="width:300px" class="input-text" value="" placeholder="" id="user-tel" name="mobile"></td>
-          </tr>
-          <tr>
-            <th class="text-r">邮箱：</th>
-            <td><input type="text" style="width:300px" class="input-text" value="" placeholder="" id="user-email" name="email"></td>
-          </tr>
-          <tr>
-            <th class="text-r">头像：</th>
-            <td><input type="file" class="" name="" multiple></td>
-          </tr>
-          <tr>
-            <th class="text-r">地址：</th>
-            <td><input type="text" style="width:300px" class="input-text" value="" placeholder="" id="user-address" name="addr"></td>
-          </tr>
-          <tr>
-            <th class="text-r">简介：</th>
-            <td><textarea class="input-text" name="description" id="user-info" style="height:100px;width:300px;"></textarea></td>
-          </tr>
-          <tr>
-            <th></th>
-            <td><button class="btn btn-success radius" type="submit"><i class="icon-ok"></i> 确定</button></td>
-          </tr>
-        </tbody>
-      </table>
-    </form>
-  </div>
-</div>
-<script type="text/javascript" src="http://cdn.bootcss.com/jquery/2.1.3/jquery.min.js"></script>
-<script type="text/javascript" src="js/Validform_v5.3.2_min.js"></script> 
-<script type="text/javascript" src="js/H-ui.js"></script> 
-<script type="text/javascript" src="js/H-ui.admin.js"></script> 
-</body>
->>>>>>> mysql-branch
 </html>

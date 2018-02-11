@@ -8,6 +8,7 @@ import (
 
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/context"
+	"time"
 )
 
 // 权限验证
@@ -21,60 +22,79 @@ type MainController struct {
 
 //用户如果没有进行注册，那么就会通过反射来执行对应的函数，如果注册了就会通过 interface 来进行执行函数
 //官方文档说可以提高性能
-// func (c *MainController) URLMapping() {
-// 	c.Mapping("Get", c.Get)
-// 	c.Mapping("MyRoute", c.MyRoute)
+// func (this *MainController) URLMapping() {
+// 	this.Mapping("Get", this.Get)
+// 	this.Mapping("MyRoute", this.MyRoute)
 // }
 
 //注解路由
 // @router / [get]
-func (c *MainController) Get() {
-	c.Data["Website"] = "http://yuedun.duapp.com"
-	c.Data["Email"] = "huo.win.n@gmail.com"
-	c.TplExt = "html"
+func (this *MainController) Get() {
+	this.Data["Website"] = "http://yuedun.duapp.com"
+	this.Data["Email"] = "huo.win.n@gmail.com"
 	//默认tpl或html后缀
-	c.TplName = "index.html"
+	this.TplName = "index.html"
 }
 
 // @router /test [get]
-func (c *MainController) MyRoute() {
-	c.Data["Website"] = "http://yuedun.duapp.com"
-	c.Data["Email"] = "huo.win.n@gmail.com"
-	c.Data["content"] = "这是一个自定义控制器"
-	user := &Users{}
-	userList, err := user.FindAllUser()
+func (this *MainController) MyRoute() {
+	this.Data["Website"] = "http://yuedun.duapp.com"
+	this.Data["Email"] = "huo.win.n@gmail.com"
+	this.Data["content"] = "这是一个自定义控制器"
+	user := &User{}
+	userList, err := user.GetAll()
 	if nil != err {
-		c.Data["json"] = map[string]interface{}{"msg": err}
-		c.ServeJSON()
+		this.Data["json"] = map[string]any{"msg": err}
+		this.ServeJSON()
 	}
-	c.Data["userList"] = userList
-	c.TplName = "myroute.html" //其他数据相关的可以写到if块中，本行最好不要
+	this.Data["userList"] = userList
+	this.TplName = "myroute.html" //其他数据相关的可以写到if块中，本行最好不要
 
+}
+
+// @router /user [post]
+func (this *MainController) AddUser() {
+	username := this.GetString("username")
+	password := this.GetString("password")
+	user := &User{
+		Username:  username,
+		Password:  password,
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+	}
+	_, err := user.Save()
+	if nil != err {
+		this.Data["json"] = map[string]any{"msg": err}
+		this.ServeJSON()
+	}
+	userList, err := user.GetAll()
+	this.Data["userList"] = userList
+	this.TplName = "myroute.html" //其他数据相关的可以写到if块中，本行最好不要
 }
 
 // @route /getUserByName [get]
 func (this *MainController) GetUser() {
 	username := this.Ctx.Input.Param(":username")
-	user := &Users{Username: username}
-	user, err := user.FindUser()
+	user := &User{Username: username}
+	user, err := user.GetByName()
 	if nil != err {
-		this.Data["json"] = map[string]interface{}{"result": false, "msg": this.Ctx.Input.Params()}
+		this.Data["json"] = map[string]any{"result": false, "msg": this.Ctx.Input.Params()}
 	} else {
-		this.Data["json"] = map[string]interface{}{"result": true, "msg": user}
+		this.Data["json"] = map[string]any{"result": true, "msg": user}
 	}
 	this.ServeJSON()
 }
 
 // @router /category [get]
-func (c *MainController) Category() {
-	c.Data["Website"] = "http://yuedun.duapp.com"
-	c.Data["Email"] = "huo.win.n@gmail.com"
-	c.TplName = "category.html"
+func (this *MainController) Category() {
+	this.Data["Website"] = "http://yuedun.duapp.com"
+	this.Data["Email"] = "huo.win.n@gmail.com"
+	this.TplName = "category.html"
 }
 
 // @router /about [get]
-func (c *MainController) About() {
-	c.Data["Website"] = "http://yuedun.duapp.com"
-	c.Data["Email"] = "huo.win.n@gmail.com"
-	c.TplName = "about.html"
+func (this *MainController) About() {
+	this.Data["Website"] = "http://yuedun.duapp.com"
+	this.Data["Email"] = "huo.win.n@gmail.com"
+	this.TplName = "about.html"
 }

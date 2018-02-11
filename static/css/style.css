@@ -3,7 +3,6 @@ body {
     margin: 0px;
     padding: 0px;
 }
-
 body {
     margin: 0px;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -12,15 +11,15 @@ body {
     background-color: F7F7F7;
 }
 nav ul {
-	display: block;
+    display: block;
     margin: 50px 0 0 0;
-	text-align: center;
+    text-align: center;
     font-size: 24px;
-	border-bottom: 1px solid #efefef;
-	height: 80px;
+    border-bottom: 1px solid #efefef;
+    height: 80px;
 }
 nav ul li {
-	display: inline;
+    display: inline;
 }
 header,
 footer {
@@ -28,7 +27,6 @@ footer {
     margin-left: auto;
     margin-right: auto;
 }
-
 .logo {
   background-image: url('../img/th.jpg');
   background-repeat: no-repeat;
@@ -41,28 +39,23 @@ footer {
   font-weight: normal;
   text-shadow: 0px 1px 2px #ddd;
 }
-
 header {
     padding: 0 0 100px 0;
 }
-
 footer {
     line-height: 1.8;
     text-align: center;
     padding: 50px 0;
     color: #999;
 }
-
 .description {
     text-align: center;
     font-size: 16px;
 }
-
 a {
     color: #444;
     text-decoration: none;
 }
-
 .backdrop {
     position: absolute;
     width: 100%;
@@ -73,32 +66,17 @@ a {
     left: 0px;
 }
 .article-body{
-	width: 60%;
+    width: 60%;
     border-left: 1px solid #333;
     margin: 30px auto;
-	padding: 0 50px;
+    padding: 0 50px;
 }
 .title{
-	
+    
 }
 .content{
-	
+    
 }
 article section {
   padding: 20px 23px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
