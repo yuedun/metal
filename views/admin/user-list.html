@@ -74,23 +74,23 @@ desired effect
                 </tr>
                 </thead>
                 <tbody>
-                {{range $index, $elem := .userList}}
-                <tr data-id="{{$elem.Id}}">
-                  <td>{{$elem.Id}}</td>
-                  <td>{{$elem.Username}}</td>
-                  <td>{{$elem.Gender}}</td>
-                  <td>{{$elem.Mobile}}</td>
-                  <td>{{$elem.Email}}</td>
-                  <td>{{$elem.Addr}}</td>
-                    <td>{{$elem.Description}}</td>
-                  <td>{{$elem.CreatedAt}}</td>
-                  <td>{{$elem.UpdatedAt}}</td>
-                  <td>
-                    <button class="btn btn-primary J-update">update</button>
-                    <button class="btn btn-danger J-delete">delete</button>
-                  </td>
-                </tr>
-                {{end}}
+                {{/*{{range $index, $elem := .userList}}*/}}
+                {{/*<tr data-id="{{$elem.Id}}">*/}}
+                  {{/*<td>{{$elem.Id}}</td>*/}}
+                  {{/*<td>{{$elem.Username}}</td>*/}}
+                  {{/*<td>{{$elem.Gender}}</td>*/}}
+                  {{/*<td>{{$elem.Mobile}}</td>*/}}
+                  {{/*<td>{{$elem.Email}}</td>*/}}
+                  {{/*<td>{{$elem.Addr}}</td>*/}}
+                    {{/*<td>{{$elem.Description}}</td>*/}}
+                  {{/*<td>{{$elem.CreatedAt}}</td>*/}}
+                  {{/*<td>{{$elem.UpdatedAt}}</td>*/}}
+                  {{/*<td>*/}}
+                    {{/*<button class="btn btn-primary J-update">update</button>*/}}
+                    {{/*<button class="btn btn-danger J-delete">delete</button>*/}}
+                  {{/*</td>*/}}
+                {{/*</tr>*/}}
+                {{/*{{end}}*/}}
                 </tbody>
                 <tfoot>
                 <tr>
@@ -196,8 +196,8 @@ desired effect
 <!-- Bootstrap 3.3.7 -->
 <script src="../../static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- DataTables -->
-<script src="../../static/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
-<script src="../../static/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<script src="../../static/bower_components/datatables.net/js/jquery.dataTables.js"></script>
+<script src="../../static/bower_components/datatables.net-bs/js/dataTables.bootstrap.js"></script>
 <!-- SlimScroll -->
 <script src="../../static/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <!-- FastClick -->
@@ -213,12 +213,52 @@ desired effect
   $(function () {
     //列表
     $('#userlist').DataTable({
+        dom: "lrtip",
+        language: {
+            "processing": "数据加载中……",
+            "zeroRecords": "No records to display"
+        },
       'paging'      : true,
       'lengthChange': false,
-      'searching'   : false,
+      'searching'   : true,
       'ordering'    : true,
       'info'        : true,
-      'autoWidth'   : false
+      'autoWidth'   : false,
+        serverSide: true,
+        processing: true,
+        ajax: {
+            url: '/admin/users',
+            type: 'GET',
+            dataFilter: function(data){
+                var json = jQuery.parseJSON( data );
+                json.recordsTotal = json.total;
+                json.recordsFiltered = json.total;
+                json.data = json.result;
+                return JSON.stringify( json ); // return JSON string
+            }
+        },
+        columns: [
+            { data: 'Id' },
+            { data: 'Username' },
+            { data: 'Gender' },
+            { data: 'Mobile' },
+            { data: 'Email' },
+            { data: 'Addr' },
+            { data: 'Description' },
+            { data: 'CreatedAt' },
+            { data: 'UpdatedAt' },
+            {
+                data: 'Mobile',
+                render: function ( data, type, row ) {
+                var html = '<button class="btn btn-primary J-update">update</button>'
+                +'<button class="btn btn-danger J-delete">delete</button>'
+                    return html;
+                }
+            }
+        ],
+        "createdRow": function( row, data, dataIndex ) {
+            $(row).data("id", data.Id);
+        }
     })
     //删除
     $("#userlist").on("click", ".J-delete", function() {

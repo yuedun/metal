@@ -126,6 +126,31 @@ func (this *UserController) UserListRoute() {
 }
 
 /**
+ * 通过ajax获取数据
+ * /admin/users
+ */
+func (this *UserController) UserList() {
+	user := new(User)
+	var userPojoList = []UserPOJO{}
+	userList, err := user.GetAll()
+	for index, u := range userList {
+		userp := new(UserPOJO)
+		userp.User = u
+		userp.Gender = SexMap[u.Gender]
+		userp.CreatedAt = u.CreatedAt.Format("2006-01-02 15:04:05")
+		userp.UpdatedAt = u.UpdatedAt.Format("2006-01-02 15:04:05")
+		userPojoList = append(userPojoList[:index], *userp)
+	}
+	if nil != err {
+		this.Data["json"] = map[string]any{"msg": err}
+	} else {
+		this.Data["json"] = map[string]any{"result": userPojoList, "total":len(userPojoList), "msg": ""}
+	}
+	time.Sleep(time.Second*2)
+	this.ServeJSON()
+}
+
+/**
  * 通过如下方式获取路由参数
  * /admin/user/:id
  * this.Ctx.Input.Param(":id")

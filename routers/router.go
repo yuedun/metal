@@ -46,6 +46,7 @@ func init() {
 		beego.NSRouter("/user", &controllers.UserController{}),
 		beego.NSRouter("/user/delete", &controllers.UserController{}, "delete,post:DeleteUser"),
 		beego.NSRouter("/user/:id", &controllers.UserController{}, "get:UserGet"),
+		beego.NSRouter("/users", &controllers.UserController{}, "get:UserList"),
 
 		//也可以使用注解自动路由
 		//beego.NSInclude(
