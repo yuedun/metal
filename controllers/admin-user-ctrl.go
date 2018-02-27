@@ -6,12 +6,10 @@ import (
 	. "metal/models"
 	"strconv"
 	"time"
-
-	"github.com/astaxie/beego"
 )
 
 type UserController struct {
-	beego.Controller
+	BaseController
 }
 
 var SexMap = map[int]string{0: "女", 1: "男"}
@@ -67,7 +65,6 @@ func (this *UserController) Post() {
  */
 func (this *UserController) UserGet() {
 	idstr := this.Ctx.Input.Param(":id")
-	fmt.Println(">>>>>>>>>", idstr)
 	id, _ := strconv.Atoi(idstr)
 	user := &User{Id: id}
 	userObj, err := user.GetById()
@@ -88,13 +85,13 @@ func (this *UserController) Put() {
 	userId, _ := this.GetInt("userId")
 	username := this.GetString("username") //只能接收url后面的参数，不能接收body中的参数
 	email := this.GetString("email")
+	gender, _ := this.GetInt("gender")
 	mobile := this.GetString("mobile")
 	addr := this.GetString("addr")
 	updatedAt := time.Now()
-	user := &User{Id: userId, Username: username, Email: email, Mobile: mobile, Addr: addr, UpdatedAt: updatedAt}
+	user := &User{Id: userId, Username: username, Gender: gender, Email: email, Mobile: mobile, Addr: addr, UpdatedAt: updatedAt}
 	upId, err := user.Update()
 	if nil != err {
-		fmt.Println(">>>>>>>>>>err", err)
 		this.Data["json"] = map[string]any{"result": false, "msg": err}
 	} else {
 		this.Data["json"] = map[string]any{"result": true, "msg": upId}
