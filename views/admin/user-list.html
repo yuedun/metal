@@ -217,6 +217,7 @@ desired effect
       <!-- /.box-header -->
       <!-- form start -->
       <form role="form" method="post" onsubmit="return false">
+        <input type="hidden" id="userId">
         <div class="box-body">
           <div class="form-group">
             <label for="name">name</label>
@@ -242,11 +243,12 @@ desired effect
             <input type="text" class="form-control" id="address" name="addr" placeholder="addr">
           </div>
         </div>
-        <!-- /.box-body -->
+        <!-- /.box-body 使用layer的回调执行提交
         <div class="box-footer">
           <input type="hidden" id="userId">
           <button type="submit" class="btn btn-primary J-submit">Submit</button>
         </div>
+        -->
       </form>
     </div>
     <!-- /.box -->
@@ -330,43 +332,43 @@ desired effect
         layer.open({
           type: 1,
           area: ['500px', 'auto'],
+          btn: ['确定', '取消'],
+          fixed: false,//跟随滚动
           shadeClose: true, //点击遮罩关闭
-          content: $("#update-dialog")
+          content: $("#update-dialog"),
+          yes: function(index, layero){
+            $.ajax({
+                url:'/admin/user',
+                type:'PUT', //GET
+                async:true,    //或false,是否异步
+                data:{
+                    userId: $("#userId").val(),
+                    username:$("#username").val(),
+                    email: $("#email").val(),
+                    mobile: $("#mobile").val(),
+                    email: $("#email").val(),
+                    addr: $("#address").val()
+                },
+                timeout:5000,    //超时时间
+                dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                success:function(data,textStatus,jqXHR){
+                    layer.msg("修改成功！");
+                    layer.close(index); //如果设定了yes回调，需进行手工关闭
+                    location.reload();
+                },
+                error:function(xhr,textStatus){
+
+                },
+                complete:function(){
+
+                }
+            })
+          }, btn2: function (index, layero) {
+            layer.close(index);
+          }
         });
       })
     });
-    
-    //修改
-    $("#update-dialog form").on("click", ".J-submit", function() {
-      $.ajax({
-        url:'/admin/user',
-        type:'PUT', //GET
-        async:true,    //或false,是否异步
-        data:{
-          userId: $("#userId").val(),
-          username:$("#username").val(),
-          email: $("#email").val(),
-          mobile: $("#mobile").val(),
-          email: $("#email").val(),
-          addr: $("#address").val()
-        },
-        timeout:5000,    //超时时间
-        dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
-        beforeSend:function(xhr){
-          
-        },
-        success:function(data,textStatus,jqXHR){
-          layer.msg("修改成功！")
-          location.reload();
-        },
-        error:function(xhr,textStatus){
-          
-        },
-        complete:function(){
-          
-        }
-      })
-    })
   })
 </script>
 </body>
