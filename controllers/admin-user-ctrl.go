@@ -94,6 +94,7 @@ func (this *UserController) Put() {
 	user := &User{Id: userId, Username: username, Email: email, Mobile: mobile, Addr: addr, UpdatedAt: updatedAt}
 	upId, err := user.Update()
 	if nil != err {
+		fmt.Println(">>>>>>>>>>err", err)
 		this.Data["json"] = map[string]any{"result": false, "msg": err}
 	} else {
 		this.Data["json"] = map[string]any{"result": true, "msg": upId}
