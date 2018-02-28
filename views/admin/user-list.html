@@ -213,7 +213,7 @@ desired effect
   $(function () {
     //列表
     $('#userlist').DataTable({
-        dom: "lrtip",
+        // dom: "r",
         language: {
             "processing": "数据加载中……",
             "zeroRecords": "No records to display"
@@ -226,17 +226,39 @@ desired effect
       'autoWidth'   : false,
         serverSide: true,
         processing: true,
-        ajax: {
-            url: '/admin/users',
-            type: 'GET',
-            dataFilter: function(data){
-                var json = jQuery.parseJSON( data );
-                json.recordsTotal = json.total;
-                json.recordsFiltered = json.total;
-                json.data = json.result;
-                return JSON.stringify( json ); // return JSON string
+        ajax: function (data, callback, settings) {
+            var postData = {
+                draw: data.draw,
+                perPage: data.length,
+                start: data.start
             }
+            $.ajax({
+                url:'/admin/users',
+                type:'GET', //GET
+                data: postData,
+                timeout:5000,    //超时时间
+                dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                beforeSend:function(xhr){
+                    console.log('发送前')
+                },
+                success:function(data,textStatus,jqXHR){
+                    var dtData = {
+                        recordsTotal: data.total,
+                        recordsFiltered: data.total,
+                        data: data.result,
+                        draw: data.draw
+                    }
+                    callback(dtData);
+                },
+                error:function(xhr,textStatus){
+                    console.log('错误')
+                },
+                complete:function(){
+                    console.log('结束')
+                }
+            })
         },
+        rowId: 'Id',//自动设置行id
         columns: [
             { data: 'Id' },
             { data: 'Username' },
@@ -256,13 +278,14 @@ desired effect
                 }
             }
         ],
-        "createdRow": function( row, data, dataIndex ) {
-            $(row).data("id", data.Id);
-        }
+        // "createdRow": function( row, data, dataIndex ) {
+        //      //有了DT_RowId属性就会自动添加id到行上
+        //     $(row).data("id", data.Id);
+        // }
     })
     //删除
     $("#userlist").on("click", ".J-delete", function() {
-      var id=$(this).closest("tr").data("id");
+      var id=$(this).closest("tr").attr("id");
       if (confirm("确定删除？")) {
         $.ajax({
           url:'/admin/user/delete',
@@ -274,7 +297,6 @@ desired effect
           timeout:5000,    //超时时间
           dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
           beforeSend:function(xhr){
-            console.log(xhr)
             console.log('发送前')
           },
           success:function(data,textStatus,jqXHR){
@@ -283,8 +305,6 @@ desired effect
           },
           error:function(xhr,textStatus){
             console.log('错误')
-            console.log(xhr)
-            console.log(textStatus)
           },
           complete:function(){
             console.log('结束')
@@ -294,7 +314,7 @@ desired effect
     });
     //修改
     $("#userlist").on("click", ".J-update", function() {
-      var id=$(this).closest("tr").data("id");
+      var id=$(this).closest("tr").attr("id");
       $.get("/admin/user/"+id, function(data) {
         $("#userId").val(id);
         $("#username").val(data.result.Username);
