@@ -74,7 +74,7 @@ func (user *User) GetAll() ([]User, error) {
 }
 
 //获取用户列表
-func (user *User) GetAllByCondition(cond map[string]any, start, perPage int) ([]User, int64, error) {
+func (user *User) GetAllByCondition(cond any, start, perPage int) ([]User, int64, error) {
 	o := orm.NewOrm()
 	var users []User
 	var sql = "SELECT * FROM user LIMIT " + strconv.Itoa(start) + ", " + strconv.Itoa(perPage)

@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	//"encoding/json"
 	"fmt"
 	. "metal/models"
 	"strconv"
@@ -130,24 +129,24 @@ func (this *UserController) UserListRoute() {
  * /admin/users
  */
 func (this *UserController) UserList() {
+	args := this.Input()//获取所有参数
 	start, _ := this.GetInt("start")
 	perPage, _ := this.GetInt("perPage")
-	cond := map[string]any{}
 	user := new(User)
-	var userPojoList = []UserVO{}
-	userList, total, err := user.GetAllByCondition(cond, start, perPage)
+	var userVOList = []UserVO{}
+	userList, total, err := user.GetAllByCondition(args, start, perPage)
 	for index, u := range userList {
-		userp := new(UserVO)
-		userp.User = u
-		userp.Gender = SexMap[u.Gender]
-		userp.CreatedAt = u.CreatedAt.Format("2006-01-02 15:04:05")
-		userp.UpdatedAt = u.UpdatedAt.Format("2006-01-02 15:04:05")
-		userPojoList = append(userPojoList[:index], *userp)
+		userVo := new(UserVO)
+		userVo.User = u
+		userVo.Gender = SexMap[u.Gender]
+		userVo.CreatedAt = u.CreatedAt.Format("2006-01-02 15:04:05")
+		userVo.UpdatedAt = u.UpdatedAt.Format("2006-01-02 15:04:05")
+		userVOList = append(userVOList[:index], *userVo)
 	}
 	if nil != err {
 		this.Data["json"] = map[string]any{"msg": err}
 	} else {
-		this.Data["json"] = map[string]any{"result": userPojoList, "total": total, "msg": "ok"}
+		this.Data["json"] = map[string]any{"result": userVOList, "total": total, "msg": "ok"}
 	}
 	//time.Sleep(time.Second*2)
 	this.ServeJSON()
