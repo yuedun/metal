@@ -6,12 +6,10 @@ import (
 	. "metal/models"
 	"strconv"
 	"time"
-
-	"github.com/astaxie/beego"
 )
 
 type UserController struct {
-	beego.Controller
+	BaseController
 }
 
 var SexMap = map[int]string{0: "女", 1: "男"}
@@ -67,7 +65,6 @@ func (this *UserController) Post() {
  */
 func (this *UserController) UserGet() {
 	idstr := this.Ctx.Input.Param(":id")
-	fmt.Println(">>>>>>>>>", idstr)
 	id, _ := strconv.Atoi(idstr)
 	user := &User{Id: id}
 	userObj, err := user.GetById()
@@ -88,10 +85,11 @@ func (this *UserController) Put() {
 	userId, _ := this.GetInt("userId")
 	username := this.GetString("username") //只能接收url后面的参数，不能接收body中的参数
 	email := this.GetString("email")
+	gender, _ := this.GetInt("gender")
 	mobile := this.GetString("mobile")
 	addr := this.GetString("addr")
 	updatedAt := time.Now()
-	user := &User{Id: userId, Username: username, Email: email, Mobile: mobile, Addr: addr, UpdatedAt: updatedAt}
+	user := &User{Id: userId, Username: username, Gender: gender, Email: email, Mobile: mobile, Addr: addr, UpdatedAt: updatedAt}
 	upId, err := user.Update()
 	if nil != err {
 		this.Data["json"] = map[string]any{"result": false, "msg": err}
@@ -107,24 +105,52 @@ func (this *UserController) Put() {
  * this.Ctx.Input.Param(":id")
  */
 func (this *UserController) UserListRoute() {
+	//user := new(User)
+	//var userPojo = []UserVO{}
+	//userList, err := user.GetAll()
+	//for index, u := range userList {
+	//	userp := new(UserVO)
+	//	userp.User = u
+	//	userp.Gender = SexMap[u.Gender]
+	//	userp.CreatedAt = u.CreatedAt.Format("2006-01-02 15:04:05")
+	//	userp.UpdatedAt = u.UpdatedAt.Format("2006-01-02 15:04:05")
+	//	userPojo = append(userPojo[:index], *userp)
+	//}
+	//if nil != err {
+	//	this.Data["json"] = map[string]any{"msg": err}
+	//	this.ServeJSON()
+	//}
+	//this.Data["userList"] = userPojo
+	//this.Data["total"] = len(userPojo)
+	this.TplName = "admin/user-list.html"
+}
+
+/**
+ * 通过ajax获取数据
+ * /admin/users
+ */
+func (this *UserController) UserList() {
+	start, _ := this.GetInt("start")
+	perPage, _ := this.GetInt("perPage")
+	cond := map[string]any{}
 	user := new(User)
-	var userPojo = []UserPOJO{}
-	userList, err := user.GetAll()
+	var userPojoList = []UserVO{}
+	userList, total, err := user.GetAllByCondition(cond, start, perPage)
 	for index, u := range userList {
-		userp := new(UserPOJO)
+		userp := new(UserVO)
 		userp.User = u
 		userp.Gender = SexMap[u.Gender]
 		userp.CreatedAt = u.CreatedAt.Format("2006-01-02 15:04:05")
 		userp.UpdatedAt = u.UpdatedAt.Format("2006-01-02 15:04:05")
-		userPojo = append(userPojo[:index], *userp)
+		userPojoList = append(userPojoList[:index], *userp)
 	}
 	if nil != err {
 		this.Data["json"] = map[string]any{"msg": err}
-		this.ServeJSON()
+	} else {
+		this.Data["json"] = map[string]any{"result": userPojoList, "total": total, "msg": "ok"}
 	}
-	this.Data["userList"] = userPojo
-	this.Data["total"] = len(userPojo)
-	this.TplName = "admin/user-list.html"
+	//time.Sleep(time.Second*2)
+	this.ServeJSON()
 }
 
 /**
