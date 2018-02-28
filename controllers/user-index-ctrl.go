@@ -3,21 +3,12 @@ package controllers
 //包名并非必须和文件夹名相同，但是按照惯例最后一个路径名和包名一致
 import (
 	//	"fmt"
-	"fmt"
 	. "metal/models"
-
-	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/context"
 	"time"
 )
 
-// 权限验证
-var HasIndexPermission = func(ctx *context.Context) {
-	fmt.Println(">>>>>>>>>>>>>index auth")
-}
-
 type MainController struct {
-	beego.Controller
+	BaseController
 }
 
 //用户如果没有进行注册，那么就会通过反射来执行对应的函数，如果注册了就会通过 interface 来进行执行函数

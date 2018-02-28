@@ -2,10 +2,13 @@ package models
 
 import (
 	"fmt"
+	"strconv"
 	"time"
 
 	"github.com/astaxie/beego/orm"
 )
+
+type any = interface{}
 
 /**
  * 模型与数据库字段多少不一定要匹配
@@ -23,7 +26,7 @@ type User struct {
 	UpdatedAt   time.Time
 	Status      int //0不可用，1可用
 }
-type UserPOJO struct {
+type UserVO struct {
 	User
 	Gender    string
 	CreatedAt string
@@ -67,6 +70,25 @@ func (user *User) GetAll() ([]User, error) {
 	num, err := o.Raw("SELECT * FROM user").QueryRows(&users)
 	fmt.Println("查询到", num, "条数据")
 	return users, err
+
+}
+
+//获取用户列表
+func (user *User) GetAllByCondition(cond map[string]any, start, perPage int) ([]User, int64, error) {
+	o := orm.NewOrm()
+	var users []User
+	var sql = "SELECT * FROM user LIMIT " + strconv.Itoa(start) + ", " + strconv.Itoa(perPage)
+	_, err := o.Raw(sql).QueryRows(&users)
+	if err != nil {
+		return nil, 0, err
+	}
+	var total int64
+	err2 := o.Raw("SELECT COUNT(*) FROM user").QueryRow(&total)
+	if err2 != nil {
+		return nil, 0, err
+	}
+	fmt.Println("mysql row affected nums: ", total)
+	return users, total, err
 
 }
 
