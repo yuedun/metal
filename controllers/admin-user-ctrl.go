@@ -105,23 +105,23 @@ func (this *UserController) Put() {
  * this.Ctx.Input.Param(":id")
  */
 func (this *UserController) UserListRoute() {
-	user := new(User)
-	var userPojo = []UserPOJO{}
-	userList, err := user.GetAll()
-	for index, u := range userList {
-		userp := new(UserPOJO)
-		userp.User = u
-		userp.Gender = SexMap[u.Gender]
-		userp.CreatedAt = u.CreatedAt.Format("2006-01-02 15:04:05")
-		userp.UpdatedAt = u.UpdatedAt.Format("2006-01-02 15:04:05")
-		userPojo = append(userPojo[:index], *userp)
-	}
-	if nil != err {
-		this.Data["json"] = map[string]any{"msg": err}
-		this.ServeJSON()
-	}
-	this.Data["userList"] = userPojo
-	this.Data["total"] = len(userPojo)
+	//user := new(User)
+	//var userPojo = []UserVO{}
+	//userList, err := user.GetAll()
+	//for index, u := range userList {
+	//	userp := new(UserVO)
+	//	userp.User = u
+	//	userp.Gender = SexMap[u.Gender]
+	//	userp.CreatedAt = u.CreatedAt.Format("2006-01-02 15:04:05")
+	//	userp.UpdatedAt = u.UpdatedAt.Format("2006-01-02 15:04:05")
+	//	userPojo = append(userPojo[:index], *userp)
+	//}
+	//if nil != err {
+	//	this.Data["json"] = map[string]any{"msg": err}
+	//	this.ServeJSON()
+	//}
+	//this.Data["userList"] = userPojo
+	//this.Data["total"] = len(userPojo)
 	this.TplName = "admin/user-list.html"
 }
 
@@ -130,11 +130,14 @@ func (this *UserController) UserListRoute() {
  * /admin/users
  */
 func (this *UserController) UserList() {
+	start, _ := this.GetInt("start")
+	perPage, _ := this.GetInt("perPage")
+	cond := map[string]any{}
 	user := new(User)
-	var userPojoList = []UserPOJO{}
-	userList, err := user.GetAll()
+	var userPojoList = []UserVO{}
+	userList, total, err := user.GetAllByCondition(cond, start, perPage)
 	for index, u := range userList {
-		userp := new(UserPOJO)
+		userp := new(UserVO)
 		userp.User = u
 		userp.Gender = SexMap[u.Gender]
 		userp.CreatedAt = u.CreatedAt.Format("2006-01-02 15:04:05")
@@ -144,9 +147,9 @@ func (this *UserController) UserList() {
 	if nil != err {
 		this.Data["json"] = map[string]any{"msg": err}
 	} else {
-		this.Data["json"] = map[string]any{"result": userPojoList, "total":len(userPojoList), "msg": ""}
+		this.Data["json"] = map[string]any{"result": userPojoList, "total": total, "msg": "ok"}
 	}
-	time.Sleep(time.Second*2)
+	//time.Sleep(time.Second*2)
 	this.ServeJSON()
 }
 
