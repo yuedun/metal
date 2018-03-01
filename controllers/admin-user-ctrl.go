@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	//"encoding/json"
 	"fmt"
 	. "metal/models"
 	"strconv"
@@ -18,8 +17,24 @@ func (this *UserController) Login() {
 	this.TplName = "admin/login.html"
 }
 func (this *UserController) ToLogin() {
-	fmt.Println(">>>>>>>>>>>>tologin")
-	this.Redirect("/admin/welcome", 302)
+	//args := map[string]string{}
+	//body := this.Ctx.Input.RequestBody//接收raw body内容
+	//json.Unmarshal(body, &args)
+	//mobile := args["mobile"]
+	//password := args["password"]
+	var mobile = this.GetString("mobile")
+	var password = this.GetString("password")
+	user := &User{Mobile: mobile}
+	err := user.GetByMobile()
+	fmt.Println("user:", err)
+	if err != nil {
+		this.Data["json"] = map[string]any{"msg": fmt.Sprint(err), "code": 1}
+	} else if user.Password != password {
+		this.Data["json"] = map[string]any{"msg": "密码不正确", "code": 1}
+	} else {
+		this.Data["json"] = map[string]any{"msg": "ok", "code": 0}
+	}
+	this.ServeJSON()
 }
 func (this *UserController) Welcome() {
 	this.TplName = "admin/index.html"
