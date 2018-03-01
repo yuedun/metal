@@ -156,7 +156,7 @@ func (this *UserController) UserListRoute() {
  * /admin/users
  */
 func (this *UserController) UserList() {
-	args := this.Input()//获取所有参数
+	args := this.Input() //获取所有参数
 	start, _ := this.GetInt("start")
 	perPage, _ := this.GetInt("perPage")
 	user := new(User)
