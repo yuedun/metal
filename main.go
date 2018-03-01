@@ -4,18 +4,17 @@ import (
 	"fmt"
 	_ "metal/routers"
 	"time"
-
-	//"time"
-
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
 )
 
+var port string
 func init() {
 	dbuser := beego.AppConfig.String("mysqluser")
 	dbpass := beego.AppConfig.String("mysqlpass")
 	dbname := beego.AppConfig.String("mysqldb")
+	port = beego.AppConfig.String("httpport")
 	orm.RegisterDriver("mysql", orm.DRMySQL)
 	maxIdle := 5
 	maxConn := 5
@@ -33,6 +32,6 @@ func init() {
 }
 
 func main() {
-	fmt.Println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n浏览器访问：http://127.0.0.1:8081\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+	fmt.Println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n浏览器访问：http://localhost:"+port+"\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
 	beego.Run()
 }
