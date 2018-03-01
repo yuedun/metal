@@ -121,6 +121,7 @@ func (this *UserController) UserListRoute() {
 	//}
 	//this.Data["userList"] = userPojo
 	//this.Data["total"] = len(userPojo)
+	this.Data["Title"] = "用户列表"
 	this.TplName = "admin/user-list.html"
 }
 
