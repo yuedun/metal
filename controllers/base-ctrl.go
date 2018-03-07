@@ -33,3 +33,9 @@ var HasAdminPermission = func(ctx *context.Context) {
 var HasIndexPermission = func(ctx *context.Context) {
 	fmt.Println(">>>>>>>>>>>>>index auth")
 }
+
+//自定义404错误页面
+// func (c *BaseController) Error404() {
+//     c.Data["content"] = "page not found"
+//     c.TplName = "404.html"
+// }
