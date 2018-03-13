@@ -26,17 +26,27 @@ func (this *UserController) ToLogin() {
 	var password = this.GetString("password")
 	user := &User{Mobile: mobile}
 	err := user.GetByMobile()
-	fmt.Println("user:", err)
 	if err != nil {
 		this.Data["json"] = map[string]any{"msg": fmt.Sprint(err), "code": 1}
 	} else if user.Password != password {
 		this.Data["json"] = map[string]any{"msg": "密码不正确", "code": 1}
 	} else {
+		this.SetSession("loginUser", user)
 		this.Data["json"] = map[string]any{"msg": "ok", "code": 0}
 	}
 	this.ServeJSON()
 }
+
+/**
+ * 登出
+ */
+func (this *UserController) LoginOut() {
+	this.DelSession("loginUser")
+	this.Redirect("/admin/login", 302)
+}
+
 func (this *UserController) Welcome() {
+	fmt.Println(">>>>>session:", this.GetSession("loginUser"))
 	this.TplName = "admin/index.html"
 }
 
