@@ -1,7 +1,9 @@
 package main
 
 import (
+	"encoding/gob"
 	"fmt"
+	"metal/models"
 	_ "metal/routers"
 	"time"
 	"github.com/astaxie/beego"
@@ -29,6 +31,15 @@ func init() {
 	// orm.RunSyncdb("default", false, true)
 	// 设置为 UTC 时间(default：本地时区)
 	orm.DefaultTimeLoc = time.UTC
+
+	/**
+	 * 非 memory 的引擎，请自己在 main.go 的 init 里面注册需要保存的这些结构体，不然会引起应用重启之后出现无法解析的错误
+	 * 如：gob: name not registered for interface: "*controllers.SessionObject"
+	 */
+	gob.Register(&models.User{})
+	//session 开发环境下使用file存储，生产环境使用redis等数据库存储
+	beego.BConfig.WebConfig.Session.SessionProvider="file"
+	beego.BConfig.WebConfig.Session.SessionProviderConfig = "./tmp"
 }
 
 func main() {
