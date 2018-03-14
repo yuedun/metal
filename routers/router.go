@@ -40,6 +40,7 @@ func init() {
 		beego.NSRouter("/", &controllers.UserController{}, "get:Welcome"),
 		beego.NSRouter("/login", &controllers.UserController{}, "get:Login"),
 		beego.NSRouter("/to-login", &controllers.UserController{}, "post:ToLogin"),
+		beego.NSRouter("/login-out", &controllers.UserController{}, "get:LoginOut"),
 		beego.NSRouter("/welcome", &controllers.UserController{}, "get:Welcome"),
 		beego.NSRouter("/user-list", &controllers.UserController{}, "get:UserListRoute"),
 		beego.NSRouter("/user-add", &controllers.UserController{}, "get:UserAddRoute"),
