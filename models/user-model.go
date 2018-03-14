@@ -57,10 +57,23 @@ func (user *User) GetById() (*User, error) {
 }
 
 // 通过用户名查找用户
-func (user *User) GetByName() (*User, error) {
+func (user *User) GetByName() error {
 	o := orm.NewOrm()
 	err := o.Read(user, "username")
-	return user, err
+	if err !=nil {
+		return err
+	}
+	return nil
+}
+
+// 通过手机号查找用户
+func (user *User) GetByMobile() error {
+	o := orm.NewOrm()
+	err := o.Read(user, "mobile")
+	if err !=nil {
+		return err
+	}
+	return nil
 }
 
 //获取用户列表

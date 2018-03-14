@@ -67,7 +67,7 @@ func (this *MainController) AddUser() {
 func (this *MainController) GetUser() {
 	username := this.Ctx.Input.Param(":username")
 	user := &User{Username: username}
-	user, err := user.GetByName()
+	err := user.GetByName()
 	if nil != err {
 		this.Data["json"] = map[string]any{"result": false, "msg": this.Ctx.Input.Params()}
 	} else {

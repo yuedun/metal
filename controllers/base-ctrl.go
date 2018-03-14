@@ -28,9 +28,20 @@ func (this *BaseController) Prepare() {
 // 后台权限验证
 var HasAdminPermission = func(ctx *context.Context) {
 	fmt.Println(">>>>>>>>>>>>>admin auth权限验证")
+	loginUser := ctx.Input.CruSession.Get("loginUser")
+	if loginUser == nil && ctx.Input.URL() != "/admin/login" && ctx.Input.URL() != "/admin/to-login" {
+		fmt.Println("用户未登录")
+		ctx.Redirect(302, "/admin/login")
+	}
 }
 
 // 前端权限验证
 var HasIndexPermission = func(ctx *context.Context) {
 	fmt.Println(">>>>>>>>>>>>>index auth")
 }
+
+//自定义404错误页面
+// func (c *BaseController) Error404() {
+//     c.Data["content"] = "page not found"
+//     c.TplName = "404.html"
+// }
