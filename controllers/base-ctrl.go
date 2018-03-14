@@ -44,3 +44,14 @@ var HasIndexPermission = func(ctx *context.Context) {
 //     c.Data["content"] = "page not found"
 //     c.TplName = "404.html"
 // }
+
+func Finish()  {
+	fmt.Println(">>>>>>>>>>finish")
+}
+var FilterUser = func(ctx *context.Context) {
+	//_, ok := ctx.Input.Session("uid").(int)
+	//if !ok && ctx.Request.RequestURI != "/login" {
+	//	ctx.Redirect(302, "/login")
+	//}
+	fmt.Println(">>>>>>>>>>finish")
+}

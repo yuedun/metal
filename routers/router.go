@@ -21,6 +21,7 @@ func init() {
 
 	//添加过滤器
 	beego.InsertFilter("/:*^(admin)", beego.BeforeRouter, controllers.HasIndexPermission)
+	beego.InsertFilter("/admin/*", beego.AfterExec, controllers.FilterUser)
 	//注解路由，代替上面单个注册路由
 	beego.Include(
 		&controllers.MainController{},
@@ -37,6 +38,7 @@ func init() {
 		//	return false
 		//}),
 		beego.NSBefore(controllers.HasAdminPermission), //过滤器
+		beego.NSAfter(controllers.FilterUser),
 		beego.NSRouter("/", &controllers.UserController{}, "get:Welcome"),
 		beego.NSRouter("/login", &controllers.UserController{}, "get:Login"),
 		beego.NSRouter("/to-login", &controllers.UserController{}, "post:ToLogin"),
