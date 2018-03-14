@@ -173,7 +173,11 @@ func (this *UserController) UserList() {
 	if nil != err {
 		this.Data["json"] = map[string]any{"msg": err}
 	} else {
-		this.Data["json"] = map[string]any{"result": userVOList, "total": total, "msg": "ok"}
+		this.Data["json"] = map[string]any{
+			"result": userVOList,
+			"total":  total,
+			"msg":    "ok",
+		}
 	}
 	//time.Sleep(time.Second*2)
 	this.ServeJSON()
