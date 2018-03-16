@@ -85,13 +85,14 @@ func (user *User) GetAll() ([]User, error) {
 	return users, err
 
 }
+
 //获取用户列表
-func (user *User) GetAllByCondition(cond map[string]any, start, perPage int) ([]User, int64, error) {
+func (user *User) GetAllByCondition(cond any, start, perPage int) ([]User, int64, error) {
 	o := orm.NewOrm()
 	var users []User
 	var sql = "SELECT * FROM user LIMIT " + strconv.Itoa(start) + ", " + strconv.Itoa(perPage)
 	_, err := o.Raw(sql).QueryRows(&users)
-	if err!=nil {
+	if err != nil {
 		return nil, 0, err
 	}
 	var total int64
