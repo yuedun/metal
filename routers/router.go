@@ -37,7 +37,6 @@ func init() {
 		//	return false
 		//}),
 		beego.NSBefore(controllers.HasAdminPermission), //过滤器
-		beego.NSAfter(controllers.FilterUser),
 		beego.NSRouter("/", &controllers.UserController{}, "get:Welcome"),
 		beego.NSRouter("/login", &controllers.UserController{}, "get:Login"),
 		beego.NSRouter("/to-login", &controllers.UserController{}, "post:ToLogin"),

@@ -3,12 +3,12 @@ package main
 import (
 	"encoding/gob"
 	"fmt"
-	"metal/models"
-	_ "metal/routers"
-	"time"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
+	"metal/models"
+	_ "metal/routers"
+	"time"
 )
 
 var port string
@@ -26,7 +26,7 @@ func init() {
 	// 参数4(可选)  设置最大空闲连接
 	// 参数5(可选)  设置最大数据库连接 (go >= 1.2)
 	orm.RegisterDataBase("default", "mysql", dbuser+":"+dbpass+"@/"+dbname+"?charset=utf8&parseTime=true&loc=Asia%2FShanghai", maxIdle, maxConn)
-	orm.Debug = true //控制台打印查询语句
+	orm.Debug = true // 控制台打印查询语句
 	// 自动建表
 	// orm.RunSyncdb("default", false, true)
 	// 设置为 UTC 时间(default：本地时区)
@@ -37,7 +37,7 @@ func init() {
 	 * 如：gob: name not registered for interface: "*controllers.SessionObject"
 	 */
 	gob.Register(&models.User{})
-	//session 开发环境下使用file存储，生产环境使用redis等数据库存储
+	// session 开发环境下使用file存储，生产环境使用redis等数据库存储
 	beego.BConfig.WebConfig.Session.SessionProvider="file"
 	beego.BConfig.WebConfig.Session.SessionProviderConfig = "./tmp"
 }
