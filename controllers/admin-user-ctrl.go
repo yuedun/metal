@@ -160,7 +160,7 @@ func (c *UserController) UserList() {
 	start, _ := c.GetInt("start")
 	perPage, _ := c.GetInt("perPage")
 	user := new(User)
-	var userVOList = []UserVO{}
+	var userVOList []UserVO
 	userList, total, err := user.GetAllByCondition(args, start, perPage)
 	for index, u := range userList {
 		userVo := new(UserVO)
