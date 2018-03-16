@@ -23,8 +23,11 @@ type any = interface{}
 func (this *BaseController) Prepare() {
 	//admin-user-ctrl和user-index-ctrl都继承了base-ctrl，所以都会自动执行该方法，可以做一些校验，但不适合做权限校验
 	//因为前端用户界面不需要权限验证，管理后台才需要
-	username :=this.GetSession("loginUser").(*models.User).Username
-	this.Data["username"] =  username
+	session :=this.GetSession("loginUser")
+	if session != nil {
+		loginUser := session.(*models.User)
+		this.Data["username"] =  loginUser.Username
+	}
 	fmt.Println(">>>>>>>>>>>>>Prepare前后端通用校验")
 }
 
