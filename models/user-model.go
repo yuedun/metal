@@ -60,7 +60,7 @@ func (user *User) GetById() (*User, error) {
 func (user *User) GetByName() error {
 	o := orm.NewOrm()
 	err := o.Read(user, "username")
-	if err !=nil {
+	if err != nil {
 		return err
 	}
 	return nil
@@ -70,7 +70,7 @@ func (user *User) GetByName() error {
 func (user *User) GetByMobile() error {
 	o := orm.NewOrm()
 	err := o.Read(user, "mobile")
-	if err !=nil {
+	if err != nil {
 		return err
 	}
 	return nil
@@ -87,24 +87,21 @@ func (user *User) GetAll() ([]User, error) {
 }
 
 // 获取用户列表
-func (user *User) GetAllByCondition(cond any, start, perPage int) (chan []User, int64, error) {
+func (user *User) GetAllByCondition(cond any, start, perPage int) ([]User, int64, error) {
 	o := orm.NewOrm()
 	var users []User
-	var userList = make(chan []User, 1)
 	var sql = "SELECT * FROM user LIMIT " + strconv.Itoa(start) + ", " + strconv.Itoa(perPage)
 	_, err := o.Raw(sql).QueryRows(&users)
 	if err != nil {
 		return nil, 0, err
 	}
-	userList <- users
 	var total int64
 	err2 := o.Raw("SELECT COUNT(*) FROM user").QueryRow(&total)
 	if err2 != nil {
 		return nil, 0, err
 	}
 	fmt.Println("mysql row affected nums: ", total)
-	return userList, total, err
-
+	return users, total, err
 }
 
 // 通过id修改用户
