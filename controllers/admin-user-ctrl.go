@@ -27,7 +27,7 @@ func (c *UserController) ToLogin() {
 	user := &User{Mobile: mobile}
 	err := user.GetByMobile()
 	if err != nil {
-		c.Data["json"] = map[string]any{"msg": fmt.Sprint(err), "code": 1}
+		c.Data["json"] = map[string]any{"msg": "用户不存在", "code": 1}
 	} else if user.Password != password {
 		c.Data["json"] = map[string]any{"msg": "密码不正确", "code": 1}
 	} else {
@@ -112,8 +112,9 @@ func (c *UserController) Put() {
 	gender, _ := c.GetInt("gender")
 	mobile := c.GetString("mobile")
 	addr := c.GetString("addr")
+	desc := c.GetString("desc")
 	updatedAt := time.Now()
-	user := &User{Id: userId, Username: username, Gender: gender, Email: email, Mobile: mobile, Addr: addr, UpdatedAt: updatedAt}
+	user := &User{Id: userId, Username: username, Gender: gender, Email: email, Mobile: mobile, Addr: addr, Description: desc, UpdatedAt: updatedAt}
 	upId, err := user.Update()
 	if nil != err {
 		c.Data["json"] = map[string]any{"result": false, "msg": err}
@@ -160,25 +161,23 @@ func (c *UserController) UserList() {
 	perPage, _ := c.GetInt("perPage")
 	user := new(User)
 	var userVOList []UserVO
-	var userList []User
-	users, total, err := user.GetAllByCondition(args, start, perPage)
-	userList = <- users
-	for index, u := range userList {
-		userVo := new(UserVO)
-		userVo.User = u
-		userVo.Gender = SexMap[u.Gender]
-		userVo.CreatedAt = u.CreatedAt.Format("2006-01-02 15:04:05")
-		userVo.UpdatedAt = u.UpdatedAt.Format("2006-01-02 15:04:05")
-		userVOList = append(userVOList[:index], *userVo)
-	}
+	userList, total, err := user.GetAllByCondition(args, start, perPage)
 	if nil != err {
 		c.Data["json"] = map[string]any{"msg": err}
 	} else {
-		c.Data["json"] = map[string]any{
+		for index, u := range userList {
+			userVo := new(UserVO)
+			userVo.User = u
+			userVo.Gender = SexMap[u.Gender]
+			userVo.CreatedAt = u.CreatedAt.Format("2006-01-02 15:04:05")
+			userVo.UpdatedAt = u.UpdatedAt.Format("2006-01-02 15:04:05")
+			userVOList = append(userVOList[:index], *userVo)
+		}
+		data := map[string]any{
 			"result": userVOList,
 			"total":  total,
-			"msg":    "ok",
 		}
+		c.Data["json"] = SuccessData(data)
 	}
 	// time.Sleep(time.Second*2)
 	c.ServeJSON()

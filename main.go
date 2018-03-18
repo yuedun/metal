@@ -12,6 +12,7 @@ import (
 )
 
 var port string
+
 func init() {
 	dbuser := beego.AppConfig.String("mysqluser")
 	dbpass := beego.AppConfig.String("mysqlpass")
@@ -38,11 +39,11 @@ func init() {
 	 */
 	gob.Register(&models.User{})
 	// session 开发环境下使用file存储，生产环境使用redis等数据库存储
-	beego.BConfig.WebConfig.Session.SessionProvider="file"
+	beego.BConfig.WebConfig.Session.SessionProvider = "file"
 	beego.BConfig.WebConfig.Session.SessionProviderConfig = "./tmp"
 }
 
 func main() {
-	fmt.Println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n浏览器访问：http://localhost:"+port+"\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+	fmt.Println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n浏览器访问：http://localhost:" + port + "\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
 	beego.Run()
 }
