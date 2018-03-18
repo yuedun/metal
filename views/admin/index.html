@@ -4,7 +4,7 @@ This is a starter template page. Use this page to start your new project from
 scratch. This page gets rid of all links and provides the needed markup only.
 -->
 <html>
-{{template "admin/html-head.html"}}
+{{template "admin/html-head.html" .}}
 <!--
 BODY TAG OPTIONS:
 =================
@@ -29,9 +29,9 @@ desired effect
 <div class="wrapper">
 
     <!-- Main Header -->
-{{template "admin/html-header.html"}}
+{{template "admin/html-header.html" .}}
     <!-- Left side column. contains the logo and sidebar -->
-{{template "admin/html-aside.html"}}
+{{template "admin/html-aside.html" .}}
 
     <!-- Content Wrapper. Contains page content -->
     <!-- Content Wrapper. Contains page content -->
