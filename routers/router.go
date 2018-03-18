@@ -21,6 +21,7 @@ func init() {
 
 	//添加过滤器
 	beego.InsertFilter("/:*^(admin)", beego.BeforeRouter, controllers.HasIndexPermission)
+
 	//注解路由，代替上面单个注册路由
 	beego.Include(
 		&controllers.MainController{},
