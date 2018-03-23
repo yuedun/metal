@@ -3,13 +3,13 @@ package controllers
 type Result struct {
 	Code int `json:"code"`
 	Data interface{} `json:"data"`
-	Msg  string `json:"msg"`
+	Msg  interface{} `json:"msg"`
 }
 
 /**
 返回错误信息，code是可选的自定义代码
 */
-func ErrorMsg(msg string, code ...int) Result {
+func ErrorMsg(msg interface{}, code ...int) Result {
 	var r Result
 	if len(code) > 0 {
 		r.Code = code[0]

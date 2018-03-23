@@ -5,6 +5,7 @@ import (
 	//	"fmt"
 	. "metal/models"
 	"time"
+	"log"
 )
 
 type MainController struct {
@@ -35,6 +36,7 @@ func (c *MainController) MyRoute() {
 	user := &User{}
 	userList, err := user.GetAll()
 	if nil != err {
+		log.Print(err)
 		c.Data["json"] = map[string]any{"msg": err}
 		c.ServeJSON()
 	}
@@ -48,13 +50,14 @@ func (c *MainController) AddUser() {
 	username := c.GetString("username")
 	password := c.GetString("password")
 	user := &User{
-		Username:  username,
+		UserName:  username,
 		Password:  password,
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
 	}
 	_, err := user.Save()
 	if nil != err {
+		log.Print(err)
 		c.Data["json"] = map[string]any{"msg": err}
 		c.ServeJSON()
 	}
@@ -66,9 +69,10 @@ func (c *MainController) AddUser() {
 // @route /getUserByName [get]
 func (c *MainController) GetUser() {
 	username := c.Ctx.Input.Param(":username")
-	user := &User{Username: username}
+	user := &User{UserName: username}
 	err := user.GetByName()
 	if nil != err {
+		log.Print(err)
 		c.Data["json"] = map[string]any{"result": false, "msg": c.Ctx.Input.Params()}
 	} else {
 		c.Data["json"] = map[string]any{"result": true, "msg": user}
