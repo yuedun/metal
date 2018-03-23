@@ -5,6 +5,7 @@ import (
 	. "metal/models"
 	"strconv"
 	"time"
+	"log"
 )
 
 type UserController struct {
@@ -27,7 +28,8 @@ func (c *UserController) ToLogin() {
 	user := &User{Mobile: mobile}
 	err := user.GetByMobile()
 	if err != nil {
-		c.Data["json"] = map[string]any{"msg": "用户不存在", "code": 1}
+		log.Print(err)
+		c.Data["json"] = map[string]any{"msg": err.Error(), "code": 1}
 	} else if user.Password != password {
 		c.Data["json"] = map[string]any{"msg": "密码不正确", "code": 1}
 	} else {
@@ -63,7 +65,7 @@ func (c *UserController) Post() {
 	createdAt := time.Now()
 	updatedAt := time.Now()
 	user := &User{
-		Username:    username,
+		UserName:    username,
 		Gender:      sex,
 		Mobile:      mobile,
 		Email:       email,
@@ -74,6 +76,7 @@ func (c *UserController) Post() {
 	}
 	id, err := user.Save()
 	if nil != err {
+		log.Print(err)
 		c.Data["json"] = map[string]any{"msg": err}
 	} else {
 		c.Data["json"] = map[string]any{"msg": id}
@@ -94,6 +97,7 @@ func (c *UserController) UserGet() {
 	userObj, err := user.GetById()
 	fmt.Println(userObj)
 	if err != nil {
+		log.Print(err)
 		c.Data["json"] = map[string]any{"msg": err}
 	}
 	c.Data["json"] = map[string]any{"msg": err, "result": userObj}
@@ -114,9 +118,10 @@ func (c *UserController) Put() {
 	addr := c.GetString("addr")
 	desc := c.GetString("desc")
 	updatedAt := time.Now()
-	user := &User{Id: userId, Username: username, Gender: gender, Email: email, Mobile: mobile, Addr: addr, Description: desc, UpdatedAt: updatedAt}
+	user := &User{Id: userId, UserName: username, Gender: gender, Email: email, Mobile: mobile, Addr: addr, Description: desc, UpdatedAt: updatedAt}
 	upId, err := user.Update()
 	if nil != err {
+		log.Print(err)
 		c.Data["json"] = map[string]any{"result": false, "msg": err}
 	} else {
 		c.Data["json"] = map[string]any{"result": true, "msg": upId}
@@ -163,6 +168,7 @@ func (c *UserController) UserList() {
 	var userVOList []UserVO
 	userList, total, err := user.GetAllByCondition(args, start, perPage)
 	if nil != err {
+		log.Print(err)
 		c.Data["json"] = map[string]any{"msg": err}
 	} else {
 		for index, u := range userList {
@@ -193,6 +199,7 @@ func (c *UserController) DeleteUser() {
 	user := &User{Id: id}
 	id64, err := user.Delete()
 	if nil != err {
+		log.Print(err)
 		c.Data["json"] = map[string]any{"result": false, "msg": err}
 	} else {
 		c.Data["json"] = map[string]any{"result": true, "msg": id64}

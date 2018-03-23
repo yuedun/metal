@@ -15,7 +15,7 @@ type any = interface{}
  */
 type User struct {
 	Id          int
-	Username    string
+	UserName    string
 	Password    string
 	Gender      int // 0女，1男
 	Mobile      string

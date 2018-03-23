@@ -26,7 +26,7 @@ func (c *BaseController) Prepare() {
 	session := c.GetSession("loginUser")
 	if session != nil {
 		loginUser := session.(*models.User)
-		c.Data["username"] = loginUser.Username
+		c.Data["username"] = loginUser.UserName
 	}
 	fmt.Println(">>>>>>>>>>>>>Prepare前后端通用校验")
 }
