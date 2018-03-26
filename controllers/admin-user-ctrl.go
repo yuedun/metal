@@ -2,17 +2,15 @@ package controllers
 
 import (
 	"fmt"
-	. "metal/models"
+	"log"
+	. "metal/models" // 点操作符导入的包可以省略报名直接使用公有属性和方法
 	"strconv"
 	"time"
-	"log"
 )
 
 type UserController struct {
 	BaseController
 }
-
-var SexMap = map[int]string{0: "女", 1: "男"}
 
 func (c *UserController) Login() {
 	c.TplName = "admin/login.html"
@@ -64,16 +62,17 @@ func (c *UserController) Post() {
 	description := c.GetString("description")
 	createdAt := time.Now()
 	updatedAt := time.Now()
-	user := &User{
-		UserName:    username,
-		Gender:      sex,
-		Mobile:      mobile,
-		Email:       email,
-		Addr:        addr,
-		Description: description,
-		CreatedAt:   createdAt,
-		UpdatedAt:   updatedAt,
-	}
+
+	var user = new(User)
+	user.UserName = username
+	user.Gender = sex
+	user.Mobile = mobile
+	user.Email = email
+	user.Addr = addr
+	user.Description = description
+	user.CreatedAt = createdAt
+	user.UpdatedAt = updatedAt
+
 	id, err := user.Save()
 	if nil != err {
 		log.Print(err)
@@ -93,7 +92,8 @@ func (c *UserController) Post() {
 func (c *UserController) UserGet() {
 	idstr := c.Ctx.Input.Param(":id")
 	id, _ := strconv.Atoi(idstr)
-	user := &User{Id: id}
+	user := new(User)
+	user.Id = id
 	userObj, err := user.GetById()
 	fmt.Println(userObj)
 	if err != nil {
@@ -118,7 +118,16 @@ func (c *UserController) Put() {
 	addr := c.GetString("addr")
 	desc := c.GetString("desc")
 	updatedAt := time.Now()
-	user := &User{Id: userId, UserName: username, Gender: gender, Email: email, Mobile: mobile, Addr: addr, Description: desc, UpdatedAt: updatedAt}
+
+	var user = new(User)
+	user.Id = userId
+	user.UserName = username
+	user.Gender = gender
+	user.Email = email
+	user.Mobile = mobile
+	user.Addr = addr
+	user.Description = desc
+	user.UpdatedAt = updatedAt
 	upId, err := user.Update()
 	if nil != err {
 		log.Print(err)
@@ -175,6 +184,7 @@ func (c *UserController) UserList() {
 			userVo := new(UserVO)
 			userVo.User = u
 			userVo.Gender = SexMap[u.Gender]
+			userVo.Status = StatusMap[u.Status]
 			userVo.CreatedAt = u.CreatedAt.Format("2006-01-02 15:04:05")
 			userVo.UpdatedAt = u.UpdatedAt.Format("2006-01-02 15:04:05")
 			userVOList = append(userVOList[:index], *userVo)
@@ -196,7 +206,8 @@ func (c *UserController) UserList() {
  */
 func (c *UserController) DeleteUser() {
 	id, _ := c.GetInt("userId")
-	user := &User{Id: id}
+	var user = new(User)
+	user.Id = id
 	id64, err := user.Delete()
 	if nil != err {
 		log.Print(err)
