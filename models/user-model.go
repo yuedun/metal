@@ -3,18 +3,23 @@ package models
 import (
 	"fmt"
 	"strconv"
-	"time"
 
 	"github.com/astaxie/beego/orm"
 )
 
 type any = interface{}
 
+//性别
+var SexMap = map[int]string{0: "女", 1: "男"}
+
+//状态
+var StatusMap = map[int]string{0: "禁用", 1: "可用"}
+
 /**
  * 模型与数据库字段多少不一定要匹配
  */
 type User struct {
-	Id          int
+	BaseModel
 	UserName    string
 	Password    string
 	Gender      int // 0女，1男
@@ -22,13 +27,12 @@ type User struct {
 	Email       string
 	Addr        string
 	Description string
-	CreatedAt   time.Time
-	UpdatedAt   time.Time
 	Status      int // 0不可用，1可用
 }
 type UserVO struct {
 	User
 	Gender    string
+	Status    string
 	CreatedAt string
 	UpdatedAt string
 }
