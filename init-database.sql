@@ -2,12 +2,12 @@
 Navicat MySQL Data Transfer
 
 Source Server         : localhost
-Source Server Version : 50720
+Source Server Version : 50635
 Source Host           : localhost:3306
 Source Database       : issue
 
 Target Server Type    : MYSQL
-Target Server Version : 50720
+Target Server Version : 50635
 File Encoding         : 65001
 
 Date: 2018-03-24 23:19:38
@@ -163,15 +163,26 @@ CREATE TABLE `user` (
   `mobile` varchar(255) NOT NULL DEFAULT '',
   `email` varchar(255) NOT NULL DEFAULT '',
   `addr` varchar(255) NOT NULL DEFAULT '',
+  `status` int(11) NOT NULL DEFAULT '1',
   `description` varchar(255) NOT NULL DEFAULT '',
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
-  `status` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', '犬夜叉', '123', '1', '13477889900', '13477889900@139.com', '日暮神社', '半妖', '2018-03-17 20:46:31', '2018-03-17 20:46:31', '0');
-INSERT INTO `user` VALUES ('2', '戈薇', '123', '0', '18701897513', '18701897513@139.com', '日暮神社', '巫女桔梗转生', '2018-03-17 20:49:44', '2018-03-17 20:55:25', '0');
+INSERT INTO `user` VALUES ('1', '犬夜叉', '123', '1', '13477889900', '13477889900@139.com', '日暮神社', '1', '半妖', '2018-03-17 20:46:31', '2018-03-17 20:46:31');
+INSERT INTO `user` VALUES ('2', '戈薇', '123', '0', '18701897513', '18701897513@139.com', '日暮神社', '1', '巫女桔梗转生', '2018-03-17 20:49:44', '2018-03-17 20:55:25');
+INSERT INTO `user` VALUES ('5', '施工图人力', '123', '1', '18701897513', '18611118146@139.com', '看见的任何司空见惯和', '1', '', '2017-07-27 03:25:01', '2018-02-28 11:57:56');
+INSERT INTO `user` VALUES ('8', '缇欧', '', '0', '10701897527', 'huo.win.n@gmail.com', '吉林大街好地方', '1', '而喝了酒而温柔你感觉', '2017-07-27 09:00:43', '2018-03-19 11:10:50');
+INSERT INTO `user` VALUES ('9', '瑞泰居', '', '0', '10706597527', '438473005@qq.com', '连接哦哦发给你基地', '1', '', '2017-07-29 10:38:06', '2018-02-27 13:13:59');
+INSERT INTO `user` VALUES ('13', '看机会', 'hiuhiuh', '1', '18701897527', 'hp*****@sina.com', '送就送山东黄金人数', '1', '', '2018-02-05 04:20:37', '2018-02-28 11:58:04');
+INSERT INTO `user` VALUES ('14', '了的看法呢', 'hgggggg', '0', '12345678909', 'light_v@163.com', '很快就都大佛开盘后具体要', '1', '', '2018-02-05 08:07:37', '2018-02-27 13:10:44');
+INSERT INTO `user` VALUES ('21', '让大哥', '', '0', '18701897527', '18611118146@139.com', '送就送山东黄金人数几乎是丢改好', '1', '', '2018-02-11 07:53:18', '2018-02-11 15:56:36');
+INSERT INTO `user` VALUES ('22', '接收到过', '', '0', '18765464985', 'light_v@163.com', '送就送山东黄金人数几乎是丢改好看机会', '1', '', '2018-02-11 15:58:10', '2018-02-11 16:00:32');
+INSERT INTO `user` VALUES ('23', 'UI一天', '', '1', '12345678909', '13344442929@163.com', '看见的任何', '1', '', '2018-02-11 16:05:53', '2018-02-27 13:03:52');
+INSERT INTO `user` VALUES ('25', '突然间和', '', '0', '18701897527', 'light_v@163.com', 'dfpkgipniu', '1', '当人看了韩国人都', '2018-02-28 10:34:39', '2018-02-28 10:34:39');
+INSERT INTO `user` VALUES ('26', '偶遇', '', '0', '18765464985', '13344442929@163.com', '很快就都大佛开盘后具体要', '1', '客人很多事让她二炮还叫人', '2018-02-28 10:34:58', '2018-02-28 10:34:58');
+INSERT INTO `user` VALUES ('27', '鹅肉你以后', '', '1', '18701897525', '18765464985', '了PDF你好逗', '1', '哦【但是若干年后天赋', '2018-02-28 10:35:20', '2018-02-28 10:35:20');
