@@ -3,9 +3,9 @@ package controllers
 //包名并非必须和文件夹名相同，但是按照惯例最后一个路径名和包名一致
 import (
 	//	"fmt"
+	"log"
 	. "metal/models"
 	"time"
-	"log"
 )
 
 type MainController struct {
@@ -49,12 +49,13 @@ func (c *MainController) MyRoute() {
 func (c *MainController) AddUser() {
 	username := c.GetString("username")
 	password := c.GetString("password")
-	user := &User{
-		UserName:  username,
-		Password:  password,
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
-	}
+
+	var user = new(User)
+	user.Username = username
+	user.Password = password
+	user.CreatedAt = time.Now()
+	user.UpdatedAt = time.Now()
+
 	_, err := user.Save()
 	if nil != err {
 		log.Print(err)
