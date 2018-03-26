@@ -51,7 +51,7 @@ func (c *MainController) AddUser() {
 	password := c.GetString("password")
 
 	var user = new(User)
-	user.Username = username
+	user.UserName = username
 	user.Password = password
 	user.CreatedAt = time.Now()
 	user.UpdatedAt = time.Now()

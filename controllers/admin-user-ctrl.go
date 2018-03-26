@@ -64,7 +64,7 @@ func (c *UserController) Post() {
 	updatedAt := time.Now()
 
 	var user = new(User)
-	user.Username = username
+	user.UserName = username
 	user.Gender = sex
 	user.Mobile = mobile
 	user.Email = email
@@ -121,7 +121,7 @@ func (c *UserController) Put() {
 
 	var user = new(User)
 	user.Id = userId
-	user.Username = username
+	user.UserName = username
 	user.Gender = gender
 	user.Email = email
 	user.Mobile = mobile
