@@ -3,6 +3,7 @@ package models
 import (
 	"fmt"
 	"strconv"
+	"sync"
 
 	"github.com/astaxie/beego/orm"
 )
@@ -94,18 +95,28 @@ func (user *User) GetAll() ([]User, error) {
 func (user *User) GetAllByCondition(cond any, start, perPage int) ([]User, int64, error) {
 	o := orm.NewOrm()
 	var users []User
-	var sql = "SELECT * FROM user LIMIT " + strconv.Itoa(start) + ", " + strconv.Itoa(perPage)
-	_, err := o.Raw(sql).QueryRows(&users)
-	if err != nil {
-		return nil, 0, err
-	}
 	var total int64
-	err2 := o.Raw("SELECT COUNT(*) FROM user").QueryRow(&total)
-	if err2 != nil {
-		return nil, 0, err
-	}
-	fmt.Println("mysql row affected nums: ", total)
-	return users, total, err
+	var newError error
+	var wg sync.WaitGroup
+	wg.Add(2)
+	go func() {
+		defer wg.Done()
+		var sql = "SELECT * FROM user LIMIT " + strconv.Itoa(start) + ", " + strconv.Itoa(perPage)
+		_, err := o.Raw(sql).QueryRows(&users)
+		if err != nil {
+			newError = err
+		}
+	}()
+	go func() {
+		defer wg.Done()
+		err2 := o.Raw("SELECT COUNT(*) FROM user").QueryRow(&total)
+		if err2 != nil {
+			newError = err2
+		}
+		fmt.Println("mysql row affected nums: ", total)
+	}()
+	wg.Wait()
+	return users, total, newError
 }
 
 // 通过id修改用户
