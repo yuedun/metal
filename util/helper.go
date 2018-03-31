@@ -3,15 +3,15 @@ package util
 import (
 	"crypto/md5"
 	"fmt"
-	"io"
 )
 
 /**
- * md5加密，未实现
+ * md5加密
  */
-func GetMD5(password string) {
-	h := md5.New()
-	io.WriteString(h, "The fog is getting thicker!")
-	fmt.Printf("%x", h.Sum(nil))
-	return
+func GetMD5(password string) string {
+	Md5Inst := md5.New()
+	Md5Inst.Write([]byte(password))
+	Result := Md5Inst.Sum([]byte(""))
+	fmt.Sprintf(">>>>>>>%x\n\n", Result)
+	return fmt.Sprintf("%x", Result)
 }

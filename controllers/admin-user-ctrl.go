@@ -2,8 +2,10 @@ package controllers
 
 import (
 	"fmt"
+	"github.com/astaxie/beego"
 	"log"
 	. "metal/models" // 点操作符导入的包可以省略报名直接使用公有属性和方法
+	"metal/util"
 	"strconv"
 	"time"
 )
@@ -28,7 +30,7 @@ func (c *UserController) ToLogin() {
 	if err != nil {
 		log.Print(err)
 		c.Data["json"] = map[string]any{"msg": err.Error(), "code": 1}
-	} else if user.Password != password {
+	} else if user.Password != util.GetMD5(password) {
 		c.Data["json"] = map[string]any{"msg": "密码不正确", "code": 1}
 	} else {
 		c.SetSession("loginUser", user)
@@ -53,6 +55,9 @@ func (c *UserController) UserAddRoute() {
 	c.TplName = "admin/user-add.html"
 }
 
+/**
+ * 新建用户
+ */
 func (c *UserController) Post() {
 	username := c.GetString("username") // 只能接收url后面的参数，不能接收body中的参数
 	sex, _ := c.GetInt("sex")
@@ -60,6 +65,7 @@ func (c *UserController) Post() {
 	email := c.GetString("email")
 	addr := c.GetString("addr")
 	description := c.GetString("description")
+	password := util.GetMD5("hello" + beego.Substr(mobile, 7, 4))
 	createdAt := time.Now()
 	updatedAt := time.Now()
 
@@ -70,6 +76,7 @@ func (c *UserController) Post() {
 	user.Email = email
 	user.Addr = addr
 	user.Description = description
+	user.Password = password
 	user.CreatedAt = createdAt
 	user.UpdatedAt = updatedAt
 
@@ -174,7 +181,7 @@ func (c *UserController) UserList() {
 	start, _ := c.GetInt("start")
 	perPage, _ := c.GetInt("perPage")
 	user := new(User)
-	var userVOList []UserVO
+	var userVOList = make([]UserVO, 10)
 	userList, total, err := user.GetAllByCondition(args, start, perPage)
 	if nil != err {
 		log.Print(err)
