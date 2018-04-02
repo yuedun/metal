@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"fmt"
-	"github.com/astaxie/beego"
 	"log"
 	. "metal/models" // 点操作符导入的包可以省略报名直接使用公有属性和方法
 	"metal/util"
@@ -65,7 +64,7 @@ func (c *UserController) Post() {
 	email := c.GetString("email")
 	addr := c.GetString("addr")
 	description := c.GetString("description")
-	password := util.GetMD5("hello" + beego.Substr(mobile, 7, 4))
+	password := util.GeneratePassword(mobile)
 	createdAt := time.Now()
 	updatedAt := time.Now()
 
