@@ -1,34 +1,19 @@
 package test
 
 import (
-	"fmt"
 	"metal/util"
-	//"net/http"
-	//"net/http/httptest"
-	//"path/filepath"
-	//"runtime"
-	"testing"
 
-	//"github.com/astaxie/beego"
+	"testing"
 )
 
-//func init() {
-//	_, file, _, _ := runtime.Caller(1)
-//	apppath, _ := filepath.Abs(filepath.Dir(filepath.Join(file, ".."+string(filepath.Separator))))
-//	beego.TestBeegoInit(apppath)
-//}
-
-// TestMain is a sample to run an endpoint test
-//func TestRequist(t *testing.T) {
-//	r, _ := http.NewRequest("GET", "/", nil)
-//	w := httptest.NewRecorder()
-//	beego.BeeApp.Handlers.ServeHTTP(w, r)
-//
-//	beego.Trace("testing", "TestMain", "Code[%d]\n%s", w.Code, w.Body.String())
-//
-//}
-
-func Md5test(t *testing.T){
+/**
+  测试代码写法：格式：Test*()(t *testing.T)，可以使用t.Log()输出日志，要测试单个方法使用go test -v -run="TestOne|TestMd5"
+ */
+func TestMd5(t *testing.T){
 	var p = util.GetMD5("ceshi")
-	fmt.Println(p)
+	t.Log(p)
+}
+
+func TestOne(t *testing.T)  {
+	t.Log(">>>>>>testone")
 }
