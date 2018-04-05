@@ -3,7 +3,7 @@ package controllers
 type Result struct {
 	Code int `json:"code"`
 	Data interface{} `json:"data"`
-	Msg  interface{} `json:"msg"`
+	Msg  string `json:"msg"`
 }
 
 /**
@@ -16,7 +16,7 @@ func ErrorMsg(msg interface{}, code ...int) Result {
 	} else {
 		r.Code = 1
 	}
-	r.Msg = msg
+	r.Msg = msg.(error).Error()
 	r.Data = nil
 	return r
 }

@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	. "metal/models" // 点操作符导入的包可以省略报名直接使用公有属性和方法
@@ -58,19 +59,22 @@ func (c *UserController) UserAddRoute() {
  * 新建用户
  */
 func (c *UserController) Post() {
-	username := c.GetString("username") // 只能接收url后面的参数，不能接收body中的参数
-	sex, _ := c.GetInt("sex")
-	mobile := c.GetString("mobile")
-	email := c.GetString("email")
-	addr := c.GetString("addr")
-	description := c.GetString("description")
+	args := map[string]string{}
+	body := c.Ctx.Input.RequestBody //接收raw body内容
+	json.Unmarshal(body, &args)
+	mobile := args["mobile"]
+	username := args["username"] // 只能接收url后面的参数，不能接收body中的参数
+	sex := args["sex"]
+	email := args["email"]
+	addr := args["addr"]
+	description := args["description"]
 	password := util.GeneratePassword(mobile)
 	createdAt := time.Now()
 	updatedAt := time.Now()
 
 	var user = new(User)
 	user.UserName = username
-	user.Gender = sex
+	user.Gender, _ = strconv.Atoi(sex)
 	user.Mobile = mobile
 	user.Email = email
 	user.Addr = addr
@@ -82,12 +86,11 @@ func (c *UserController) Post() {
 	id, err := user.Save()
 	if nil != err {
 		log.Print(err)
-		c.Data["json"] = map[string]any{"msg": err}
+		c.Data["json"] = ErrorMsg(err)
 	} else {
-		c.Data["json"] = map[string]any{"msg": id}
+		c.Data["json"] = SuccessData(id)
 	}
-	// c.ServeJSON()
-	c.Redirect("/admin/user-list", 302)
+	c.ServeJSON()
 }
 
 /**
@@ -184,7 +187,7 @@ func (c *UserController) UserList() {
 	userList, total, err := user.GetAllByCondition(args, start, perPage)
 	if nil != err {
 		log.Print(err)
-		c.Data["json"] = map[string]any{"msg": err}
+		c.Data["json"] = ErrorMsg(err)
 	} else {
 		for index, u := range userList {
 			userVo := new(UserVO)
