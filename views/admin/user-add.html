@@ -60,7 +60,7 @@ desired effect
                         </div>
                         <!-- /.box-header -->
                         <!-- form start -->
-                        <form role="form" method="post" action="/admin/user">
+                        <form role="form" method="post" action="" onsubmit="return false;">
                             <div class="box-body">
                                 <div class="form-group">
                                     <label for="name">name</label>
@@ -205,7 +205,38 @@ desired effect
 <!-- page script -->
 <script>
     $(function () {
-
+        $("form").on("submit", function () {
+            var params = $("form").serializeArray();
+            var values = {};
+            for( x in params ){
+                values[params[x].name] = params[x].value;
+            }
+            var idata = JSON.stringify(values)
+            $.ajax({
+                url: '/admin/user',
+                type: 'post', //GET
+                async: true,    //或false,是否异步
+                data: idata,
+                timeout: 5000,    //超时时间
+                dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                beforeSend: function (xhr) {
+                    console.log('发送前')
+                },
+                success: function (data, textStatus, jqXHR) {
+                    if(data.code == 1){
+                        alert(data.msg)
+                        return
+                    }
+                    alert(data.msg)
+                },
+                error: function (xhr, textStatus) {
+                    console.log('错误', textStatus)
+                },
+                complete: function () {
+                    console.log('结束')
+                }
+            })
+        });
     })
 </script>
 </body>
