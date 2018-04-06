@@ -8,6 +8,7 @@ import (
 	"metal/util"
 	"strconv"
 	"time"
+	"errors"
 )
 
 type UserController struct {
@@ -29,12 +30,12 @@ func (c *UserController) ToLogin() {
 	err := user.GetByMobile()
 	if err != nil {
 		log.Print(err)
-		c.Data["json"] = map[string]any{"msg": err.Error(), "code": 1}
+		c.Data["json"] = ErrorMsg(err)
 	} else if user.Password != util.GetMD5(password) {
-		c.Data["json"] = map[string]any{"msg": "密码不正确", "code": 1}
+		c.Data["json"] = ErrorMsg(errors.New("密码不正确"))
 	} else {
 		c.SetSession("loginUser", user)
-		c.Data["json"] = map[string]any{"msg": "ok", "code": 0}
+		c.Data["json"] = SuccessData(nil)
 	}
 	c.ServeJSON()
 }
@@ -107,9 +108,9 @@ func (c *UserController) UserGet() {
 	fmt.Println(userObj)
 	if err != nil {
 		log.Print(err)
-		c.Data["json"] = map[string]any{"msg": err}
+		c.Data["json"] = ErrorMsg(err)
 	}
-	c.Data["json"] = map[string]any{"msg": err, "result": userObj}
+	c.Data["json"] = SuccessData(userObj)
 	c.ServeJSON()
 }
 
@@ -140,9 +141,9 @@ func (c *UserController) Put() {
 	upId, err := user.Update()
 	if nil != err {
 		log.Print(err)
-		c.Data["json"] = map[string]any{"result": false, "msg": err}
+		c.Data["json"] = ErrorMsg(err)
 	} else {
-		c.Data["json"] = map[string]any{"result": true, "msg": upId}
+		c.Data["json"] = SuccessData(upId)
 	}
 	c.ServeJSON()
 }
@@ -179,12 +180,16 @@ func (c *UserController) UserListRoute() {
  * /admin/users
  */
 func (c *UserController) UserList() {
-	args := c.Input() // 获取所有参数
+	args := c.GetString("search") // 获取所有参数
+	fmt.Print(">>>>>>>>>>>>>>>",args)
 	start, _ := c.GetInt("start")
 	perPage, _ := c.GetInt("perPage")
 	user := new(User)
 	var userVOList = make([]UserVO, 10)
-	userList, total, err := user.GetAllByCondition(args, start, perPage)
+	var param = make(map[string]string)
+	param["mobile"] = args
+	param["username"] = args
+	userList, total, err := user.GetAllByCondition(param, start, perPage)
 	if nil != err {
 		log.Print(err)
 		c.Data["json"] = ErrorMsg(err)
@@ -220,9 +225,9 @@ func (c *UserController) DeleteUser() {
 	id64, err := user.Delete()
 	if nil != err {
 		log.Print(err)
-		c.Data["json"] = map[string]any{"result": false, "msg": err}
+		c.Data["json"] = ErrorMsg(err)
 	} else {
-		c.Data["json"] = map[string]any{"result": true, "msg": id64}
+		c.Data["json"] = SuccessData(id64)
 	}
 	c.ServeJSON()
 }
