@@ -92,7 +92,7 @@ func (user *User) GetAll() ([]User, error) {
 }
 
 // 获取用户列表
-func (user *User) GetAllByCondition(cond any, start, perPage int) ([]User, int64, error) {
+func (user *User) GetAllByCondition(cond map[string]string, start, perPage int) ([]User, int64, error) {
 	o := orm.NewOrm()
 	var users []User
 	var total int64
@@ -101,15 +101,24 @@ func (user *User) GetAllByCondition(cond any, start, perPage int) ([]User, int64
 	wg.Add(2)
 	go func() {
 		defer wg.Done()
-		var sql = "SELECT * FROM user LIMIT " + strconv.Itoa(start) + ", " + strconv.Itoa(perPage)
-		_, err := o.Raw(sql).QueryRows(&users)
+		var param []string
+		var sql = "SELECT * FROM user WHERE 1 "
+		if cond["mobile"] != "" {
+			sql += "and (mobile like '" + cond["username"] + "%' or user_name like '" + cond["username"] + "%' )"
+		}
+		sql += " LIMIT " + strconv.Itoa(start) + ", " + strconv.Itoa(perPage)
+		_, err := o.Raw(sql, param).QueryRows(&users)
 		if err != nil {
 			newError = err
 		}
 	}()
 	go func() {
 		defer wg.Done()
-		err2 := o.Raw("SELECT COUNT(*) FROM user").QueryRow(&total)
+		var sql = "SELECT COUNT(0) FROM user WHERE 1 "
+		if cond["mobile"] != "" {
+			sql += "and (mobile like '" + cond["username"] + "%' or user_name like '" + cond["username"] + "%' )"
+		}
+		err2 := o.Raw(sql).QueryRow(&total)
 		if err2 != nil {
 			newError = err2
 		}

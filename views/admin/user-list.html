@@ -204,7 +204,8 @@ desired effect
                 var postData = {
                     draw: data.draw,
                     perPage: data.length,
-                    start: data.start
+                    start: data.start,
+                    search: data.search.value
                 };
                 $.ajax({
                     url: '/admin/users',
@@ -216,6 +217,10 @@ desired effect
                         console.log('发送前')
                     },
                     success: function (res, textStatus, jqXHR) {
+                        if(res.code == 1){
+                            alert(res.msg)
+                            return
+                        }
                         var dtData = {
                             recordsTotal: res.data.total,
                             recordsFiltered: res.data.total,
@@ -292,12 +297,12 @@ desired effect
             var id = $(this).closest("tr").attr("id");
             $.get("/admin/user/" + id, function (data) {
                 $("#userId").val(id);
-                $("#username").val(data.result.Username);
-                $("#gender").val(data.result.Gender);
-                $("#email").val(data.result.Email);
-                $("#mobile").val(data.result.Mobile);
-                $("#desc").val(data.result.Description);
-                $("#address").val(data.result.Addr);
+                $("#username").val(data.data.UserName);
+                $("#gender").val(data.data.Gender);
+                $("#email").val(data.data.Email);
+                $("#mobile").val(data.data.Mobile);
+                $("#desc").val(data.data.Description);
+                $("#address").val(data.data.Addr);
                 layer.open({
                     type: 1,
                     area: ['500px', 'auto'],
