@@ -97,27 +97,26 @@ func (user *User) GetAllByCondition(cond map[string]string, start, perPage int) 
 	var users []User
 	var total int64
 	var newError error
+	var condition = " WHERE 1 "
+	if cond["mobile"] != "" {
+		condition += "and (mobile like '" + cond["username"] + "%' or user_name like '" + cond["username"] + "%' )"
+	}
 	var wg sync.WaitGroup
 	wg.Add(2)
 	go func() {
 		defer wg.Done()
-		var param []string
-		var sql = "SELECT * FROM user WHERE 1 "
-		if cond["mobile"] != "" {
-			sql += "and (mobile like '" + cond["username"] + "%' or user_name like '" + cond["username"] + "%' )"
-		}
+		var sql = "SELECT * FROM user "
+		sql += condition
 		sql += " LIMIT " + strconv.Itoa(start) + ", " + strconv.Itoa(perPage)
-		_, err := o.Raw(sql, param).QueryRows(&users)
+		_, err := o.Raw(sql).QueryRows(&users)
 		if err != nil {
 			newError = err
 		}
 	}()
 	go func() {
 		defer wg.Done()
-		var sql = "SELECT COUNT(0) FROM user WHERE 1 "
-		if cond["mobile"] != "" {
-			sql += "and (mobile like '" + cond["username"] + "%' or user_name like '" + cond["username"] + "%' )"
-		}
+		var sql = "SELECT COUNT(0) FROM user "
+		sql += condition
 		err2 := o.Raw(sql).QueryRow(&total)
 		if err2 != nil {
 			newError = err2
