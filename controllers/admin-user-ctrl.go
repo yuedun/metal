@@ -8,7 +8,6 @@ import (
 	"metal/util"
 	"strconv"
 	"time"
-	"errors"
 )
 
 type UserController struct {
@@ -30,9 +29,9 @@ func (c *UserController) ToLogin() {
 	err := user.GetByMobile()
 	if err != nil {
 		log.Print(err)
-		c.Data["json"] = ErrorMsg(err)
+		c.Data["json"] = ErrorData(err)
 	} else if user.Password != util.GetMD5(password) {
-		c.Data["json"] = ErrorMsg(errors.New("密码不正确"))
+		c.Data["json"] = ErrorMsg("密码不正确")
 	} else {
 		c.SetSession("loginUser", user)
 		c.Data["json"] = SuccessData(nil)
@@ -87,7 +86,7 @@ func (c *UserController) Post() {
 	id, err := user.Save()
 	if nil != err {
 		log.Print(err)
-		c.Data["json"] = ErrorMsg(err)
+		c.Data["json"] = ErrorData(err)
 	} else {
 		c.Data["json"] = SuccessData(id)
 	}
@@ -108,7 +107,7 @@ func (c *UserController) UserGet() {
 	fmt.Println(userObj)
 	if err != nil {
 		log.Print(err)
-		c.Data["json"] = ErrorMsg(err)
+		c.Data["json"] = ErrorData(err)
 	}
 	c.Data["json"] = SuccessData(userObj)
 	c.ServeJSON()
@@ -141,7 +140,7 @@ func (c *UserController) Put() {
 	upId, err := user.Update()
 	if nil != err {
 		log.Print(err)
-		c.Data["json"] = ErrorMsg(err)
+		c.Data["json"] = ErrorData(err)
 	} else {
 		c.Data["json"] = SuccessData(upId)
 	}
@@ -192,7 +191,7 @@ func (c *UserController) UserList() {
 	userList, total, err := user.GetAllByCondition(param, start, perPage)
 	if nil != err {
 		log.Print(err)
-		c.Data["json"] = ErrorMsg(err)
+		c.Data["json"] = ErrorData(err)
 	} else {
 		for index, u := range userList {
 			userVo := new(UserVO)
@@ -225,7 +224,7 @@ func (c *UserController) DeleteUser() {
 	id64, err := user.Delete()
 	if nil != err {
 		log.Print(err)
-		c.Data["json"] = ErrorMsg(err)
+		c.Data["json"] = ErrorData(err)
 	} else {
 		c.Data["json"] = SuccessData(id64)
 	}

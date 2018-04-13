@@ -62,7 +62,18 @@ type Result struct {
 /**
 返回错误信息，code是可选的自定义代码
 */
-func ErrorMsg(msg error, code ...int) Result {
+func ErrorMsg(msg string, code ...int) Result {
+	var r Result
+	if len(code) > 0 {
+		r.Code = code[0]
+	} else {
+		r.Code = 1
+	}
+	r.Msg = msg
+	r.Data = nil
+	return r
+}
+func ErrorData(msg error, code ...int) Result {
 	var r Result
 	if len(code) > 0 {
 		r.Code = code[0]
