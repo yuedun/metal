@@ -8,8 +8,6 @@ import (
 	"github.com/astaxie/beego/orm"
 )
 
-type any = interface{}
-
 //性别
 var SexMap = map[int]string{0: "女", 1: "男"}
 
