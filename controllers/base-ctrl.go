@@ -17,6 +17,10 @@ type BaseController struct {
  */
 type any = interface{}
 
+type UserPermission struct {
+	User models.User
+	UserGroups []models.UserGroup
+}
 /**
  * 这个函数主要是为了用户扩展用的，这个函数会在下面定义的这些 Method 方法之前执行，用户可以重写这个函数实现类似用户验证之类
  */
@@ -25,8 +29,8 @@ func (c *BaseController) Prepare() {
 	// 因为前端用户界面不需要权限验证，管理后台才需要
 	session := c.GetSession("loginUser")
 	if session != nil {
-		loginUser := session.(*models.User)
-		c.Data["username"] = loginUser.UserName
+		userPermission := session.(*UserPermission)
+		c.Data["username"] = userPermission.User.UserName
 	}
 	fmt.Println(">>>>>>>>>>>>>Prepare前后端通用校验")
 }
@@ -39,6 +43,7 @@ var HasAdminPermission = func(ctx *context.Context) {
 		fmt.Println("用户未登录")
 		ctx.Redirect(302, "/admin/login")
 	}
+	
 }
 
 // 前端权限验证
@@ -73,6 +78,9 @@ func ErrorMsg(msg string, code ...int) Result {
 	r.Data = nil
 	return r
 }
+/**
+ * ErrorMsg和ErrorData作用一样，只不过是为了方便调用方不用手动msg.Error()，只需传error类型即可
+ */
 func ErrorData(msg error, code ...int) Result {
 	var r Result
 	if len(code) > 0 {
@@ -80,7 +88,7 @@ func ErrorData(msg error, code ...int) Result {
 	} else {
 		r.Code = 1
 	}
-	r.Msg = msg.(error).Error()
+	r.Msg = msg.Error()
 	r.Data = nil
 	return r
 }

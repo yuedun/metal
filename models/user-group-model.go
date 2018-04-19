@@ -2,7 +2,6 @@ package models
 
 import (
 	"github.com/astaxie/beego/orm"
-	"log"
 )
 
 type UserGroup struct {
@@ -23,7 +22,20 @@ func (userGroup *UserGroup) GetUserGroupList() ([]UserGroup, error) {
 	var userGroups []UserGroup
 	//var userGroups []orm.Params//orm.Params是一个map类型
 	num, err := o.Raw("select * from user_group order by id desc;").QueryRows(&userGroups)
-	log.Printf(">>>>>>>%v", userGroups)
+	if nil != err && num > 0 {
+		return nil, err
+	}
+	return userGroups, nil
+}
+
+/**
+ * 根据userid获取usergroup list
+ */
+func (userGroup *UserGroup) GetGroupByUserId(userId int) ([]UserGroup, error) {
+	o := orm.NewOrm()
+	var userGroups []UserGroup
+	//var userGroups []orm.Params//orm.Params是一个map类型
+	num, err := o.Raw("select * from user_group where user_id = ?;", userId).QueryRows(&userGroups)
 	if nil != err && num > 0 {
 		return nil, err
 	}

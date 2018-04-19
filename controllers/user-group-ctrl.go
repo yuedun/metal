@@ -2,6 +2,7 @@ package controllers
 
 //包名并非必须和文件夹名相同，但是按照惯例最后一个路径名和包名一致
 import (
+	"encoding/json"
 	"log"
 	. "metal/models"
 	"time"
@@ -26,23 +27,25 @@ func (c *UserGroupController) GetAllUserGroup() {
 }
 
 /**
- 用户添加权限
- */
+用户添加权限
+*/
 // @router /user-group/add-user-group [post]
 func (c *UserGroupController) AddUserGroup() {
 	defer func() {
 		if err := recover(); err != nil {
-			c.Data["json"] = ErrorMsg(err.(string))
+			c.Data["json"] = ErrorMsg(err.(string) )
 		}
 		c.ServeJSON()
 	}()
-	userId, erru := c.GetInt("userId")
-	if nil != erru {
-		log.Panic(erru)
+	args := UserGroup{}
+	json.Unmarshal(c.Ctx.Input.RequestBody, &args)
+	userId := args.UserId
+	if userId == 0 {
+		log.Panic("userId不能为空")
 	}
-	groupId, err2 := c.GetInt("groupId")
-	if nil != err2 {
-		log.Panic(err2)
+	groupId := args.GroupId
+	if groupId == 0 {
+		log.Panic("groupId不能为空")
 	}
 	var userGroup = new(UserGroup)
 	userGroup.UserId = userId
