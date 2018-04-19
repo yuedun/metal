@@ -33,7 +33,15 @@ func (c *UserController) ToLogin() {
 	} else if user.Password != util.GetMD5(password) {
 		c.Data["json"] = ErrorMsg("密码不正确")
 	} else {
-		c.SetSession("loginUser", user)
+		userGroup := new(UserGroup)
+		userGroups, err := userGroup.GetGroupByUserId(user.Id)
+		if err != nil {
+			c.Data["json"] = ErrorData(err)
+		}
+		userPermission := new(UserPermission)
+		userPermission.User = *user
+		userPermission.UserGroups = userGroups
+		c.SetSession("loginUser", userPermission)
 		c.Data["json"] = SuccessData(nil)
 	}
 	c.ServeJSON()
@@ -153,23 +161,6 @@ func (c *UserController) Put() {
  * c.Ctx.Input.Param(":id")
  */
 func (c *UserController) UserListRoute() {
-	// user := new(User)
-	// var userPojo = []UserVO{}
-	// userList, err := user.GetAll()
-	// for index, u := range userList {
-	//	userp := new(UserVO)
-	//	userp.User = u
-	//	userp.Gender = SexMap[u.Gender]
-	//	userp.CreatedAt = u.CreatedAt.Format("2006-01-02 15:04:05")
-	//	userp.UpdatedAt = u.UpdatedAt.Format("2006-01-02 15:04:05")
-	//	userPojo = append(userPojo[:index], *userp)
-	// }
-	// if nil != err {
-	//	c.Data["json"] = map[string]any{"msg": err}
-	//	c.ServeJSON()
-	// }
-	// c.Data["userList"] = userPojo
-	// c.Data["total"] = len(userPojo)
 	c.Data["Title"] = "用户列表"
 	c.TplName = "admin/user-list.html"
 }
