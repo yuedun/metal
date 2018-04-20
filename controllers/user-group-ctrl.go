@@ -33,7 +33,7 @@ func (c *UserGroupController) GetAllUserGroup() {
 func (c *UserGroupController) AddUserGroup() {
 	defer func() {
 		if err := recover(); err != nil {
-			c.Data["json"] = ErrorMsg(err.(string) )
+			c.Data["json"] = ErrorMsg(err.(string))
 		}
 		c.ServeJSON()
 	}()
