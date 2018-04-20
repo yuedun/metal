@@ -4,7 +4,7 @@ import "github.com/astaxie/beego/orm"
 
 type Group struct {
 	BaseModel
-	Name string
+	Name        string
 	Permissions string
 }
 
