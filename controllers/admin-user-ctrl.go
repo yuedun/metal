@@ -56,6 +56,7 @@ func (c *UserController) LoginOut() {
 }
 
 func (c *UserController) Welcome() {
+	c.Ctx.SetCookie("routePermission", "welcome", 0, "/")
 	c.TplName = "admin/index.html"
 }
 
@@ -170,6 +171,7 @@ func (c *UserController) UserListRoute() {
  * /admin/users
  */
 func (c *UserController) UserList() {
+	c.Ctx.SetCookie("apiPermission", "userlist", 0, "/")
 	args := c.GetString("search") // 获取所有参数
 	fmt.Print(">>>>>>>>>>>>>>>",args)
 	start, _ := c.GetInt("start")

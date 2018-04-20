@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/context"
@@ -39,11 +40,41 @@ func (c *BaseController) Prepare() {
 var HasAdminPermission = func(ctx *context.Context) {
 	fmt.Println(">>>>>>>>>>>>>admin auth权限验证")
 	loginUser := ctx.Input.CruSession.Get("loginUser")
+	fmt.Println(ctx.Input.URL())
 	if loginUser == nil && ctx.Input.URL() != "/admin/login" && ctx.Input.URL() != "/admin/to-login" {
 		fmt.Println("用户未登录")
 		ctx.Redirect(302, "/admin/login")
 	}
-	
+	if loginUser != nil {
+		var routePermission = ctx.GetCookie("routePermission")
+		var apiPermission = ctx.GetCookie("apiPermission")
+		fmt.Println(">>>>routePermission", routePermission)
+		fmt.Println(">>>>apiPermission", apiPermission)
+		var userGroup = new(models.UserGroup)
+		userGroupList, _ :=userGroup.GetGroupByUserId(loginUser.(*UserPermission).User.Id)
+		hasPermission := false
+		for _, p := range userGroupList {
+			var group = new(models.Group)
+			group.Id = p.GroupId
+			err :=group.GetUserPermissions()
+			if err !=nil {
+				log.Print(err)
+			}
+			if group.Permissions == routePermission {
+				hasPermission = true
+			}
+			if group.Permissions == apiPermission {
+				hasPermission = true
+			}
+		}
+		if routePermission !="" && !hasPermission {
+			ctx.Abort(403, "权限不足")
+		}
+		if apiPermission !="" && !hasPermission {
+			ctx.Output.JSON(ErrorMsg("权限不足"), true, false)
+		}
+	}
+
 }
 
 // 前端权限验证
