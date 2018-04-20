@@ -23,3 +23,8 @@ func (group *Group) Save() (int64, error) {
 	// 需要 切换数据库 和 事务处理 的话，不要使用全局保存的 Ormer 对象。
 	return o.Insert(group)
 }
+
+func (group *Group) GetUserPermissions() error {
+	o := orm.NewOrm()
+	return o.Read(group, "id")
+}
