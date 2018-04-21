@@ -2,11 +2,9 @@ package controllers
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/context"
-	"metal/models"
 )
 
 type BaseController struct {
@@ -18,64 +16,6 @@ type BaseController struct {
  */
 type any = interface{}
 
-type UserPermission struct {
-	User models.User
-	UserGroups []models.UserGroup
-}
-/**
- * 这个函数主要是为了用户扩展用的，这个函数会在下面定义的这些 Method 方法之前执行，用户可以重写这个函数实现类似用户验证之类
- */
-func (c *BaseController) Prepare() {
-	// admin-user-ctrl和user-index-ctrl都继承了base-ctrl，所以都会自动执行该方法，可以做一些校验，但不适合做权限校验
-	// 因为前端用户界面不需要权限验证，管理后台才需要
-	session := c.GetSession("loginUser")
-	if session != nil {
-		userPermission := session.(*UserPermission)
-		c.Data["username"] = userPermission.User.UserName
-	}
-	fmt.Println(">>>>>>>>>>>>>Prepare前后端通用校验")
-}
-
-// 后台权限验证
-var HasAdminPermission = func(ctx *context.Context) {
-	fmt.Println(">>>>>>>>>>>>>admin auth权限验证")
-	loginUser := ctx.Input.CruSession.Get("loginUser")
-	fmt.Println(ctx.Input.URL())
-	if loginUser == nil && ctx.Input.URL() != "/admin/login" && ctx.Input.URL() != "/admin/to-login" {
-		fmt.Println("用户未登录")
-		ctx.Redirect(302, "/admin/login")
-	}
-	if loginUser != nil {
-		var routePermission = ctx.GetCookie("routePermission")
-		var apiPermission = ctx.GetCookie("apiPermission")
-		fmt.Println(">>>>routePermission", routePermission)
-		fmt.Println(">>>>apiPermission", apiPermission)
-		var userGroup = new(models.UserGroup)
-		userGroupList, _ :=userGroup.GetGroupByUserId(loginUser.(*UserPermission).User.Id)
-		hasPermission := false
-		for _, p := range userGroupList {
-			var group = new(models.Group)
-			group.Id = p.GroupId
-			err :=group.GetUserPermissions()
-			if err !=nil {
-				log.Print(err)
-			}
-			if group.Permissions == routePermission {
-				hasPermission = true
-			}
-			if group.Permissions == apiPermission {
-				hasPermission = true
-			}
-		}
-		if routePermission !="" && !hasPermission {
-			ctx.Abort(403, "权限不足")
-		}
-		if apiPermission !="" && !hasPermission {
-			ctx.Output.JSON(ErrorMsg("权限不足"), true, false)
-		}
-	}
-
-}
 
 // 前端权限验证
 var HasIndexPermission = func(ctx *context.Context) {
