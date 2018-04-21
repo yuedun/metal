@@ -11,7 +11,7 @@ import (
 )
 
 type UserController struct {
-	BaseController
+	AdminBaseController
 }
 
 func (c *UserController) Login() {
@@ -56,7 +56,6 @@ func (c *UserController) LoginOut() {
 }
 
 func (c *UserController) Welcome() {
-	c.Ctx.SetCookie("routePermission", "welcome", 0, "/")
 	c.TplName = "admin/index.html"
 }
 
@@ -124,8 +123,6 @@ func (c *UserController) UserGet() {
 
 /**
  * 通过如下方式获取路由参数
- * /admin/user/:id
- * c.Ctx.Input.Param(":id")
  */
 func (c *UserController) Put() {
 	userId, _ := c.GetInt("userId")
@@ -158,8 +155,6 @@ func (c *UserController) Put() {
 
 /**
  * 通过如下方式获取路由参数
- * /admin/user/:id
- * c.Ctx.Input.Param(":id")
  */
 func (c *UserController) UserListRoute() {
 	c.Data["Title"] = "用户列表"
@@ -171,9 +166,7 @@ func (c *UserController) UserListRoute() {
  * /admin/users
  */
 func (c *UserController) UserList() {
-	c.Ctx.SetCookie("apiPermission", "userlist", 0, "/")
 	args := c.GetString("search") // 获取所有参数
-	fmt.Print(">>>>>>>>>>>>>>>",args)
 	start, _ := c.GetInt("start")
 	perPage, _ := c.GetInt("perPage")
 	user := new(User)
@@ -207,8 +200,6 @@ func (c *UserController) UserList() {
 
 /**
  * 通过如下方式获取路由参数
- * /admin/user/:id
- * c.Ctx.Input.Param(":id")
  */
 func (c *UserController) DeleteUser() {
 	id, _ := c.GetInt("userId")

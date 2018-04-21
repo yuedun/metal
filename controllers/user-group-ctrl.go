@@ -61,3 +61,9 @@ func (c *UserGroupController) AddUserGroup() {
 		c.Data["json"] = SuccessData(nil)
 	}
 }
+
+// @Title aaa
+// @router /user/:id [post,get]
+func (c *UserGroupController) Aaa()  {
+
+}
