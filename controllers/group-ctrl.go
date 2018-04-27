@@ -17,7 +17,7 @@ type UserGroupController struct {
  */
 // @router /user-group/get-all-user-group [get]
 func (c *UserGroupController) GetAllUserGroup() {
-	userGroup := new(UserGroup)
+	userGroup := new(Group)
 	userGroups, err := userGroup.GetUserGroupList()
 	if nil != err {
 		c.Data["json"] = ErrorData(err)
@@ -37,19 +37,19 @@ func (c *UserGroupController) AddUserGroup() {
 		}
 		c.ServeJSON()
 	}()
-	args := UserGroup{}
+	args := Group{}
 	json.Unmarshal(c.Ctx.Input.RequestBody, &args)
 	userId := args.UserId
 	if userId == 0 {
 		log.Panic("userId不能为空")
 	}
-	groupId := args.GroupId
+	groupId := args.RoleId
 	if groupId == 0 {
 		log.Panic("groupId不能为空")
 	}
-	var userGroup = new(UserGroup)
+	var userGroup = new(Group)
 	userGroup.UserId = userId
-	userGroup.GroupId = groupId
+	userGroup.RoleId = groupId
 	userGroup.CreatedAt = time.Now()
 	userGroup.UpdatedAt = time.Now()
 
@@ -64,6 +64,6 @@ func (c *UserGroupController) AddUserGroup() {
 
 // @Title aaa
 // @router /user/:id [post,get]
-func (c *UserGroupController) Aaa()  {
+func (c *UserGroupController) Aaa() {
 
 }

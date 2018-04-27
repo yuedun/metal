@@ -16,7 +16,6 @@ type BaseController struct {
  */
 type any = interface{}
 
-
 // 前端权限验证
 var HasIndexPermission = func(ctx *context.Context) {
 	fmt.Println(">>>>>>>>>>>>>index auth")
@@ -30,9 +29,9 @@ var HasIndexPermission = func(ctx *context.Context) {
 
 // 接口返回数据标准化
 type Result struct {
-	Code int `json:"code"`
+	Code int         `json:"code"`
 	Data interface{} `json:"data"`
-	Msg  string `json:"msg"`
+	Msg  string      `json:"msg"`
 }
 
 /**
@@ -49,6 +48,7 @@ func ErrorMsg(msg string, code ...int) Result {
 	r.Data = nil
 	return r
 }
+
 /**
  * ErrorMsg和ErrorData作用一样，只不过是为了方便调用方不用手动msg.Error()，只需传error类型即可
  */
