@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : localhost
-Source Server Version : 50720
+Source Server Version : 50635
 Source Host           : localhost:3306
 Source Database       : issue
 
 Target Server Type    : MYSQL
-Target Server Version : 50720
+Target Server Version : 50635
 File Encoding         : 65001
 
-Date: 2018-04-06 18:30:49
+Date: 2018-04-27 19:34:11
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -96,6 +96,27 @@ INSERT INTO `features` VALUES ('6', '用户管理', '2017-11-18 15:29:19', '2017
 INSERT INTO `features` VALUES ('7', '财务工作站', '2017-11-18 15:31:06', '2017-11-18 15:31:09');
 
 -- ----------------------------
+-- Table structure for `group`
+-- ----------------------------
+DROP TABLE IF EXISTS `group`;
+CREATE TABLE `group` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `role_id` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_user_group` (`user_id`,`role_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ----------------------------
+-- Records of group
+-- ----------------------------
+INSERT INTO `group` VALUES ('1', '2', '1', '2018-04-16 16:02:40', '2018-04-16 16:02:44');
+INSERT INTO `group` VALUES ('2', '2', '2', '2018-04-17 16:23:16', '2018-04-17 16:23:16');
+INSERT INTO `group` VALUES ('6', '2', '3', '2018-04-20 13:05:43', '2018-04-20 13:05:43');
+
+-- ----------------------------
 -- Table structure for `helpers`
 -- ----------------------------
 DROP TABLE IF EXISTS `helpers`;
@@ -152,6 +173,26 @@ CREATE TABLE `people_feature_relation` (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for `role`
+-- ----------------------------
+DROP TABLE IF EXISTS `role`;
+CREATE TABLE `role` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `groups` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ----------------------------
+-- Records of role
+-- ----------------------------
+INSERT INTO `role` VALUES ('1', '管理员', 'UserController:Welcome', '2018-04-21 14:00:18', '2018-04-21 14:00:23');
+INSERT INTO `role` VALUES ('2', '普通管理员', 'UserController:UserListRoute', '2018-04-21 14:00:15', '2018-04-21 14:00:21');
+INSERT INTO `role` VALUES ('3', 'UserList', 'UserController:UserList', '2018-04-20 13:29:49', '2018-04-20 13:29:52');
+
+-- ----------------------------
 -- Table structure for `user`
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
@@ -169,7 +210,7 @@ CREATE TABLE `user` (
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_mobile_uniq` (`mobile`)
-) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user

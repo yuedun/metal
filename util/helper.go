@@ -26,5 +26,5 @@ func GeneratePassword(mobile string) string {
 	b := []byte(mobile)
 	p := b[7:]
 	password := "hello" + string(p)
-	return  GetMD5(password)
+	return GetMD5(password)
 }

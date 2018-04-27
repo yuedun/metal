@@ -1,8 +1,8 @@
 package routers
 
 import (
-	"metal/controllers"
 	"github.com/astaxie/beego"
+	"metal/controllers"
 )
 
 func init() {
