@@ -2,8 +2,6 @@ package controllers
 
 import (
 	"fmt"
-	"log"
-
 	"github.com/astaxie/beego/context"
 	"metal/models"
 )
@@ -19,7 +17,7 @@ type UserPermission struct {
 
 // 后台权限验证
 var HasAdminPermission = func(ctx *context.Context) {
-	fmt.Println(">>>>>>>>>>>>>admin auth权限验证")
+	fmt.Println(">>>>>>>>>>>>>admin auth权限验证，第一级")
 	loginUser := ctx.Input.CruSession.Get("loginUser")
 	fmt.Println(ctx.Input.URL())
 	if loginUser == nil && ctx.Input.URL() != "/admin/login" && ctx.Input.URL() != "/admin/to-login" {
@@ -31,6 +29,7 @@ var HasAdminPermission = func(ctx *context.Context) {
 /**
  * 这个函数主要是为了用户扩展用的，这个函数会在下面定义的这些 Method 方法之前执行，用户可以重写这个函数实现类似用户验证之类
  */
+ /*
 func (c *AdminBaseController) Prepare() {
 	// admin-user-ctrl和user-index-ctrl都继承了base-ctrl，所以都会自动执行该方法，可以做一些校验，但不适合做权限校验
 	// 因为前端用户界面不需要权限验证，管理后台才需要
@@ -39,7 +38,7 @@ func (c *AdminBaseController) Prepare() {
 		userPermission := session.(*UserPermission)
 		c.Data["username"] = userPermission.User.UserName
 	}
-	fmt.Println(">>>>>>>>>>>>>Prepare后端权限校验")
+	fmt.Println(">>>>>>>>>>>>>Prepare后端权限校验，第二级")
 	ctrl, runMethod :=c.GetControllerAndAction()// 获取controller和method
 	fmt.Println(">>run-method:", ctrl, runMethod)
 	if session != nil {
@@ -55,16 +54,14 @@ func (c *AdminBaseController) Prepare() {
 			}
 			fmt.Println("group.Permissions:", group.Permissions)
 			if group.Permissions == ctrl+":"+runMethod {
-				hasPermission = true
+				hasPermission = true//有权限
 				break
 			}
 		}
-		//if routePermission !="" && !hasPermission {
-		//	ctx.Abort(403, "权限不足")
-		//}
 		if !hasPermission {
 			c.Data["json"] = ErrorMsg("权限不足")
 			c.ServeJSON()
 		}
 	}
 }
+*/
