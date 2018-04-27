@@ -6,7 +6,7 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
-	"metal/models"
+	"metal/controllers"
 	_ "metal/routers"
 	"time"
 )
@@ -37,7 +37,7 @@ func init() {
 	 * 非 memory 的引擎，请自己在 main.go 的 init 里面注册需要保存的这些结构体，不然会引起应用重启之后出现无法解析的错误
 	 * 如：gob: name not registered for interface: "*controllers.SessionObject"
 	 */
-	gob.Register(&models.User{})
+	gob.Register(&controllers.UserPermission{})
 	// session 开发环境下使用file存储，生产环境使用redis等数据库存储
 	beego.BConfig.WebConfig.Session.SessionProvider = "file"
 	beego.BConfig.WebConfig.Session.SessionProviderConfig = "./tmp"
