@@ -8,11 +8,10 @@ import (
 	"metal/util"
 	"strconv"
 	"time"
-	"errors"
 )
 
 type UserController struct {
-	BaseController
+	AdminBaseController
 }
 
 func (c *UserController) Login() {
@@ -30,11 +29,19 @@ func (c *UserController) ToLogin() {
 	err := user.GetByMobile()
 	if err != nil {
 		log.Print(err)
-		c.Data["json"] = ErrorMsg(err)
+		c.Data["json"] = ErrorData(err)
 	} else if user.Password != util.GetMD5(password) {
-		c.Data["json"] = ErrorMsg(errors.New("密码不正确"))
+		c.Data["json"] = ErrorMsg("密码不正确")
 	} else {
-		c.SetSession("loginUser", user)
+		userGroup := new(UserGroup)
+		userGroups, err := userGroup.GetGroupByUserId(user.Id)
+		if err != nil {
+			c.Data["json"] = ErrorData(err)
+		}
+		userPermission := new(UserPermission)
+		userPermission.User = *user
+		userPermission.UserGroups = userGroups
+		c.SetSession("loginUser", userPermission)
 		c.Data["json"] = SuccessData(nil)
 	}
 	c.ServeJSON()
@@ -87,7 +94,7 @@ func (c *UserController) Post() {
 	id, err := user.Save()
 	if nil != err {
 		log.Print(err)
-		c.Data["json"] = ErrorMsg(err)
+		c.Data["json"] = ErrorData(err)
 	} else {
 		c.Data["json"] = SuccessData(id)
 	}
@@ -108,7 +115,7 @@ func (c *UserController) UserGet() {
 	fmt.Println(userObj)
 	if err != nil {
 		log.Print(err)
-		c.Data["json"] = ErrorMsg(err)
+		c.Data["json"] = ErrorData(err)
 	}
 	c.Data["json"] = SuccessData(userObj)
 	c.ServeJSON()
@@ -116,8 +123,6 @@ func (c *UserController) UserGet() {
 
 /**
  * 通过如下方式获取路由参数
- * /admin/user/:id
- * c.Ctx.Input.Param(":id")
  */
 func (c *UserController) Put() {
 	userId, _ := c.GetInt("userId")
@@ -141,7 +146,7 @@ func (c *UserController) Put() {
 	upId, err := user.Update()
 	if nil != err {
 		log.Print(err)
-		c.Data["json"] = ErrorMsg(err)
+		c.Data["json"] = ErrorData(err)
 	} else {
 		c.Data["json"] = SuccessData(upId)
 	}
@@ -150,27 +155,8 @@ func (c *UserController) Put() {
 
 /**
  * 通过如下方式获取路由参数
- * /admin/user/:id
- * c.Ctx.Input.Param(":id")
  */
 func (c *UserController) UserListRoute() {
-	// user := new(User)
-	// var userPojo = []UserVO{}
-	// userList, err := user.GetAll()
-	// for index, u := range userList {
-	//	userp := new(UserVO)
-	//	userp.User = u
-	//	userp.Gender = SexMap[u.Gender]
-	//	userp.CreatedAt = u.CreatedAt.Format("2006-01-02 15:04:05")
-	//	userp.UpdatedAt = u.UpdatedAt.Format("2006-01-02 15:04:05")
-	//	userPojo = append(userPojo[:index], *userp)
-	// }
-	// if nil != err {
-	//	c.Data["json"] = map[string]any{"msg": err}
-	//	c.ServeJSON()
-	// }
-	// c.Data["userList"] = userPojo
-	// c.Data["total"] = len(userPojo)
 	c.Data["Title"] = "用户列表"
 	c.TplName = "admin/user-list.html"
 }
@@ -181,7 +167,6 @@ func (c *UserController) UserListRoute() {
  */
 func (c *UserController) UserList() {
 	args := c.GetString("search") // 获取所有参数
-	fmt.Print(">>>>>>>>>>>>>>>",args)
 	start, _ := c.GetInt("start")
 	perPage, _ := c.GetInt("perPage")
 	user := new(User)
@@ -192,7 +177,7 @@ func (c *UserController) UserList() {
 	userList, total, err := user.GetAllByCondition(param, start, perPage)
 	if nil != err {
 		log.Print(err)
-		c.Data["json"] = ErrorMsg(err)
+		c.Data["json"] = ErrorData(err)
 	} else {
 		for index, u := range userList {
 			userVo := new(UserVO)
@@ -215,8 +200,6 @@ func (c *UserController) UserList() {
 
 /**
  * 通过如下方式获取路由参数
- * /admin/user/:id
- * c.Ctx.Input.Param(":id")
  */
 func (c *UserController) DeleteUser() {
 	id, _ := c.GetInt("userId")
@@ -225,7 +208,7 @@ func (c *UserController) DeleteUser() {
 	id64, err := user.Delete()
 	if nil != err {
 		log.Print(err)
-		c.Data["json"] = ErrorMsg(err)
+		c.Data["json"] = ErrorData(err)
 	} else {
 		c.Data["json"] = SuccessData(id64)
 	}

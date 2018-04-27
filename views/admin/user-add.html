@@ -224,10 +224,10 @@ desired effect
                 },
                 success: function (data, textStatus, jqXHR) {
                     if(data.code == 1){
-                        alert(data.msg)
+                        layer.msg(data.msg);
                         return
                     }
-                    alert(data.msg)
+                    layer.msg(data.msg)
                 },
                 error: function (xhr, textStatus) {
                     console.log('错误', textStatus)

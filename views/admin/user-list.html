@@ -218,7 +218,7 @@ desired effect
                     },
                     success: function (res, textStatus, jqXHR) {
                         if(res.code == 1){
-                            alert(res.msg)
+                            layer.msg(res.msg, {icon: 5});
                             return
                         }
                         var dtData = {
@@ -280,7 +280,7 @@ desired effect
                         console.log('发送前')
                     },
                     success: function (data, textStatus, jqXHR) {
-                        alert("删除成功！")
+                        layer.msg("删除成功！", {icon: 6});
                         location.reload();
                     },
                     error: function (xhr, textStatus) {

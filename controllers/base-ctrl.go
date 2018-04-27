@@ -5,7 +5,6 @@ import (
 
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/context"
-	"metal/models"
 )
 
 type BaseController struct {
@@ -17,29 +16,6 @@ type BaseController struct {
  */
 type any = interface{}
 
-/**
- * 这个函数主要是为了用户扩展用的，这个函数会在下面定义的这些 Method 方法之前执行，用户可以重写这个函数实现类似用户验证之类
- */
-func (c *BaseController) Prepare() {
-	// admin-user-ctrl和user-index-ctrl都继承了base-ctrl，所以都会自动执行该方法，可以做一些校验，但不适合做权限校验
-	// 因为前端用户界面不需要权限验证，管理后台才需要
-	session := c.GetSession("loginUser")
-	if session != nil {
-		loginUser := session.(*models.User)
-		c.Data["username"] = loginUser.UserName
-	}
-	fmt.Println(">>>>>>>>>>>>>Prepare前后端通用校验")
-}
-
-// 后台权限验证
-var HasAdminPermission = func(ctx *context.Context) {
-	fmt.Println(">>>>>>>>>>>>>admin auth权限验证")
-	loginUser := ctx.Input.CruSession.Get("loginUser")
-	if loginUser == nil && ctx.Input.URL() != "/admin/login" && ctx.Input.URL() != "/admin/to-login" {
-		fmt.Println("用户未登录")
-		ctx.Redirect(302, "/admin/login")
-	}
-}
 
 // 前端权限验证
 var HasIndexPermission = func(ctx *context.Context) {
@@ -62,14 +38,28 @@ type Result struct {
 /**
 返回错误信息，code是可选的自定义代码
 */
-func ErrorMsg(msg error, code ...int) Result {
+func ErrorMsg(msg string, code ...int) Result {
 	var r Result
 	if len(code) > 0 {
 		r.Code = code[0]
 	} else {
 		r.Code = 1
 	}
-	r.Msg = msg.(error).Error()
+	r.Msg = msg
+	r.Data = nil
+	return r
+}
+/**
+ * ErrorMsg和ErrorData作用一样，只不过是为了方便调用方不用手动msg.Error()，只需传error类型即可
+ */
+func ErrorData(msg error, code ...int) Result {
+	var r Result
+	if len(code) > 0 {
+		r.Code = code[0]
+	} else {
+		r.Code = 1
+	}
+	r.Msg = msg.Error()
 	r.Data = nil
 	return r
 }

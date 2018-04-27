@@ -1,9 +1,7 @@
 package routers
 
 import (
-	//"github.com/astaxie/beego/context"
 	"metal/controllers"
-
 	"github.com/astaxie/beego"
 )
 
@@ -20,7 +18,7 @@ func init() {
 	// beego.Router("/user/?:username", &controllers.UserController{}, "get:GetUser")
 
 	//添加过滤器
-	beego.InsertFilter("/:*^(admin)", beego.BeforeRouter, controllers.HasIndexPermission)
+	beego.InsertFilter("/:*^(admin)", beego.BeforeRouter, controllers.HasIndexPermission, false)
 
 	//注解路由，代替上面单个注册路由
 	beego.Include(
@@ -37,6 +35,7 @@ func init() {
 		//	}
 		//	return false
 		//}),
+
 		beego.NSBefore(controllers.HasAdminPermission), //过滤器
 		beego.NSRouter("/", &controllers.UserController{}, "get:Welcome"),
 		beego.NSRouter("/login", &controllers.UserController{}, "get:Login"),
@@ -49,11 +48,12 @@ func init() {
 		beego.NSRouter("/user/delete", &controllers.UserController{}, "delete,post:DeleteUser"),
 		beego.NSRouter("/user/:id", &controllers.UserController{}, "get:UserGet"),
 		beego.NSRouter("/users", &controllers.UserController{}, "get:UserList"),
+		beego.NSRouter("/user-group", &controllers.UserGroupController{}),
 
 		//也可以使用注解自动路由
-		//beego.NSInclude(
-		//	&controllers.UserController{},
-		//),
+		beego.NSInclude(
+			&controllers.UserGroupController{},
+		),
 	)
 	//注册namespace
 	beego.AddNamespace(ns)
