@@ -7,6 +7,7 @@ import (
 	. "metal/models" // 点操作符导入的包可以省略报名直接使用公有属性和方法
 	"metal/util"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -38,9 +39,12 @@ func (c *UserController) ToLogin() {
 		if err != nil {
 			c.Data["json"] = ErrorData(err)
 		}
-		var privileges string
+		var privileges []string
 		for _, v := range roleList {
-			privileges += "," + v.Groups
+			strArr := strings.Split(v.Groups, ",")
+			for _, v2 := range strArr {
+				privileges = append(privileges, v2)
+			}
 		}
 		userPermission := new(UserPermission)
 		userPermission.User = *user
