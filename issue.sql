@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50635
 File Encoding         : 65001
 
-Date: 2018-04-28 18:11:48
+Date: 2018-04-28 18:24:50
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -177,19 +177,19 @@ CREATE TABLE `people_feature_relation` (
 DROP TABLE IF EXISTS `role`;
 CREATE TABLE `role` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `groups` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '权限列表',
+  `description` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '说明',
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='可以给一个角色很多权限，也可以通过很多角色组合来拥有很多权限';
 
 -- ----------------------------
 -- Records of role
 -- ----------------------------
-INSERT INTO `role` VALUES ('1', '管理员', 'UserController:ToLogin,UserController:LoginOut,UserController:Welcome,UserController:UserList,UserController:UserListRoute', '2018-04-21 14:00:18', '2018-04-21 14:00:23');
-INSERT INTO `role` VALUES ('2', '普通管理员', 'UserController:ToLogin,UserController:LoginOut,UserController:Welcome,UserController:UserListRoute', '2018-04-21 14:00:15', '2018-04-21 14:00:21');
-INSERT INTO `role` VALUES ('3', '员工', 'UserController:ToLogin,UserController:LoginOut,UserController:Welcome', '2018-04-20 13:29:49', '2018-04-20 13:29:52');
+INSERT INTO `role` VALUES ('1', 'UserController:Welcome,UserController:UserList,UserController:UserListRoute', '管理员', '2018-04-21 14:00:18', '2018-04-21 14:00:23');
+INSERT INTO `role` VALUES ('2', 'UserController:Welcome,UserController:UserListRoute', '普通管理员', '2018-04-21 14:00:15', '2018-04-21 14:00:21');
+INSERT INTO `role` VALUES ('3', 'UserController:Welcome', '员工', '2018-04-20 13:29:49', '2018-04-20 13:29:52');
 
 -- ----------------------------
 -- Table structure for `user`

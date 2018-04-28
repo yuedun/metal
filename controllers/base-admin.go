@@ -17,7 +17,7 @@ type UserPermission struct {
 
 // 后台权限验证
 var HasAdminPermission = func(ctx *context.Context) {
-	fmt.Println(">>>>>>>>>>>>>admin auth权限验证，第一级")
+	fmt.Println(">>>>>>>>>>>>>第一级验证是否登录")
 	loginUser := ctx.Input.CruSession.Get("loginUser")
 	fmt.Println(ctx.Input.URL())
 	if loginUser == nil && ctx.Input.URL() != "/admin/login" && ctx.Input.URL() != "/admin/to-login" {
@@ -37,28 +37,26 @@ func (c *AdminBaseController) Prepare() {
 		userPermission := session.(*UserPermission)
 		c.Data["username"] = userPermission.User.UserName
 	}
-	fmt.Println(">>>>>>>>>>>>>Prepare后端权限校验，第二级")
+	fmt.Println(">>>>>>>>>>>>>Prepare第二级验证是否拥有接口权限")
 	ctrl, runMethod := c.GetControllerAndAction() // 获取controller和method
 	requestPermission := ctrl + ":" + runMethod
 	fmt.Println(">>run-method:", ctrl+":"+runMethod)
-	if session != nil {
-		privileges := session.(*UserPermission).Privileges
-		hasPermission := true
-		//需要权限
-		if NeedPermission[requestPermission] {
-			for _, pri := range privileges {
-				fmt.Println(pri)
-				if pri != requestPermission {
-					hasPermission = false
-				} else {
-					hasPermission = true
-					break
-				}
+	privileges := session.(*UserPermission).Privileges
+	hasPermission := true
+	//需要权限
+	if NeedPermission[requestPermission] {
+		for _, pri := range privileges {
+			fmt.Println(pri)
+			if pri != requestPermission {
+				hasPermission = false
+			} else {
+				hasPermission = true
+				break
 			}
-			if !hasPermission {
-				c.Data["json"] = ErrorMsg("权限不足")
-				c.ServeJSON()
-			}
+		}
+		if !hasPermission {
+			c.Data["json"] = ErrorMsg("权限不足")
+			c.ServeJSON()
 		}
 	}
 }
