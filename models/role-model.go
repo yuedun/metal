@@ -12,7 +12,6 @@ func init() {
 	orm.RegisterModel(new(Role))
 }
 
-
 func (role *Role) GetUserPermissions() error {
 	o := orm.NewOrm()
 	return o.Read(role, "id")

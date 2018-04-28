@@ -39,7 +39,7 @@ func (c *AdminBaseController) Prepare() {
 	}
 	fmt.Println(">>>>>>>>>>>>>Prepare后端权限校验，第二级")
 	ctrl, runMethod := c.GetControllerAndAction() // 获取controller和method
-	requestPermission := ctrl+":"+runMethod
+	requestPermission := ctrl + ":" + runMethod
 	fmt.Println(">>run-method:", ctrl+":"+runMethod)
 	if session != nil {
 		privileges := session.(*UserPermission).Privileges
@@ -75,12 +75,3 @@ var NeedPermission = map[string]bool{
 	"UserController:UserList":      true,
 	"UserController:UserListRoute": true,
 }
-
-
-
-
-
-
-
-
-
