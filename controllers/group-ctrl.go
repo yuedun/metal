@@ -8,15 +8,15 @@ import (
 	"time"
 )
 
-type UserGroupController struct {
-	BaseController
+type GroupController struct {
+	AdminBaseController
 }
 
 /**
  * 获取所有权限
  */
-// @router /user-group/get-all-user-group [get]
-func (c *UserGroupController) GetAllUserGroup() {
+// @router /user-role/get-all-user-role [get]
+func (c *GroupController) GetAllUserGroup() {
 	userGroup := new(Group)
 	userGroups, err := userGroup.GetUserGroupList()
 	if nil != err {
@@ -29,8 +29,8 @@ func (c *UserGroupController) GetAllUserGroup() {
 /**
 用户添加权限
 */
-// @router /user-group/add-user-group [post]
-func (c *UserGroupController) AddUserGroup() {
+// @router /user-role/add-user-role [post]
+func (c *GroupController) AddUserGroup() {
 	defer func() {
 		if err := recover(); err != nil {
 			c.Data["json"] = ErrorMsg(err.(string))
@@ -43,13 +43,13 @@ func (c *UserGroupController) AddUserGroup() {
 	if userId == 0 {
 		log.Panic("userId不能为空")
 	}
-	groupId := args.RoleId
-	if groupId == 0 {
-		log.Panic("groupId不能为空")
+	roleId := args.RoleId
+	if roleId == 0 {
+		log.Panic("roleId不能为空")
 	}
 	var userGroup = new(Group)
 	userGroup.UserId = userId
-	userGroup.RoleId = groupId
+	userGroup.RoleId = roleId
 	userGroup.CreatedAt = time.Now()
 	userGroup.UpdatedAt = time.Now()
 
@@ -64,6 +64,6 @@ func (c *UserGroupController) AddUserGroup() {
 
 // @Title aaa
 // @router /user/:id [post,get]
-func (c *UserGroupController) Aaa() {
+func (c *GroupController) Aaa() {
 
 }

@@ -8,14 +8,10 @@ type Group struct {
 	BaseModel
 	UserId int
 	RoleId int
-	PGroup int // 父级权限组
 }
 
 func init() {
-	// 需要在init中注册定义的model
 	orm.RegisterModel(new(Group))
-	// 如果使用 orm.QuerySeter 进行高级查询的话，这个是必须的。
-	// 反之，如果只使用 Raw 查询和 map struct，是无需这一步的。
 }
 
 func (group *Group) GetUserGroupList() ([]Group, error) {
@@ -32,12 +28,14 @@ func (group *Group) GetUserGroupList() ([]Group, error) {
 /**
  * 根据userid获取usergroup list
  */
-func (group *Group) GetGroupByUserId(userId int) ([]Group, error) {
+func (group *Group) GetGroupByUserId(userId int) ([]Role, error) {
 	o := orm.NewOrm()
-	var userGroups []Group
+	var userGroups []Role
 	//var userGroups []orm.Params//orm.Params是一个map类型
-	num, err := o.Raw("select * from group where user_id = ?;", userId).QueryRows(&userGroups)
-	if nil != err && num > 0 {
+	_, err := o.Raw(`SELECT role.groups from role
+		INNER JOIN groups ON role.id = groups.role_id
+		WHERE groups.user_id = ?;`, userId).QueryRows(&userGroups)
+	if nil != err {
 		return nil, err
 	}
 	return userGroups, nil
