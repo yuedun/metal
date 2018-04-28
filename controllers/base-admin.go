@@ -18,7 +18,7 @@ type UserPermission struct {
 
 // 后台权限验证
 var HasAdminPermission = func(ctx *context.Context) {
-	fmt.Println(">>>>>>>>>>>>>admin auth权限验证，第一级")
+	fmt.Println(">>>>>>>>>>>>>第一级验证是否登录")
 	loginUser := ctx.Input.CruSession.Get("loginUser")
 	fmt.Println(ctx.Input.URL())
 	if loginUser == nil && ctx.Input.URL() != "/admin/login" && ctx.Input.URL() != "/admin/to-login" {
@@ -31,18 +31,17 @@ var HasAdminPermission = func(ctx *context.Context) {
  * 这个函数主要是为了用户扩展用的，这个函数会在下面定义的这些 Method 方法之前执行，用户可以重写这个函数实现类似用户验证之类
  */
 func (c *AdminBaseController) Prepare() {
-	// admin-user-ctrl和user-index-ctrl都继承了base-ctrl，所以都会自动执行该方法，可以做一些校验，但不适合做权限校验
+	// admin-user-ctrl和user-index-ctrl都继承了base-ctrl，所以都会自动执行该方法
 	// 因为前端用户界面不需要权限验证，管理后台才需要
 	session := c.GetSession("loginUser")
+	//session为空时不进行权限验证
 	if session != nil {
 		userPermission := session.(*UserPermission)
 		c.Data["username"] = userPermission.User.UserName
-	}
-	fmt.Println(">>>>>>>>>>>>>Prepare后端权限校验，第二级")
-	ctrl, runMethod := c.GetControllerAndAction() // 获取controller和method
-	requestPermission := ctrl + ":" + runMethod
-	fmt.Println(">>run-method:", ctrl+":"+runMethod)
-	if session != nil {
+		fmt.Println(">>>>>>>>>>>>>Prepare第二级验证是否拥有接口权限")
+		ctrl, runMethod := c.GetControllerAndAction() // 获取controller和method
+		requestPermission := ctrl + ":" + runMethod
+		fmt.Println(">>run-method:", ctrl+":"+runMethod)
 		privileges := session.(*UserPermission).Privileges
 		hasPermission := true
 		//需要权限
