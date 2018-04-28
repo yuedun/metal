@@ -3,7 +3,6 @@ package controllers
 import (
 	"fmt"
 	"metal/models"
-	"strings"
 
 	"github.com/astaxie/beego/context"
 )
@@ -14,7 +13,7 @@ type AdminBaseController struct {
 
 type UserPermission struct {
 	User       models.User
-	Privileges string //特权
+	Privileges []string //特权
 }
 
 // 后台权限验证
@@ -41,12 +40,39 @@ func (c *AdminBaseController) Prepare() {
 	}
 	fmt.Println(">>>>>>>>>>>>>Prepare后端权限校验，第二级")
 	ctrl, runMethod := c.GetControllerAndAction() // 获取controller和method
+	requestPermission := ctrl + ":" + runMethod
 	fmt.Println(">>run-method:", ctrl+":"+runMethod)
 	if session != nil {
 		privileges := session.(*UserPermission).Privileges
-		if !strings.Contains(privileges, ctrl+":"+runMethod) {
-			c.Data["json"] = ErrorMsg("权限不足")
-			c.ServeJSON()
+		hasPermission := true
+		//需要权限
+		if NeedPermission[requestPermission] {
+			for _, pri := range privileges {
+				fmt.Println(pri)
+				if pri != requestPermission {
+					hasPermission = false
+				} else {
+					hasPermission = true
+					break
+				}
+			}
+			if !hasPermission {
+				c.Data["json"] = ErrorMsg("权限不足")
+				c.ServeJSON()
+			}
 		}
 	}
+}
+
+/**
+ * 此变量作用：
+ * 需要验证权限的接口，如果值为false或没有配置代表不需要需要验证
+ * 配置以后且值为true代表需要验证权限，并匹配数据库中是否存在权限
+ */
+var NeedPermission = map[string]bool{
+	"UserController:ToLogin":       false,
+	"UserController:LoginOut":      false,
+	"UserController:Welcome":       false,
+	"UserController:UserList":      true,
+	"UserController:UserListRoute": true,
 }
