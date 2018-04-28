@@ -33,14 +33,18 @@ func (c *UserController) ToLogin() {
 	} else if user.Password != util.GetMD5(password) {
 		c.Data["json"] = ErrorMsg("密码不正确")
 	} else {
-		userGroup := new(UserGroup)
-		userGroups, err := userGroup.GetGroupByUserId(user.Id)
+		group := new(Group)
+		roleList, err := group.GetGroupByUserId(user.Id)
 		if err != nil {
 			c.Data["json"] = ErrorData(err)
 		}
+		var privileges string
+		for _, v := range roleList {
+			privileges += "," + v.Groups
+		}
 		userPermission := new(UserPermission)
 		userPermission.User = *user
-		userPermission.UserGroups = userGroups
+		userPermission.Privileges = privileges
 		c.SetSession("loginUser", userPermission)
 		c.Data["json"] = SuccessData(nil)
 	}
