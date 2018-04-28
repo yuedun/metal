@@ -2,6 +2,7 @@ package routers
 
 import (
 	"metal/controllers"
+
 	"github.com/astaxie/beego"
 )
 
@@ -52,7 +53,7 @@ func init() {
 
 		//也可以使用注解自动路由
 		beego.NSInclude(
-			&controllers.UserGroupController{},
+			&controllers.GroupController{},
 		),
 	)
 	//注册namespace
