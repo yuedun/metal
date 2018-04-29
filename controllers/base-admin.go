@@ -19,9 +19,7 @@ type UserPermission struct {
 var HasAdminPermission = func(ctx *context.Context) {
 	fmt.Println(">>>>>>>>>>>>>第一级验证是否登录")
 	loginUser := ctx.Input.CruSession.Get("loginUser")
-	fmt.Println(ctx.Input.URL())
 	if loginUser == nil && ctx.Input.URL() != "/admin/login" && ctx.Input.URL() != "/admin/to-login" {
-		fmt.Println("用户未登录")
 		ctx.Redirect(302, "/admin/login")
 	}
 }
