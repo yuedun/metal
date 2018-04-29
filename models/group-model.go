@@ -28,7 +28,7 @@ func (group *Group) GetUserGroupList() ([]Group, error) {
 /**
  * 根据userid获取usergroup list
  */
-func (group *Group) GetGroupByUserId(userId int) ([]Role, error) {
+func (group *Group) GetGroupByUserId(userId uint) ([]Role, error) {
 	o := orm.NewOrm()
 	var userGroups []Role
 	//var userGroups []orm.Params//orm.Params是一个map类型

@@ -118,7 +118,7 @@ func (c *UserController) UserGet() {
 	idstr := c.Ctx.Input.Param(":id")
 	id, _ := strconv.Atoi(idstr)
 	user := new(User)
-	user.Id = id
+	user.Id = uint(id)
 	userObj, err := user.GetById()
 	fmt.Println(userObj)
 	if err != nil {
@@ -143,7 +143,7 @@ func (c *UserController) Put() {
 	updatedAt := time.Now()
 
 	var user = new(User)
-	user.Id = userId
+	user.Id = uint(userId)
 	user.UserName = username
 	user.Gender = gender
 	user.Email = email
@@ -202,7 +202,6 @@ func (c *UserController) UserList() {
 		}
 		c.Data["json"] = SuccessData(data)
 	}
-	// time.Sleep(time.Second*2)
 	c.ServeJSON()
 }
 
@@ -212,7 +211,7 @@ func (c *UserController) UserList() {
 func (c *UserController) DeleteUser() {
 	id, _ := c.GetInt("userId")
 	var user = new(User)
-	user.Id = id
+	user.Id = uint(id)
 	id64, err := user.Delete()
 	if nil != err {
 		log.Print(err)
