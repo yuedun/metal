@@ -5,7 +5,7 @@ import "time"
 type any = interface{}
 
 type BaseModel struct {
-	Id        int
+	Id        uint
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
