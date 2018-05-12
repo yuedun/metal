@@ -4,31 +4,31 @@ import (
 	"github.com/astaxie/beego/orm"
 )
 
-type Group struct {
+type Groups struct {
 	BaseModel
-	UserId int
-	RoleId int
+	UserId uint
+	RoleId uint
 }
 
 func init() {
-	orm.RegisterModel(new(Group))
+	orm.RegisterModel(new(Groups))
 }
 
-func (group *Group) GetUserGroupList() ([]Group, error) {
+func (group *Groups) GetUserGroupList() ([]Role, error) {
 	o := orm.NewOrm()
-	var userGroups []Group
+	var roles []Role
 	//var userGroups []orm.Params//orm.Params是一个map类型
-	num, err := o.Raw("select * from group order by id desc;").QueryRows(&userGroups)
+	num, err := o.Raw("select * from role order by id desc;").QueryRows(&roles)
 	if nil != err && num > 0 {
 		return nil, err
 	}
-	return userGroups, nil
+	return roles, nil
 }
 
 /**
  * 根据userid获取usergroup list
  */
-func (group *Group) GetGroupByUserId(userId uint) ([]Role, error) {
+func (group *Groups) GetGroupByUserId(userId uint) ([]Role, error) {
 	o := orm.NewOrm()
 	var userGroups []Role
 	//var userGroups []orm.Params//orm.Params是一个map类型
@@ -42,7 +42,7 @@ func (group *Group) GetGroupByUserId(userId uint) ([]Role, error) {
 }
 
 // 用户添加权限
-func (group *Group) Save() (int64, error) {
+func (group *Groups) Save() (int64, error) {
 	//	var o Ormer
 	o := orm.NewOrm()
 	// 每次操作都需要新建一个Ormer变量，当然也可以全局设置
