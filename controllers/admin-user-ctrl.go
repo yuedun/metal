@@ -19,11 +19,6 @@ func (c *UserController) Login() {
 	c.TplName = "admin/login.html"
 }
 func (c *UserController) ToLogin() {
-	// args := map[string]string{}
-	// body := c.Ctx.Input.RequestBody//接收raw body内容
-	// json.Unmarshal(body, &args)
-	// mobile := args["mobile"]
-	// password := args["password"]
 	var mobile = c.GetString("mobile")
 	var password = c.GetString("password")
 	user := &User{Mobile: mobile}
@@ -34,7 +29,7 @@ func (c *UserController) ToLogin() {
 	} else if user.Password != util.GetMD5(password) {
 		c.Data["json"] = ErrorMsg("密码不正确")
 	} else {
-		group := new(Group)
+		group := new(Groups)
 		roleList, err := group.GetGroupByUserId(user.Id)
 		if err != nil {
 			c.Data["json"] = ErrorData(err)
