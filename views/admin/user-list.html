@@ -71,7 +71,7 @@ desired effect
                                     <th>description</th>
                                     <th>createdAt</th>
                                     <th>updatedAt</th>
-                                    <th>操作</th>
+                                    <th width="120px">操作</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -177,6 +177,33 @@ desired effect
         <!-- /.box -->
     </div>
 </div>
+<!-- 加权限 -->
+<div id="permission-dialog" style="display: none;">
+    <div class="col-md-6">
+        <!-- general form elements -->
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">添加权限</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form role="form" method="post" onsubmit="return false">
+                <input type="hidden" id="userId">
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="name" id="userName">name</label>
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox" id="perssions">
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- /.box -->
+    </div>
+</div>
 <!-- /弹窗内容-->
 
 <!-- REQUIRED JS SCRIPTS -->
@@ -187,7 +214,7 @@ desired effect
 <script type="text/javascript">
     $(function() {
         //列表
-        $('#userlist').DataTable({
+        var userList = $('#userlist').DataTable({
             language: {
                 "processing": "数据加载中……",
                 "zeroRecords": "No records to display"
@@ -252,16 +279,17 @@ desired effect
                 {
                     data: 'Mobile',
                     render: function (data, type, row) {
-                        var html = '<button class="btn btn-sm btn-primary J-update">update</button>'
-                                + '<button class="btn btn-sm btn-danger J-delete">delete</button>'
+                        var html = '<button class="btn btn-sm btn-primary J-update">编辑</button>'
+                                + '<button class="btn btn-sm btn-danger J-delete">删除</button>'
+                                + '<button class="btn btn-sm btn-info J-permission">权限</button>'
                         return html;
                     }
                 }
             ],
-            // "createdRow": function( row, data, dataIndex ) {
-            //      //有了DT_RowId属性就会自动添加id到行上
-            //     $(row).data("id", data.Id);
-            // }
+            "createdRow": function( row, data, dataIndex ) {
+                 //有了DT_RowId属性就会自动添加id到行上,不需要在此操作，可以做其他事
+                $(row).data("userName", data.UserName);
+            }
         });
         //删除
         $("#userlist").on("click", ".J-delete", function () {
@@ -329,7 +357,7 @@ desired effect
                             success: function (data, textStatus, jqXHR) {
                                 layer.msg("修改成功！", {icon: 6});
                                 layer.close(index); //如果设定了yes回调，需进行手工关闭
-                                location.reload();
+                                userList.ajax.reload();
                             },
                             error: function (xhr, textStatus) {
                                 layer.msg("修改失败！", {icon: 5});
@@ -343,6 +371,65 @@ desired effect
                     }
                 });
             })
+        });
+        //权限
+        $("#userlist").on("click", ".J-permission", function () {
+            var id = $(this).closest("tr").attr("id");
+            var userName = $(this).closest("tr").data("userName");
+            $.get("/admin/roles", function (data) {
+                console.log(data);
+                $("#userName").html(userName);
+                var ps="";
+                data.data.forEach(function (item, index) {
+                    ps +='<label class="checkbox-inline">\n' +
+                            '<input type="checkbox" name="role" value="'+item.Id+'">' + item.Description +
+                            '</label>'
+                });
+                $("#perssions").html(ps);
+                layer.open({
+                    type: 1,
+                    area: ['500px', 'auto'],
+                    btn: ['确定', '取消'],
+                    fixed: false,//跟随滚动
+                    shadeClose: true, //点击遮罩关闭
+                    content: $("#permission-dialog"),
+                    yes: function (index, layero) {
+                        console.log($("input[name=role]:checked").val());
+                        var roles = [];
+                        $("input[name=role]:checked").each(function(i, n){
+                            roles[i] = parseInt($(this).val());
+                        });
+                        $.ajax({
+                            url: '/admin/user/groups',
+                            type: 'POST', //GET
+                            async: true,    //或false,是否异步
+                            data: JSON.stringify({
+                                UserId: parseInt(id),
+                                Roles: roles
+                            }),
+                            timeout: 5000,    //超时时间
+                            dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                            success: function (data, textStatus, jqXHR) {
+                                if (data.code == 1){
+                                    layer.msg(data.msg, {icon: 5});
+                                    return
+                                }
+                                layer.msg("修改成功！", {icon: 6});
+                                layer.close(index); //如果设定了yes回调，需进行手工关闭
+                                userList.ajax.reload();
+                            },
+                            error: function (xhr, textStatus) {
+                                layer.msg("修改失败！", {icon: 5});
+                            },
+                            complete: function () {
+
+                            }
+                        })
+                    }, btn2: function (index, layero) {
+                        layer.close(index);
+                    }
+                });
+            });
         });
     })
 </script>
