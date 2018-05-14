@@ -6,6 +6,7 @@ import (
 	"log"
 	. "metal/models"
 	"time"
+	"github.com/astaxie/beego/logs"
 )
 
 type GroupController struct {
@@ -15,51 +16,55 @@ type GroupController struct {
 /**
  * 获取所有权限
  */
-// @router /user-role/get-all-user-role [get]
-func (c *GroupController) GetAllUserGroup() {
-	userGroup := new(Group)
-	userGroups, err := userGroup.GetUserGroupList()
+// @router /roles [get]
+func (c *GroupController) GetAllRole() {
+	role := new(Role)
+	roles, err := role.GetAllRole()
 	if nil != err {
 		c.Data["json"] = ErrorData(err)
 	}
-	c.Data["json"] = userGroups
+	c.Data["json"] = SuccessData(roles)
 	c.ServeJSON()
 }
 
 /**
 用户添加权限
 */
-// @router /user-role/add-user-role [post]
-func (c *GroupController) AddUserGroup() {
+// @router /user/groups [post]
+func (c *GroupController) AddUserRole() {
 	defer func() {
 		if err := recover(); err != nil {
-			c.Data["json"] = ErrorMsg(err.(string))
+			c.Data["json"] = ErrorData(err.(error))
 		}
 		c.ServeJSON()
 	}()
-	args := Group{}
+	var args struct {
+		UserId uint
+		Roles  []uint
+	}
 	json.Unmarshal(c.Ctx.Input.RequestBody, &args)
+	log.Print("*********%v", args)
 	userId := args.UserId
 	if userId == 0 {
 		log.Panic("userId不能为空")
 	}
-	roleId := args.RoleId
-	if roleId == 0 {
+	roleIds := args.Roles
+	if len(roleIds) == 0 {
 		log.Panic("roleId不能为空")
 	}
-	var userGroup = new(Group)
-	userGroup.UserId = userId
-	userGroup.RoleId = roleId
-	userGroup.CreatedAt = time.Now()
-	userGroup.UpdatedAt = time.Now()
-
-	_, err := userGroup.Save()
-	if nil != err {
-		log.Print(err)
-		c.Data["json"] = ErrorData(err)
-	} else {
-		c.Data["json"] = SuccessData(nil)
+	for _, roleId := range roleIds {
+		var userGroup = new(Groups)
+		userGroup.UserId = userId
+		userGroup.RoleId = roleId
+		userGroup.CreatedAt = time.Now()
+		userGroup.UpdatedAt = time.Now()
+		_, err := userGroup.Save()
+		if nil != err {
+			logs.Error(err)
+			panic(err)
+		}
 	}
+	c.Data["json"] = SuccessData(nil)
 }
 
 // @Title aaa
