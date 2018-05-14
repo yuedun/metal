@@ -53,6 +53,7 @@ func (c *AdminBaseController) Prepare() {
 				}
 			}
 			if !hasPermission {
+				fmt.Println("权限不足")
 				c.Data["json"] = ErrorMsg("权限不足")
 				c.ServeJSON()
 			}
@@ -71,4 +72,7 @@ var NeedPermission = map[string]bool{
 	"UserController:Welcome":       false,
 	"UserController:UserList":      true,
 	"UserController:UserListRoute": true,
+	"UserController:PUT":			true,
+	"UserController:POST":			true,
+	"UserController:DeleteUser":	true,
 }
