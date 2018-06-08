@@ -17,7 +17,6 @@ type UserPermission struct {
 
 // 后台权限验证
 var HasAdminPermission = func(ctx *context.Context) {
-	fmt.Println(">>>>>>>>>>>>>第一级验证是否登录")
 	loginUser := ctx.Input.CruSession.Get("loginUser")
 	if loginUser == nil && ctx.Input.URL() != "/admin/login" && ctx.Input.URL() != "/admin/to-login" {
 		ctx.Redirect(302, "/admin/login")
@@ -35,7 +34,6 @@ func (c *AdminBaseController) Prepare() {
 	if session != nil {
 		userPermission := session.(*UserPermission)
 		c.Data["username"] = userPermission.User.UserName
-		fmt.Println(">>>>>>>>>>>>>Prepare第二级验证是否拥有接口权限")
 		ctrl, runMethod := c.GetControllerAndAction() // 获取controller和method
 		requestPermission := ctrl + ":" + runMethod
 		fmt.Println(">>run-method:", ctrl+":"+runMethod)
@@ -59,20 +57,4 @@ func (c *AdminBaseController) Prepare() {
 			}
 		}
 	}
-}
-
-/**
- * 此变量作用：
- * 需要验证权限的接口，如果值为false或没有配置代表不需要需要验证
- * 配置以后且值为true代表需要验证权限，并匹配数据库中是否存在权限
- */
-var NeedPermission = map[string]bool{
-	"UserController:ToLogin":       false,
-	"UserController:LoginOut":      false,
-	"UserController:Welcome":       false,
-	"UserController:UserList":      true,
-	"UserController:UserListRoute": true,
-	"UserController:PUT":			true,
-	"UserController:POST":			true,
-	"UserController:DeleteUser":	true,
 }
