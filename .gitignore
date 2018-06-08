@@ -25,6 +25,7 @@ _testmain.go
 .exe
 .test
 .prof
+app.conf
 
 *.exe
 *.exe~

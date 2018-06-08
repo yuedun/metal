@@ -162,7 +162,7 @@ desired effect
                         <input type="text" class="form-control" id="address" name="addr" placeholder="addr">
                     </div>
                     <div class="form-group">
-                        <label for="desc">address</label>
+                        <label for="desc">description</label>
                         <input type="text" class="form-control" id="desc" name="desc" placeholder="description">
                     </div>
                 </div>
@@ -308,6 +308,10 @@ desired effect
                         console.log('发送前')
                     },
                     success: function (data, textStatus, jqXHR) {
+                        if (data.code == 1){
+                            layer.msg(data.msg, {icon: 5});
+                            return
+                        }
                         layer.msg("删除成功！", {icon: 6});
                         location.reload();
                     },
@@ -355,6 +359,10 @@ desired effect
                             timeout: 5000,    //超时时间
                             dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
                             success: function (data, textStatus, jqXHR) {
+                                if (data.code == 1){
+                                    layer.msg(data.msg, {icon: 5});
+                                    return
+                                }
                                 layer.msg("修改成功！", {icon: 6});
                                 layer.close(index); //如果设定了yes回调，需进行手工关闭
                                 userList.ajax.reload();
