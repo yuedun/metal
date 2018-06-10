@@ -6,7 +6,6 @@ import (
 	"metal/controllers"
 	_ "metal/routers"
 	"time"
-
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/orm"
@@ -50,6 +49,7 @@ func init() {
 	// session 开发环境下使用file存储，生产环境使用redis等数据库存储
 	beego.BConfig.WebConfig.Session.SessionProvider = "file"
 	beego.BConfig.WebConfig.Session.SessionProviderConfig = "./tmp"
+	
 	// 日志：会保存手动输出的日志和系统异常日志
 	// 如： logs.Error和panic
 	logs.Async()
