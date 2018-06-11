@@ -2,12 +2,12 @@
 Navicat MySQL Data Transfer
 
 Source Server         : localhost
-Source Server Version : 50635
+Source Server Version : 50720
 Source Host           : localhost:3306
 Source Database       : issue
 
 Target Server Type    : MYSQL
-Target Server Version : 50635
+Target Server Version : 50720
 File Encoding         : 65001
 
 Date: 2018-05-14 19:25:44
@@ -20,7 +20,7 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `assistance`;
 CREATE TABLE `assistance` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
   `description` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `user_agent` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -57,7 +57,7 @@ INSERT INTO `assistance` VALUES ('15', '1', 'dom xss并不复杂，他也属于�
 -- ----------------------------
 DROP TABLE IF EXISTS `assistance_people`;
 CREATE TABLE `assistance_people` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `mobile` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -77,7 +77,7 @@ CREATE TABLE `assistance_people` (
 -- ----------------------------
 DROP TABLE IF EXISTS `features`;
 CREATE TABLE `features` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `feature_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
@@ -120,7 +120,7 @@ INSERT INTO `groups` VALUES ('7', '2', '1', '2018-04-28 13:16:33', '2018-04-28 1
 -- ----------------------------
 DROP TABLE IF EXISTS `helpers`;
 CREATE TABLE `helpers` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `mobile` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -142,7 +142,7 @@ INSERT INTO `helpers` VALUES ('2', '李四', '12222222222', '12222222222@163.com
 -- ----------------------------
 DROP TABLE IF EXISTS `helper_feature_relation`;
 CREATE TABLE `helper_feature_relation` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `helper_id` int(11) DEFAULT NULL,
   `feature_id` int(11) DEFAULT NULL,
   `created_at` datetime NOT NULL,
@@ -159,7 +159,7 @@ CREATE TABLE `helper_feature_relation` (
 -- ----------------------------
 DROP TABLE IF EXISTS `people_feature_relation`;
 CREATE TABLE `people_feature_relation` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `assis_people_id` int(11) DEFAULT NULL,
   `feature_id` int(11) DEFAULT NULL,
   `created_at` datetime NOT NULL,
@@ -196,7 +196,7 @@ INSERT INTO `role` VALUES ('3', 'UserController:Welcome', '员工', '2018-04-20 
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `mobile` varchar(255) NOT NULL DEFAULT '',
   `user_name` varchar(255) NOT NULL DEFAULT '',
   `password` varchar(255) NOT NULL DEFAULT '',
@@ -216,7 +216,7 @@ CREATE TABLE `user` (
 -- ----------------------------
 INSERT INTO `user` VALUES ('1', '13477889900', '犬夜叉', '123', '1', '13477889900@139.com', '日暮神社', '1', '半妖', '2018-03-17 20:46:31', '2018-03-17 20:46:31');
 INSERT INTO `user` VALUES ('2', '18701897513', '戈薇', 'abc72b24857be42850f67d3160f8710e', '0', '18701897513@139.com', '日暮神社', '1', '巫女桔梗转生', '2018-03-17 20:49:44', '2018-03-17 20:55:25');
-INSERT INTO `user` VALUES ('5', '18701893513', '施工图人力', 'abc72b24857be42850f67d3160f8710e', '1', '18611118146@139.com', '看见的任何司空见惯和', '1', '', '2017-07-27 03:25:01', '2018-02-28 11:57:56');
+INSERT INTO `user` VALUES ('5', '18701893513', '施图', 'abc72b24857be42850f67d3160f8710e', '1', '18611118146@139.com', '看见的任何司空见惯和', '1', 'OIGhire就搜低价格', '2017-07-27 03:25:01', '2018-04-28 23:55:39');
 INSERT INTO `user` VALUES ('8', '10701897527', '缇欧', '', '0', 'huo.win.n@gmail.com', '吉林大街好地方', '1', '而喝了酒而温柔你感觉', '2017-07-27 09:00:43', '2018-03-19 11:10:50');
 INSERT INTO `user` VALUES ('9', '10706597527', '瑞泰居', '', '0', '438473005@qq.com', '连接哦哦发给你基地', '1', '收到了架构过人家饿啊人工', '2017-07-29 10:38:06', '2018-04-06 17:02:03');
 INSERT INTO `user` VALUES ('13', '18701497527', '杀生丸', 'hiuhiuh', '1', 'hp_if@sina.com', '送就送山东黄金人数', '1', '视频国际投行饿哦日后我如何进入', '2018-02-05 04:20:37', '2018-03-26 21:50:21');
