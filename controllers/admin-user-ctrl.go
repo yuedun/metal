@@ -27,7 +27,7 @@ func (c *UserController) ToLogin() {
 		log.Print(err)
 		c.Data["json"] = ErrorData(err)
 	} else if user.Password != util.GetMD5(password) {
-		c.Data["json"] = ErrorMsg("密码不正确")
+		c.Data["json"] = ErrorMsg("密码不正确（hello+手机后4位）")
 	} else {
 		group := new(Groups)
 		roleList, err := group.GetGroupByUserId(user.Id)
