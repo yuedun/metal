@@ -15,5 +15,5 @@ func TestMd5(t *testing.T) {
 }
 
 func TestOne(t *testing.T) {
-	t.Log(">>>>>>testone", util.GeneratePassword("18701897513"))
+	t.Log(">>>>>>testone", util.GeneratePassword("18701817525"))
 }
