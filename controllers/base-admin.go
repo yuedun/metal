@@ -2,8 +2,9 @@ package controllers
 
 import (
 	"fmt"
-	"github.com/astaxie/beego/context"
 	"metal/models"
+
+	"github.com/astaxie/beego/context"
 )
 
 type AdminBaseController struct {

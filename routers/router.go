@@ -1,8 +1,9 @@
 package routers
 
 import (
-	"github.com/astaxie/beego"
 	"metal/controllers"
+
+	"github.com/astaxie/beego"
 )
 
 func init() {
@@ -48,6 +49,7 @@ func init() {
 		beego.NSRouter("/user/delete", &controllers.UserController{}, "delete,post:DeleteUser"),
 		beego.NSRouter("/user/:id", &controllers.UserController{}, "get:UserGet"),
 		beego.NSRouter("/users", &controllers.UserController{}, "get:UserList"),
+		beego.NSRouter("/user-group", &controllers.UserGroupController{}),
 
 		//也可以使用注解自动路由
 		beego.NSInclude(

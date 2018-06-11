@@ -3,13 +3,14 @@ package main
 import (
 	"encoding/gob"
 	"fmt"
+	"metal/controllers"
+	_ "metal/routers"
+	"time"
+
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
-	"metal/controllers"
-	_ "metal/routers"
-	"time"
 )
 
 var port string
