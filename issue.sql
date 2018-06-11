@@ -2,12 +2,12 @@
 Navicat MySQL Data Transfer
 
 Source Server         : localhost
-Source Server Version : 50635
+Source Server Version : 50720
 Source Host           : localhost:3306
 Source Database       : issue
 
 Target Server Type    : MYSQL
-Target Server Version : 50635
+Target Server Version : 50720
 File Encoding         : 65001
 
 Date: 2018-06-11 13:21:03
@@ -20,7 +20,7 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `assistance`;
 CREATE TABLE `assistance` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
   `description` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `user_agent` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -57,7 +57,7 @@ INSERT INTO `assistance` VALUES ('15', '1', 'dom xss并不复杂，他也属于�
 -- ----------------------------
 DROP TABLE IF EXISTS `assistance_people`;
 CREATE TABLE `assistance_people` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `mobile` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -77,7 +77,7 @@ CREATE TABLE `assistance_people` (
 -- ----------------------------
 DROP TABLE IF EXISTS `features`;
 CREATE TABLE `features` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `feature_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
@@ -124,7 +124,7 @@ INSERT INTO `groups` VALUES ('11', '2', '6', '2018-06-11 13:10:50', '2018-06-11 
 -- ----------------------------
 DROP TABLE IF EXISTS `helpers`;
 CREATE TABLE `helpers` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `mobile` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -146,7 +146,7 @@ INSERT INTO `helpers` VALUES ('2', '李四', '12222222222', '12222222222@163.com
 -- ----------------------------
 DROP TABLE IF EXISTS `helper_feature_relation`;
 CREATE TABLE `helper_feature_relation` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `helper_id` int(11) DEFAULT NULL,
   `feature_id` int(11) DEFAULT NULL,
   `created_at` datetime NOT NULL,
@@ -163,7 +163,7 @@ CREATE TABLE `helper_feature_relation` (
 -- ----------------------------
 DROP TABLE IF EXISTS `people_feature_relation`;
 CREATE TABLE `people_feature_relation` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `assis_people_id` int(11) DEFAULT NULL,
   `feature_id` int(11) DEFAULT NULL,
   `created_at` datetime NOT NULL,
@@ -203,7 +203,7 @@ INSERT INTO `role` VALUES ('6', 'UserController:UserList', '用户列表', '2018
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `mobile` varchar(255) NOT NULL DEFAULT '',
   `user_name` varchar(255) NOT NULL DEFAULT '',
   `password` varchar(255) NOT NULL DEFAULT '',
