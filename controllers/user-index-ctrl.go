@@ -22,16 +22,12 @@ type MainController struct {
 //注解路由
 // @router / [get]
 func (c *MainController) Get() {
-	c.Data["Website"] = "http://yuedun.duapp.com"
-	c.Data["Email"] = "huo.win.n@gmail.com"
 	//默认tpl或html后缀
 	c.TplName = "index.html"
 }
 
 // @router /test [get]
 func (c *MainController) MyRoute() {
-	c.Data["Website"] = "http://yuedun.duapp.com"
-	c.Data["Email"] = "huo.win.n@gmail.com"
 	c.Data["content"] = "这是一个自定义控制器"
 	user := &User{}
 	userList, err := user.GetAll()
@@ -83,14 +79,10 @@ func (c *MainController) GetUser() {
 
 // @router /category [get]
 func (c *MainController) Category() {
-	c.Data["Website"] = "http://yuedun.duapp.com"
-	c.Data["Email"] = "huo.win.n@gmail.com"
 	c.TplName = "category.html"
 }
 
 // @router /about [get]
 func (c *MainController) About() {
-	c.Data["Website"] = "http://yuedun.duapp.com"
-	c.Data["Email"] = "huo.win.n@gmail.com"
 	c.TplName = "about.html"
 }
