@@ -4,8 +4,8 @@ import "github.com/astaxie/beego/orm"
 
 type Role struct {
 	BaseModel
-	Description string
-	Groups      string
+	Description string `json:"description"`
+	Groups      string `json:"groups"`
 }
 
 func init() {
