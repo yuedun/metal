@@ -54,6 +54,7 @@ func init() {
 		//也可以使用注解自动路由
 		beego.NSInclude(
 			&controllers.GroupController{},
+			&controllers.UserController{},
 		),
 	)
 	//注册namespace

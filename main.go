@@ -5,12 +5,14 @@ import (
 	"fmt"
 	"metal/controllers"
 	_ "metal/routers"
+	"metal/util"
 	"time"
 
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
+	_ "metal/util"
 )
 
 var port string
@@ -58,6 +60,7 @@ func init() {
 }
 
 func main() {
+	util.CronStart() //启动定时任务
 	fmt.Println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n浏览器访问：http://localhost:" + port + "\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-	beego.Run()
+	beego.Run() //下面的代码不会执行，需要执行的代码放到上面
 }

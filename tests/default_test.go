@@ -14,6 +14,16 @@ func TestMd5(t *testing.T) {
 	t.Log(p)
 }
 
+/**
+ * 根据手机号生成密码
+ */
 func TestOne(t *testing.T) {
 	t.Log(">>>>>>testone", util.GeneratePassword("18701897513"))
+}
+
+/**
+ * 爬虫测试
+ */
+func TestCrawl(t *testing.T) {
+	util.GetJokes()
 }
