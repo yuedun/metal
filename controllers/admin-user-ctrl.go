@@ -215,11 +215,3 @@ func (c *UserController) DeleteUser() {
 	c.ServeJSON()
 }
 
-/**
- * 工作数量统计
- */
-
-// @router /job-count [get]
-func (c *UserController) JobCount() {
-	c.TplName = "admin/job-count.html"
-}
