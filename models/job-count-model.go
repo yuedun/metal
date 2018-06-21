@@ -3,6 +3,7 @@ package models
 import (
 	"github.com/astaxie/beego/orm"
 	"time"
+	"fmt"
 )
 
 /**
@@ -16,14 +17,19 @@ type JobCount struct {
 }
 
 func init() {
-	// 需要在init中注册定义的model
 	orm.RegisterModel(new(JobCount))
-	// 如果使用 orm.QuerySeter 进行高级查询的话，这个是必须的。
-	// 反之，如果只使用 Raw 查询和 map struct，是无需这一步的。
 }
 
 // 添加记录
 func (jobCount *JobCount) Save() (int64, error) {
 	o := orm.NewOrm()
 	return o.Insert(jobCount)
+}
+// 获取记录列表
+func (jobCount *JobCount) GetCountData() ([]JobCount, error) {
+	o := orm.NewOrm()
+	var jobCounts []JobCount
+	num, err := o.Raw("SELECT * FROM job_count;").QueryRows(&jobCounts)
+	fmt.Println("查询到", num, "条数据")
+	return jobCounts, err
 }

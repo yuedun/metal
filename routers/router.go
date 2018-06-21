@@ -12,12 +12,6 @@ func init() {
 	 * 下面第一个路由有三个参数，指定路由/myroute访问的是MyRoute控制器
 	 */
 	// beego.Router("/test", &controllers.MainController{}, "*:MyRoute")
-	// beego.Router("/", &controllers.MainController{})
-	// beego.Router("/category", &controllers.CategoryController{})
-	// beego.Router("/about", &controllers.AboutController{})
-	// beego.Router("/user", &controllers.UserController{})
-	// beego.Router("/user/?:username", &controllers.UserController{}, "get:GetUser")
-
 	//添加过滤器
 	beego.InsertFilter("/:*^(admin)", beego.BeforeRouter, controllers.HasIndexPermission, false)
 
@@ -55,6 +49,7 @@ func init() {
 		beego.NSInclude(
 			&controllers.GroupController{},
 			&controllers.UserController{},
+			&controllers.JobCountController{},
 		),
 	)
 	//注册namespace
