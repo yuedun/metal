@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50635
 File Encoding         : 65001
 
-Date: 2018-06-21 22:15:43
+Date: 2018-06-22 13:47:47
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -165,15 +165,18 @@ DROP TABLE IF EXISTS `job_count`;
 CREATE TABLE `job_count` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `job_title` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '职位名称，开发语言',
+  `region` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '地区',
   `amount` int(11) NOT NULL DEFAULT '0' COMMENT '职位数',
   `created_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------
 -- Records of job_count
 -- ----------------------------
-INSERT INTO `job_count` VALUES ('1', 'nodejs', '135', '2018-06-21 16:12:11');
+INSERT INTO `job_count` VALUES ('1', 'nodejs', '上海', '135', '2018-06-21 16:12:11');
+INSERT INTO `job_count` VALUES ('2', 'nodejs', '上海', '137', '2018-06-22 13:34:00');
+INSERT INTO `job_count` VALUES ('3', 'golang', '上海', '164', '2018-06-22 13:34:01');
 
 -- ----------------------------
 -- Table structure for `people_feature_relation`

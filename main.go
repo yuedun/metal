@@ -12,7 +12,6 @@ import (
 	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
-	_ "metal/util"
 )
 
 var port string
@@ -21,7 +20,7 @@ func init() {
 	dbUser := beego.AppConfig.String("mysqluser")
 	dbPass := beego.AppConfig.String("mysqlpass")
 	dbName := beego.AppConfig.String("mysqldb")
-	dbUrl := beego.AppConfig.String("mysqlurls")
+	dbURL := beego.AppConfig.String("mysqlurls")
 	dbPort := beego.AppConfig.String("mysqlport")
 	port = beego.AppConfig.String("httpport")
 	orm.RegisterDriver("mysql", orm.DRMySQL)
@@ -35,7 +34,7 @@ func init() {
 	orm.RegisterDataBase(
 		"default",
 		"mysql",
-		dbUser+":"+dbPass+"@tcp("+dbUrl+":"+dbPort+")/"+dbName+"?charset=utf8&parseTime=true&loc=Asia%2FShanghai",
+		dbUser+":"+dbPass+"@tcp("+dbURL+":"+dbPort+")/"+dbName+"?charset=utf8&parseTime=true&loc=Asia%2FShanghai",
 		maxIdle,
 		maxConn)
 	orm.Debug = true // 控制台打印查询语句
