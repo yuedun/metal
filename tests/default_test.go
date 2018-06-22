@@ -1,7 +1,9 @@
 package test
 
 import (
+	"fmt"
 	"metal/util"
+	"net/url"
 
 	"testing"
 )
@@ -25,5 +27,10 @@ func TestOne(t *testing.T) {
  * 爬虫测试
  */
 func TestCrawl(t *testing.T) {
-	util.GetJokes()
+	util.GetJobs()
+}
+
+//格式化
+func TestFmt(t *testing.T)  {
+	t.Log(fmt.Sprintf("https://www.lagou.com/jobs/list_%s?px=default&city=%s#filterBox", "golang", url.QueryEscape("shagnhai")))
 }

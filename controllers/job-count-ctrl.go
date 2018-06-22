@@ -16,6 +16,7 @@ type JobCountController struct {
 
 // @router /job-count [get]
 func (c *UserController) JobCount() {
+	c.Data["title"] = "报表"
 	c.TplName = "admin/job-count.html"
 }
 

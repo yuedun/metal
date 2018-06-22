@@ -1,18 +1,43 @@
 package util
 
 import (
+	"fmt"
 	"github.com/PuerkitoBio/goquery"
 	"log"
 	. "metal/models"
 	"net/http"
+	"net/url"
 	"strconv"
 	"time"
 )
 
-func GetJokes() {
+type JobData struct {
+	c        chan int
+	language string
+	region   string
+}
+
+func GetJobs() {
+	ch1, ch2 := make(chan int), make(chan int)
+	go func() {
+		requestUrl(ch1, "nodejs", "上海")
+	}()
+	go func() {
+		requestUrl(ch2, "golang", "上海")
+	}()
+	for {
+		select {
+			case c1 := <-ch1:
+				saveJob(c1, "nodejs", "上海")
+			case c2 := <-ch2:
+				saveJob(c2, "golang", "上海")
+		}
+	}
+}
+
+func requestUrl(c chan int, language, region string) {
 	// Request the HTML page.
-	res, err := http.Get("https://www.lagou.com/jobs/list_nodejs?px=default&city=%E4%B8%8A%E6%B5%B7#filterBox")
-	//res, err := http.Get("https://cnodejs.org")
+	res, err := http.Get(fmt.Sprintf("https://www.lagou.com/jobs/list_%s?px=default&city=%s#filterBox", language, url.QueryEscape(region)))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -31,20 +56,18 @@ func GetJokes() {
 
 	// Find the review items
 	text := doc.Find("#tab_pos>span").Text()
-	log.Println("职位数：", text)
-	amount, _ := strconv.Atoi(text)
+	log.Println(language+"职位数：", text)
+	count, _ := strconv.Atoi(text)
+	c <- count
+}
+
+func saveJob(c int, title, region string) {
 	jobCount := &JobCount{
-		JobTitle:  "nodejs",
-		Amount:    uint(amount),
+		JobTitle:  title,
+		Amount:    uint(c),
+		Region:    region,
 		CreatedAt: time.Now(),
 	}
 	jobCount.Save()
-
-	//cnodejs.org
-	//doc.Find(".cell").Each(func(i int, s *goquery.Selection) {
-	//	// For each item found, get the band and title
-	//	band := s.Find("a.user_avatar.pull-left").Text()
-	//	title := s.Find(".topic_title").Text()
-	//	log.Printf("Review %d: %s - %s\n", i, band, title)
-	//})
+	log.Println("保存")
 }
