@@ -12,8 +12,7 @@ var NeedPermission = map[string]bool{
 	"UserController:Welcome":       false,
 	"UserController:UserList":      true,
 	"UserController:UserListRoute": true,
-	"UserController:PUT":			true,
-	"UserController:POST":			true,
-	"UserController:DeleteUser":	true,
+	"UserController:PUT":           true,
+	"UserController:POST":          true,
+	"UserController:DeleteUser":    true,
 }
-

@@ -64,6 +64,6 @@ func (c *UserGroupController) AddUserGroup() {
 
 // @Title aaa
 // @router /user/:id [post,get]
-func (c *UserGroupController) Aaa()  {
+func (c *UserGroupController) Aaa() {
 
 }

@@ -1,7 +1,9 @@
 package test
 
 import (
+	"fmt"
 	"metal/util"
+	"net/url"
 
 	"testing"
 )
@@ -14,6 +16,21 @@ func TestMd5(t *testing.T) {
 	t.Log(p)
 }
 
+/**
+ * 根据手机号生成密码
+ */
 func TestOne(t *testing.T) {
 	t.Log(">>>>>>testone", util.GeneratePassword("18701897513"))
+}
+
+/**
+ * 爬虫测试
+ */
+func TestCrawl(t *testing.T) {
+	util.GetJobs()
+}
+
+//格式化
+func TestFmt(t *testing.T)  {
+	t.Log(fmt.Sprintf("https://www.lagou.com/jobs/list_%s?px=default&city=%s#filterBox", "golang", url.QueryEscape("shagnhai")))
 }

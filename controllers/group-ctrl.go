@@ -3,10 +3,10 @@ package controllers
 //包名并非必须和文件夹名相同，但是按照惯例最后一个路径名和包名一致
 import (
 	"encoding/json"
+	"github.com/astaxie/beego/logs"
 	"log"
 	. "metal/models"
 	"time"
-	"github.com/astaxie/beego/logs"
 )
 
 type GroupController struct {

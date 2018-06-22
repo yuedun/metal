@@ -214,3 +214,4 @@ func (c *UserController) DeleteUser() {
 	}
 	c.ServeJSON()
 }
+

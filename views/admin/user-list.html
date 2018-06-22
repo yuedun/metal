@@ -4,6 +4,7 @@ This is a starter template page. Use this page to start your new project from
 scratch. This page gets rid of all links and provides the needed markup only.
 -->
 <html>
+<title>用户列表</title>
 {{template "admin/html-head.html" .}}
 <!--
 BODY TAG OPTIONS:
@@ -117,11 +118,8 @@ desired effect
     </footer>
 
     <!-- Control Sidebar -->
-{{template "admin/html-control-sidebar.html"}}
+    {{template "admin/html-control-sidebar.html"}}
     <!-- /.Control-sidebar -->
-    <!-- Add the sidebar's background. This div must be placed
-    immediately after the control sidebar -->
-    <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
 
@@ -216,15 +214,15 @@ desired effect
         //列表
         var userList = $('#userlist').DataTable({
             language: {
-                "processing": "数据加载中……",
-                "zeroRecords": "No records to display"
+                processing: "数据加载中……",
+                zeroRecords: "No records to display"
             },
-            'paging': true,
-            'lengthChange': false,
-            'searching': true,
-            'ordering': true,
-            'info': true,
-            'autoWidth': false,
+            paging: true,
+            lengthChange: false,
+            searching: true,
+            ordering: true,
+            info: true,
+            autoWidth: false,
             serverSide: true,
             processing: true,
             ajax: function (data, callback, settings) {
@@ -264,20 +262,20 @@ desired effect
                     }
                 })
             },
-            rowId: 'Id',//自动设置行id
+            rowId: 'id',//自动设置行id
             columns: [
-                {data: 'Id'},
-                {data: 'UserName'},
-                {data: 'Gender'},
-                {data: 'Mobile'},
-                {data: 'Email'},
-                {data: 'Addr'},
-                {data: 'Status'},
-                {data: 'Description'},
-                {data: 'CreatedAt'},
-                {data: 'UpdatedAt'},
+                {data: 'id'},
+                {data: 'user_name'},
+                {data: 'gender'},
+                {data: 'mobile'},
+                {data: 'email'},
+                {data: 'addr'},
+                {data: 'status'},
+                {data: 'description'},
+                {data: 'created_at'},
+                {data: 'updated_at'},
                 {
-                    data: 'Mobile',
+                    data: 'mobile',
                     render: function (data, type, row) {
                         var html = '<button class="btn btn-sm btn-primary J-update">编辑</button>'
                                 + '<button class="btn btn-sm btn-danger J-delete">删除</button>'
@@ -288,7 +286,7 @@ desired effect
             ],
             "createdRow": function( row, data, dataIndex ) {
                  //有了DT_RowId属性就会自动添加id到行上,不需要在此操作，可以做其他事
-                $(row).data("userName", data.UserName);
+                $(row).data("userName", data.userName);
             }
         });
         //删除
@@ -329,12 +327,12 @@ desired effect
             var id = $(this).closest("tr").attr("id");
             $.get("/admin/user/" + id, function (data) {
                 $("#userId").val(id);
-                $("#username").val(data.data.UserName);
-                $("#gender").val(data.data.Gender);
-                $("#email").val(data.data.Email);
-                $("#mobile").val(data.data.Mobile);
-                $("#desc").val(data.data.Description);
-                $("#address").val(data.data.Addr);
+                $("#username").val(data.data.user_name);
+                $("#gender").val(data.data.gender);
+                $("#email").val(data.data.email);
+                $("#mobile").val(data.data.mobile);
+                $("#desc").val(data.data.description);
+                $("#address").val(data.data.addr);
                 layer.open({
                     type: 1,
                     area: ['500px', 'auto'],
@@ -383,14 +381,14 @@ desired effect
         //权限
         $("#userlist").on("click", ".J-permission", function () {
             var id = $(this).closest("tr").attr("id");
-            var userName = $(this).closest("tr").data("userName");
+            var userName = $(this).closest("tr").data("user_name");
             $.get("/admin/roles", function (data) {
                 console.log(data);
                 $("#userName").html(userName);
                 var ps="";
                 data.data.forEach(function (item, index) {
                     ps +='<label class="checkbox-inline">\n' +
-                            '<input type="checkbox" name="role" value="'+item.Id+'">' + item.Description +
+                            '<input type="checkbox" name="role" value="'+item.id+'">' + item.description +
                             '</label>'
                 });
                 $("#perssions").html(ps);

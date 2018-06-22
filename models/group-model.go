@@ -6,8 +6,8 @@ import (
 
 type Groups struct {
 	BaseModel
-	UserId uint
-	RoleId uint
+	UserId uint `json:"user_id"`
+	RoleId uint `json:"role_id"`
 }
 
 func init() {

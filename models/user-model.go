@@ -19,21 +19,21 @@ var StatusMap = map[int]string{0: "禁用", 1: "可用"}
  */
 type User struct {
 	BaseModel
-	UserName    string
-	Password    string
-	Gender      int // 0女，1男
-	Mobile      string
-	Email       string
-	Addr        string
-	Description string
-	Status      int // 0不可用，1可用
+	UserName    string `json:"user_name"`
+	Password    string `json:"password"`
+	Gender      int    `json:"gender"` // 0女，1男
+	Mobile      string `json:"mobile"`
+	Email       string `json:"email"`
+	Addr        string `json:"addr"`
+	Description string `json:"description"`
+	Status      int    `json:"status"` // 0不可用，1可用
 }
 type UserVO struct {
 	User
-	Gender    string
-	Status    string
-	CreatedAt string
-	UpdatedAt string
+	Gender    string `json:"gender"`
+	Status    string `json:"status"`
+	CreatedAt string `json:"created_at"`
+	UpdatedAt string `json:"updated_at""`
 }
 
 func init() {
