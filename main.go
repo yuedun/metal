@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"metal/controllers"
 	_ "metal/routers"
+	"metal/util"
 	"time"
 
 	"github.com/astaxie/beego"
@@ -19,7 +20,7 @@ func init() {
 	dbUser := beego.AppConfig.String("mysqluser")
 	dbPass := beego.AppConfig.String("mysqlpass")
 	dbName := beego.AppConfig.String("mysqldb")
-	dbUrl := beego.AppConfig.String("mysqlurls")
+	dbURL := beego.AppConfig.String("mysqlurls")
 	dbPort := beego.AppConfig.String("mysqlport")
 	port = beego.AppConfig.String("httpport")
 	orm.RegisterDriver("mysql", orm.DRMySQL)
@@ -33,7 +34,7 @@ func init() {
 	orm.RegisterDataBase(
 		"default",
 		"mysql",
-		dbUser+":"+dbPass+"@tcp("+dbUrl+":"+dbPort+")/"+dbName+"?charset=utf8&parseTime=true&loc=Asia%2FShanghai",
+		dbUser+":"+dbPass+"@tcp("+dbURL+":"+dbPort+")/"+dbName+"?charset=utf8&parseTime=true&loc=Asia%2FShanghai",
 		maxIdle,
 		maxConn)
 	orm.Debug = true // 控制台打印查询语句
@@ -58,6 +59,7 @@ func init() {
 }
 
 func main() {
+	util.CronStart() //启动定时任务
 	fmt.Println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n浏览器访问：http://localhost:" + port + "\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-	beego.Run()
+	beego.Run() //下面的代码不会执行，需要执行的代码放到上面
 }
