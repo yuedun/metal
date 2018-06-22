@@ -51,21 +51,39 @@ desired effect
         <!-- Main content -->
         <section class="content">
             <div class="row">
-                <section class="col-lg-7 connectedSortable">
+                <section class="col-lg-6 connectedSortable">
                     <!-- solid sales graph -->
-                    <div class="box box-solid bg-teal-gradient">
+                    <div class="box box-solid bg-green-gradient">
                         <div class="box-header">
                             <i class="fa fa-th"></i>
-                            <h3 class="box-title">职位数量走势</h3>
+                            <h3 class="box-title">nodejs</h3>
                             <div class="box-tools pull-right">
-                                <button type="button" class="btn bg-teal btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
+                                <button type="button" class="btn bg-green btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
                                 </button>
-                                <button type="button" class="btn bg-teal btn-sm" data-widget="remove"><i class="fa fa-times"></i>
+                                <button type="button" class="btn bg-green btn-sm" data-widget="remove"><i class="fa fa-times"></i>
                                 </button>
                             </div>
                         </div>
                         <div class="box-body border-radius-none">
-                            <div class="chart" id="line-chart" style="height: 250px;"></div>
+                            <div class="chart" id="line-chart-nodejs" style="height: 250px;"></div>
+                        </div>
+                    </div>
+                </section>
+                <section class="col-lg-6 connectedSortable">
+                    <!-- solid sales graph -->
+                    <div class="box box-solid bg-purple-gradient">
+                        <div class="box-header">
+                            <i class="fa fa-th"></i>
+                            <h3 class="box-title">golang</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn bg-purple btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
+                                </button>
+                                <button type="button" class="btn bg-purple btn-sm" data-widget="remove"><i class="fa fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="box-body border-radius-none">
+                            <div class="chart" id="line-chart-go" style="height: 250px;"></div>
                         </div>
                     </div>
                 </section>
@@ -101,25 +119,53 @@ desired effect
 <script src="../../static/bower_components/morris.js/morris.min.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script>
-    $.get("/admin/job-count/count-data", function (res) {
+    $.get("/admin/job-count/count-data?language=nodejs", function (res) {
         var data = [];
         res.data.forEach(function (item) {
             data.push({
                 y: item.created_at,
                 item1: item.amount,
             })
-        })
+        });
         var line = new Morris.Line({
-            element          : 'line-chart',
+            element          : 'line-chart-nodejs',
             resize           : true,
             data             : data,
             xkey             : 'y',
             ykeys            : ['item1'],
-            labels           : ['count'],
-            lineColors       : ['#efefef'],
+            labels           : ['数量'],
+            lineColors       : ['#999'],
             lineWidth        : 2,
             hideHover        : true,
-            gridTextColor    : '#fff',
+            gridTextColor    : '#efefef',
+            gridStrokeWidth  : 0.4,
+            pointSize        : 6,
+            pointStrokeColors: ['#efefef'],
+            gridLineColor    : '#efefef',
+            gridTextFamily   : 'Open Sans',
+            gridTextSize     : 10,
+            xLabels          : "day"
+        });
+    });
+    $.get("/admin/job-count/count-data?language=golang", function (res) {
+        var data = [];
+        res.data.forEach(function (item) {
+            data.push({
+                y: item.created_at,
+                item1: item.amount,
+            })
+        });
+        var line = new Morris.Line({
+            element          : 'line-chart-go',
+            resize           : true,
+            data             : data,
+            xkey             : 'y',
+            ykeys            : ['item1'],
+            labels           : ['数量'],
+            lineColors       : ['#999'],
+            lineWidth        : 2,
+            hideHover        : true,
+            gridTextColor    : '#efefef',
             gridStrokeWidth  : 0.4,
             pointSize        : 4,
             pointStrokeColors: ['#efefef'],
