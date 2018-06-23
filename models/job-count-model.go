@@ -31,7 +31,7 @@ func (jobCount *JobCount) Save() (int64, error) {
 func (jobCount *JobCount) GetCountData() ([]JobCount, error) {
 	o := orm.NewOrm()
 	var jobCounts []JobCount
-	num, err := o.Raw("SELECT * FROM job_count;").QueryRows(&jobCounts)
+	num, err := o.Raw(fmt.Sprintf("SELECT job_title, amount,DATE_FORMAT(created_at,'%%Y-%%m-%%d') AS created_at FROM job_count WHERE job_title='%s';", jobCount.JobTitle)).QueryRows(&jobCounts)
 	fmt.Println("查询到", num, "条数据")
 	return jobCounts, err
 }
