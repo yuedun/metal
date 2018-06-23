@@ -22,13 +22,16 @@ func (c *UserController) JobCount() {
 
 // @router /job-count/count-data [get]
 func (c *UserController) CountData() {
-	var jobCount = new(JobCount)
-	id64, err := jobCount.GetCountData()
+	lang := c.GetString("language")
+	log.Println(lang)
+	jobCount := new(JobCount)
+	jobCount.JobTitle = lang
+	list, err := jobCount.GetCountData()
 	if nil != err {
 		log.Print(err)
 		c.Data["json"] = ErrorData(err)
 	} else {
-		c.Data["json"] = SuccessData(id64)
+		c.Data["json"] = SuccessData(list)
 	}
 	c.ServeJSON()
 }
