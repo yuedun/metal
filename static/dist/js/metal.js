@@ -334,13 +334,13 @@ $(function () {
             + '<p class="text-center no-margin" style="font-size: 12px">Yellow Light</p>')
   $skinsList.append($skinYellowLight)
 
-  $demoSettings.append('<h4 class="control-sidebar-heading">Skins</h4>')
-  $demoSettings.append($skinsList)
+  $demoSettings.append('<h4 class="control-sidebar-heading">Skins</h4>');
+  $demoSettings.append($skinsList);
 
-  $tabPane.append($demoSettings)
-  $('#control-sidebar-home-tab').after($tabPane)
+  $tabPane.append($demoSettings);
+  $('#control-sidebar-home-tab').after($tabPane);
 
-  setup()
+  setup();
 
-  $('[data-toggle="tooltip"]').tooltip()
+  $('[data-toggle="tooltip"]').tooltip();
 })
