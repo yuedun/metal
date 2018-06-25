@@ -4,6 +4,7 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"fmt"
+	"log"
 )
 
 /**
@@ -14,8 +15,8 @@ func GetMD5(password string) string {
 	Md5Inst.Write([]byte(password))
 	Result := Md5Inst.Sum(nil)
 	// 以下两种输出结果一样
-	fmt.Printf("格式化>>>>>>>%x\n", Result)
-	fmt.Print("hex解码>>>>>>>", hex.EncodeToString(Result), "\n")
+	log.Printf("格式化>>>>>>>%x\n", Result)
+	log.Print("hex解码>>>>>>>", hex.EncodeToString(Result), "\n")
 	return fmt.Sprintf("%x", Result)
 }
 

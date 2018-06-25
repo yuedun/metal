@@ -24,10 +24,10 @@ func GetJobs() {
 	go requestUrl(ch2, "golang", "上海")
 	for {
 		select {
-			case c1 := <-ch1:
-				saveJob(c1, "nodejs", "上海")
-			case c2 := <-ch2:
-				saveJob(c2, "golang", "上海")
+		case c1 := <-ch1:
+			saveJob(c1, "nodejs", "上海")
+		case c2 := <-ch2:
+			saveJob(c2, "golang", "上海")
 		}
 	}
 }

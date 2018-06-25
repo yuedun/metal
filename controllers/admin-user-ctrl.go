@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	. "metal/models" // 点操作符导入的包可以省略报名直接使用公有属性和方法
 	"metal/util"
@@ -113,7 +112,7 @@ func (c *UserController) UserGet() {
 	user := new(User)
 	user.Id = uint(id)
 	userObj, err := user.GetById()
-	fmt.Println(userObj)
+	log.Println(userObj)
 	if err != nil {
 		log.Print(err)
 		c.Data["json"] = ErrorData(err)
@@ -214,4 +213,3 @@ func (c *UserController) DeleteUser() {
 	}
 	c.ServeJSON()
 }
-
