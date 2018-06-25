@@ -25,13 +25,18 @@
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">MAIN NAVIGATION</li>
-            <li class="treeview">
+            <li>
+                <a href="/admin/">
+                    <i class="fa fa-dashboard"></i> <span>home</span>
+                </a>
+            </li>
+            <li class="treeview menu-open">
                 <a href="#">
                     <i class="fa fa-users"></i>
                     <span>User</span>
                     <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
                 </a>
-                <ul class="treeview-menu">
+                <ul class="treeview-menu" style="display: block;">
                     <li><a href="/admin/user-list"><i class="fa fa-circle-o"></i> UserList</a></li>
                     <li><a href="/admin/user-add"><i class="fa fa-circle-o"></i> UserAdd</a></li>
                 </ul>
