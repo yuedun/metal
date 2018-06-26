@@ -12,7 +12,7 @@ func init() {
 	 * 下面第一个路由有三个参数，指定路由/myroute访问的是MyRoute控制器
 	 */
 	// beego.Router("/test", &controllers.MainController{}, "*:MyRoute")
-	//添加过滤器
+	//添加过滤器(这个正则还有问题，只能匹配到首页)
 	beego.InsertFilter("/:*^(admin)", beego.BeforeRouter, controllers.HasIndexPermission, false)
 
 	//注解路由，代替上面单个注册路由

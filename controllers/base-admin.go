@@ -44,7 +44,6 @@ func (c *AdminBaseController) Prepare() {
 		if NeedPermission[requestPermission] {
 			hasPermission = false
 			for _, pri := range privileges {
-				log.Println(pri)
 				if pri != requestPermission {
 					hasPermission = false
 				} else {
