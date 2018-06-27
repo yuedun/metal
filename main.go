@@ -2,7 +2,7 @@ package main
 
 import (
 	"encoding/gob"
-	"fmt"
+	"log"
 	"metal/controllers"
 	_ "metal/routers"
 	"metal/util"
@@ -60,6 +60,6 @@ func init() {
 
 func main() {
 	util.CronStart() //启动定时任务
-	fmt.Println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n浏览器访问：http://localhost:" + port + "\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+	log.Printf("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n浏览器访问：http://localhost:%s\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", port)
 	beego.Run() //下面的代码不会执行，需要执行的代码放到上面
 }
