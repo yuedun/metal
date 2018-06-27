@@ -1,8 +1,6 @@
 package controllers
 
 import (
-	"fmt"
-
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/context"
 )
@@ -18,7 +16,7 @@ type any = interface{}
 
 // 前端权限验证
 var HasIndexPermission = func(ctx *context.Context) {
-	fmt.Println(">>>>>>>>>>>>>index auth")
+	// TODO 做一些验证
 }
 
 // 自定义404错误页面
