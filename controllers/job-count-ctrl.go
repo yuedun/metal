@@ -21,12 +21,14 @@ func (c *UserController) JobCount() {
 }
 
 // @router /job-count/count-data [get]
-func (c *UserController) CountData() {
+func (c *UserController) CountDataRecently() {
 	lang := c.GetString("language")
-	log.Println(lang)
+	startDate := c.GetString("startDate")
+	endDate := c.GetString("endDate")
+
+	log.Println(lang, startDate, endDate)
 	jobCount := new(JobCount)
-	jobCount.JobTitle = lang
-	list, err := jobCount.GetCountData()
+	list, err := jobCount.GetCountData(lang, startDate, endDate)
 	if nil != err {
 		log.Print(err)
 		c.Data["json"] = ErrorData(err)

@@ -28,10 +28,14 @@ func (jobCount *JobCount) Save() (int64, error) {
 }
 
 // 获取记录列表
-func (jobCount *JobCount) GetCountData() ([]JobCount, error) {
+func (jobCount *JobCount) GetCountData(lang, startDate, endDate string) ([]JobCount, error) {
 	o := orm.NewOrm()
 	var jobCounts []JobCount
-	num, err := o.Raw(fmt.Sprintf("SELECT job_title, amount,DATE_FORMAT(created_at,'%%Y-%%m-%%d') AS created_at FROM job_count WHERE job_title='%s';", jobCount.JobTitle)).QueryRows(&jobCounts)
+	var sql = fmt.Sprintf("SELECT job_title, amount,DATE_FORMAT(created_at,'%%Y-%%m-%%d') AS created_at FROM job_count WHERE job_title='%s'", lang)
+	if startDate !="" && endDate !="" {
+		sql += fmt.Sprintf("AND created_at >= '%s' AND created_at < '%s'", startDate, endDate)
+	}
+	num, err := o.Raw(sql).QueryRows(&jobCounts)
 	fmt.Println("查询到", num, "条数据")
 	return jobCounts, err
 }
