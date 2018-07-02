@@ -20,15 +20,34 @@ func (c *UserController) JobCount() {
 	c.TplName = "admin/job-count.html"
 }
 
-// @router /job-count/count-data [get]
+//  近一个月数据
+// @router /job-count/count-data-recently [get]
 func (c *UserController) CountDataRecently() {
 	lang := c.GetString("language")
-	startDate := c.GetString("startDate")
-	endDate := c.GetString("endDate")
+	startDate := c.GetString("startDate") + " 00:00:00"
+	endDate := c.GetString("endDate") + " 23:59:59"
 
 	log.Println(lang, startDate, endDate)
 	jobCount := new(JobCount)
 	list, err := jobCount.GetCountData(lang, startDate, endDate)
+	if nil != err {
+		log.Print(err)
+		c.Data["json"] = ErrorData(err)
+	} else {
+		c.Data["json"] = SuccessData(list)
+	}
+	c.ServeJSON()
+}
+
+// 所有历史数据
+// @router /job-count/count-data-all [get]
+func (c *UserController) CountDataAll() {
+	lang := c.GetString("language")
+
+	log.Println(lang)
+	jobCount := new(JobCount)
+	jobCount.JobTitle = lang
+	list, err := jobCount.GetCountDataAll()
 	if nil != err {
 		log.Print(err)
 		c.Data["json"] = ErrorData(err)
