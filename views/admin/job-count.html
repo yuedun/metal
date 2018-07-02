@@ -107,9 +107,6 @@ desired effect
                             </div>
                         </div>
                         <div class="box-body border-radius-none">
-                            <p class="text-center">
-                                <strong>时间段：218-06-01 - 2018-06-30</strong>
-                            </p>
                             <div class="chart">
                                 <!-- Sales Chart Canvas -->
                                 <canvas id="line-chart-nodejs-history"></canvas>
@@ -131,10 +128,6 @@ desired effect
                             </div>
                         </div>
                         <div class="box-body border-radius-none">
-                            <p class="text-center">
-                                <strong>时间段：218-06-01 - 2018-06-30</strong>
-                            </p>
-
                             <div class="chart">
                                 <!-- Sales Chart Canvas -->
                                 <canvas id="line-chart-go-history"></canvas>
@@ -179,7 +172,7 @@ desired effect
         //最近一个月走势
         var startDate = moment().subtract(1, "months").format("YYYY-MM-DD");
         var endDate = moment().format("YYYY-MM-DD");
-        $.get("/admin/job-count/count-data?language=nodejs&startDate="+startDate+"&endDate="+endDate, function (res) {
+        $.get("/admin/job-count/count-data-recently?language=nodejs&startDate="+startDate+"&endDate="+endDate, function (res) {
             var data = [];
             res.data.forEach(function (item) {
                 data.push({
@@ -207,7 +200,7 @@ desired effect
                 xLabels          : "day"
             });
         });
-        $.get("/admin/job-count/count-data?language=nodejs&startDate="+startDate+"&endDate="+endDate, function (res) {
+        $.get("/admin/job-count/count-data-recently?language=golang&startDate="+startDate+"&endDate="+endDate, function (res) {
             var data = [];
             res.data.forEach(function (item) {
                 data.push({
@@ -236,7 +229,7 @@ desired effect
             });
         });
         //历史走势
-        $.get("/admin/job-count/count-data?language=nodejs", function (res) {
+        $.get("/admin/job-count/count-data-all?language=nodejs", function (res) {
             var data = [];
             res.data.forEach(function (item) {
                 data.push({
@@ -313,7 +306,7 @@ desired effect
             // Create the line chart
             salesChart.Line(salesChartData, salesChartOptions);
         });
-        $.get("/admin/job-count/count-data?language=golang", function (res) {
+        $.get("/admin/job-count/count-data-all?language=golang", function (res) {
             var data = [];
             res.data.forEach(function (item) {
                 data.push({
