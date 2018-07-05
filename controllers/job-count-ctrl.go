@@ -19,6 +19,7 @@ func (c *UserController) JobCount() {
 	c.Data["title"] = "报表"
 	c.TplName = "admin/job-count.html"
 }
+
 //  近一个月数据
 // @router /job-count/count-data-recently [get]
 func (c *UserController) CountDataRecently() {
