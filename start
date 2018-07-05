@@ -1,0 +1,7 @@
+#!/bin/bash
+echo 'building...'
+go build
+
+echo 'starting...'
+nohup ./metal &
+echo 'started!'
