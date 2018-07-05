@@ -2,8 +2,9 @@ package models
 
 import (
 	"fmt"
-	"github.com/astaxie/beego/orm"
 	"time"
+
+	"github.com/astaxie/beego/orm"
 )
 
 /**
@@ -32,7 +33,7 @@ func (jobCount *JobCount) GetCountData(lang, startDate, endDate string) ([]JobCo
 	o := orm.NewOrm()
 	var jobCounts []JobCount
 	var sql = fmt.Sprintf("SELECT job_title, amount,DATE_FORMAT(created_at,'%%Y-%%m-%%d') AS created_at FROM job_count WHERE job_title='%s'", lang)
-	if startDate !="" && endDate !="" {
+	if startDate != "" && endDate != "" {
 		sql += fmt.Sprintf("AND created_at >= '%s' AND created_at <= '%s'", startDate, endDate)
 	}
 	num, err := o.Raw(sql).QueryRows(&jobCounts)
