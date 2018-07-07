@@ -31,3 +31,6 @@ app.conf
 *.exe~
 
 tmp/
+nohup.out
+metal
+main
