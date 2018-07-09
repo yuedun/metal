@@ -1,13 +1,16 @@
 package util
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/PuerkitoBio/goquery"
+	"io/ioutil"
 	"log"
 	. "metal/models"
 	"net/http"
 	"net/url"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -55,6 +58,44 @@ func requestUrl(c chan int, language, region string) {
 	log.Println(language+"职位数：", text)
 	count, _ := strconv.Atoi(text)
 	c <- count
+}
+
+/**
+ * 通过ajax post获取数据
+ */
+func RequestByAjax(c chan int, language, region string) {
+	client := &http.Client{}
+	var r http.Request
+	r.ParseForm()
+	r.Form.Add("first", "true")
+	r.Form.Add("pn", "1")
+	r.Form.Add("kd", language)
+	bodystr := strings.TrimSpace(r.Form.Encode())
+	req, err := http.NewRequest(http.MethodPost,
+		fmt.Sprintf("https://www.lagou.com/jobs/positionAjax.json?px=default&city=%s&needAddtionalResult=false", url.QueryEscape(region)),
+		strings.NewReader(bodystr))
+	if err != nil {
+		log.Fatal(err)
+	}
+	req.Header.Set("Referer", "https://www.lagou.com/jobs/list_nodejs")
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	resp, err := client.Do(req)
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var resBody interface{}
+	json.Unmarshal(body, &resBody)
+	ccc :=resBody.(map[string]interface{})["content"].(map[string]interface{})["positionResult"].(map[string]interface{})["totalCount"]
+	scount :=fmt.Sprintf("%.0f", ccc)
+	log.Print(scount)
+	if count, err := strconv.Atoi(scount); err == nil {
+		c <- count
+	} else {
+		log.Fatal(err)
+	}
 }
 
 // 保存数据
