@@ -20,6 +20,14 @@ type JobData struct {
 	region   string
 }
 
+type resBody struct {
+	Content struct {
+		PositionResult struct {
+			TotalCount int
+		}
+	}
+}
+
 // 并行获取
 func GetJobs() {
 	ch1, ch2 := make(chan int), make(chan int)
@@ -86,16 +94,12 @@ func RequestByAjax(c chan int, language, region string) {
 		log.Fatal(err)
 	}
 
-	var resBody interface{}
-	json.Unmarshal(body, &resBody)
-	ccc :=resBody.(map[string]interface{})["content"].(map[string]interface{})["positionResult"].(map[string]interface{})["totalCount"]
-	scount :=fmt.Sprintf("%.0f", ccc)
-	log.Print(scount)
-	if count, err := strconv.Atoi(scount); err == nil {
-		c <- count
-	} else {
+	var resBody resBody
+	err2 := json.Unmarshal(body, &resBody)
+	if err2 != nil {
 		log.Fatal(err)
 	}
+	c <- resBody.Content.PositionResult.TotalCount
 }
 
 // 保存数据
