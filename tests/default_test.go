@@ -28,6 +28,7 @@ func TestOne(t *testing.T) {
  */
 func TestCrawl(t *testing.T) {
 	util.GetJobs()
+	//util.RequestByAjax(nil, "nodejs", "上海")
 }
 
 //格式化
