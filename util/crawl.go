@@ -99,7 +99,8 @@ func RequestByAjax(c chan int, language, region string) {
 	if err2 != nil {
 		log.Fatal(err)
 	}
-	c <- resBody.Content.PositionResult.TotalCount
+	count := resBody.Content.PositionResult.TotalCount
+	c <- count
 }
 
 // 保存数据
