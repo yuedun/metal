@@ -15,7 +15,7 @@ func (job MyJob) Run() {
 }
 func CronStart() {
 	runCron, err := strconv.ParseBool(beego.AppConfig.String("runCron"))
-	if err != nil && runCron {
+	if err == nil && runCron {
 		c := cron.New()
 		spec := beego.AppConfig.String("cron")
 		c.AddFunc(spec, func() {
