@@ -24,6 +24,10 @@ type resBody struct {
 	Content struct {
 		PositionResult struct {
 			TotalCount int
+			ResultSize int
+			Result []struct{
+				PositionName string
+			}
 		}
 	}
 }
@@ -31,16 +35,16 @@ type resBody struct {
 // 并行获取
 func GetJobs() {
 	ch1, ch2 := make(chan int), make(chan int)
-	go requestUrl(ch1, "nodejs", "上海")
-	go requestUrl(ch2, "golang", "上海")
-	for {
-		select {
-		case c1 := <-ch1:
-			saveJob(c1, "nodejs", "上海")
-		case c2 := <-ch2:
-			saveJob(c2, "golang", "上海")
-		}
-	}
+	go RequestByAjax(ch1, "nodejs", "上海")
+	go RequestByAjax(ch2, "golang", "上海")
+	//for {
+	//	select {
+	//	case c1 := <-ch1:
+	//		saveJob(c1, "nodejs", "上海")
+	//	case c2 := <-ch2:
+	//		saveJob(c2, "golang", "上海")
+	//	}
+	//}
 }
 
 // 获取HTML页面中需要的数据
