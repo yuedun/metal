@@ -10,7 +10,7 @@ import (
 type MyJob struct{}
 
 func (job MyJob) Run() {
-	log.Println("职位统计任务")
+	log.Println("职位统计任务，单任务")
 	GetJobs()
 }
 func CronStart() {
@@ -19,7 +19,7 @@ func CronStart() {
 		c := cron.New()
 		spec := beego.AppConfig.String("cron")
 		c.AddFunc(spec, func() {
-			log.Println("职位统计任务")
+			log.Println("职位统计任务，多任务")
 			GetJobs()
 		})
 		//c.AddJob(spec, MyJob{})

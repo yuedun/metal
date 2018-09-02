@@ -37,14 +37,14 @@ func GetJobs() {
 	ch1, ch2 := make(chan int), make(chan int)
 	go RequestByAjax(ch1, "nodejs", "上海")
 	go RequestByAjax(ch2, "golang", "上海")
-	//for {
-	//	select {
-	//	case c1 := <-ch1:
-	//		saveJob(c1, "nodejs", "上海")
-	//	case c2 := <-ch2:
-	//		saveJob(c2, "golang", "上海")
-	//	}
-	//}
+	for {
+		select {
+		case c1 := <-ch1:
+			saveJob(c1, "nodejs", "上海")
+		case c2 := <-ch2:
+			saveJob(c2, "golang", "上海")
+		}
+	}
 }
 
 // 获取HTML页面中需要的数据
