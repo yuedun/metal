@@ -149,7 +149,7 @@ desired effect
                     </div>
                     <div class="form-group">
                         <label for="mobile">mobile</label>
-                        <input type="text" class="form-control" id="mobile" name="mobile" placeholder="mobile">
+                        <input type="text" class="form-control" id="mobile" name="mobile" placeholder="mobile" disabled>
                     </div>
                     <div class="form-group">
                         <label for="email">email</label>
@@ -270,7 +270,18 @@ desired effect
                 {data: 'mobile'},
                 {data: 'email'},
                 {data: 'addr'},
-                {data: 'status'},
+                {
+                    data: 'status',
+                    render: function(data, type, row){
+                        var html = '<span class="label label-primary">为止</span>';
+                        if (data == 0) {
+                            html = '<span class="label label-danger">禁用</span>';
+                        } else {
+                            html = '<span class="label label-success">启用</span>';
+                        }
+                        return html;
+                    }
+                },
                 {data: 'description'},
                 {data: 'created_at'},
                 {data: 'updated_at'},
@@ -278,7 +289,7 @@ desired effect
                     data: 'mobile',
                     render: function (data, type, row) {
                         var html = '<button class="btn btn-sm btn-primary J-update">编辑</button>'
-                                + '<button class="btn btn-sm btn-danger J-delete">删除</button>'
+                                + '<button class="btn btn-sm btn-danger J-delete">禁用</button>'
                                 + '<button class="btn btn-sm btn-info J-permission">权限</button>'
                         return html;
                     }

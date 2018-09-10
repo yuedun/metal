@@ -180,10 +180,10 @@ func (c *UserController) UserList() {
 		c.Data["json"] = ErrorData(err)
 	} else {
 		for index, u := range userList {
+			log.Printf("%+v", u)
 			userVo := new(UserVO)
 			userVo.User = u
 			userVo.Gender = SexMap[u.Gender]
-			userVo.Status = StatusMap[u.Status]
 			userVo.CreatedAt = u.CreatedAt.Format("2006-01-02 15:04:05")
 			userVo.UpdatedAt = u.UpdatedAt.Format("2006-01-02 15:04:05")
 			userVOList = append(userVOList[:index], *userVo)
@@ -204,6 +204,7 @@ func (c *UserController) DeleteUser() {
 	id, _ := c.GetInt("userId")
 	var user = new(User)
 	user.Id = uint(id)
+	user.Status = 0
 	id64, err := user.Delete()
 	if nil != err {
 		log.Print(err)
