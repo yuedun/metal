@@ -11,9 +11,6 @@ import (
 //性别
 var SexMap = map[int]string{0: "女", 1: "男"}
 
-//状态
-var StatusMap = map[int]string{0: "禁用", 1: "可用"}
-
 /**
  * 模型与数据库字段多少不一定要匹配
  */
@@ -31,7 +28,6 @@ type User struct {
 type UserVO struct {
 	User
 	Gender    string `json:"gender"`
-	Status    string `json:"status"`
 	CreatedAt string `json:"created_at"`
 	UpdatedAt string `json:"updated_at""`
 }
@@ -135,7 +131,7 @@ func (user *User) Update() (int64, error) {
 // 通过id删除用户
 func (user *User) Delete() (int64, error) {
 	o := orm.NewOrm()
-	id, err := o.Delete(user, "id") // 要修改的对象和需要修改的字段
+	id, err := o.Update(user, "status") // 要修改的对象和需要修改的字段
 	if err != nil {
 		return id, err
 	} else {

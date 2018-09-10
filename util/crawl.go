@@ -25,7 +25,7 @@ type resBody struct {
 		PositionResult struct {
 			TotalCount int
 			ResultSize int
-			Result []struct{
+			Result     []struct {
 				PositionName string
 			}
 		}
