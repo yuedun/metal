@@ -25,6 +25,8 @@ func (c *UserController) ToLogin() {
 	if err != nil {
 		log.Print(err)
 		c.Data["json"] = ErrorData(err)
+	} else if user.Status == 0 {
+		c.Data["json"] = ErrorMsg("该账号已禁用，不能登录！")
 	} else if user.Password != util.GetMD5(password) {
 		c.Data["json"] = ErrorMsg("密码不正确（hello+手机后4位）")
 	} else {
