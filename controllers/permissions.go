@@ -9,6 +9,8 @@ package controllers
 var NeedPermission = map[string]bool{
 	"UserController:ToLogin":       false,
 	"UserController:LoginOut":      false,
+	"UserController:ToRegister":    false,
+	"UserController:Register":      false,
 	"UserController:Welcome":       false,
 	"UserController:UserList":      true,
 	"UserController:UserListRoute": true,

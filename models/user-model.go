@@ -29,7 +29,7 @@ type UserVO struct {
 	User
 	Gender    string `json:"gender"`
 	CreatedAt string `json:"created_at"`
-	UpdatedAt string `json:"updated_at""`
+	UpdatedAt string `json:"updated_at"`
 }
 
 func init() {
