@@ -194,7 +194,6 @@ func (c *UserController) UserList() {
 		c.Data["json"] = ErrorData(err)
 	} else {
 		for index, u := range userList {
-			log.Printf("%+v", u)
 			userVo := new(UserVO)
 			userVo.User = u
 			userVo.Gender = SexMap[u.Gender]
