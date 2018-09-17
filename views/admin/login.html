@@ -34,8 +34,8 @@
                 <!-- /.col -->
             </div>
         </form>
-        <a href="#">I forgot my password</a><br>
-        <a href="register.html" class="text-center">Register a new membership</a>
+        <a href="#" id="forget-password">忘记密码</a><br>
+        <a href="/admin/to-register" class="text-center">注册</a>
     </div>
     <!-- /.login-box-body -->
 </div>
@@ -82,6 +82,10 @@
                     console.log('结束')
                 }
             })
+        });
+
+        $("#forget-password").click(function(){
+            alert("默认密码：hello+手机后4位");
         })
     });
 </script>
