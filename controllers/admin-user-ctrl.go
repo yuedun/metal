@@ -20,6 +20,10 @@ func (c *UserController) Login() {
 func (c *UserController) ToLogin() {
 	var mobile = c.GetString("mobile")
 	var password = c.GetString("password")
+	ip := c.Ctx.Input.IP()
+	mark := "登录IP:" + ip
+	loginLog := new(Log)
+	loginLog.Save(mark)
 	user := &User{Mobile: mobile}
 	err := user.GetByMobile()
 	if err != nil {
@@ -28,7 +32,7 @@ func (c *UserController) ToLogin() {
 	} else if user.Status == 0 {
 		c.Data["json"] = ErrorMsg("该账号已禁用，不能登录！")
 	} else if user.Password != util.GetMD5(password) {
-		c.Data["json"] = ErrorMsg("密码不正确（hello+手机后4位）")
+		c.Data["json"] = ErrorMsg("密码不正确！")
 	} else {
 		group := new(Groups)
 		roleList, err := group.GetGroupByUserId(user.Id)
@@ -182,7 +186,7 @@ func (c *UserController) UserList() {
 		c.Data["json"] = ErrorData(err)
 	} else {
 		for index, u := range userList {
-			log.Printf("%+v",u)
+			log.Printf("%+v", u)
 			userVo := new(UserVO)
 			userVo.User = u
 			userVo.Gender = SexMap[u.Gender]
@@ -213,6 +217,35 @@ func (c *UserController) DeleteUser() {
 		c.Data["json"] = ErrorData(err)
 	} else {
 		c.Data["json"] = SuccessData(id64)
+	}
+	c.ServeJSON()
+}
+
+/**
+ * 通过如下方式获取路由参数
+ */
+// @router /get-logs-route
+func (c *UserController) GetLogsRoute() {
+	c.Data["Title"] = "日志列表"
+	c.TplName = "admin/logs.html"
+}
+
+/**
+ * 通过如下方式获取路由参数
+ */
+// @router /logs [get]
+func (c *UserController) GetLogs() {
+	var logModel = new(Log)
+	logs, err := logModel.GetLogs()
+	if nil != err {
+		log.Print(err)
+		c.Data["json"] = ErrorData(err)
+	} else {
+		data := map[string]any{
+			"result": logs,
+			"total":  len(logs),
+		}
+		c.Data["json"] = SuccessData(data)
 	}
 	c.ServeJSON()
 }
