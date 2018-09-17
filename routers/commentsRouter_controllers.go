@@ -73,6 +73,14 @@ func init() {
 
 	beego.GlobalControllerRouter["metal/controllers:UserController"] = append(beego.GlobalControllerRouter["metal/controllers:UserController"],
 		beego.ControllerComments{
+			Method: "GetLogsRoute",
+			Router: `/get-logs-route`,
+			AllowHTTPMethods: []string{"get"},
+			MethodParams: param.Make(),
+			Params: nil})
+
+	beego.GlobalControllerRouter["metal/controllers:UserController"] = append(beego.GlobalControllerRouter["metal/controllers:UserController"],
+		beego.ControllerComments{
 			Method: "JobCount",
 			Router: `/job-count`,
 			AllowHTTPMethods: []string{"get"},
@@ -91,6 +99,14 @@ func init() {
 		beego.ControllerComments{
 			Method: "CountDataRecently",
 			Router: `/job-count/count-data-recently`,
+			AllowHTTPMethods: []string{"get"},
+			MethodParams: param.Make(),
+			Params: nil})
+
+	beego.GlobalControllerRouter["metal/controllers:UserController"] = append(beego.GlobalControllerRouter["metal/controllers:UserController"],
+		beego.ControllerComments{
+			Method: "GetLogs",
+			Router: `/logs`,
 			AllowHTTPMethods: []string{"get"},
 			MethodParams: param.Make(),
 			Params: nil})
