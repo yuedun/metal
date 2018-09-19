@@ -20,7 +20,7 @@ func (c *UserController) Login() {
 func (c *UserController) ToLogin() {
 	var mobile = c.GetString("mobile")
 	var password = c.GetString("password")
-	ip := c.Ctx.Input.IP()
+	ip := c.Ctx.Request.RemoteAddr
 	mark := "登录IP:" + ip
 	loginLog := new(Log)
 	loginLog.Save(mark)
