@@ -20,7 +20,9 @@ func (c *UserController) Login() {
 func (c *UserController) ToLogin() {
 	var mobile = c.GetString("mobile")
 	var password = c.GetString("password")
-	ip := c.Ctx.Request.RemoteAddr
+	c.Ctx.Input.IP()
+	// c.Ctx.Input.IP()获取到的是Nginx内网ip，需要在Nginx配置proxy_set_header Remote_addr $remote_addr;
+	ip := c.Ctx.Input.Header("Remote_addr")
 	mark := "登录IP:" + ip
 	loginLog := new(Log)
 	loginLog.Save(mark)
