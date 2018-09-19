@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	. "metal/models" // 点操作符导入的包可以省略报名直接使用公有属性和方法
 	"metal/util"
@@ -23,9 +24,14 @@ func (c *UserController) ToLogin() {
 	c.Ctx.Input.IP()
 	// c.Ctx.Input.IP()获取到的是Nginx内网ip，需要在Nginx配置proxy_set_header Remote_addr $remote_addr;
 	ip := c.Ctx.Input.Header("Remote_addr")
-	mark := "登录IP:" + ip
-	loginLog := new(Log)
-	loginLog.Save(mark)
+	if ip != "" {
+		ipBody := new(util.IPBody)
+		util.GetIpGeography(ip, ipBody)
+		loginLog := new(Log)
+		mark := fmt.Sprintf("登录IP:%s，物理地址：%s %s %s %s", ip, ipBody.Data.Country, ipBody.Data.Area, ipBody.Data.Region, ipBody.Data.City)
+		loginLog.Save(mark)
+	}
+
 	user := &User{Mobile: mobile}
 	err := user.GetByMobile()
 	if err != nil {
