@@ -23,8 +23,7 @@ func (log *Log) Save(mark string) (int64, error) {
 }
 func (log *Log) GetLogs() ([]Log, error) {
 	o := orm.NewOrm()
-	var logs []Log
-	//var userGroups []orm.Params//orm.Params是一个map类型
+	logs := make([]Log, 0, 50)
 	num, err := o.Raw("select * from log order by id desc;").QueryRows(&logs)
 	if nil != err && num > 0 {
 		return nil, err
