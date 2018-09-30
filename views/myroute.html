@@ -1,38 +1,37 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="zh">
 <head>
-  <title>首页</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <link rel="shortcut icon" href="./static/dist/img/avatar.png" type="image/x-icon" />
-  <link rel="stylesheet" href="./static/css/style.css" />
+    <title>首页</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="shortcut icon" href="./static/dist/img/avatar.png" type="image/x-icon"/>
+    <link rel="stylesheet" href="./static/css/style.css"/>
 </head>
 
 <body>
-  {{template "./menu.html"}}
-  <header>
-    <h2 style="text-align:center">本页测试数据库基本操作</h2>
-    <div class="description">
-      <form action="/user" method="POST">
-        <input type="text" name="username" placeholder="用户名"><br>
-        <input type="text" name="password" placeholder="密码"><br>
-        <input type="submit" value="提交">
-      </form>
-    </div>
-    <ul>
+<header>
+{{template "./layout-menu.html"}}
+</header>
+<article>
+    <section>
+        <h2 style="text-align:center">本页测试数据库基本操作</h2>
+        <div class="description">
+            <form action="/user" method="POST">
+                <input type="text" name="username" placeholder="用户名"><br>
+                <input type="text" name="password" placeholder="密码"><br>
+                <input type="submit" value="提交">
+            </form>
+        </div>
+        <ul>
         {{range $index, $elem := .userList}}
-        <li>{{$elem.Id}}:{{$elem.UserName}}</li>
+            <li>{{$elem.Id}}:{{$elem.UserName}}</li>
         {{end}}
-    </ul>
-  </header>
-  <footer>
-    <div class="author">
-      Official website:
-      <a href="http://www.yuedun.wang">www.yuedun.wang</a> /
-      Contact me:
-      <a class="email" href="mailto:huo.win.n@gmail.com">huo.win.n@gmail.com</a>
-    </div>
-  </footer>
-  <div class="backdrop"></div>
+        </ul>
+    </section>
+</article>
+<footer>
+{{template "./layout-footer.html"}}
+</footer>
+<div class="backdrop"></div>
 </body>
 </html>
