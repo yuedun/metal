@@ -21,26 +21,13 @@ nav ul {
 nav ul li {
     display: inline;
 }
-header,
+article,
 footer {
     width: 960px;
     margin-left: auto;
     margin-right: auto;
 }
-.logo {
-  background-image: url('../img/th.jpg');
-  background-repeat: no-repeat;
-  -webkit-background-size: 100px 100px;
-    background-size: 100px 100px;
-  background-position: center center;
-  text-align: center;
-  padding: 50px 0 50px;
-  font-weight: normal;
-  text-shadow: 0 1px 2px #ddd;
-}
-header {
-    padding: 0 0 100px 0;
-}
+
 footer {
     line-height: 1.8;
     text-align: center;
@@ -48,8 +35,10 @@ footer {
     color: #999;
 }
 .description {
-    text-align: center;
     font-size: 16px;
+}
+.description p{
+    padding: 10px;
 }
 a {
     color: #444;
@@ -59,17 +48,23 @@ a {
     position: absolute;
     width: 100%;
     height: 100%;
-    
     z-index: -1;
     top: 0;
     left: 0;
 }
-.article-body{
-    width: 60%;
+.category-body{
+    width: 960px;
     border-left: 1px solid #333;
     margin: 30px auto;
     padding: 0 50px;
 }
 article section {
-  padding: 20px 23px;
+    padding: 20px 23px;
+    border-bottom: 1px solid #dae1e4;
+}
+
+article section h1{
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 20px;
 }
