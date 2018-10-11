@@ -73,6 +73,14 @@ func init() {
 
 	beego.GlobalControllerRouter["metal/controllers:UserController"] = append(beego.GlobalControllerRouter["metal/controllers:UserController"],
 		beego.ControllerComments{
+			Method: "CreateArticle",
+			Router: `/article`,
+			AllowHTTPMethods: []string{"post"},
+			MethodParams: param.Make(),
+			Params: nil})
+
+	beego.GlobalControllerRouter["metal/controllers:UserController"] = append(beego.GlobalControllerRouter["metal/controllers:UserController"],
+		beego.ControllerComments{
 			Method: "GetLogsRoute",
 			Router: `/get-logs-route`,
 			AllowHTTPMethods: []string{"get"},
