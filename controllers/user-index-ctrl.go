@@ -18,9 +18,16 @@ type MainController struct {
 // 	c.Mapping("MyRoute", c.MyRoute)
 // }
 
-//注解路由
+//首页
 // @router / [get]
 func (c *MainController) Get() {
+	article := &Article{}
+	articleList, err := article.GetArticles()
+	if nil != err {
+		c.Data["articleList"] = []Article{}
+	} else {
+		c.Data["articleList"] = articleList
+	}
 	//默认tpl或html后缀
 	c.TplName = "index.html"
 }

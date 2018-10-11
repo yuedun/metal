@@ -136,7 +136,7 @@ func (c *UserController) UserGet() {
 }
 
 /**
- * 通过如下方式获取路由参数
+ * 修改用户
  */
 func (c *UserController) Put() {
 	userId, _ := c.GetInt("userId")
@@ -168,7 +168,7 @@ func (c *UserController) Put() {
 }
 
 /**
- * 通过如下方式获取路由参数
+ * 用户列表路由
  */
 func (c *UserController) UserListRoute() {
 	c.Data["Title"] = "用户列表"
@@ -176,7 +176,7 @@ func (c *UserController) UserListRoute() {
 }
 
 /**
- * 通过ajax获取数据
+ * 用户列表接口
  * /admin/users
  */
 func (c *UserController) UserList() {
@@ -211,7 +211,7 @@ func (c *UserController) UserList() {
 }
 
 /**
- * 通过如下方式获取路由参数
+ * 删除用户
  */
 func (c *UserController) DeleteUser() {
 	id, _ := c.GetInt("userId")
@@ -229,7 +229,7 @@ func (c *UserController) DeleteUser() {
 }
 
 /**
- * 通过如下方式获取路由参数
+ * 日志列表路由
  */
 // @router /get-logs-route
 func (c *UserController) GetLogsRoute() {
@@ -238,7 +238,7 @@ func (c *UserController) GetLogsRoute() {
 }
 
 /**
- * 通过如下方式获取路由参数
+ * 日志列表接口
  */
 // @router /logs [get]
 func (c *UserController) GetLogs() {
@@ -253,6 +253,45 @@ func (c *UserController) GetLogs() {
 			"total":  len(logs),
 		}
 		c.Data["json"] = SuccessData(data)
+	}
+	c.ServeJSON()
+}
+
+/**
+ * 创建文章
+ */
+// @router /article [post]
+func (c *UserController) CreateArticle() {
+	defer func() {
+		if err := recover(); err != nil {
+			c.Data["json"] = ErrorMsg(err.(string))
+		}
+		c.ServeJSON()
+	}()
+	var args struct {
+		Title string
+		Content string
+	}
+	json.Unmarshal(c.Ctx.Input.RequestBody, &args)
+	title := args.Title
+	if title == "" {
+		log.Panic("title不能为空")
+	}
+	content := args.Content
+	if content == "" {
+		log.Panic("content不能为空")
+	}
+	article := &Article{
+		Title: title,
+		Content: content,
+	}
+
+	_, err := article.Save()
+	if nil != err {
+		log.Print(err)
+		c.Data["json"] = ErrorData(err)
+	} else {
+		c.Data["json"] = SuccessData(nil)
 	}
 	c.ServeJSON()
 }
