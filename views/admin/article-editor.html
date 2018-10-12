@@ -98,6 +98,11 @@
         console.log(title, content)
         $.post("/admin/article", { title: title, content: content }, function (result) {
           console.log(result);
+          if (result.code ==0) {
+            layer.msg("新建成功！", {icon: 6});
+          } else {
+            layer.msg("修改失败！", {icon: 5});
+          }
         }, "json");
       })
     })

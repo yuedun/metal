@@ -1,7 +1,10 @@
 package models
 
 import (
+	"fmt"
 	"github.com/astaxie/beego/orm"
+	"strconv"
+	"sync"
 	"time"
 )
 
@@ -29,4 +32,39 @@ func (article *Article) GetArticles() ([]Article, error) {
 		return nil, err
 	}
 	return articles, nil
+}
+
+func (article *Article) GetArticlesByCondition(param map[string]string, start, perPage int)([]Article, int64, error)  {
+	o := orm.NewOrm()
+	var articles []Article
+	var total int64
+	var newError error
+	var condition = " WHERE 1 "
+	if param["title"] != "" {
+		condition += "and title like '" + param["title"] + "%'"
+	}
+	var wg sync.WaitGroup
+	wg.Add(2)
+	go func() {
+		defer wg.Done()
+		var sql = "SELECT * FROM article "
+		sql += condition
+		sql += " LIMIT " + strconv.Itoa(start) + ", " + strconv.Itoa(perPage)
+		_, err := o.Raw(sql).QueryRows(&articles)
+		if err != nil {
+			newError = err
+		}
+	}()
+	go func() {
+		defer wg.Done()
+		var sql = "SELECT COUNT(0) FROM article "
+		sql += condition
+		err2 := o.Raw(sql).QueryRow(&total)
+		if err2 != nil {
+			newError = err2
+		}
+		fmt.Println("mysql row affected nums: ", total)
+	}()
+	wg.Wait()
+	return articles, total, newError
 }
