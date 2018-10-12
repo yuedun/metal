@@ -257,6 +257,9 @@ func (c *UserController) GetLogs() {
 	c.ServeJSON()
 }
 
+/**
+ * 创建文章路由
+ */
 // @router /article-route [get]
 func (c *UserController) CreateArticleRoute()  {
 	c.TplName="admin/article-editor.html"
@@ -297,6 +300,42 @@ func (c *UserController) CreateArticle() {
 		c.Data["json"] = ErrorData(err)
 	} else {
 		c.Data["json"] = SuccessData(nil)
+	}
+	c.ServeJSON()
+}
+
+/**
+ * 文章列表路由
+ */
+//@router /articles-route [get]
+func (c * UserController) ArticlesRoute() {
+	c.TplName = "admin/article-list.html"
+}
+
+/**
+ * 文章列表接口
+ * /admin/articles
+ */
+ //@router /articles 
+ func (c *UserController) ArticlesList() {
+	args := c.GetString("search") // 获取所有参数
+	start, _ := c.GetInt("start")
+	perPage, _ := c.GetInt("perPage")
+	article := new(Article)
+	param := map[string]string{
+		"title": args,
+	}
+
+	userList, total, err := article.GetArticlesByCondition(param, start, perPage)
+	if nil != err {
+		log.Print(err)
+		c.Data["json"] = ErrorData(err)
+	} else {
+		data := map[string]any{
+			"result": userList,
+			"total":  total,
+		}
+		c.Data["json"] = SuccessData(data)
 	}
 	c.ServeJSON()
 }
