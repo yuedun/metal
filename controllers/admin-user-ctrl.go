@@ -257,8 +257,12 @@ func (c *UserController) GetLogs() {
 	c.ServeJSON()
 }
 
+// @router /article-route [get]
+func (c *UserController) CreateArticleRoute()  {
+	c.TplName="admin/article-editor.html"
+}
 /**
- * 创建文章
+ * 创建文章接口
  */
 // @router /article [post]
 func (c *UserController) CreateArticle() {
@@ -268,16 +272,17 @@ func (c *UserController) CreateArticle() {
 		}
 		c.ServeJSON()
 	}()
-	var args struct {
-		Title string
-		Content string
-	}
-	json.Unmarshal(c.Ctx.Input.RequestBody, &args)
-	title := args.Title
+	// var args struct {
+	// 	Title string
+	// 	Content string
+	// }
+	log.Print(">>>>>>>>>>>>", c.GetString("title"))
+	// json.Unmarshal(c.Ctx.Input.RequestBody, &args)
+	title := c.GetString("title")
 	if title == "" {
 		log.Panic("title不能为空")
 	}
-	content := args.Content
+	content := c.GetString("content")
 	if content == "" {
 		log.Panic("content不能为空")
 	}
