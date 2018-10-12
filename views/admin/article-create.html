@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>编辑文章</title>
+  <title>创建文章</title>
   {{template "admin/html-head.html"}}
   <link rel="stylesheet" href="../../static/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 </head>
@@ -101,7 +101,7 @@
           if (result.code ==0) {
             layer.msg("新建成功！", {icon: 6});
           } else {
-            layer.msg("修改失败！", {icon: 5});
+            layer.msg("新建失败！", {icon: 5});
           }
         }, "json");
       })

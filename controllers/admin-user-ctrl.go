@@ -261,9 +261,10 @@ func (c *UserController) GetLogs() {
  * 创建文章路由
  */
 // @router /article-route [get]
-func (c *UserController) CreateArticleRoute()  {
-	c.TplName="admin/article-editor.html"
+func (c *UserController) CreateArticleRoute() {
+	c.TplName = "admin/article-create.html"
 }
+
 /**
  * 创建文章接口
  */
@@ -290,7 +291,7 @@ func (c *UserController) CreateArticle() {
 		log.Panic("content不能为空")
 	}
 	article := &Article{
-		Title: title,
+		Title:   title,
 		Content: content,
 	}
 
@@ -308,7 +309,7 @@ func (c *UserController) CreateArticle() {
  * 文章列表路由
  */
 //@router /articles-route [get]
-func (c * UserController) ArticlesRoute() {
+func (c *UserController) ArticlesRoute() {
 	c.TplName = "admin/article-list.html"
 }
 
@@ -316,8 +317,8 @@ func (c * UserController) ArticlesRoute() {
  * 文章列表接口
  * /admin/articles
  */
- //@router /articles 
- func (c *UserController) ArticlesList() {
+//@router /articles
+func (c *UserController) ArticlesList() {
 	args := c.GetString("search") // 获取所有参数
 	start, _ := c.GetInt("start")
 	perPage, _ := c.GetInt("perPage")
@@ -337,5 +338,43 @@ func (c * UserController) ArticlesRoute() {
 		}
 		c.Data["json"] = SuccessData(data)
 	}
+	c.ServeJSON()
+}
+
+/**
+ * 编辑文章路由
+ * /admin/articles
+ */
+//@router /article-edit-route/:id [get]
+func (c *UserController)ArticleEditRoute()  {
+	article :=new(Article)
+	artId, _ :=strconv.Atoi(c.Ctx.Input.Param(":id"))
+	article.Id = uint(artId)
+	article.GetById()
+	c.Data["article"] = article
+	c.TplName = "admin/article-edit.html"
+}
+
+/**
+ * 修改文章接口
+ * /admin/article/:id
+ */
+//@router /article/:id [put]
+func (c *UserController)ArticleEdit()  {
+	article :=new(Article)
+	artId, _ :=strconv.Atoi(c.Ctx.Input.Param(":id"))
+	title:=c.GetString("title")
+	content:=c.GetString("content")
+	article.Id = uint(artId)
+	article.Title = title
+	article.Content = content
+	article.UpdatedAt = time.Now()
+	_, err:=article.Update()
+	log.Print(">>>>>>", err)
+	if err != nil {
+		c.Data["json"] = ErrorData(err.(error))
+		c.ServeJSON()
+	}
+	c.Data["json"] = SuccessData(nil)
 	c.ServeJSON()
 }

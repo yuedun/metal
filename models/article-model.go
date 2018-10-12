@@ -34,7 +34,7 @@ func (article *Article) GetArticles() ([]Article, error) {
 	return articles, nil
 }
 
-func (article *Article) GetArticlesByCondition(param map[string]string, start, perPage int)([]Article, int64, error)  {
+func (article *Article) GetArticlesByCondition(param map[string]string, start, perPage int) ([]Article, int64, error) {
 	o := orm.NewOrm()
 	var articles []Article
 	var total int64
@@ -67,4 +67,16 @@ func (article *Article) GetArticlesByCondition(param map[string]string, start, p
 	}()
 	wg.Wait()
 	return articles, total, newError
+}
+
+func (article *Article) GetById() error {
+	o :=orm.NewOrm()
+	err:=o.Read(article, "id")
+	return err
+}
+
+func (article *Article)Update()(int64, error)  {
+	o:=orm.NewOrm()
+	id, err:=o.Update(article, "title", "content", "updated_at")
+	return id, err
 }

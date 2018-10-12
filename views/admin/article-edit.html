@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>修改文章</title>
+  {{template "admin/html-head.html"}}
+  <link rel="stylesheet" href="../../static/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+  <div class="wrapper">
+
+    <!-- Main Header -->
+    {{template "admin/html-header.html"}}
+    <!-- Left side column. contains the logo and sidebar -->
+    {{template "admin/html-aside.html"}}
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <section class="content-header">
+        <h1>
+          编辑文章
+          <small>Advanced form element</small>
+        </h1>
+        <ol class="breadcrumb">
+          <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+          <li><a href="#">Forms</a></li>
+          <li class="active">Editors</li>
+        </ol>
+      </section>
+
+      <!-- Main content -->
+      <section class="content">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="box">
+              <div class="box-header">
+                <h3 class="box-title">Bootstrap WYSIHTML5
+                  <small>Simple and fast</small>
+                </h3>
+              </div>
+              <!-- /.box-header -->
+              <div class="box-body pad">
+                <form role="form">
+                  <input type="hidden" name="artId" id="artId" value="{{.article.Id}}">
+                  <div class="form-group">
+                    <label for="art_title">标题</label>
+                    <input type="email" class="form-control" id="art_title" placeholder="title" value="{{.article.Title}}">
+                  </div>
+                  <div class="form-group">
+                    <label for="art_content">内容</label>
+                    <textarea class="textarea" id="art_content" placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{.article.Content}}</textarea>
+                  </div>
+                </form>
+                <div class="box-footer">
+                  <button type="submit" class="btn btn-primary J-submit">Submit</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /.col-->
+        </div>
+        <!-- ./row -->
+      </section>
+      <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    <footer class="main-footer">
+      <div class="pull-right hidden-xs">
+        <b>Version</b> 2.4.0
+      </div>
+      <strong>Copyright &copy; 2014-2016 <a href="#">Almsaeed Studio</a>.</strong> All rights
+      reserved.
+    </footer>
+
+    <!-- Control Sidebar -->
+    {{template "admin/html-control-sidebar.html"}}
+    <!-- /.control-sidebar -->
+    <!-- Add the sidebar's background. This div must be placed
+       immediately after the control sidebar -->
+    <div class="control-sidebar-bg"></div>
+  </div>
+  <!-- ./wrapper -->
+  <!-- REQUIRED JS SCRIPTS -->
+  {{template "admin/html-js.html"}}
+  <!-- Bootstrap WYSIHTML5 -->
+  <script src="../../static/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+  <!-- /REQUIRED JS SCRIPTS -->
+
+  <!-- page script -->
+  <script>
+    $(function () {
+      //bootstrap WYSIHTML5 - text editor
+      $('.textarea').wysihtml5();
+      //提交
+      $(".J-submit").on("click", function () {
+        var title = $("#art_title").val();
+        var content = $("#art_content").val();
+        var id = $("#artId").val();
+        $.ajax({
+          url: '/admin/article/' + id,
+          type: 'PUT',
+          async: true,    //或false,是否异步
+          data: { id: id, title: title, content: content },
+          timeout: 5000,    //超时时间
+          dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+          success: function (data, textStatus, jqXHR) {
+            if (data.code == 1) {
+              layer.msg(data.msg, { icon: 5 });
+              return
+            }
+            layer.msg("修改成功！", { icon: 6 });
+          },
+          error: function (xhr, textStatus) {
+            layer.msg("修改失败！", { icon: 5 });
+          },
+          complete: function () {
+
+          }
+        })
+      })
+    })
+  </script>
+</body>
+
+</html>
