@@ -194,7 +194,7 @@ desired effect
                 {
                     data: 'title',
                     render: function (data, type, row) {
-                        var html = '<button class="btn btn-sm btn-primary J-update">编辑</button>'
+                        var html = '<a class="J-update" href="/admin/article-edit-route/'+row.id+'">编辑</a>'
                         return html;
                     }
                 }
@@ -205,7 +205,7 @@ desired effect
             }
         });
         //删除
-        $("#userlist").on("click", ".J-delete", function () {
+        $("#articlelist").on("click", ".J-delete", function () {
             var id = $(this).closest("tr").attr("id");
             if (confirm("确定删除？")) {
                 $.ajax({
