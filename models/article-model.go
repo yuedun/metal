@@ -70,13 +70,13 @@ func (article *Article) GetArticlesByCondition(param map[string]string, start, p
 }
 
 func (article *Article) GetById() error {
-	o :=orm.NewOrm()
-	err:=o.Read(article, "id")
+	o := orm.NewOrm()
+	err := o.Read(article, "id")
 	return err
 }
 
-func (article *Article)Update()(int64, error)  {
-	o:=orm.NewOrm()
-	id, err:=o.Update(article, "title", "content", "updated_at")
+func (article *Article) Update() (int64, error) {
+	o := orm.NewOrm()
+	id, err := o.Update(article, "title", "content", "updated_at")
 	return id, err
 }

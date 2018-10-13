@@ -346,9 +346,9 @@ func (c *UserController) ArticlesList() {
  * /admin/articles
  */
 //@router /article-edit-route/:id [get]
-func (c *UserController)ArticleEditRoute()  {
-	article :=new(Article)
-	artId, _ :=strconv.Atoi(c.Ctx.Input.Param(":id"))
+func (c *UserController) ArticleEditRoute() {
+	article := new(Article)
+	artId, _ := strconv.Atoi(c.Ctx.Input.Param(":id"))
 	article.Id = uint(artId)
 	article.GetById()
 	c.Data["article"] = article
@@ -360,20 +360,26 @@ func (c *UserController)ArticleEditRoute()  {
  * /admin/article/:id
  */
 //@router /article/:id [put]
-func (c *UserController)ArticleEdit()  {
-	article :=new(Article)
-	artId, _ :=strconv.Atoi(c.Ctx.Input.Param(":id"))
-	title:=c.GetString("title")
-	content:=c.GetString("content")
+func (c *UserController) ArticleEdit() {
+	defer func() {
+		if err := recover(); err != nil {
+			c.Data["json"] = ErrorData(err.(error))
+			c.ServeJSON()
+		}
+	}()
+	article := new(Article)
+	artId, _ := strconv.Atoi(c.Ctx.Input.Param(":id"))
+	title := c.GetString("title")
+	content := c.GetString("content")
 	article.Id = uint(artId)
 	article.Title = title
 	article.Content = content
 	article.UpdatedAt = time.Now()
-	_, err:=article.Update()
-	log.Print(">>>>>>", err)
+	_, err := article.Update()
 	if err != nil {
 		c.Data["json"] = ErrorData(err.(error))
 		c.ServeJSON()
+		return
 	}
 	c.Data["json"] = SuccessData(nil)
 	c.ServeJSON()
