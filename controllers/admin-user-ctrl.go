@@ -21,16 +21,6 @@ func (c *UserController) Login() {
 func (c *UserController) ToLogin() {
 	var mobile = c.GetString("mobile")
 	var password = c.GetString("password")
-	c.Ctx.Input.IP()
-	// c.Ctx.Input.IP()获取到的是Nginx内网ip，需要在Nginx配置proxy_set_header Remote_addr $remote_addr;
-	ip := c.Ctx.Input.Header("Remote_addr")
-	if ip != "" {
-		ipBody := new(util.IPBody)
-		util.GetIpGeography(ip, ipBody)
-		loginLog := new(Log)
-		mark := fmt.Sprintf("登录IP:%s，物理地址：%s %s %s %s", ip, ipBody.Data.Country, ipBody.Data.Area, ipBody.Data.Region, ipBody.Data.City)
-		loginLog.Save(mark)
-	}
 
 	user := &User{Mobile: mobile}
 	err := user.GetByMobile()
@@ -56,6 +46,15 @@ func (c *UserController) ToLogin() {
 		userPermission.User = *user
 		userPermission.Privileges = privileges
 		c.SetSession("loginUser", userPermission)
+		// c.Ctx.Input.IP()获取到的是Nginx内网ip，需要在Nginx配置proxy_set_header Remote_addr $remote_addr;
+		ip := c.Ctx.Input.Header("Remote_addr")
+		if ip != "" {
+			ipBody := new(util.IPBody)
+			util.GetIpGeography(ip, ipBody)
+			loginLog := new(Log)
+			mark := fmt.Sprintf("登录IP:%s，物理地址：%s %s %s %s", ip, ipBody.Data.Country, ipBody.Data.Area, ipBody.Data.Region, ipBody.Data.City)
+			loginLog.Save(mark)
+		}
 		c.Data["json"] = SuccessData(nil)
 	}
 	c.ServeJSON()
