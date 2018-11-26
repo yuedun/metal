@@ -68,3 +68,14 @@ article section h1{
     font-size: 20px;
     margin-bottom: 20px;
 }
+
+/* 中等屏幕（桌面显示器，平板电脑，大于等于 992px） */
+@media screen and (min-width: 768px) and (max-width: 992px) {
+
+}
+/* 小屏幕（平板，大于等于 768px） */
+@media screen and (max-width:768px) { 
+    article, footer{
+        width:100%
+    }
+}
