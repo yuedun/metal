@@ -31,6 +31,7 @@ func init() {
 		//	return false
 		//}),
 
+		//根据实际经验，推荐使用直接注册的方式来管理路由，可以直接明了的看到所有路由，不再使用可以直接注释掉，方便搜索
 		beego.NSBefore(controllers.HasAdminPermission), //过滤器
 		beego.NSRouter("/", &controllers.UserController{}, "get:Welcome"),
 		beego.NSRouter("/login", &controllers.UserController{}, "get:Login"),
