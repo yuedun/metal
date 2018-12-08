@@ -102,6 +102,9 @@ $(function () {
    */
   function setup() {
     var tmp = get('skin')
+      if (!tmp){//设置默认主题为亮红色
+        tmp = "skin-red-light";
+      }
     if (tmp && $.inArray(tmp, mySkins))
       changeSkin(tmp)
 

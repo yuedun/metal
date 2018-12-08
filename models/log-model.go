@@ -2,6 +2,7 @@ package models
 
 import (
 	"github.com/astaxie/beego/orm"
+	"sync"
 	"time"
 )
 
@@ -21,12 +22,24 @@ func (log *Log) Save(mark string) (int64, error) {
 	log.Mark = mark
 	return o.Insert(log)
 }
-func (log *Log) GetLogs() ([]Log, error) {
+func (log *Log) GetLogs(start, perPage int) (logs []Log, total int64, newError error) {
 	o := orm.NewOrm()
-	logs := make([]Log, 0, 50)
-	num, err := o.Raw("select * from log order by id desc;").QueryRows(&logs)
-	if nil != err && num > 0 {
-		return nil, err
-	}
-	return logs, nil
+	var wg sync.WaitGroup
+	wg.Add(2)
+	go func() {
+		defer wg.Done()
+		num, err := o.Raw("select * from log order by id desc limit ?, ?;", start, perPage).QueryRows(&logs)
+		if nil != err && num > 0 {
+			newError = err
+		}
+	}()
+	go func() {
+		defer wg.Done()
+		err := o.Raw("select count(*) from log;").QueryRow(&total)
+		if nil != err {
+			newError = err
+		}
+	}()
+	wg.Wait()
+	return logs, total, newError
 }

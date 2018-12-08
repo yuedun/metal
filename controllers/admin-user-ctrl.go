@@ -241,15 +241,17 @@ func (c *UserController) GetLogsRoute() {
  */
 // @router /logs [get]
 func (c *UserController) GetLogs() {
+	start, _ := c.GetInt("start")
+	perPage, _ := c.GetInt("perPage")
 	var logModel = new(Log)
-	logs, err := logModel.GetLogs()
+	logs, total, err := logModel.GetLogs(start, perPage)
 	if nil != err {
 		log.Print(err)
 		c.Data["json"] = ErrorData(err)
 	} else {
 		data := map[string]any{
 			"result": logs,
-			"total":  len(logs),
+			"total":  total,
 		}
 		c.Data["json"] = SuccessData(data)
 	}
