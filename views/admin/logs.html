@@ -131,6 +131,7 @@ desired effect
             serverSide: true,
             processing: true,
             ajax: function (data, callback, settings) {
+                console.log(data)
                 var postData = {
                     draw: data.draw,
                     perPage: data.length,
