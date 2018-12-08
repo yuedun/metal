@@ -39,12 +39,11 @@ func (c *UserController) CountDataRecently() {
 	c.ServeJSON()
 }
 
-// 所有历史数据
+// 所有历史数据，按月平均值统计
 // @router /job-count/count-data-all [get]
 func (c *UserController) CountDataAll() {
 	lang := c.GetString("language")
 
-	log.Println(lang)
 	jobCount := new(JobCount)
 	jobCount.JobTitle = lang
 	list, err := jobCount.GetCountDataAll()
