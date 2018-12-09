@@ -34,3 +34,5 @@ tmp/
 nohup.out
 metal
 main
+logs/
+views/AdminLTE-2.4.3/package-lock.json

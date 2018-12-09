@@ -4,8 +4,10 @@ This is a starter template page. Use this page to start your new project from
 scratch. This page gets rid of all links and provides the needed markup only.
 -->
 <html>
+<head>
 <title>报表</title>
 {{template "admin/html-head.html" .}}
+</head>
 <!--
 BODY TAG OPTIONS:
 =================
@@ -98,7 +100,7 @@ desired effect
                     <div class="box box-solid bg-green-gradient">
                         <div class="box-header">
                             <i class="fa fa-th"></i>
-                            <h3 class="box-title">nodejs历史数据</h3>
+                            <h3 class="box-title">nodejs每月平均</h3>
                             <div class="box-tools pull-right">
                                 <button type="button" class="btn bg-green btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
                                 </button>
@@ -119,7 +121,7 @@ desired effect
                     <div class="box box-solid bg-purple-gradient">
                         <div class="box-header">
                             <i class="fa fa-th"></i>
-                            <h3 class="box-title">golang历史数据</h3>
+                            <h3 class="box-title">golang每月平均</h3>
                             <div class="box-tools pull-right">
                                 <button type="button" class="btn bg-purple btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
                                 </button>
@@ -238,7 +240,7 @@ desired effect
                 })
             });
             var labelsKeys = data.map((function(item){
-                return moment(item.date).format("YYYY-MM-DD");
+                return moment(item.date).format("YYYY-MM");
             }));
             var dataValues = data.map((function(item){
                 return item.value;
@@ -296,7 +298,7 @@ desired effect
                 // Boolean - Whether to fill the dataset with a color
                 datasetFill             : true,
                 // String - A legend template
-                legendTemplate          : '<ul class=\'<%=name.toLowerCase()%>-legend\'><% for (var i=0; i<datasets.length; i++){%><li><span style=\'background-color:<%=datasets[i].lineColor%>\'></span><%=datasets[i].label%></li><%}%></ul>',
+                legendTemplate          : '',
                 // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
                 maintainAspectRatio     : true,
                 // Boolean - whether to make the chart responsive to window resizing
@@ -315,7 +317,7 @@ desired effect
                 })
             });
             var labelsKeys = data.map((function(item){
-                return moment(item.date).format("YYYY-MM-DD");
+                return moment(item.date).format("YYYY-MM");
             }));
             var dataValues = data.map((function(item){
                 return item.value;
@@ -373,7 +375,7 @@ desired effect
                 // Boolean - Whether to fill the dataset with a color
                 datasetFill             : true,
                 // String - A legend template
-                legendTemplate          : '<ul class=\'<%=name.toLowerCase()%>-legend\'><% for (var i=0; i<datasets.length; i++){%><li><span style=\'background-color:<%=datasets[i].lineColor%>\'></span><%=datasets[i].label%></li><%}%></ul>',
+                legendTemplate          : '',
                 // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
                 maintainAspectRatio     : true,
                 // Boolean - whether to make the chart responsive to window resizing

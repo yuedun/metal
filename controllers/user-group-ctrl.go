@@ -21,8 +21,9 @@ func (c *UserGroupController) GetAllUserGroup() {
 	userGroups, err := userGroup.GetUserGroupList()
 	if nil != err {
 		c.Data["json"] = ErrorData(err)
+	} else {
+		c.Data["json"] = userGroups
 	}
-	c.Data["json"] = userGroups
 	c.ServeJSON()
 }
 

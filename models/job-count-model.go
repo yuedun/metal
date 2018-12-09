@@ -40,11 +40,13 @@ func (jobCount *JobCount) GetCountData(lang, startDate, endDate string) ([]JobCo
 	fmt.Println("查询到", num, "条数据")
 	return jobCounts, err
 }
+//所有历史数据，按月平均值统计
 func (jobCount *JobCount) GetCountDataAll() ([]JobCount, error) {
 	o := orm.NewOrm()
 	var jobCounts []JobCount
-	var sql = fmt.Sprintf("SELECT job_title, amount,DATE_FORMAT(created_at,'%%Y-%%m-%%d') AS created_at FROM job_count WHERE job_title='%s'", jobCount.JobTitle)
+	var sql = fmt.Sprintf("SELECT job_title, ROUND(AVG(amount)) AS amount, DATE_FORMAT(CONCAT( YEAR (created_at), '-', MONTH (created_at), '-01'), '%%Y-%%m-%%d') AS created_at FROM job_count WHERE job_title = '%s' GROUP BY YEAR (created_at), MONTH (created_at);", jobCount.JobTitle)
 	num, err := o.Raw(sql).QueryRows(&jobCounts)
 	fmt.Println("查询到", num, "条数据")
 	return jobCounts, err
 }
+
