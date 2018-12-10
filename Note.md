@@ -143,3 +143,18 @@ func (this *User) GetName(){
 }
 ```
 将GetName函数挂载到User上。interface是定义了一系列函数签名，没有具体实现，如果一个数据结构（struct）实现了这些函数，则实现了继承。
+
+以下SQL在mysql5.7.5以上版本会报错：
+```sql
+SELECT job_title, ROUND(AVG(amount)) AS amount, DATE_FORMAT(CONCAT( YEAR (created_at), '-', MONTH (created_at), '-01'), '%Y-%m-%d') AS created_at FROM job_count WHERE job_title = 'golang' GROUP BY YEAR (created_at), MONTH (created_at);
+```
+```
+- Error 1055: Expression #3 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'issue.job_count.created_at' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+```
+解决方法：
+
+修改/etc/mysql/mysql.conf.d/mysqld.cnf
+```
+[mysqld]
+sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'
+```
