@@ -95,13 +95,16 @@ func RequestByAjax(c chan int, language, region string) {
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		log.Fatal(err)
+		log.Panic("读取body失败：", err)
 	}
 
-	var resBody resBody
+	var resBody = new(resBody)
 	err2 := json.Unmarshal(body, &resBody)
 	if err2 != nil {
-		log.Fatal(err)
+		log.Panic("解析body失败:", err2)
+	}
+	if resBody.Content.PositionResult.TotalCount == 0 {
+		log.Panic("获取" + language + "数据为空!")
 	}
 	count := resBody.Content.PositionResult.TotalCount
 	c <- count

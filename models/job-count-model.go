@@ -40,6 +40,7 @@ func (jobCount *JobCount) GetCountData(lang, startDate, endDate string) ([]JobCo
 	fmt.Println("查询到", num, "条数据")
 	return jobCounts, err
 }
+
 //所有历史数据，按月平均值统计
 func (jobCount *JobCount) GetCountDataAll() ([]JobCount, error) {
 	o := orm.NewOrm()
@@ -49,4 +50,3 @@ func (jobCount *JobCount) GetCountDataAll() ([]JobCount, error) {
 	fmt.Println("查询到", num, "条数据")
 	return jobCounts, err
 }
-

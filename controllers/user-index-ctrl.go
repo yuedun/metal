@@ -28,6 +28,7 @@ func (c *MainController) Get() {
 	} else {
 		c.Data["articleList"] = articleList
 	}
+	beego.Info(">>>>>>>>>")
 	//默认tpl或html后缀
 	c.TplName = "index.html"
 }
