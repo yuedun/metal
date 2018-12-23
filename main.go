@@ -57,7 +57,8 @@ func init() {
 	// 日志：会保存手动输出的日志和系统异常日志
 	// 如： logs.Error和panic
 	logs.Async()
-	logs.SetLogger(logs.AdapterFile, `{"filename":"./logs/error.log","level":4,"maxlines":0,"maxsize":0,"daily":true,"maxdays":10}`)
+	//level值越高，记录的日志范围越广
+	logs.SetLogger(logs.AdapterFile, `{"filename":"./logs/metal.log","level":6,"maxlines":0,"maxsize":0,"daily":true,"maxdays":1}`)
 }
 
 func main() {
