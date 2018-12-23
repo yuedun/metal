@@ -2,7 +2,7 @@ package controllers
 
 //包名并非必须和文件夹名相同，但是按照惯例最后一个路径名和包名一致
 import (
-	"log"
+	"github.com/astaxie/beego"
 	. "metal/models"
 	"time"
 )
@@ -38,7 +38,7 @@ func (c *MainController) MyRoute() {
 	user := &User{}
 	userList, err := user.GetAll()
 	if nil != err {
-		log.Print(err)
+		beego.Error(err)
 		c.Data["json"] = map[string]any{"msg": err}
 		c.ServeJSON()
 	}
@@ -60,7 +60,7 @@ func (c *MainController) AddUser() {
 
 	_, err := user.Save()
 	if nil != err {
-		log.Print(err)
+		beego.Error(err)
 		c.Data["json"] = map[string]any{"msg": err}
 		c.ServeJSON()
 	}
@@ -75,7 +75,7 @@ func (c *MainController) GetUser() {
 	user := &User{UserName: username}
 	err := user.GetByName()
 	if nil != err {
-		log.Print(err)
+		beego.Error(err)
 		c.Data["json"] = map[string]any{"result": false, "msg": c.Ctx.Input.Params()}
 	} else {
 		c.Data["json"] = map[string]any{"result": true, "msg": user}

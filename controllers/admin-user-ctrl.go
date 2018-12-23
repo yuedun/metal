@@ -3,6 +3,7 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/astaxie/beego"
 	"log"
 	. "metal/models" // 点操作符导入的包可以省略报名直接使用公有属性和方法
 	"metal/util"
@@ -25,7 +26,7 @@ func (c *UserController) ToLogin() {
 	user := &User{Mobile: mobile}
 	err := user.GetByMobile()
 	if err != nil {
-		log.Print(err)
+		beego.Error(err)
 		c.Data["json"] = ErrorData(err)
 	} else if user.Status == 0 {
 		c.Data["json"] = ErrorMsg("该账号已禁用，不能登录！")
@@ -106,7 +107,7 @@ func (c *UserController) Post() {
 
 	id, err := user.Save()
 	if nil != err {
-		log.Print(err)
+		beego.Error(err)
 		c.Data["json"] = ErrorData(err)
 	} else {
 		c.Data["json"] = SuccessData(id)
@@ -125,9 +126,8 @@ func (c *UserController) UserGet() {
 	user := new(User)
 	user.Id = uint(id)
 	userObj, err := user.GetById()
-	log.Println(userObj)
 	if err != nil {
-		log.Print(err)
+		beego.Error(err)
 		c.Data["json"] = ErrorData(err)
 	}
 	c.Data["json"] = SuccessData(userObj)
@@ -158,7 +158,7 @@ func (c *UserController) Put() {
 	user.UpdatedAt = updatedAt
 	upId, err := user.Update()
 	if nil != err {
-		log.Print(err)
+		beego.Error(err)
 		c.Data["json"] = ErrorData(err)
 	} else {
 		c.Data["json"] = SuccessData(upId)
@@ -189,7 +189,7 @@ func (c *UserController) UserList() {
 	param["username"] = args
 	userList, total, err := user.GetAllByCondition(param, start, perPage)
 	if nil != err {
-		log.Print(err)
+		beego.Error(err)
 		c.Data["json"] = ErrorData(err)
 	} else {
 		for index, u := range userList {
@@ -219,7 +219,7 @@ func (c *UserController) DeleteUser() {
 	user.Status = 0
 	id64, err := user.Delete()
 	if nil != err {
-		log.Print(err)
+		beego.Error(err)
 		c.Data["json"] = ErrorData(err)
 	} else {
 		c.Data["json"] = SuccessData(id64)
@@ -246,7 +246,7 @@ func (c *UserController) GetLogs() {
 	var logModel = new(Log)
 	logs, total, err := logModel.GetLogs(start, perPage)
 	if nil != err {
-		log.Print(err)
+		beego.Error(err)
 		c.Data["json"] = ErrorData(err)
 	} else {
 		data := map[string]any{
@@ -277,12 +277,6 @@ func (c *UserController) CreateArticle() {
 		}
 		c.ServeJSON()
 	}()
-	// var args struct {
-	// 	Title string
-	// 	Content string
-	// }
-	log.Print(">>>>>>>>>>>>", c.GetString("title"))
-	// json.Unmarshal(c.Ctx.Input.RequestBody, &args)
 	title := c.GetString("title")
 	if title == "" {
 		log.Panic("title不能为空")
@@ -298,7 +292,7 @@ func (c *UserController) CreateArticle() {
 
 	_, err := article.Save()
 	if nil != err {
-		log.Print(err)
+		beego.Error(err)
 		c.Data["json"] = ErrorData(err)
 	} else {
 		c.Data["json"] = SuccessData(nil)
@@ -330,7 +324,7 @@ func (c *UserController) ArticlesList() {
 
 	userList, total, err := article.GetArticlesByCondition(param, start, perPage)
 	if nil != err {
-		log.Print(err)
+		beego.Error(err)
 		c.Data["json"] = ErrorData(err)
 	} else {
 		data := map[string]any{
