@@ -28,8 +28,9 @@ func TestOne(t *testing.T) {
  */
 func TestCrawl(t *testing.T) {
 	//util.GetJobs()
-	var c = make(chan int)
+	var c = make(chan int, 1)
 	util.RequestByAjax(c, "java", "上海")
+	t.Log(<-c)
 }
 
 //格式化
