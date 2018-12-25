@@ -1,9 +1,10 @@
 package models
 
 import (
-	"github.com/astaxie/beego/orm"
 	"sync"
 	"time"
+
+	"github.com/astaxie/beego/orm"
 )
 
 type Log struct {
