@@ -3,7 +3,6 @@ package util
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/PuerkitoBio/goquery"
 	"io/ioutil"
 	"log"
 	. "metal/models"
@@ -12,6 +11,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/PuerkitoBio/goquery"
 )
 
 type JobData struct {
@@ -89,7 +90,7 @@ func RequestByAjax(c chan int, language, region string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	req.Header.Set("Referer", "https://www.lagou.com/jobs/list_nodejs")
+	req.Header.Set("Referer", "https://www.lagou.com/jobs/list_nodejs?city=%E4%B8%8A%E6%B5%B7&cl=false&fromSearch=true&labelWords=&suginput=")
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	resp, err := client.Do(req)
 	defer resp.Body.Close()
