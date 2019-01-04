@@ -19,8 +19,8 @@ func CronStart() {
 		c := cron.New()
 		spec := beego.AppConfig.String("cron")
 		c.AddFunc(spec, func() {
-			log.Println("职位统计任务，多任务")
 			GetJobs()
+			beego.Informational("职位统计任务已执行！")
 		})
 		//c.AddJob(spec, MyJob{})
 		c.Start()

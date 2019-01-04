@@ -58,11 +58,19 @@ func init() {
 	// 如： logs.Error和panic
 	logs.Async()
 	//level值越高，记录的日志范围越广
-	logs.SetLogger(logs.AdapterFile, `{"filename":"./logs/metal.log","level":6,"maxlines":0,"maxsize":0,"daily":true,"maxdays":1}`)
+	logs.SetLogger(logs.AdapterFile, `{"filename":"./logs/metal.log","level":6,"maxlines":0,"maxsize":0,"daily":true,"maxdays":30}`)
 }
 
 func main() {
 	util.CronStart() //启动定时任务
+	// filename 保存的文件名
+	// maxlines 每个文件保存的最大行数，默认值 1000000
+	// maxsize 每个文件保存的最大尺寸，默认值是 1 << 28, //256 MB
+	// daily 是否按照每天 logrotate，默认是 true
+	// maxdays 文件最多保存多少天，默认保存 7 天
+	// rotate 是否开启 logrotate，默认是 true
+	// level 日志保存的时候的级别，默认是 Trace 级别
+	// perm 日志文件权限
 	log.Printf("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n浏览器访问：http://localhost:%s\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", port)
 	beego.Run() //下面的代码不会执行，需要执行的代码放到上面
 }
