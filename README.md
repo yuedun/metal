@@ -1,5 +1,5 @@
 # 项目说明
-![后台模板](http://hopefully.qiniudn.com/adminlte.png)
+![后台模板](http://hopefully-img.yuedun.wang/adminlte.png)
 
 ## 项目启动
 
