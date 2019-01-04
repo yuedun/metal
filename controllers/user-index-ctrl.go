@@ -28,7 +28,7 @@ func (c *MainController) Get() {
 	} else {
 		c.Data["articleList"] = articleList
 	}
-	beego.Info(">>>>>>>>>")
+	beego.Info("访问ip:", c.Ctx.Input.Header("Remote_addr"))
 	//默认tpl或html后缀
 	c.TplName = "index.html"
 }
