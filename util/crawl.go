@@ -3,6 +3,7 @@ package util
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/astaxie/beego"
 	"io/ioutil"
 	"log"
 	. "metal/models"
@@ -90,22 +91,22 @@ func RequestByAjax(c chan int, language, region string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	req.Header.Set("Referer", "https://www.lagou.com/jobs/list_nodejs?city=%E4%B8%8A%E6%B5%B7&cl=false&fromSearch=true&labelWords=&suginput=")
+	req.Header.Set("Referer", "https://www.lagou.com/jobs/list_nodejs?labelWords=&fromSearch=true&suginput=")
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	resp, err := client.Do(req)
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		log.Panic("读取body失败：", err)
+		beego.Error("读取body失败：", err)
 	}
 
 	var resBody = new(resBody)
 	err2 := json.Unmarshal(body, &resBody)
 	if err2 != nil {
-		log.Panic("解析body失败:", err2)
+		beego.Error("解析body失败:", err2)
 	}
 	if resBody.Content.PositionResult.TotalCount == 0 {
-		log.Panic("获取" + language + "数据为空!")
+		beego.Error("获取" + language + "数据为空!")
 	}
 	count := resBody.Content.PositionResult.TotalCount
 	c <- count
@@ -120,5 +121,5 @@ func saveJob(c int, title, region string) {
 		CreatedAt: time.Now(),
 	}
 	jobCount.Save()
-	log.Println("保存")
+	beego.Info("保存job成功")
 }
