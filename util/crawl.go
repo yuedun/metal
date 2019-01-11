@@ -10,7 +10,6 @@ import (
 	"net/http"
 	"net/url"
 	"strconv"
-	"strings"
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
@@ -22,6 +21,7 @@ type JobData struct {
 	region   string
 }
 
+// PC端结构体
 type resBody struct {
 	Content struct {
 		PositionResult struct {
@@ -32,6 +32,23 @@ type resBody struct {
 			}
 		}
 	}
+	State  int
+	Status int
+}
+
+// WAP端结构体
+type wapResBody struct {
+	Content struct {
+		Data struct {
+			Page struct {
+				TotalCount string
+			}
+			Custom struct {
+				PositionName string
+			}
+		}
+	}
+	State int
 }
 
 // 并行获取
@@ -42,9 +59,13 @@ func GetJobs() {
 	for {
 		select {
 		case c1 := <-ch1:
-			saveJob(c1, "nodejs", "上海")
+			if c1 != 0 {
+				saveJob(c1, "nodejs", "上海")
+			}
 		case c2 := <-ch2:
-			saveJob(c2, "golang", "上海")
+			if c2 != 0 {
+				saveJob(c2, "golang", "上海")
+			}
 		}
 	}
 }
@@ -79,20 +100,39 @@ func requestUrl(c chan int, language, region string) {
  */
 func RequestByAjax(c chan int, language, region string) {
 	client := &http.Client{}
-	var r http.Request
-	r.ParseForm()
-	r.Form.Add("first", "true")
-	r.Form.Add("pn", "1")
-	r.Form.Add("kd", language)
-	bodystr := strings.TrimSpace(r.Form.Encode())
-	req, err := http.NewRequest(http.MethodPost,
-		fmt.Sprintf("https://www.lagou.com/jobs/positionAjax.json?px=default&city=%s&needAddtionalResult=false", url.QueryEscape(region)),
-		strings.NewReader(bodystr))
+	// var r http.Request
+	// r.ParseForm()
+	// r.Form.Add("first", "true")
+	// r.Form.Add("pn", "1")
+	// r.Form.Add("kd", language)
+	// bodystr := strings.TrimSpace(r.Form.Encode())
+	// req, err := http.NewRequest(http.MethodGet,
+	// 	fmt.Sprintf("https://m.lagou.com/search.json?city=%E4%B8%8A%E6%B5%B7&positionName=%s&pageNo=1&pageSize=15", url.QueryEscape(region)),
+	// 	strings.NewReader(bodystr))
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+
+	// 使用wap端接口
+	req, err := http.NewRequest(http.MethodGet,
+		"https://m.lagou.com/search.json?city=上海&positionName=golang&pageNo=1&pageSize=1",
+		nil)
 	if err != nil {
 		log.Fatal(err)
 	}
-	req.Header.Set("Referer", "https://www.lagou.com/jobs/list_nodejs?labelWords=&fromSearch=true&suginput=")
+
+	req.Header.Set("referer", "https://m.lagou.com/search.html")
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	req.Header.Set("Accept", "application/json")
+	req.Header.Set("Accept-Encoding", "gzip, deflate, br")
+	req.Header.Set("Accept-Language", "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7")
+	req.Header.Set("Cache-Control", "no-cache")
+	req.Header.Set("Connection", "keep-alive")
+	req.Header.Set("Cookie", "user_trace_token=20180709113435-26a58e65-cffe-4852-a3f1-f5d86404990d; _ga=GA1.2.1018714389.1531107507; LGUID=20180709113850-9823fc8a-8329-11e8-993c-5254005c3644; sensorsdata2015jssdkcross=%7B%22distinct_id%22%3A%22167d52069b0282-0a9bc48ac709f9-454c092b-2073600-167d52069b1722%22%2C%22%24device_id%22%3A%22167d52069b0282-0a9bc48ac709f9-454c092b-2073600-167d52069b1722%22%2C%22props%22%3A%7B%22%24latest_traffic_source_type%22%3A%22%E7%9B%B4%E6%8E%A5%E6%B5%81%E9%87%8F%22%2C%22%24latest_referrer%22%3A%22%22%2C%22%24latest_referrer_host%22%3A%22%22%2C%22%24latest_search_keyword%22%3A%22%E6%9C%AA%E5%8F%96%E5%88%B0%E5%80%BC_%E7%9B%B4%E6%8E%A5%E6%89%93%E5%BC%80%22%7D%7D; index_location_city=%E4%B8%8A%E6%B5%B7; JSESSIONID=ABAAABAAAGCABCCF89C2DBE74B8B2A9E5B43C7A60E58E42; Hm_lvt_4233e74dff0ae5bd0a3d81c6ccf756e6=1545468931,1546587701; _ga=GA1.3.1018714389.1531107507; _gid=GA1.2.2124006721.1547196851; LGSID=20190111165411-76c71326-157e-11e9-b300-5254005c3644; PRE_UTM=; PRE_HOST=; PRE_SITE=; PRE_LAND=https%3A%2F%2Fm.lagou.com%2F; Hm_lpvt_4233e74dff0ae5bd0a3d81c6ccf756e6=1547196904; LGRID=20190111165504-965cf77c-157e-11e9-998e-525400f775ce")
+	req.Header.Set("Host", "m.lagou.com")
+	req.Header.Set("Pragma", "no-cache")
+	req.Header.Set("User-Agent", "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1")
+	req.Header.Set("X-Requested-With", "XMLHttpRequest")
 	resp, err := client.Do(req)
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
@@ -100,15 +140,18 @@ func RequestByAjax(c chan int, language, region string) {
 		beego.Error("读取body失败：", err)
 	}
 
-	var resBody = new(resBody)
+	var resBody = new(wapResBody)
+	// var resBody interface{}
 	err2 := json.Unmarshal(body, &resBody)
 	if err2 != nil {
 		beego.Error("解析body失败:", err2)
 	}
-	if resBody.Content.PositionResult.TotalCount == 0 {
+	// log.Println(resBody)
+	if resBody.State != 1 {
 		beego.Error("获取" + language + "数据为空!")
 	}
-	count := resBody.Content.PositionResult.TotalCount
+	countStr := resBody.Content.Data.Page.TotalCount
+	count, _ := strconv.Atoi(countStr)
 	c <- count
 }
 
@@ -121,5 +164,5 @@ func saveJob(c int, title, region string) {
 		CreatedAt: time.Now(),
 	}
 	jobCount.Save()
-	beego.Info("保存job成功")
+	beego.Info("保存job成功", c)
 }
