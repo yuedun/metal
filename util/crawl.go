@@ -115,7 +115,7 @@ func RequestByAjax(c chan int, language, region string) {
 
 	// 使用wap端接口
 	req, err := http.NewRequest(http.MethodGet,
-		"https://m.lagou.com/search.json?city=上海&positionName=golang&pageNo=1&pageSize=1",
+		fmt.Sprintf("https://m.lagou.com/search.json?city=上海&positionName=%s&pageNo=1&pageSize=1", language),
 		nil)
 	if err != nil {
 		log.Fatal(err)
@@ -164,5 +164,5 @@ func saveJob(c int, title, region string) {
 		CreatedAt: time.Now(),
 	}
 	jobCount.Save()
-	beego.Info("保存job成功", c)
+	beego.Info("保存job成功", title, c)
 }
