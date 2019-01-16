@@ -12,4 +12,5 @@ else
     echo "metal process id is not found!"
 fi
 
+pm2 ls
 # pm2 startOrRestart pm2.json
