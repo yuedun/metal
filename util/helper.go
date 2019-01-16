@@ -25,7 +25,7 @@ func GetMD5(password string) string {
 }
 
 /**
- * 生成秘密
+ * 生成密码
  */
 func GeneratePassword(mobile string) string {
 	b := []byte(mobile)
