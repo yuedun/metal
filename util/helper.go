@@ -4,6 +4,7 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/astaxie/beego"
 	"io/ioutil"
@@ -53,21 +54,22 @@ type IPBody struct {
 	}
 }
 
-func GetIpGeography(ip string, objBody *IPBody) {
+func GetIpGeography(ip string, objBody *IPBody) error {
 	ipService := beego.AppConfig.String("ipService")
 	res, err := http.Get(fmt.Sprintf(ipService, ip))
 	if err != nil {
-		log.Fatal(err)
+		beego.Error(err)
 	}
 	defer res.Body.Close()
 	if res.StatusCode != 200 {
-		log.Fatalf("status code error: %d %s", res.StatusCode, res.Status)
+		beego.Error("请求地理位置错误: %s", res.Status)
+		return errors.New("请求地理位置错误：" + res.Status)
 	} else {
-		log.Println("请求成功")
 		bodyByte, err := ioutil.ReadAll(res.Body)
 		if err != nil {
-			log.Fatal(err)
+			beego.Error("地理位置解析失败：", err)
 		}
 		json.Unmarshal(bodyByte, &objBody)
+		return nil
 	}
 }

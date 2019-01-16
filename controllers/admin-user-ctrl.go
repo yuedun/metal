@@ -51,10 +51,12 @@ func (c *UserController) ToLogin() {
 		ip := c.Ctx.Input.Header("Remote_addr")
 		if ip != "" {
 			ipBody := new(util.IPBody)
-			util.GetIpGeography(ip, ipBody)
-			loginLog := new(Log)
-			mark := fmt.Sprintf("登录IP:%s，物理地址：%s %s %s %s", ip, ipBody.Data.Country, ipBody.Data.Area, ipBody.Data.Region, ipBody.Data.City)
-			loginLog.Save(mark)
+			err := util.GetIpGeography(ip, ipBody)
+			if err == nil {
+				loginLog := new(Log)
+				mark := fmt.Sprintf("登录IP:%s，物理地址：%s %s %s %s", ip, ipBody.Data.Country, ipBody.Data.Area, ipBody.Data.Region, ipBody.Data.City)
+				loginLog.Save(mark)
+			}
 		}
 		c.Data["json"] = SuccessData(nil)
 	}
