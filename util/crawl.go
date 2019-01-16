@@ -3,7 +3,6 @@ package util
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/astaxie/beego"
 	"io/ioutil"
 	"log"
 	. "metal/models"
@@ -11,6 +10,8 @@ import (
 	"net/url"
 	"strconv"
 	"time"
+
+	"github.com/astaxie/beego"
 
 	"github.com/PuerkitoBio/goquery"
 )
@@ -49,6 +50,7 @@ type wapResBody struct {
 		}
 	}
 	State int
+	Msg   string
 }
 
 // 并行获取
@@ -148,7 +150,7 @@ func RequestByAjax(c chan int, language, region string) {
 	}
 	// log.Println(resBody)
 	if resBody.State != 1 {
-		beego.Error("获取" + language + "数据为空!")
+		beego.Error("获取"+language+"数据为空!", fmt.Sprint("%+v",resBody))
 	}
 	countStr := resBody.Content.Data.Page.TotalCount
 	count, _ := strconv.Atoi(countStr)

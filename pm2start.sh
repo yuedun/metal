@@ -1,6 +1,8 @@
 #!/bin/bash
 
-#ps -ef|grep metal|grep -v grep|awk '{print $2}'|xargs kill
+echo 'building...'
+go build
+
 pid=`ps -ef|grep metal|grep -v grep|awk '{print $2}'`
 if [ -n "$pid" ]; then
     echo "process id is: $pid"
@@ -10,9 +12,5 @@ else
     echo "metal process id is not found!"
 fi
 
-echo 'building...'
-go build
-
-echo 'starting...'
-nohup ./metal &
-echo 'started!'
+pm2 ls
+# pm2 startOrRestart pm2.json
