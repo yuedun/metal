@@ -150,7 +150,7 @@ func RequestByAjax(c chan int, language, region string) {
 	}
 	// log.Println(resBody)
 	if resBody.State != 1 {
-		beego.Error("获取"+language+"数据为空!", fmt.Sprint("%+v",resBody))
+		beego.Error("获取"+language+"数据为空!", fmt.Sprint("%+v", resBody))
 	}
 	countStr := resBody.Content.Data.Page.TotalCount
 	count, _ := strconv.Atoi(countStr)
