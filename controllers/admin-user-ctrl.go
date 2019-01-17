@@ -49,12 +49,14 @@ func (c *UserController) ToLogin() {
 		c.SetSession("loginUser", userPermission)
 		// c.Ctx.Input.IP()获取到的是Nginx内网ip，需要在Nginx配置proxy_set_header Remote_addr $remote_addr;
 		ip := c.Ctx.Input.Header("Remote_addr")
+		// ip = "103.14.252.249"
 		if ip != "" {
 			ipBody := new(util.IPBody)
 			err := util.GetIpGeography(ip, ipBody)
 			if err == nil {
 				loginLog := new(Log)
-				mark := fmt.Sprintf("登录IP:%s，物理地址：%s %s %s %s", ip, ipBody.Data.Country, ipBody.Data.Area, ipBody.Data.Region, ipBody.Data.City)
+				// mark := fmt.Sprintf("登录IP:%s，物理地址：%s %s %s %s", ip, ipBody.Data.Country, ipBody.Data.Area, ipBody.Data.Region, ipBody.Data.City)
+				mark := fmt.Sprintf("登录IP:%s，物理地址：%s", ip, ipBody.Content.Address)
 				loginLog.Save(mark)
 			}
 		}
