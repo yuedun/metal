@@ -59,18 +59,18 @@ type IPBody struct {
 	Address string
 	Content struct {
 		Address_detail struct {
-			province string
-			City string
-            District string
-            Dtreet string
-            Atreet_number string
-            City_code int
+			province      string
+			City          string
+			District      string
+			Dtreet        string
+			Atreet_number string
+			City_code     int
 		}
 		Address string
-        Point struct {
-            y float32
-            x float32
-        }
+		Point   struct {
+			y float32
+			x float32
+		}
 	}
 	Status int
 }
