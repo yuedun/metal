@@ -97,7 +97,8 @@
         var content = $("#art_content").val();
         $.post("/admin/article", { title: title, content: content }, function (result) {
           if (result.code == 0) {
-            layer.msg("新建成功！", { icon: 6 });
+            // layer.msg("新建成功！", { icon: 6 });
+            location.href="/admin/articles-route"
           } else {
             layer.msg("新建失败！" + result.msg, { icon: 5 });
           }
