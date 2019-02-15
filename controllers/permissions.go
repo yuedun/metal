@@ -17,4 +17,5 @@ var NeedPermission = map[string]bool{
 	"UserController:PUT":           true,
 	"UserController:POST":          true,
 	"UserController:DeleteUser":    true,
+	"UserController:ArticleEdit":   true,
 }
