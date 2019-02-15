@@ -49,7 +49,7 @@
                   </div>
                   <div class="form-group">
                     <label for="art_content">内容</label>
-                    <textarea class="textarea" id="art_content" placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+                    <textarea class="textarea" id="art_content" placeholder="Place some text here" style="width: 100%; height: 400px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
                   </div>
                 </form>
                 <div class="box-footer">
@@ -95,13 +95,11 @@
       $(".J-submit").on("click", function () {
         var title = $("#art_title").val();
         var content = $("#art_content").val();
-        console.log(title, content)
         $.post("/admin/article", { title: title, content: content }, function (result) {
-          console.log(result);
-          if (result.code ==0) {
-            layer.msg("新建成功！", {icon: 6});
+          if (result.code == 0) {
+            layer.msg("新建成功！", { icon: 6 });
           } else {
-            layer.msg("新建失败！", {icon: 5});
+            layer.msg("新建失败！" + result.msg, { icon: 5 });
           }
         }, "json");
       })
