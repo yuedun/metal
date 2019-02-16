@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"log"
+	"metal/controllers/permissions"
 	"metal/models"
 
 	"github.com/astaxie/beego/context"
@@ -41,7 +42,7 @@ func (c *AdminBaseController) Prepare() {
 		privileges := session.(*UserPermission).Privileges
 		hasPermission := true
 		//需要权限
-		if NeedPermission[requestPermission] {
+		if permissions.NeedPermission[requestPermission] {
 			hasPermission = false
 			for _, pri := range privileges {
 				if pri != requestPermission {

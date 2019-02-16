@@ -80,3 +80,8 @@ func (article *Article) Update() (int64, error) {
 	id, err := o.Update(article, "title", "content", "updated_at")
 	return id, err
 }
+func (article *Article) Delete() (int64, error) {
+	o := orm.NewOrm()
+	id, err := o.Delete(article)
+	return id, err
+}

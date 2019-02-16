@@ -7,20 +7,20 @@ import (
 	"time"
 )
 
-type MainController struct {
+type PortalController struct {
 	BaseController
 }
 
 //用户如果没有进行注册，那么就会通过反射来执行对应的函数，如果注册了就会通过 interface 来进行执行函数
 //官方文档说可以提高性能
-// func (c *MainController) URLMapping() {
+// func (c *PortalController) URLMapping() {
 // 	c.Mapping("Get", c.Get)
 // 	c.Mapping("MyRoute", c.MyRoute)
 // }
 
 //首页
 // @router / [get]
-func (c *MainController) Get() {
+func (c *PortalController) Get() {
 	article := &Article{}
 	articleList, err := article.GetArticles()
 	if nil != err {
@@ -34,7 +34,7 @@ func (c *MainController) Get() {
 }
 
 // @router /test [get]
-func (c *MainController) MyRoute() {
+func (c *PortalController) MyRoute() {
 	c.Data["content"] = "这是一个自定义控制器"
 	user := &User{}
 	userList, err := user.GetAll()
@@ -49,7 +49,7 @@ func (c *MainController) MyRoute() {
 }
 
 // @router /user [post]
-func (c *MainController) AddUser() {
+func (c *PortalController) AddUser() {
 	username := c.GetString("username")
 	password := c.GetString("password")
 
@@ -71,7 +71,7 @@ func (c *MainController) AddUser() {
 }
 
 // @route /getUserByName [get]
-func (c *MainController) GetUser() {
+func (c *PortalController) GetUser() {
 	username := c.Ctx.Input.Param(":username")
 	user := &User{UserName: username}
 	err := user.GetByName()
@@ -85,11 +85,11 @@ func (c *MainController) GetUser() {
 }
 
 // @router /category [get]
-func (c *MainController) Category() {
+func (c *PortalController) Category() {
 	c.TplName = "category.html"
 }
 
 // @router /about [get]
-func (c *MainController) About() {
+func (c *PortalController) About() {
 	c.TplName = "about.html"
 }
