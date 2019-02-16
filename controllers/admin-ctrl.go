@@ -12,14 +12,14 @@ import (
 	"time"
 )
 
-type UserController struct {
+type AdminController struct {
 	AdminBaseController
 }
 
-func (c *UserController) Login() {
+func (c *AdminController) Login() {
 	c.TplName = "admin/login.html"
 }
-func (c *UserController) ToLogin() {
+func (c *AdminController) ToLogin() {
 	var mobile = c.GetString("mobile")
 	var password = c.GetString("password")
 
@@ -68,23 +68,23 @@ func (c *UserController) ToLogin() {
 /**
  * 登出
  */
-func (c *UserController) LoginOut() {
+func (c *AdminController) LoginOut() {
 	c.DelSession("loginUser")
 	c.Redirect("/admin/login", 302)
 }
 
-func (c *UserController) Welcome() {
+func (c *AdminController) Welcome() {
 	c.TplName = "admin/index.html"
 }
 
-func (c *UserController) UserAddRoute() {
+func (c *AdminController) UserAddRoute() {
 	c.TplName = "admin/user-add.html"
 }
 
 /**
  * 新建用户
  */
-func (c *UserController) Post() {
+func (c *AdminController) Post() {
 	args := map[string]string{}
 	body := c.Ctx.Input.RequestBody //接收raw body内容
 	json.Unmarshal(body, &args)
@@ -124,7 +124,7 @@ func (c *UserController) Post() {
  * /admin/user/:id
  * c.Ctx.Input.Param(":id")
  */
-func (c *UserController) UserGet() {
+func (c *AdminController) UserGet() {
 	idstr := c.Ctx.Input.Param(":id")
 	id, _ := strconv.Atoi(idstr)
 	user := new(User)
@@ -141,7 +141,7 @@ func (c *UserController) UserGet() {
 /**
  * 修改用户
  */
-func (c *UserController) Put() {
+func (c *AdminController) Put() {
 	userId, _ := c.GetInt("userId")
 	username := c.GetString("username") // 只能接收url后面的参数，不能接收body中的参数
 	email := c.GetString("email")
@@ -173,7 +173,7 @@ func (c *UserController) Put() {
 /**
  * 用户列表路由
  */
-func (c *UserController) UserListRoute() {
+func (c *AdminController) UserListRoute() {
 	c.Data["Title"] = "用户列表"
 	c.TplName = "admin/user-list.html"
 }
@@ -182,7 +182,7 @@ func (c *UserController) UserListRoute() {
  * 用户列表接口
  * /admin/users
  */
-func (c *UserController) UserList() {
+func (c *AdminController) UserList() {
 	args := c.GetString("search") // 获取所有参数
 	start, _ := c.GetInt("start")
 	perPage, _ := c.GetInt("perPage")
@@ -216,7 +216,7 @@ func (c *UserController) UserList() {
 /**
  * 删除用户
  */
-func (c *UserController) DeleteUser() {
+func (c *AdminController) DeleteUser() {
 	id, _ := c.GetInt("userId")
 	var user = new(User)
 	user.Id = uint(id)
@@ -235,7 +235,7 @@ func (c *UserController) DeleteUser() {
  * 日志列表路由
  */
 // @router /get-logs-route
-func (c *UserController) GetLogsRoute() {
+func (c *AdminController) GetLogsRoute() {
 	c.Data["Title"] = "日志列表"
 	c.TplName = "admin/logs.html"
 }
@@ -244,7 +244,7 @@ func (c *UserController) GetLogsRoute() {
  * 日志列表接口
  */
 // @router /logs [get]
-func (c *UserController) GetLogs() {
+func (c *AdminController) GetLogs() {
 	start, _ := c.GetInt("start")
 	perPage, _ := c.GetInt("perPage")
 	var logModel = new(Log)
@@ -266,7 +266,7 @@ func (c *UserController) GetLogs() {
  * 创建文章路由
  */
 // @router /article-route [get]
-func (c *UserController) CreateArticleRoute() {
+func (c *AdminController) CreateArticleRoute() {
 	c.TplName = "admin/article-create.html"
 }
 
@@ -274,7 +274,7 @@ func (c *UserController) CreateArticleRoute() {
  * 创建文章接口
  */
 // @router /article [post]
-func (c *UserController) CreateArticle() {
+func (c *AdminController) CreateArticle() {
 	defer func() {
 		if err := recover(); err != nil {
 			c.Data["json"] = ErrorMsg(err.(string))
@@ -308,7 +308,7 @@ func (c *UserController) CreateArticle() {
  * 文章列表路由
  */
 //@router /articles-route [get]
-func (c *UserController) ArticlesRoute() {
+func (c *AdminController) ArticlesRoute() {
 	c.TplName = "admin/article-list.html"
 }
 
@@ -317,7 +317,7 @@ func (c *UserController) ArticlesRoute() {
  * /admin/articles
  */
 //@router /articles
-func (c *UserController) ArticlesList() {
+func (c *AdminController) ArticlesList() {
 	args := c.GetString("search") // 获取所有参数
 	start, _ := c.GetInt("start")
 	perPage, _ := c.GetInt("perPage")
@@ -345,7 +345,7 @@ func (c *UserController) ArticlesList() {
  * /admin/articles
  */
 //@router /article-edit-route/:id [get]
-func (c *UserController) ArticleEditRoute() {
+func (c *AdminController) ArticleEditRoute() {
 	article := new(Article)
 	artId, _ := strconv.Atoi(c.Ctx.Input.Param(":id"))
 	article.Id = uint(artId)
@@ -359,7 +359,7 @@ func (c *UserController) ArticleEditRoute() {
  * /admin/article/:id
  */
 //@router /article/:id [put]
-func (c *UserController) ArticleEdit() {
+func (c *AdminController) ArticleEdit() {
 	defer func() {
 		if err := recover(); err != nil {
 			c.Data["json"] = ErrorData(err.(error))
@@ -380,6 +380,20 @@ func (c *UserController) ArticleEdit() {
 		c.ServeJSON()
 		return
 	}
+	c.Data["json"] = SuccessData(nil)
+	c.ServeJSON()
+}
+
+/**
+ * 删除文章接口
+ * /admin/articles
+ */
+//@router /article/:id [delete]
+func (c *AdminController) ArticleDelete() {
+	article := new(Article)
+	artId, _ := strconv.Atoi(c.Ctx.Input.Param(":id"))
+	article.Id = uint(artId)
+	article.Delete()
 	c.Data["json"] = SuccessData(nil)
 	c.ServeJSON()
 }

@@ -15,14 +15,14 @@ type JobCountController struct {
  */
 
 // @router /job-count [get]
-func (c *UserController) JobCount() {
+func (c *JobCountController) JobCount() {
 	c.Data["title"] = "报表"
 	c.TplName = "admin/job-count.html"
 }
 
 //  近一个月数据
 // @router /job-count/count-data-recently [get]
-func (c *UserController) CountDataRecently() {
+func (c *JobCountController) CountDataRecently() {
 	lang := c.GetString("language")
 	startDate := c.GetString("startDate") + " 00:00:00"
 	endDate := c.GetString("endDate") + " 23:59:59"
@@ -41,7 +41,7 @@ func (c *UserController) CountDataRecently() {
 
 // 所有历史数据，按月平均值统计
 // @router /job-count/count-data-all [get]
-func (c *UserController) CountDataAll() {
+func (c *JobCountController) CountDataAll() {
 	lang := c.GetString("language")
 
 	jobCount := new(JobCount)
