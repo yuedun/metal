@@ -24,10 +24,12 @@ go build会在执行该命令的目录下生成可执行文件，go install会�
 > ./run
 
 ## 守护进程
-单纯的启动以后，程序的稳定性很差，任何一个错误都会导致进程退出。所以需要守护进程来保证程序退出后自动重启，beego官网有提供一些方法[https://beego.me/docs/deploy/](https://beego.me/docs/deploy/)，但在此我提供另一种方式，nodejs开发者应该很熟悉了，就是大名鼎鼎的**pm2**，没想到pm2也可以作为golang的守护进程。如果已经安装了pm2可以直接使用
+单纯的启动以后，程序的稳定性很差，任何一个错误都会导致进程退出。所以需要守护进程来保证程序退出后自动重启，beego官网有提供一些方法[https://beego.me/docs/deploy/](https://beego.me/docs/deploy/)，但在此我提供另一种方式，nodejs开发者应该很熟悉了，就是大名鼎鼎的**pm2**，没想到pm2也可以作为golang的守护进程。如果已经安装了pm2可以直接使用。
+
+首次启动服务：
 > pm2 start metal
 
-`run-by-pm2.sh`是编写好的脚本文件，作用是代码更新后编译>杀进程>pm2自动重启。
+`run-by-pm2.sh`是编写好的脚本文件，用于重启服务，具体过程是代码更新后编译>杀进程>pm2自动重启。因为pm2监听到进程退出后会自动重启，所以此处不需要手动重启。
 > ./run-by-pm2.sh
 
 启动方法和nodejs一样简单。如果没有安装过pm2那建议还是使用**Supervisord**，毕竟安装nodejs也是个技术活。
