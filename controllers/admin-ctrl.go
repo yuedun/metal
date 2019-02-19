@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"github.com/astaxie/beego"
 	"log"
-	. "metal/models" // 点操作符导入的包可以省略报名直接使用公有属性和方法
+	. "metal/models" // 点操作符导入的包可以省略包名直接使用公有属性和方法
 	"metal/util"
 	"strconv"
 	"strings"
