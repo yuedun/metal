@@ -18,5 +18,5 @@ var NeedPermission = map[string]bool{
 	"AdminController:POST":          true,
 	"AdminController:DeleteUser":    true,
 	"AdminController:ArticleEdit":   true,
-	"AdminController:ArticleDelete":   true,
+	"AdminController:ArticleDelete": true,
 }

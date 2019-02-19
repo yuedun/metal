@@ -3,7 +3,9 @@ package controllers
 //包名并非必须和文件夹名相同，但是按照惯例最后一个路径名和包名一致
 import (
 	"github.com/astaxie/beego"
-	. "metal/models"
+	"github.com/microcosm-cc/bluemonday"
+	"github.com/russross/blackfriday"
+	. "metal/models" // 点操作符导入的包可以省略包名直接使用公有属性和方法
 	"time"
 )
 
@@ -26,6 +28,13 @@ func (c *PortalController) Get() {
 	if nil != err {
 		c.Data["articleList"] = []Article{}
 	} else {
+		for index, art := range articleList {
+			input := []byte(art.Content)
+			unsafe := blackfriday.Run(input)
+			html := bluemonday.UGCPolicy().SanitizeBytes(unsafe)
+			art.Content = string(html)
+			articleList[index] = art
+		}
 		c.Data["articleList"] = articleList
 	}
 	beego.Info("访问ip:", c.Ctx.Input.Header("Remote_addr"))
