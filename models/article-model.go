@@ -3,7 +3,6 @@ package models
 import (
 	"fmt"
 	"github.com/astaxie/beego/orm"
-	"strconv"
 	"sync"
 	"time"
 )
@@ -26,17 +25,8 @@ func (article *Article) Save() (int64, error) {
 	article.UpdatedAt = time.Now()
 	return o.Insert(article)
 }
-func (article *Article) GetArticles() ([]Article, error) {
-	o := orm.NewOrm()
-	articles := make([]Article, 0, 50)
-	num, err := o.Raw("select * from article WHERE status = 1 order by id desc;").QueryRows(&articles)
-	if nil != err && num > 0 {
-		return nil, err
-	}
-	return articles, nil
-}
 
-func (article *Article) GetArticlesByCondition(param map[string]string, start, perPage int) (articles []Article, total int64, newError error) {
+func (article *Article) GetArticlesByCondition(param map[string]string, pageIndex, pageSize int) (articles []Article, total int64, returnError error) {
 	o := orm.NewOrm()
 	var condition = ""
 	if param["title"] != "" {
@@ -49,10 +39,10 @@ func (article *Article) GetArticlesByCondition(param map[string]string, start, p
 		var sql = "SELECT * FROM article WHERE status = 1 "
 		sql += condition
 		sql += "ORDER BY id DESC"
-		sql += " LIMIT " + strconv.Itoa(start) + ", " + strconv.Itoa(perPage)
-		_, err := o.Raw(sql).QueryRows(&articles)
+		sql += " LIMIT ?, ?;"
+		_, err := o.Raw(sql, pageIndex, pageSize).QueryRows(&articles)
 		if err != nil {
-			newError = err
+			returnError = err
 		}
 	}()
 	go func() {
@@ -61,12 +51,12 @@ func (article *Article) GetArticlesByCondition(param map[string]string, start, p
 		sql += condition
 		err := o.Raw(sql).QueryRow(&total)
 		if err != nil {
-			newError = err
+			returnError = err
 		}
 		fmt.Println("mysql row affected nums: ", total)
 	}()
 	wg.Wait()
-	return articles, total, newError
+	return articles, total, returnError
 }
 
 func (article *Article) GetById() error {
