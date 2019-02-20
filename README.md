@@ -33,3 +33,10 @@ go build会在执行该命令的目录下生成可执行文件，go install会�
 > ./run-by-pm2.sh
 
 启动方法和nodejs一样简单。如果没有安装过pm2那建议还是使用**Supervisord**，毕竟安装nodejs也是个技术活。
+
+## 交叉编译
+一般开发环境是windows或mac，但是服务器是linux，如果直接在服务器上拉取git代码进行编译可能会出现问题，比如开发时新引用了第三方包，国内的网络环境不便于使用第三方包，在服务器上可能get不到这些包。所以最好是在本地打包上传到服务器，那么就需要交叉编译（在window上打包为linux应用）
+```shell
+GOOS=linux GOARCH=amd64 go build
+```
+这个命令会生成一个linux可执行程序。然后上传到服务器即可。
