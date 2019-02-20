@@ -68,7 +68,28 @@ article section h1{
     font-size: 20px;
     margin-bottom: 20px;
 }
-
+/*分页*/
+.pagination{text-align: center; margin-top: 40px;}
+.pagination a {
+    text-decoration: none;
+    border: 1px solid #AAE;
+}
+.pagination a, .pagination span {
+    display: inline-block;
+    padding: 0.1em 0.4em;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+.pagination .current {
+    background: #572C82;
+    color: #fff;
+    border: 1px solid #AAE;
+}
+.pagination .current.prev, .pagination .current.next{
+    color:#999;
+    border-color:#999;
+    background:#fff;
+}
 /* 中等屏幕（桌面显示器，平板电脑，大于等于 992px） */
 @media screen and (min-width: 768px) and (max-width: 992px) {
 

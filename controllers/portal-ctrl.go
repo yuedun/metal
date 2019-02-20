@@ -23,10 +23,21 @@ type PortalController struct {
 //首页
 // @router / [get]
 func (c *PortalController) Get() {
+	pageNo, err := c.GetInt("pageNo")
+	if err != nil {
+		pageNo = 0
+	}
+	pageSize, err := c.GetInt("pageSize")
+	if err != nil {
+		pageSize = 5
+	}
+	skip := pageNo * pageSize
+	params := map[string]string{}
 	article := &Article{}
-	articleList, err := article.GetArticles()
+	articleList, total, err := article.GetArticlesByCondition(params, skip, pageSize)
 	if nil != err {
 		c.Data["articleList"] = []Article{}
+		c.Data["total"] = 0
 	} else {
 		for index, art := range articleList {
 			input := []byte(art.Content)
@@ -36,6 +47,10 @@ func (c *PortalController) Get() {
 			articleList[index] = art
 		}
 		c.Data["articleList"] = articleList
+		c.Data["total"] = total
+		c.Data["pageNo"] = pageNo
+		c.Data["pageSize"] = pageSize
+		beego.Info(">>>>>>>>>", total)
 	}
 	beego.Info("访问ip:", c.Ctx.Input.Header("Remote_addr"))
 	//默认tpl或html后缀
