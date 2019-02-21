@@ -7,6 +7,7 @@ import (
 	"github.com/russross/blackfriday"
 	. "metal/models" // 点操作符导入的包可以省略包名直接使用公有属性和方法
 	"time"
+	"strconv"
 )
 
 type PortalController struct {
@@ -40,21 +41,33 @@ func (c *PortalController) Get() {
 		c.Data["total"] = 0
 	} else {
 		for index, art := range articleList {
-			input := []byte(art.Content)
-			unsafe := blackfriday.Run(input)
-			html := bluemonday.UGCPolicy().SanitizeBytes(unsafe)
-			art.Content = string(html)
+			art.Content = md2html(art.Content)
 			articleList[index] = art
 		}
 		c.Data["articleList"] = articleList
 		c.Data["total"] = total
 		c.Data["pageNo"] = pageNo
 		c.Data["pageSize"] = pageSize
-		beego.Info(">>>>>>>>>", total)
 	}
 	beego.Info("访问ip:", c.Ctx.Input.Header("Remote_addr"))
 	//默认tpl或html后缀
 	c.TplName = "index.html"
+}
+
+// @router /article/:id [get]
+func (c *PortalController) Article() {
+	artId, err := strconv.Atoi(c.Ctx.Input.Param(":id"))
+	if err != nil {
+		c.Data["content"] = err
+		c.TplName = "404.html"
+	} else {
+		article:=&Article{}
+		article.Id=uint(artId)
+		article.GetById()
+		article.Content = md2html(article.Content)
+		c.Data["article"] = article
+		c.TplName = "article.html"
+	}
 }
 
 // @router /test [get]
@@ -116,4 +129,13 @@ func (c *PortalController) Category() {
 // @router /about [get]
 func (c *PortalController) About() {
 	c.TplName = "about.html"
+}
+
+// markdown转html
+func md2html(in string) string {
+	input := []byte(in)
+	unsafe := blackfriday.Run(input)
+	htmlBytes := bluemonday.UGCPolicy().SanitizeBytes(unsafe)
+	html := string(htmlBytes)
+	return html
 }
