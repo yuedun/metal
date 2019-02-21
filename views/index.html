@@ -4,9 +4,9 @@
   <title>golang</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
-  <link rel="shortcut icon" href="./static/dist/img/avatar.png" type="image/x-icon" />
-  <link rel="stylesheet" href="./static/css/style.css" />
-  <link rel="stylesheet" href="./static/plugins/highlight/styles/dark.css" />
+  <link rel="shortcut icon" href="/static/dist/img/avatar.png" type="image/x-icon" />
+  <link rel="stylesheet" href="/static/css/style.css" />
+  <link rel="stylesheet" href="/static/plugins/highlight/styles/dark.css" />
 </head>
 
 <body onload="load()">
@@ -16,7 +16,7 @@
   <article>
     {{range $index, $elem := .articleList}}
     <section>
-      <h1>{{$elem.Title}}</h1>
+      <h1><a href="/article/{{$elem.Id}}">{{$elem.Title}}</a></h1>
       <div class="description">
         {{str2html $elem.Content}}
       </div>

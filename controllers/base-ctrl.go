@@ -20,8 +20,9 @@ var HasIndexPermission = func(ctx *context.Context) {
 }
 
 // 自定义404错误页面
+// 需要beego.Run之前注册beego.ErrorController(&controllers.ErrorController{})
 // func (c *BaseController) Error404() {
-//     c.Data["content"] = "page not found"
+//     c.Data["content"] = ">>>>>>>>>>"
 //     c.TplName = "404.html"
 // }
 

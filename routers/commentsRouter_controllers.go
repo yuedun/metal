@@ -162,6 +162,15 @@ func init() {
 
     beego.GlobalControllerRouter["metal/controllers:PortalController"] = append(beego.GlobalControllerRouter["metal/controllers:PortalController"],
         beego.ControllerComments{
+            Method: "Article",
+            Router: `/article/:id`,
+            AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["metal/controllers:PortalController"] = append(beego.GlobalControllerRouter["metal/controllers:PortalController"],
+        beego.ControllerComments{
             Method: "Category",
             Router: `/category`,
             AllowHTTPMethods: []string{"get"},
