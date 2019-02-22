@@ -1,6 +1,7 @@
 package models
 
-import "github.com/astaxie/beego/orm"
+import ("github.com/astaxie/beego/orm"
+"sync")
 
 type Role struct {
 	BaseModel
@@ -8,22 +9,36 @@ type Role struct {
 	Groups      string `json:"groups"`
 }
 
+type UserPermisson struct {
+	Role_id uint `json:"roleId"`
+	Description string `json:"description"`
+	Checked bool `json:"checked"`
+}
 func init() {
 	orm.RegisterModel(new(Role))
 }
 
-func (role *Role) GetUserPermissions() error {
-	o := orm.NewOrm()
-	return o.Read(role, "id")
-}
-
-func (role *Role) GetAllRole() ([]Role, error) {
-	o := orm.NewOrm()
-	var roles []Role
-	//var userGroups []orm.Params//orm.Params是一个map类型
-	num, err := o.Raw("select id, description from role order by id desc;").QueryRows(&roles)
-	if nil != err && num > 0 {
-		return nil, err
-	}
-	return roles, nil
+/**
+ * 获取所有权限和单个用户拥有的权限
+ */
+func (role *Role) GetRolesAndUserPermission(userId int) (allRoles []Role, userRoles []uint, returnErr error) {
+	o:=orm.NewOrm()
+	var wg sync.WaitGroup
+	wg.Add(2)
+	go func() {
+		defer wg.Done()
+		_, err := o.Raw("SELECT id, description FROM role ORDER BY id DESC;").QueryRows(&allRoles)
+		if nil != err {
+			returnErr = err
+		}
+	}()
+	go func() {
+		defer wg.Done()
+		_, err := o.Raw("SELECT role_id FROM groups WHERE user_id = ? ORDER BY id DESC;", userId).QueryRows(&userRoles)
+		if nil != err{
+			returnErr = err
+		}
+	}()
+	wg.Wait()
+	return
 }

@@ -7,24 +7,11 @@ import (
 	"log"
 	. "metal/models"
 	"time"
+	"strconv"
 )
 
 type GroupController struct {
 	AdminBaseController
-}
-
-/**
- * 获取所有权限
- */
-// @router /roles [get]
-func (c *GroupController) GetAllRole() {
-	role := new(Role)
-	roles, err := role.GetAllRole()
-	if nil != err {
-		c.Data["json"] = ErrorData(err)
-	}
-	c.Data["json"] = SuccessData(roles)
-	c.ServeJSON()
 }
 
 /**
@@ -67,8 +54,32 @@ func (c *GroupController) AddUserRole() {
 	c.Data["json"] = SuccessData(nil)
 }
 
-// @Title aaa
-// @router /user/:id [post,get]
-func (c *GroupController) Aaa() {
-
+/**
+ * 获取用户权限
+ */
+// @router /user-roles/:userId [get]
+func (c *GroupController) GetUserRoles() {
+	userId :=c.Ctx.Input.Param(":userId")
+	uid, _:=strconv.Atoi(userId)
+	role := new(Role)
+	allRoles, userRoles, err:=role.GetRolesAndUserPermission(uid)
+	if nil!=err {
+		c.Data["json"] = ErrorData(err)
+	}
+	userPermissions:=make([]UserPermisson,0, 20)
+	for index, item:=range allRoles {
+		userPremis:=new(UserPermisson)
+		userPremis.Role_id = uint(item.Id)
+		userPremis.Description=item.Description
+		for _, rid := range userRoles {
+			if item.Id==rid {
+				userPremis.Checked=true
+				break
+			}
+		}
+		userPermissions=append(userPermissions[:index], *userPremis)
+	}
+	
+	c.Data["json"] = SuccessData(userPermissions)
+	c.ServeJSON()
 }
