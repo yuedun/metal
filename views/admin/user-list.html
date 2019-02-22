@@ -179,7 +179,7 @@ desired effect
 </div>
 <!-- 加权限 -->
 <div id="permission-dialog" style="display: none;">
-    <div class="col-md-6">
+    <div class="col-md-12">
         <!-- general form elements -->
         <div class="box box-primary">
             <div class="box-header with-border">
@@ -390,16 +390,15 @@ desired effect
         });
         //权限
         $("#userlist").on("click", ".J-permission", function () {
-            var id = $(this).closest("tr").attr("id");
+            var userId = $(this).closest("tr").attr("id");
             var userName = $(this).closest("tr").data("user_name");
-            $.get("/admin/roles", function (data) {
-                console.log(data);
-                $("#userName").html(userName);
+            $.get("/admin/user-roles/" + userId, function (data) {
+                // $("#userName").html(userName);
                 var ps="";
                 data.data.forEach(function (item, index) {
-                    ps +='<label class="checkbox-inline">\n' +
-                            '<input type="checkbox" name="role" value="'+item.id+'">' + item.description +
-                            '</label>'
+                    ps +='<label class="checkbox-inline">'
+                    ps +='<input type="checkbox" name="role" value="'+item.roleId+'" '+(item.checked?'checked=\"checked\"':'\"\"')+' />' 
+                    ps += item.description +'</label>'
                 });
                 $("#perssions").html(ps);
                 layer.open({
@@ -420,7 +419,7 @@ desired effect
                             type: 'POST', //GET
                             async: true,    //或false,是否异步
                             data: JSON.stringify({
-                                UserId: parseInt(id),
+                                UserId: parseInt(userId),
                                 Roles: roles
                             }),
                             timeout: 5000,    //超时时间
@@ -445,7 +444,7 @@ desired effect
                         layer.close(index);
                     }
                 });
-            });
+            })
         });
     })
 </script>
