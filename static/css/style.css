@@ -40,6 +40,9 @@ footer {
 .description p{
     padding: 10px;
 }
+.description img {
+    width: 100%;
+}
 a {
     color: #444;
     text-decoration: none;
