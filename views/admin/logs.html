@@ -172,7 +172,13 @@ desired effect
             columns: [
                 {data: 'id'},
                 {data: 'mark'},
-                {data: 'created_at'}
+                {
+                    name: "created_at",
+                    data: "created_at",
+                    render: function (data, type, row, settings) {
+                        return moment(data).format("YYYY-MM-DD HH:mm:ss");
+                    }
+                }
             ],
             createdRow: function( row, data, dataIndex ) {
                  //有了DT_RowId属性就会自动添加id到行上,不需要在此操作，可以做其他事
