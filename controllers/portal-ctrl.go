@@ -6,8 +6,8 @@ import (
 	"github.com/microcosm-cc/bluemonday"
 	"github.com/russross/blackfriday"
 	. "metal/models" // 点操作符导入的包可以省略包名直接使用公有属性和方法
-	"time"
 	"strconv"
+	"time"
 )
 
 type PortalController struct {
@@ -61,8 +61,8 @@ func (c *PortalController) Article() {
 		c.Data["content"] = err
 		c.TplName = "404.html"
 	} else {
-		article:=&Article{}
-		article.Id=uint(artId)
+		article := &Article{}
+		article.Id = uint(artId)
 		article.GetById()
 		article.Content = md2html(article.Content)
 		c.Data["article"] = article
@@ -123,6 +123,13 @@ func (c *PortalController) GetUser() {
 
 // @router /category [get]
 func (c *PortalController) Category() {
+	article := new(Article)
+	titles, err := article.GetCategory()
+	if err != nil {
+		c.Data["titles"] = make([]string, 0)
+	} else {
+		c.Data["titles"] = titles
+	}
 	c.TplName = "category.html"
 }
 
