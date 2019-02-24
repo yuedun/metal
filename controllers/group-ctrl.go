@@ -6,8 +6,8 @@ import (
 	"github.com/astaxie/beego/logs"
 	"log"
 	. "metal/models"
-	"time"
 	"strconv"
+	"time"
 )
 
 type GroupController struct {
@@ -59,27 +59,27 @@ func (c *GroupController) AddUserRole() {
  */
 // @router /user-roles/:userId [get]
 func (c *GroupController) GetUserRoles() {
-	userId :=c.Ctx.Input.Param(":userId")
-	uid, _:=strconv.Atoi(userId)
+	userId := c.Ctx.Input.Param(":userId")
+	uid, _ := strconv.Atoi(userId)
 	role := new(Role)
-	allRoles, userRoles, err:=role.GetRolesAndUserPermission(uid)
-	if nil!=err {
+	allRoles, userRoles, err := role.GetRolesAndUserPermission(uid)
+	if nil != err {
 		c.Data["json"] = ErrorData(err)
 	}
-	userPermissions:=make([]UserPermisson,0, 20)
-	for index, item:=range allRoles {
-		userPremis:=new(UserPermisson)
+	userPermissions := make([]UserPermisson, 0, 20)
+	for index, item := range allRoles {
+		userPremis := new(UserPermisson)
 		userPremis.Role_id = uint(item.Id)
-		userPremis.Description=item.Description
+		userPremis.Description = item.Description
 		for _, rid := range userRoles {
-			if item.Id==rid {
-				userPremis.Checked=true
+			if item.Id == rid {
+				userPremis.Checked = true
 				break
 			}
 		}
-		userPermissions=append(userPermissions[:index], *userPremis)
+		userPermissions = append(userPermissions[:index], *userPremis)
 	}
-	
+
 	c.Data["json"] = SuccessData(userPermissions)
 	c.ServeJSON()
 }

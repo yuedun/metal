@@ -75,3 +75,9 @@ func (article *Article) Delete() (int64, error) {
 	id, err := o.Delete(article)
 	return id, err
 }
+
+func (article *Article) GetCategory() (titles []Article, returnErr error) {
+	o := orm.NewOrm()
+	_, err := o.Raw("SELECT id, title FROM article ORDER BY id DESC;").QueryRows(&titles)
+	return titles, err
+}
