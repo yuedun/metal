@@ -7,6 +7,7 @@ import (
 	"log"
 	. "metal/models" // 点操作符导入的包可以省略包名直接使用公有属性和方法
 	"metal/util"
+	"os"
 	"strconv"
 	"strings"
 	"time"
@@ -395,5 +396,43 @@ func (c *AdminController) ArticleDelete() {
 	article.Id = uint(artId)
 	article.Delete()
 	c.Data["json"] = SuccessData(nil)
+	c.ServeJSON()
+}
+
+/**
+ * 上传图片
+ * /admin/uploadImg
+ */
+//@router /uploadImg [post]
+func (c *AdminController) UploadImg() {
+	file, h, err := c.GetFile("editormd-image-file")
+	if err != nil {
+		log.Fatal("getfile err ", err)
+	}
+	defer file.Close()
+	fileName := "static/upload/"+h.Filename
+	err = c.SaveToFile("editormd-image-file", fileName)
+	if err != nil {
+		c.Data["json"] = map[string]any{
+			"success": 0,
+			"message": err.Error(),
+		}
+	} else {
+		//接收成功上传到七牛
+		//上传到七牛后删除本地文件
+		localFile, err:=os.Open(fileName)
+		if err !=nil {
+			log.Fatal(err.Error())
+		}
+		if err := localFile.Close(); err != nil {
+			log.Fatal(err)
+		}
+		os.Remove(fileName)
+		c.Data["json"] = map[string]any{
+			"success": 1,
+			"message": "ok",
+			"url":     fileName,
+		}
+	}
 	c.ServeJSON()
 }
