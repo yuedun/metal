@@ -3,7 +3,6 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/astaxie/beego"
 	"log"
 	. "metal/models" // 点操作符导入的包可以省略包名直接使用公有属性和方法
 	"metal/util"
@@ -11,6 +10,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/astaxie/beego"
 )
 
 type AdminController struct {
@@ -410,7 +411,7 @@ func (c *AdminController) UploadImg() {
 		log.Fatal("getfile err ", err)
 	}
 	defer file.Close()
-	fileName := "static/upload/"+h.Filename
+	fileName := "static/upload/" + h.Filename
 	err = c.SaveToFile("editormd-image-file", fileName)
 	if err != nil {
 		c.Data["json"] = map[string]any{
@@ -420,8 +421,8 @@ func (c *AdminController) UploadImg() {
 	} else {
 		//接收成功上传到七牛
 		//上传到七牛后删除本地文件
-		localFile, err:=os.Open(fileName)
-		if err !=nil {
+		localFile, err := os.Open(fileName)
+		if err != nil {
 			log.Fatal(err.Error())
 		}
 		if err := localFile.Close(); err != nil {
