@@ -49,8 +49,8 @@ func init() {
 	 */
 	gob.Register(&controllers.UserPermission{})
 	// session 开发环境下使用file存储，生产环境使用redis等数据库存储
-	beego.BConfig.WebConfig.Session.SessionCookieLifeTime = 60 * 60 * 24 * 3 //cookie时长
-	beego.BConfig.WebConfig.Session.SessionGCMaxLifetime = 60 * 60 * 24 * 3  // session时长
+	beego.BConfig.WebConfig.Session.SessionCookieLifeTime = 60 * 60 * 24 * 10 //cookie时长 10天 不会变
+	beego.BConfig.WebConfig.Session.SessionGCMaxLifetime = 60 * 60 * 24 * 3   // session时长 3天 刷新会变
 	beego.BConfig.WebConfig.Session.SessionProvider = "file"
 	beego.BConfig.WebConfig.Session.SessionProviderConfig = "./tmp"
 
