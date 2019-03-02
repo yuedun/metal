@@ -420,6 +420,16 @@ func (c *AdminController) UploadImg() {
 		}
 	} else {
 		//接收成功上传到七牛
+		ret, err := util.UploadFile(fileName, h.Filename)
+		if err != nil {
+			c.Data["json"] = map[string]any{
+				"success": 0,
+				"message": err,
+				"url":     fileName,
+			}
+			c.ServeJSON()
+			return
+		}
 		//上传到七牛后删除本地文件
 		localFile, err := os.Open(fileName)
 		if err != nil {
@@ -432,8 +442,8 @@ func (c *AdminController) UploadImg() {
 		c.Data["json"] = map[string]any{
 			"success": 1,
 			"message": "ok",
-			"url":     fileName,
+			"url":     beego.AppConfig.String("qiniuUrl") + ret.Key,
 		}
+		c.ServeJSON()
 	}
-	c.ServeJSON()
 }
