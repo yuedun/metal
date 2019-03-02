@@ -62,4 +62,3 @@ func (c *UserGroupController) AddUserGroup() {
 		c.Data["json"] = SuccessData(nil)
 	}
 }
-

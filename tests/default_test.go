@@ -37,3 +37,14 @@ func TestCrawl(t *testing.T) {
 func TestFmt(t *testing.T) {
 	t.Log(fmt.Sprintf("https://www.lagou.com/jobs/list_%s?px=default&city=%s#filterBox", "golang", url.QueryEscape("shagnhai")))
 }
+
+// 获取七牛token
+func TestGetToken(t *testing.T) {
+	t.Log(">>>>>>getToken", util.GetToken())
+}
+
+//测试上传文件
+func TestUpload(t *testing.T) {
+	t.Log(">>>>>>uploadFile")
+	util.UploadFile()
+}

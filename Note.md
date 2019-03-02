@@ -158,3 +158,12 @@ SELECT job_title, ROUND(AVG(amount)) AS amount, DATE_FORMAT(CONCAT( YEAR (create
 [mysqld]
 sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'
 ```
+
+```shell
+$ git checkout master
+ is not a valid attribute name: .gitattributes:1
+ is not a valid attribute name: .gitattributes:2
+ is not a valid attribute name: .gitattributes:3
+```
+解决方案：
+`*.css linguist-language = go`改成`*.css linguist-language=go`,去掉=号左右的空格
