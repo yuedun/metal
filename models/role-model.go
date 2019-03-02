@@ -1,7 +1,9 @@
 package models
 
-import ("github.com/astaxie/beego/orm"
-"sync")
+import (
+	"github.com/astaxie/beego/orm"
+	"sync"
+)
 
 type Role struct {
 	BaseModel
@@ -10,10 +12,11 @@ type Role struct {
 }
 
 type UserPermisson struct {
-	Role_id uint `json:"roleId"`
+	Role_id     uint   `json:"roleId"`
 	Description string `json:"description"`
-	Checked bool `json:"checked"`
+	Checked     bool   `json:"checked"`
 }
+
 func init() {
 	orm.RegisterModel(new(Role))
 }
@@ -22,7 +25,7 @@ func init() {
  * 获取所有权限和单个用户拥有的权限
  */
 func (role *Role) GetRolesAndUserPermission(userId int) (allRoles []Role, userRoles []uint, returnErr error) {
-	o:=orm.NewOrm()
+	o := orm.NewOrm()
 	var wg sync.WaitGroup
 	wg.Add(2)
 	go func() {
@@ -35,7 +38,7 @@ func (role *Role) GetRolesAndUserPermission(userId int) (allRoles []Role, userRo
 	go func() {
 		defer wg.Done()
 		_, err := o.Raw("SELECT role_id FROM groups WHERE user_id = ? ORDER BY id DESC;", userId).QueryRows(&userRoles)
-		if nil != err{
+		if nil != err {
 			returnErr = err
 		}
 	}()
