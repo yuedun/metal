@@ -411,7 +411,12 @@ func (c *AdminController) UploadImg() {
 		log.Fatal("getfile err ", err)
 	}
 	defer file.Close()
-	fileName := "static/upload/" + h.Filename
+	_, derr := os.Stat("tmp/upload")
+	if derr != nil {
+		os.Mkdir("tmp/upload", os.ModePerm)
+	}
+
+	fileName := "tmp/upload/" + h.Filename
 	err = c.SaveToFile("editormd-image-file", fileName)
 	if err != nil {
 		c.Data["json"] = map[string]any{
@@ -432,6 +437,7 @@ func (c *AdminController) UploadImg() {
 		}
 		//上传到七牛后删除本地文件
 		localFile, err := os.Open(fileName)
+		defer localFile.Close()
 		if err != nil {
 			log.Fatal(err.Error())
 		}
