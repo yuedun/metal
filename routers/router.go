@@ -48,6 +48,7 @@ func init() {
 		beego.NSRouter("/user-group", &controllers.UserGroupController{}),
 		beego.NSRouter("/icons", &controllers.PictureController{}, "get:IconList"),
 		beego.NSRouter("/picture", &controllers.PictureController{}, "get:Picture"),
+		beego.NSRouter("/pictures", &controllers.PictureController{}, "post:AddPicture"),
 
 		//也可以使用注解自动路由
 		beego.NSInclude(

@@ -82,8 +82,25 @@ desired effect
                 <h3 class="box-title">挑选的图片和文字</h3>
               </div>
               <!-- /.box-header -->
-              <div id="J-paste-content">
-                <!-- 选中的内容区 -->
+              <div class="box-body">
+                <form role="form" id="J-form">
+                  <!-- text input -->
+                  <div class="form-group">
+                    <label>图片</label>
+                    <div id="J-paste-pic">
+                      <!-- 选中的内容区 -->
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label>文字</label>
+                    <div id="J-paste-text">
+                      <!-- 选中的内容区 -->
+                    </div>
+                  </div>
+                  <div class="box-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+                </form>
               </div>
             </div>
             <!-- /.box -->
@@ -125,18 +142,67 @@ desired effect
     $(function () {
       //第三方页面的所有样式失效
       $("#J-find-content *").attr("class", null).attr("style", null).attr("id", null);
-      //复制
-      var oContent = $("#J-find-content")[0];
-      oContent.onmouseup = function () {
-        var txt_all = document.getSelection();
-        var txt_sl = txt_all.focusNode.textContent;
-        txt_cr = txt_sl.substring(txt_all.focusOffset, txt_all.anchorOffset);
-        var pContent = $("#J-paste-content")[0];
-        var para = document.createElement("p");
-        var node = document.createTextNode(txt_cr);
-        para.appendChild(node);
-        pContent.appendChild(para);
-      };
+
+      //复制文字
+      !function () {
+        var oContent = $("#J-find-content")[0];
+        oContent.onmouseup = function () {
+          var txt_all = document.getSelection();
+          var txt_sl = txt_all.focusNode.textContent;
+          txt_cr = txt_sl.substring(txt_all.focusOffset, txt_all.anchorOffset);
+          var pContent = $("#J-paste-text")[0];
+          var para = document.createElement("p");
+          var node = document.createTextNode(txt_cr);
+          para.appendChild(node);
+          pContent.appendChild(para);
+          var inputDom = $('<input type="hidden" name="tag" value="' + txt_cr + '">');
+          $("#J-form").append(inputDom);
+        };
+      }();
+
+      //复制图片
+      !function () {
+        $("#J-find-content img").on("click", function () {
+          console.log($(this).attr("src"))
+          var imgsrc = $(this).attr("src");
+          var para = document.createElement("img");
+          para.src = imgsrc;
+          var pContent = $("#J-paste-pic")[0];
+          pContent.appendChild(para);
+          var inputDom = $('<input type="hidden" name="picUrl" value="' + imgsrc + '">');
+          $("#J-form").append(inputDom);
+        })
+      }();
+
+      $("form").on("submit", function () {
+        var params = $("form").serialize();
+        var values = {};
+        $.ajax({
+          url: '/admin/pictures',
+          type: 'post', //GET
+          async: true,    //或false,是否异步
+          data: params,
+          timeout: 5000,    //超时时间
+          dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+          beforeSend: function (xhr) {
+            console.log('发送前')
+          },
+          success: function (data, textStatus, jqXHR) {
+            if (data.code == 1) {
+              layer.msg(data.msg);
+              return
+            }
+            layer.msg(data.msg)
+          },
+          error: function (xhr, textStatus) {
+            console.log('错误', textStatus)
+          },
+          complete: function () {
+            console.log('结束');
+          }
+        })
+        return false;
+      });
     })
   </script>
 </body>
