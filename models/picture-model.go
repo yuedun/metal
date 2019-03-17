@@ -34,7 +34,7 @@ func (pic *Picture) Save() (int64, error) {
 }
 
 // 获取用户列表
-func (pic *Picture) GetAllByCondition(cond map[string]string, start, perPage int) (users []Picture, total int64, newError error) {
+func (pic *Picture) GetAllByCondition(cond map[string]string, start, perPage int) (pics []Picture, total int64, newError error) {
 	o := orm.NewOrm()
 	var condition = " WHERE 1 "
 	if cond["mobile"] != "" {
@@ -44,17 +44,17 @@ func (pic *Picture) GetAllByCondition(cond map[string]string, start, perPage int
 	wg.Add(2)
 	go func() {
 		defer wg.Done()
-		var sql = "SELECT * FROM pic "
+		var sql = "SELECT * FROM picture "
 		sql += condition
 		sql += " LIMIT ?, ?"
-		_, err := o.Raw(sql, strconv.Itoa(start), strconv.Itoa(perPage)).QueryRows(&users)
+		_, err := o.Raw(sql, strconv.Itoa(start), strconv.Itoa(perPage)).QueryRows(&pics)
 		if err != nil {
 			newError = err
 		}
 	}()
 	go func() {
 		defer wg.Done()
-		var sql = "SELECT COUNT(0) FROM pic "
+		var sql = "SELECT COUNT(0) FROM picture "
 		sql += condition
 		err := o.Raw(sql).QueryRow(&total)
 		if err != nil {
@@ -63,7 +63,7 @@ func (pic *Picture) GetAllByCondition(cond map[string]string, start, perPage int
 		fmt.Println("mysql row affected nums: ", total)
 	}()
 	wg.Wait()
-	return users, total, newError
+	return pics, total, newError
 }
 
 // 通过id修改用户

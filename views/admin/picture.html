@@ -67,6 +67,17 @@ desired effect
               <div class="box-header with-border">
                 <h3 class="box-title">原网页内容</h3>
               </div>
+              <form role="form" method="get" action="/admin/picture">
+                <div class="box-body">
+                  <div class="form-group">
+                    <label for="name">name</label>
+                    <input type="text" class="form-control" name="url" value="{{.url}}" placeholder="包含图片的网址">
+                  </div>
+                </div>
+                <div class="box-footer">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+              </form>
               <!-- /.box-header -->
               <div id="J-find-content">
                 {{str2html .htmlContent}}
@@ -142,7 +153,14 @@ desired effect
     $(function () {
       //第三方页面的所有样式失效
       $("#J-find-content *").attr("class", null).attr("style", null).attr("id", null);
-
+      // $("img").closest("a").remove();
+      var $a = $("img").closest("a");
+      $a.each(function (index, ele) {
+        var html = $(ele).get(0).outerHTML;
+        html = html.replace(/^<a/, "<div");
+        html = html.replace(/\/a>$/, "/div>");
+        $(ele).replaceWith(html);
+      });
       //复制文字
       !function () {
         var oContent = $("#J-find-content")[0];
@@ -174,14 +192,23 @@ desired effect
         })
       }();
 
-      $("form").on("submit", function () {
-        var params = $("form").serialize();
-        var values = {};
+      $("#J-form").on("submit", function () {
+        // var params = $("form").serialize();
+        var ts = $("input[name=tag]");
+        var tags = [];
+        ts.each(function (index, ele) {
+          tags.push($(ele).val());
+        })
+        var params = {
+          picUrl: $("input[name=picUrl]").val(),
+          tag: tags.toString()
+        }
         $.ajax({
           url: '/admin/pictures',
           type: 'post', //GET
           async: true,    //或false,是否异步
-          data: params,
+          data: JSON.stringify(params),
+          contentType: "json",
           timeout: 5000,    //超时时间
           dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
           beforeSend: function (xhr) {

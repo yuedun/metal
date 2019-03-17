@@ -3,12 +3,12 @@ package controllers
 import (
 	"encoding/json"
 	"log"
-	. "metal/models" // 点操作符导入的包可以省略包名直接使用公有属性和方法
 	"net/http"
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/astaxie/beego"
+	. "metal/models"
 )
 
 type PictureController struct {
@@ -22,35 +22,52 @@ func (c *PictureController) IconList() {
 
 /* 图片检索 */
 func (c *PictureController) Picture() {
-	//请求html数据
-	res, err := http.Get("https://blog.52itstyle.vip/archives/3808/")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer res.Body.Close()
-	if res.StatusCode != 200 {
-		log.Fatalf("status code error: %d %s", res.StatusCode, res.Status)
+	url:=c.GetString("url")
+	if url!=""{
+		//请求html数据
+		res, err := http.Get(url)
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer res.Body.Close()
+		if res.StatusCode != 200 {
+			log.Fatalf("status code error: %d %s", res.StatusCode, res.Status)
+		} else {
+			log.Println("请求成功")
+		}
+		//转换数据为HTML对象模型
+		doc, err := goquery.NewDocumentFromReader(res.Body)
+		if err != nil {
+			log.Fatal(err)
+		}
+		//查找元素
+		text, _ := doc.Find("body").Html()
+		c.Data["url"]=url
+		c.Data["htmlContent"] = text
 	} else {
-		log.Println("请求成功")
+		c.Data["htmlContent"]=""
 	}
-	//转换数据为HTML对象模型
-	doc, err := goquery.NewDocumentFromReader(res.Body)
-	if err != nil {
-		log.Fatal(err)
-	}
-	//查找元素
-	text, _ := doc.Find("body").Html()
-	c.Data["htmlContent"] = text
 	c.TplName = "admin/picture.html"
 }
 
 /* 保存图片 */
 func (c *PictureController) AddPicture() {
-	args := map[string]string{}
+	defer func() {
+		c.ServeJSON()
+	}()
+	args := struct {
+		PicUrl string
+		Tag    string
+	}{}
 	body := c.Ctx.Input.RequestBody //接收raw body内容
-	json.Unmarshal(body, &args)
-	picUrl := args["picUrl"]
-	tag := args["tag"] // 只能接收url后面的参数，不能接收body中的参数
+	err := json.Unmarshal(body, &args)
+	if err!=nil {
+		beego.Error(err)
+		c.Data["json"] = ErrorData(err)
+		return
+	}
+	picUrl := args.PicUrl
+	tag:=args.Tag
 	beego.Info(">>>>>>>>", args)
 	var picture = new(Picture)
 	picture.PicUrl = picUrl
@@ -65,5 +82,26 @@ func (c *PictureController) AddPicture() {
 	} else {
 		c.Data["json"] = SuccessData(id)
 	}
-	c.ServeJSON()
+}
+/* 图片列表路由 */
+func (c *PictureController) ListPictureRoute() {
+	c.TplName = "admin/picture-list.html"
+}
+/* 图片列表 */
+func (c *PictureController) ListPicture() {
+	defer func() {
+		c.ServeJSON()
+	}()
+	picture:=new(Picture)
+	picList, total, err := picture.GetAllByCondition(nil, 1, 10)
+	if nil != err {
+		beego.Error(err)
+		c.Data["json"] = ErrorData(err)
+	} else {
+		data:=map[string]any{
+			"result":picList,
+			"totle":total,
+		}
+		c.Data["json"] = SuccessData(data)
+	}
 }
