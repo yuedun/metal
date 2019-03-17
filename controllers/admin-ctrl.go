@@ -185,7 +185,7 @@ func (c *AdminController) UserListRoute() {
  * /admin/users
  */
 func (c *AdminController) UserList() {
-	args := c.GetString("search") // 获取所有参数
+	args := c.GetString("search") //搜索框
 	start, _ := c.GetInt("start")
 	perPage, _ := c.GetInt("perPage")
 	user := new(User)

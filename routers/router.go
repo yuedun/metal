@@ -46,6 +46,11 @@ func init() {
 		beego.NSRouter("/user/:id", &controllers.AdminController{}, "get:UserGet"),
 		beego.NSRouter("/users", &controllers.AdminController{}, "get:UserList"),
 		beego.NSRouter("/user-group", &controllers.UserGroupController{}),
+		beego.NSRouter("/icons", &controllers.PictureController{}, "get:IconList"),
+		beego.NSRouter("/picture", &controllers.PictureController{}, "get:Picture"),
+		beego.NSRouter("/pictures", &controllers.PictureController{}, "post:AddPicture"),
+		beego.NSRouter("/picture-list-route", &controllers.PictureController{}, "get:ListPictureRoute"),
+		beego.NSRouter("/picture-list", &controllers.PictureController{}, "get:ListPicture"),
 
 		//也可以使用注解自动路由
 		beego.NSInclude(

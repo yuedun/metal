@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html>
+
+<head>
+  <title>挑拣图片</title>
+  {{template "admin/html-head.html"}}
+  <style>
+    img {
+      width: 100%;
+    }
+  </style>
+</head>
+<!--
+BODY TAG OPTIONS:
+=================
+Apply one or more of the following classes to get the
+desired effect
+|---------------------------------------------------------|
+| SKINS         | skin-blue                               |
+|               | skin-black                              |
+|               | skin-purple                             |
+|               | skin-yellow                             |
+|               | skin-red                                |
+|               | skin-green                              |
+|---------------------------------------------------------|
+|LAYOUT OPTIONS | fixed                                   |
+|               | layout-boxed                            |
+|               | layout-top-nav                          |
+|               | sidebar-collapse                        |
+|               | sidebar-mini                            |
+|---------------------------------------------------------|
+-->
+
+<body class="hold-transition skin-blue sidebar-mini">
+  <div class="wrapper">
+
+    <!-- Main Header -->
+    {{template "admin/html-header.html"}}
+    <!-- Left side column. contains the logo and sidebar -->
+    {{template "admin/html-aside.html"}}
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <section class="content-header">
+        <h1>
+          General Form Elements
+          <small>Preview</small>
+        </h1>
+        <ol class="breadcrumb">
+          <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+          <li><a href="#">Forms</a></li>
+          <li class="active">General Elements</li>
+        </ol>
+      </section>
+
+      <!-- Main content -->
+      <section class="content">
+        <div class="row">
+          <!-- left column -->
+          <div class="col-md-6">
+            <div class="box box-primary">
+              <div class="box-header with-border">
+                <h3 class="box-title">原网页内容</h3>
+              </div>
+              <form role="form" method="get" action="/admin/picture">
+                <div class="box-body">
+                  <div class="form-group">
+                    <label for="name">name</label>
+                    <input type="text" class="form-control" name="url" value="{{.url}}" placeholder="包含图片的网址">
+                  </div>
+                </div>
+                <div class="box-footer">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+              </form>
+              <!-- /.box-header -->
+              <div id="J-find-content">
+                {{str2html .htmlContent}}
+              </div>
+            </div>
+            <!-- /.box -->
+          </div>
+          <!--/.col (left) -->
+          <!-- right column -->
+          <div class="col-md-6">
+            <div class="box box-primary">
+              <div class="box-header with-border">
+                <h3 class="box-title">挑选的图片和文字</h3>
+              </div>
+              <!-- /.box-header -->
+              <div class="box-body">
+                <form role="form" id="J-form">
+                  <!-- text input -->
+                  <div class="form-group">
+                    <label>图片</label>
+                    <div id="J-paste-pic">
+                      <!-- 选中的内容区 -->
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label>文字</label>
+                    <div id="J-paste-text">
+                      <!-- 选中的内容区 -->
+                    </div>
+                  </div>
+                  <div class="box-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <!-- /.box -->
+          </div>
+          <!--/.col (right) -->
+        </div>
+        <!-- /.row -->
+      </section>
+      <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    <!-- Main Footer -->
+    <footer class="main-footer">
+      <!-- To the right -->
+      <div class="pull-right hidden-xs">
+        Anything you want
+      </div>
+      <!-- Default to the left -->
+      <strong>Copyright &copy; 2016 <a href="#">Company</a>.</strong> All rights reserved.
+    </footer>
+
+    <!-- Control Sidebar -->
+    {{template "admin/html-control-sidebar.html"}}
+    <!-- /.control-sidebar -->
+
+    <!-- Add the sidebar's background. This div must be placed
+    immediately after the control sidebar -->
+    <div class="control-sidebar-bg"></div>
+  </div>
+  <!-- ./wrapper -->
+
+  <!-- REQUIRED JS SCRIPTS -->
+  {{template "admin/html-js.html"}}
+  <!-- /REQUIRED JS SCRIPTS -->
+
+  <!-- page script -->
+  <script>
+    $(function () {
+      //第三方页面的所有样式失效
+      $("#J-find-content *").attr("class", null).attr("style", null).attr("id", null);
+      // $("img").closest("a").remove();
+      var $a = $("img").closest("a");
+      $a.each(function (index, ele) {
+        var html = $(ele).get(0).outerHTML;
+        html = html.replace(/^<a/, "<div");
+        html = html.replace(/\/a>$/, "/div>");
+        $(ele).replaceWith(html);
+      });
+      //复制文字
+      !function () {
+        var oContent = $("#J-find-content")[0];
+        oContent.onmouseup = function () {
+          var txt_all = document.getSelection();
+          var txt_sl = txt_all.focusNode.textContent;
+          txt_cr = txt_sl.substring(txt_all.focusOffset, txt_all.anchorOffset);
+          var pContent = $("#J-paste-text")[0];
+          var para = document.createElement("p");
+          var node = document.createTextNode(txt_cr);
+          para.appendChild(node);
+          pContent.appendChild(para);
+          var inputDom = $('<input type="hidden" name="tag" value="' + txt_cr + '">');
+          $("#J-form").append(inputDom);
+        };
+      }();
+
+      //复制图片
+      !function () {
+        $("#J-find-content img").on("click", function () {
+          console.log($(this).attr("src"))
+          var imgsrc = $(this).attr("src");
+          var para = document.createElement("img");
+          para.src = imgsrc;
+          var pContent = $("#J-paste-pic")[0];
+          pContent.appendChild(para);
+          var inputDom = $('<input type="hidden" name="picUrl" value="' + imgsrc + '">');
+          $("#J-form").append(inputDom);
+        })
+      }();
+
+      $("#J-form").on("submit", function () {
+        // var params = $("form").serialize();
+        var ts = $("input[name=tag]");
+        var tags = [];
+        ts.each(function (index, ele) {
+          tags.push($(ele).val());
+        })
+        var params = {
+          picUrl: $("input[name=picUrl]").val(),
+          tag: tags.toString()
+        }
+        $.ajax({
+          url: '/admin/pictures',
+          type: 'post', //GET
+          async: true,    //或false,是否异步
+          data: JSON.stringify(params),
+          contentType: "json",
+          timeout: 5000,    //超时时间
+          dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+          beforeSend: function (xhr) {
+            console.log('发送前')
+          },
+          success: function (data, textStatus, jqXHR) {
+            if (data.code == 1) {
+              layer.msg(data.msg);
+              return
+            }
+            layer.msg(data.msg)
+          },
+          error: function (xhr, textStatus) {
+            console.log('错误', textStatus)
+          },
+          complete: function () {
+            console.log('结束');
+          }
+        })
+        return false;
+      });
+    })
+  </script>
+</body>
+
+</html>
