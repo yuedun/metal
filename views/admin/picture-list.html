@@ -68,14 +68,15 @@ desired effect
                     <tr>
                       <th>ID</th>
                       <th>tag</th>
-                      <th>url</th>
+                      <th width="60%">url</th>
                       <th>createdAt</th>
-                      <th>updatedAt</th>
                       <th width="120px">操作</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {{/*<tr><td></td></tr>*/}}
+                    {{/*<tr>
+                      <td></td>
+                    </tr>*/}}
                   </tbody>
                   <tfoot>
                     <tr>
@@ -83,7 +84,6 @@ desired effect
                       <th>tag</th>
                       <th>url</th>
                       <th>createdAt</th>
-                      <th>updatedAt</th>
                       <th>操作</th>
                     </tr>
                   </tfoot>
@@ -178,15 +178,44 @@ desired effect
         rowId: 'id',//自动设置行id
         columns: [
           { data: 'id' },
-          { data: 'tag' },
-          { data: 'pic_url' },
-          { data: 'created_at' },
-          { data: 'updated_at' },
-          { data: 'updated_at' }
+          {
+            data: 'tag',
+            render: function (data, type, row) {
+              var tags = [];
+              if (data.length > 0) {
+                tags = data.split(",");
+              }
+              var html = "";
+              tags.forEach(element => {
+                html += '<span class="label label-success">' + element + '</span>';
+              });
+              return html;
+            }
+          },
+          {
+            data: 'pic_url',
+            render: function (data, type, row) {
+              var html = '<a href="' + data + '" target="_blank">' + data + '</a>'
+              return html;
+            }
+          },
+          {
+            data: 'created_at',
+            render: function (data, type, row, settings) {
+              return moment(data).format("YYYY-MM-DD HH:mm:ss");
+            }
+          },
+          {
+            data: '',
+            render: function (data, type, row) {
+              var html = '<button class="btn btn-sm btn-danger J-delete">删除</button>'
+              return html;
+            }
+          }
         ],
         "createdRow": function (row, data, dataIndex) {
           //有了DT_RowId属性就会自动添加id到行上,不需要在此操作，可以做其他事
-          $(row).data("userName", data.userName);
+          // $(row).data("userName", data.userName);
         }
       });
       //删除
