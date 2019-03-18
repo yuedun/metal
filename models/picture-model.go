@@ -34,11 +34,11 @@ func (pic *Picture) Save() (int64, error) {
 }
 
 // 获取用户列表
-func (pic *Picture) GetAllByCondition(cond map[string]string, start, perPage int) (pics []Picture, total int64, newError error) {
+func (pic *Picture) GetAllByCondition(cond string, start, perPage int) (pics []Picture, total int64, newError error) {
 	o := orm.NewOrm()
 	var condition = " WHERE 1 "
-	if cond["mobile"] != "" {
-		condition += "and (mobile like '" + cond["username"] + "%' or user_name like '" + cond["username"] + "%' )"
+	if cond != "" {
+		condition += "and tag like '%" + cond + "%' "
 	}
 	var wg sync.WaitGroup
 	wg.Add(2)
