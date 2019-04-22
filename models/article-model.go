@@ -30,7 +30,7 @@ func (article *Article) GetArticlesByCondition(param map[string]string, pageInde
 	o := orm.NewOrm()
 	var condition = ""
 	if param["title"] != "" {
-		condition += "and title like '" + param["title"] + "%'"
+		condition += " AND title LIKE '" + param["title"] + "%'"
 	}
 	var wg sync.WaitGroup
 	wg.Add(2)
@@ -38,7 +38,7 @@ func (article *Article) GetArticlesByCondition(param map[string]string, pageInde
 		defer wg.Done()
 		var sql = "SELECT * FROM article WHERE status = 1 "
 		sql += condition
-		sql += "ORDER BY id DESC"
+		sql += " ORDER BY id DESC"
 		sql += " LIMIT ?, ?;"
 		_, err := o.Raw(sql, pageIndex, pageSize).QueryRows(&articles)
 		if err != nil {
