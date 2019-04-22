@@ -2,9 +2,10 @@ package models
 
 import (
 	"fmt"
-	"github.com/astaxie/beego/orm"
 	"sync"
 	"time"
+
+	"github.com/astaxie/beego/orm"
 )
 
 type Article struct {
@@ -36,7 +37,7 @@ func (article *Article) GetArticlesByCondition(param map[string]string, pageInde
 	wg.Add(2)
 	go func() {
 		defer wg.Done()
-		var sql = "SELECT * FROM article WHERE status = 1 "
+		var sql = "SELECT * FROM article WHERE status = 1"
 		sql += condition
 		sql += " ORDER BY id DESC"
 		sql += " LIMIT ?, ?;"
@@ -47,7 +48,7 @@ func (article *Article) GetArticlesByCondition(param map[string]string, pageInde
 	}()
 	go func() {
 		defer wg.Done()
-		var sql = "SELECT COUNT(0) FROM article "
+		var sql = "SELECT COUNT(0) FROM article WHERE status = 1"
 		sql += condition
 		err := o.Raw(sql).QueryRow(&total)
 		if err != nil {
