@@ -3,6 +3,7 @@ package controllers
 //包名并非必须和文件夹名相同，但是按照惯例最后一个路径名和包名一致
 import (
 	. "metal/models" // 点操作符导入的包可以省略包名直接使用公有属性和方法
+	"regexp"
 	"strconv"
 	"time"
 
@@ -42,7 +43,9 @@ func (c *PortalController) Get() {
 		c.Data["total"] = 0
 	} else {
 		for index, art := range articleList {
-			art.Content = md2html(art.Content)
+			re := regexp.MustCompile("\\<[\\S\\s]+?\\>")
+			htmlStr := md2html(art.Content)
+			art.Content = beego.Substr(re.ReplaceAllString(htmlStr, ""), 0, 300)
 			articleList[index] = art
 		}
 		c.Data["articleList"] = articleList
