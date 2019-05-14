@@ -42,13 +42,19 @@ func (c *PortalController) Get() {
 		c.Data["articleList"] = []Article{}
 		c.Data["total"] = 0
 	} else {
+		var artList [5]ArticlePortal
 		for index, art := range articleList {
-			re := regexp.MustCompile("\\<[\\S\\s]+?\\>")
+			re := regexp.MustCompile("\\<[\\S\\s]+?\\>")                //html标签
+			reimg := regexp.MustCompile(`<img (\S*?)[^>]*>.*?|<.*? />`) //获取一张图片
 			htmlStr := md2html(art.Content)
-			art.Content = beego.Substr(re.ReplaceAllString(htmlStr, ""), 0, 300)
-			articleList[index] = art
+			artList[index].Id = art.Id
+			artList[index].Title = art.Title
+			artList[index].Content = beego.Substr(re.ReplaceAllString(htmlStr, ""), 0, 300)
+			artList[index].Img = string(reimg.Find([]byte(htmlStr)))
+			artList[index].Status = art.Status
+			artList[index].CreatedAt = art.CreatedAt
 		}
-		c.Data["articleList"] = articleList
+		c.Data["articleList"] = artList
 		c.Data["total"] = total
 		c.Data["pageNo"] = pageNo
 		c.Data["pageSize"] = pageSize
@@ -67,7 +73,10 @@ func (c *PortalController) Article() {
 	} else {
 		article := &Article{}
 		article.Id = uint(artId)
-		article.GetById()
+		err := article.GetById()
+		if err != nil {
+			beego.Error(err)
+		}
 		article.Content = md2html(article.Content)
 		c.Data["article"] = article
 		c.TplName = "article.html"

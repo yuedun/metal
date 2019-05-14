@@ -14,6 +14,10 @@ type Article struct {
 	Content string `json:"content"`
 	Status  uint8  `json:"status"`
 }
+type ArticlePortal struct {
+	Article
+	Img string
+}
 
 func init() {
 	orm.RegisterModel(new(Article))
