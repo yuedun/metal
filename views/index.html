@@ -15,6 +15,7 @@
     <section>
       <h1><a href="/article/{{$elem.Id}}">{{$elem.Title}}</a></h1>
       <div class="description">
+        {{str2html $elem.Img}}<br>
         {{str2html $elem.Content}}
       </div>
     </section>
@@ -31,14 +32,14 @@
     $(function(){
       hljs.initHighlightingOnLoad();//代码高亮
       
-      var current = {{.pageNo}};
-      var pageSize = {{.pageSize}};
-      var totalIndex = {{.total}};
+      var current = {{.pageNo}}
+      var pageSize = {{.pageSize}}
+      var totalIndex = {{.total}}
       $("#Pagination").pagination(totalIndex, {
         num_edge_entries: 1, //边缘页数
         num_display_entries: 4, //主体页数
         prev_text: "« 上一页",
-                next_text: "下一页 »",
+        next_text: "下一页 »",
         current_page: current,
         link_to: "/?pageNo=__id__&pageSize="+pageSize,
         callback: function (page_index, jq) {
