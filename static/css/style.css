@@ -44,11 +44,10 @@ footer {
     width: 100%;
 }
 a {
-    color: #444;
+    color: #572C82;
     text-decoration: none;
 }
 a:hover{
-    color: #572C82;
     text-decoration-line: underline;
 }
 .backdrop {
