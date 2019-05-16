@@ -139,7 +139,7 @@ func (c *PortalController) Category() {
 	article := new(Article)
 	titles, err := article.GetCategory()
 	if err != nil {
-		c.Data["titles"] = make([]string, 0)
+		c.Data["titles"] = []string{}
 	} else {
 		c.Data["titles"] = titles
 	}
