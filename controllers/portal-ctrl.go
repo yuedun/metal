@@ -42,7 +42,7 @@ func (c *PortalController) Get() {
 		c.Data["articleList"] = []Article{}
 		c.Data["total"] = 0
 	} else {
-		var artList [5]ArticlePortal
+		var artList = make([]ArticlePortal, len(articleList)) // 切片长度去实际数据长度
 		for index, art := range articleList {
 			re := regexp.MustCompile("\\<[\\S\\s]+?\\>")                //html标签
 			reimg := regexp.MustCompile(`<img (\S*?)[^>]*>.*?|<.*? />`) //获取一张图片
