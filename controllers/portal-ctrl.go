@@ -36,6 +36,7 @@ func (c *PortalController) Get() {
 	}
 	skip := pageNo * pageSize
 	params := map[string]string{}
+	params["status"] = "1"
 	article := &Article{}
 	articleList, total, err := article.GetArticlesByCondition(params, skip, pageSize)
 	if nil != err {
