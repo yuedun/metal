@@ -34,6 +34,9 @@ func (article *Article) Save() (int64, error) {
 func (article *Article) GetArticlesByCondition(param map[string]string, pageIndex, pageSize int) (articles []Article, total int64, returnError error) {
 	o := orm.NewOrm()
 	var condition = ""
+	if param["status"] != "" {
+		condition += " AND status IN (" + param["status"] + ")"
+	}
 	if param["title"] != "" {
 		condition += " AND title LIKE '" + param["title"] + "%'"
 	}
@@ -41,7 +44,7 @@ func (article *Article) GetArticlesByCondition(param map[string]string, pageInde
 	wg.Add(2)
 	go func() {
 		defer wg.Done()
-		var sql = "SELECT * FROM article WHERE status = 1"
+		var sql = "SELECT * FROM article WHERE 1=1"
 		sql += condition
 		sql += " ORDER BY id DESC"
 		sql += " LIMIT ?, ?;"
