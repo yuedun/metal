@@ -325,6 +325,7 @@ func (c *AdminController) ArticlesList() {
 	perPage, _ := c.GetInt("perPage")
 	article := new(Article)
 	param := map[string]string{
+		"status": "1,0",
 		"title": args,
 	}
 
