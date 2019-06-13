@@ -223,11 +223,11 @@ desired effect
         var id = $(this).closest("tr").attr("id");
         if (confirm("确定删除？")) {
           $.ajax({
-            url: '/admin/user/delete',
+            url: '/admin/picture-delete',
             type: 'post', //GET
             async: true,    //或false,是否异步
             data: {
-              userId: id
+              picId: id
             },
             timeout: 5000,    //超时时间
             dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
