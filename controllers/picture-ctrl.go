@@ -73,6 +73,7 @@ func (c *PictureController) AddPicture() {
 	var picture = new(Picture)
 	picture.PicUrl = picUrl
 	picture.Tag = tag
+	picture.Status = 1
 	picture.CreatedAt = time.Now()
 	picture.UpdatedAt = time.Now()
 
