@@ -4,9 +4,10 @@ This is a starter template page. Use this page to start your new project from
 scratch. This page gets rid of all links and provides the needed markup only.
 -->
 <html>
+
 <head>
-<title>用户列表</title>
-{{template "admin/html-head.html" .}}
+    <title>用户列表</title>
+    {{template "admin/html-head.html" .}}
 </head>
 <!--
 BODY TAG OPTIONS:
@@ -28,425 +29,429 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
+
 <body class="hold-transition skin-blue sidebar-mini">
-<div class="wrapper">
+    <div class="wrapper">
 
-    <!-- Main Header -->
-{{template "admin/html-header.html" .}}
-    <!-- Left side column. contains the logo and sidebar -->
-{{template "admin/html-aside.html" .}}
+        <!-- Main Header -->
+        {{template "admin/html-header.html" .}}
+        <!-- Left side column. contains the logo and sidebar -->
+        {{template "admin/html-aside.html" .}}
 
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <h1>
-                Data Tables
-                <small>advanced tables</small>
-            </h1>
-            <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li><a href="#">Tables</a></li>
-                <li class="active">Data tables</li>
-            </ol>
-        </section>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    Data Tables
+                    <small>advanced tables</small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li><a href="#">Tables</a></li>
+                    <li class="active">Data tables</li>
+                </ol>
+            </section>
 
-        <!-- Main content -->
-        <section class="content">
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="box">
-                        <div class="box-header">
-                            <h3 class="box-title">Data Table With Full Features</h3>
+            <!-- Main content -->
+            <section class="content">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="box">
+                            <div class="box-header">
+                                <h3 class="box-title">Data Table With Full Features</h3>
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <table id="userlist" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>name</th>
+                                            <th>gender</th>
+                                            <th>mobile</th>
+                                            <th>email</th>
+                                            <th>address</th>
+                                            <th>status</th>
+                                            <th>description</th>
+                                            <th>createdAt</th>
+                                            <th>updatedAt</th>
+                                            <th width="120px">操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{/*<tr><td></td></tr>*/}}
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>name</th>
+                                            <th>gender</th>
+                                            <th>mobile</th>
+                                            <th>email</th>
+                                            <th>address</th>
+                                            <th>status</th>
+                                            <th>description</th>
+                                            <th>createdAt</th>
+                                            <th>updatedAt</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <!-- /.box-body -->
                         </div>
-                        <!-- /.box-header -->
-                        <div class="box-body">
-                            <table id="userlist" class="table table-bordered table-striped">
-                                <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>name</th>
-                                    <th>gender</th>
-                                    <th>mobile</th>
-                                    <th>email</th>
-                                    <th>address</th>
-                                    <th>status</th>
-                                    <th>description</th>
-                                    <th>createdAt</th>
-                                    <th>updatedAt</th>
-                                    <th width="120px">操作</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {{/*<tr><td></td></tr>*/}}
-                                </tbody>
-                                <tfoot>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>name</th>
-                                    <th>gender</th>
-                                    <th>mobile</th>
-                                    <th>email</th>
-                                    <th>address</th>
-                                    <th>status</th>
-                                    <th>description</th>
-                                    <th>createdAt</th>
-                                    <th>updatedAt</th>
-                                    <th>操作</th>
-                                </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                        <!-- /.box-body -->
+                        <!-- /.box -->
                     </div>
-                    <!-- /.box -->
+                    <!-- /.col -->
                 </div>
-                <!-- /.col -->
-            </div>
-            <!-- /.row -->
-        </section>
-        <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
-
-    <!-- Main Footer -->
-    <footer class="main-footer">
-        <!-- To the right -->
-        <div class="pull-right hidden-xs">
-            Anything you want
+                <!-- /.row -->
+            </section>
+            <!-- /.content -->
         </div>
-        <!-- Default to the left -->
-        <strong>Copyright &copy; 2016 <a href="#">Company</a>.</strong> All rights reserved.
-    </footer>
+        <!-- /.content-wrapper -->
 
-    <!-- Control Sidebar -->
-    {{template "admin/html-control-sidebar.html"}}
-    <!-- /.Control-sidebar -->
-</div>
-<!-- ./wrapper -->
-
-<!-- 弹窗内容-->
-<div id="update-dialog" style="display: none;">
-    <div class="col-md-6">
-        <!-- general form elements -->
-        <div class="box box-primary">
-            <div class="box-header with-border">
-                <h3 class="box-title">Quick Example</h3>
+        <!-- Main Footer -->
+        <footer class="main-footer">
+            <!-- To the right -->
+            <div class="pull-right hidden-xs">
+                Anything you want
             </div>
-            <!-- /.box-header -->
-            <!-- form start -->
-            <form role="form" method="post" onsubmit="return false">
-                <input type="hidden" id="userId">
-                <div class="box-body">
-                    <div class="form-group">
-                        <label for="name">name</label>
-                        <input type="text" class="form-control" id="username" name="username" placeholder="username">
-                    </div>
-                    <div class="form-group">
-                        <label for="gender">gender</label>
-                        <select id="gender" name="gender" class="form-control">
-                            <option value="0">女</option>
-                            <option value="1">男</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="mobile">mobile</label>
-                        <input type="text" class="form-control" id="mobile" name="mobile" placeholder="mobile" disabled>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">email</label>
-                        <input type="text" class="form-control" id="email" name="email" placeholder="email">
-                    </div>
-                    <div class="form-group">
-                        <label for="address">address</label>
-                        <input type="text" class="form-control" id="address" name="addr" placeholder="addr">
-                    </div>
-                    <div class="form-group">
-                        <label for="desc">description</label>
-                        <input type="text" class="form-control" id="desc" name="desc" placeholder="description">
-                    </div>
+            <!-- Default to the left -->
+            <strong>Copyright &copy; 2016 <a href="#">Company</a>.</strong> All rights reserved.
+        </footer>
+
+        <!-- Control Sidebar -->
+        {{template "admin/html-control-sidebar.html"}}
+        <!-- /.Control-sidebar -->
+    </div>
+    <!-- ./wrapper -->
+
+    <!-- 弹窗内容-->
+    <div id="update-dialog" style="display: none;">
+        <div class="col-md-6">
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Quick Example</h3>
                 </div>
-                <!-- /.box-body 使用layer的回调执行提交
+                <!-- /.box-header -->
+                <!-- form start -->
+                <form role="form" method="post" onsubmit="return false">
+                    <input type="hidden" id="userId">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="name">name</label>
+                            <input type="text" class="form-control" id="username" name="username"
+                                placeholder="username">
+                        </div>
+                        <div class="form-group">
+                            <label for="gender">gender</label>
+                            <select id="gender" name="gender" class="form-control">
+                                <option value="0">女</option>
+                                <option value="1">男</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="mobile">mobile</label>
+                            <input type="text" class="form-control" id="mobile" name="mobile" placeholder="mobile"
+                                disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">email</label>
+                            <input type="text" class="form-control" id="email" name="email" placeholder="email">
+                        </div>
+                        <div class="form-group">
+                            <label for="address">address</label>
+                            <input type="text" class="form-control" id="address" name="addr" placeholder="addr">
+                        </div>
+                        <div class="form-group">
+                            <label for="desc">description</label>
+                            <input type="text" class="form-control" id="desc" name="desc" placeholder="description">
+                        </div>
+                    </div>
+                    <!-- /.box-body 使用layer的回调执行提交
                 <div class="box-footer">
                   <input type="hidden" id="userId">
                   <button type="submit" class="btn btn-primary J-submit">Submit</button>
                 </div>
                 -->
-            </form>
-        </div>
-        <!-- /.box -->
-    </div>
-</div>
-<!-- 加权限 -->
-<div id="permission-dialog" style="display: none;">
-    <div class="col-md-12">
-        <!-- general form elements -->
-        <div class="box box-primary">
-            <div class="box-header with-border">
-                <h3 class="box-title">编辑权限</h3>
+                </form>
             </div>
-            <!-- /.box-header -->
-            <!-- form start -->
-            <form role="form" method="post" onsubmit="return false">
-                <input type="hidden" id="userId">
-                <div class="box-body">
-                    <div class="form-group">
-                        <div class="checkbox" id="perssions">
+            <!-- /.box -->
+        </div>
+    </div>
+    <!-- 加权限 -->
+    <div id="permission-dialog" style="display: none;">
+        <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">编辑权限</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                <form role="form" method="post" onsubmit="return false">
+                    <input type="hidden" id="userId">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <div class="checkbox" id="perssions">
 
+                            </div>
                         </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
+            <!-- /.box -->
         </div>
-        <!-- /.box -->
     </div>
-</div>
-<!-- /弹窗内容-->
+    <!-- /弹窗内容-->
 
-<!-- REQUIRED JS SCRIPTS -->
-{{template "admin/html-js.html"}}
-<!-- /REQUIRED JS SCRIPTS -->
+    <!-- REQUIRED JS SCRIPTS -->
+    {{template "admin/html-js.html"}}
+    <!-- /REQUIRED JS SCRIPTS -->
 
-<!-- page script -->
-<script type="text/javascript">
-    $(function() {
-        //列表
-        var userList = $('#userlist').DataTable({
-            language: {
-                processing: "数据加载中……",
-                zeroRecords: "No records to display"
-            },
-            paging: true,
-            lengthChange: false,
-            searching: true,
-            ordering: true,
-            info: true,
-            autoWidth: false,
-            serverSide: true,
-            processing: true,
-            ajax: function (data, callback, settings) {
-                var postData = {
-                    draw: data.draw,
-                    perPage: data.length,
-                    start: data.start,
-                    search: data.search.value
-                };
-                $.ajax({
-                    url: '/admin/users',
-                    type: 'GET', //GET
-                    data: postData,
-                    timeout: 5000,    //超时时间
-                    dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
-                    beforeSend: function (xhr) {
-                        console.log('发送前')
-                    },
-                    success: function (res, textStatus, jqXHR) {
-                        if(res.code == 1){
-                            layer.msg(res.msg, {icon: 5});
-                            return
-                        }
-                        var dtData = {
-                            recordsTotal: res.data.total,
-                            recordsFiltered: res.data.total,
-                            data: res.data.result,
-                            draw: res.data.draw
-                        };
-                        callback(dtData);
-                    },
-                    error: function (xhr, textStatus) {
-                        console.log('错误')
-                    },
-                    complete: function () {
-                        console.log('结束')
-                    }
-                })
-            },
-            rowId: 'id',//自动设置行id
-            columns: [
-                {data: 'id'},
-                {data: 'user_name'},
-                {data: 'gender'},
-                {data: 'mobile'},
-                {data: 'email'},
-                {data: 'addr'},
-                {
-                    data: 'status',
-                    render: function(data, type, row){
-                        var html = '<span class="label label-primary">为止</span>';
-                        if (data == 0) {
-                            html = '<span class="label label-danger">禁用</span>';
-                        } else {
-                            html = '<span class="label label-success">启用</span>';
-                        }
-                        return html;
-                    }
+    <!-- page script -->
+    <script type="text/javascript">
+        $(function () {
+            //列表
+            var userList = $('#userlist').DataTable({
+                language: {
+                    processing: "数据加载中……",
+                    zeroRecords: "No records to display"
                 },
-                {data: 'description'},
-                {data: 'created_at'},
-                {data: 'updated_at'},
-                {
-                    data: 'mobile',
-                    render: function (data, type, row) {
-                        var html = '<button class="btn btn-sm btn-primary J-update">编辑</button>'
+                paging: true,
+                lengthChange: false,
+                searching: true,
+                ordering: true,
+                info: true,
+                autoWidth: false,
+                serverSide: true,
+                processing: true,
+                ajax: function (data, callback, settings) {
+                    var postData = {
+                        draw: data.draw,
+                        perPage: data.length,
+                        start: data.start,
+                        search: data.search.value
+                    };
+                    $.ajax({
+                        url: '/admin/users',
+                        type: 'GET', //GET
+                        data: postData,
+                        timeout: 5000,    //超时时间
+                        dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                        beforeSend: function (xhr) {
+                            console.log('发送前')
+                        },
+                        success: function (res, textStatus, jqXHR) {
+                            if (res.code == 1) {
+                                layer.msg(res.msg, { icon: 5 });
+                                return
+                            }
+                            var dtData = {
+                                recordsTotal: res.data.total || 0,
+                                recordsFiltered: res.data.total || 0,
+                                data: res.data.result || [],
+                                draw: res.data.draw || 0
+                            };
+                            callback(dtData);
+                        },
+                        error: function (xhr, textStatus) {
+                            console.log('错误')
+                        },
+                        complete: function () {
+                            console.log('结束')
+                        }
+                    })
+                },
+                rowId: 'id',//自动设置行id
+                columns: [
+                    { data: 'id' },
+                    { data: 'user_name' },
+                    { data: 'gender' },
+                    { data: 'mobile' },
+                    { data: 'email' },
+                    { data: 'addr' },
+                    {
+                        data: 'status',
+                        render: function (data, type, row) {
+                            var html = '<span class="label label-primary">为止</span>';
+                            if (data == 0) {
+                                html = '<span class="label label-danger">禁用</span>';
+                            } else {
+                                html = '<span class="label label-success">启用</span>';
+                            }
+                            return html;
+                        }
+                    },
+                    { data: 'description' },
+                    { data: 'created_at' },
+                    { data: 'updated_at' },
+                    {
+                        data: 'mobile',
+                        render: function (data, type, row) {
+                            var html = '<button class="btn btn-sm btn-primary J-update">编辑</button>'
                                 + '<button class="btn btn-sm btn-danger J-delete">禁用</button>'
                                 + '<button class="btn btn-sm btn-info J-permission">权限</button>'
-                        return html;
-                    }
-                }
-            ],
-            "createdRow": function( row, data, dataIndex ) {
-                 //有了DT_RowId属性就会自动添加id到行上,不需要在此操作，可以做其他事
-                $(row).data("userName", data.userName);
-            }
-        });
-        //删除
-        $("#userlist").on("click", ".J-delete", function () {
-            var id = $(this).closest("tr").attr("id");
-            if (confirm("确定删除？")) {
-                $.ajax({
-                    url: '/admin/user/delete',
-                    type: 'post', //GET
-                    async: true,    //或false,是否异步
-                    data: {
-                        userId: id
-                    },
-                    timeout: 5000,    //超时时间
-                    dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
-                    beforeSend: function (xhr) {
-                        console.log('发送前')
-                    },
-                    success: function (data, textStatus, jqXHR) {
-                        if (data.code == 1){
-                            layer.msg(data.msg, {icon: 5});
-                            return
+                            return html;
                         }
-                        layer.msg("删除成功！", {icon: 6});
-                        location.reload();
-                    },
-                    error: function (xhr, textStatus) {
-                        console.log('错误')
-                    },
-                    complete: function () {
-                        console.log('结束')
                     }
+                ],
+                "createdRow": function (row, data, dataIndex) {
+                    //有了DT_RowId属性就会自动添加id到行上,不需要在此操作，可以做其他事
+                    $(row).data("userName", data.userName);
+                }
+            });
+            //删除
+            $("#userlist").on("click", ".J-delete", function () {
+                var id = $(this).closest("tr").attr("id");
+                if (confirm("确定删除？")) {
+                    $.ajax({
+                        url: '/admin/user/delete',
+                        type: 'post', //GET
+                        async: true,    //或false,是否异步
+                        data: {
+                            userId: id
+                        },
+                        timeout: 5000,    //超时时间
+                        dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                        beforeSend: function (xhr) {
+                            console.log('发送前')
+                        },
+                        success: function (data, textStatus, jqXHR) {
+                            if (data.code == 1) {
+                                layer.msg(data.msg, { icon: 5 });
+                                return
+                            }
+                            layer.msg("删除成功！", { icon: 6 });
+                            userList.ajax.reload();
+                        },
+                        error: function (xhr, textStatus) {
+                            console.log('错误')
+                        },
+                        complete: function () {
+                            console.log('结束')
+                        }
+                    })
+                }
+            });
+            //修改
+            $("#userlist").on("click", ".J-update", function () {
+                var id = $(this).closest("tr").attr("id");
+                $.get("/admin/user/" + id, function (data) {
+                    $("#userId").val(id);
+                    $("#username").val(data.data.user_name);
+                    $("#gender").val(data.data.gender);
+                    $("#email").val(data.data.email);
+                    $("#mobile").val(data.data.mobile);
+                    $("#desc").val(data.data.description);
+                    $("#address").val(data.data.addr);
+                    layer.open({
+                        type: 1,
+                        area: ['500px', 'auto'],
+                        btn: ['确定', '取消'],
+                        fixed: false,//跟随滚动
+                        shadeClose: true, //点击遮罩关闭
+                        content: $("#update-dialog"),
+                        yes: function (index, layero) {
+                            $.ajax({
+                                url: '/admin/user',
+                                type: 'PUT', //GET
+                                async: true,    //或false,是否异步
+                                data: {
+                                    userId: $("#userId").val(),
+                                    username: $("#username").val(),
+                                    gender: $("#gender").val(),
+                                    email: $("#email").val(),
+                                    mobile: $("#mobile").val(),
+                                    desc: $("#desc").val(),
+                                    addr: $("#address").val()
+                                },
+                                timeout: 5000,    //超时时间
+                                dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                                success: function (data, textStatus, jqXHR) {
+                                    if (data.code == 1) {
+                                        layer.msg(data.msg, { icon: 5 });
+                                        return
+                                    }
+                                    layer.msg("修改成功！", { icon: 6 });
+                                    layer.close(index); //如果设定了yes回调，需进行手工关闭
+                                    userList.ajax.reload();
+                                },
+                                error: function (xhr, textStatus) {
+                                    layer.msg("修改失败！", { icon: 5 });
+                                },
+                                complete: function () {
+
+                                }
+                            })
+                        }, btn2: function (index, layero) {
+                            layer.close(index);
+                        }
+                    });
                 })
-            }
-        });
-        //修改
-        $("#userlist").on("click", ".J-update", function () {
-            var id = $(this).closest("tr").attr("id");
-            $.get("/admin/user/" + id, function (data) {
-                $("#userId").val(id);
-                $("#username").val(data.data.user_name);
-                $("#gender").val(data.data.gender);
-                $("#email").val(data.data.email);
-                $("#mobile").val(data.data.mobile);
-                $("#desc").val(data.data.description);
-                $("#address").val(data.data.addr);
-                layer.open({
-                    type: 1,
-                    area: ['500px', 'auto'],
-                    btn: ['确定', '取消'],
-                    fixed: false,//跟随滚动
-                    shadeClose: true, //点击遮罩关闭
-                    content: $("#update-dialog"),
-                    yes: function (index, layero) {
-                        $.ajax({
-                            url: '/admin/user',
-                            type: 'PUT', //GET
-                            async: true,    //或false,是否异步
-                            data: {
-                                userId: $("#userId").val(),
-                                username: $("#username").val(),
-                                gender: $("#gender").val(),
-                                email: $("#email").val(),
-                                mobile: $("#mobile").val(),
-                                desc: $("#desc").val(),
-                                addr: $("#address").val()
-                            },
-                            timeout: 5000,    //超时时间
-                            dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
-                            success: function (data, textStatus, jqXHR) {
-                                if (data.code == 1){
-                                    layer.msg(data.msg, {icon: 5});
-                                    return
-                                }
-                                layer.msg("修改成功！", {icon: 6});
-                                layer.close(index); //如果设定了yes回调，需进行手工关闭
-                                userList.ajax.reload();
-                            },
-                            error: function (xhr, textStatus) {
-                                layer.msg("修改失败！", {icon: 5});
-                            },
-                            complete: function () {
+            });
+            //权限
+            $("#userlist").on("click", ".J-permission", function () {
+                var userId = $(this).closest("tr").attr("id");
+                var userName = $(this).closest("tr").data("user_name");
+                $.get("/admin/user-roles/" + userId, function (data) {
+                    // $("#userName").html(userName);
+                    var ps = "";
+                    data.data.forEach(function (item, index) {
+                        ps += '<label class="checkbox-inline">'
+                        ps += '<input type="checkbox" name="role" value="' + item.roleId + '" ' + (item.checked ? 'checked=\"checked\"' : '\"\"') + ' />'
+                        ps += item.description + '</label>'
+                    });
+                    $("#perssions").html(ps);
+                    layer.open({
+                        type: 1,
+                        area: ['500px', 'auto'],
+                        btn: ['确定', '取消'],
+                        fixed: false,//跟随滚动
+                        shadeClose: true, //点击遮罩关闭
+                        content: $("#permission-dialog"),
+                        yes: function (index, layero) {
+                            console.log($("input[name=role]:checked").val());
+                            var roles = [];
+                            $("input[name=role]:checked").each(function (i, n) {
+                                roles[i] = parseInt($(this).val());
+                            });
+                            $.ajax({
+                                url: '/admin/user/groups',
+                                type: 'POST', //GET
+                                async: true,    //或false,是否异步
+                                data: JSON.stringify({
+                                    UserId: parseInt(userId),
+                                    Roles: roles
+                                }),
+                                timeout: 5000,    //超时时间
+                                dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                                success: function (data, textStatus, jqXHR) {
+                                    if (data.code == 1) {
+                                        layer.msg(data.msg, { icon: 5 });
+                                        return
+                                    }
+                                    layer.msg("修改成功！", { icon: 6 });
+                                    layer.close(index); //如果设定了yes回调，需进行手工关闭
+                                    userList.ajax.reload();
+                                },
+                                error: function (xhr, textStatus) {
+                                    layer.msg("修改失败！", { icon: 5 });
+                                },
+                                complete: function () {
 
-                            }
-                        })
-                    }, btn2: function (index, layero) {
-                        layer.close(index);
-                    }
-                });
-            })
-        });
-        //权限
-        $("#userlist").on("click", ".J-permission", function () {
-            var userId = $(this).closest("tr").attr("id");
-            var userName = $(this).closest("tr").data("user_name");
-            $.get("/admin/user-roles/" + userId, function (data) {
-                // $("#userName").html(userName);
-                var ps="";
-                data.data.forEach(function (item, index) {
-                    ps +='<label class="checkbox-inline">'
-                    ps +='<input type="checkbox" name="role" value="'+item.roleId+'" '+(item.checked?'checked=\"checked\"':'\"\"')+' />' 
-                    ps += item.description +'</label>'
-                });
-                $("#perssions").html(ps);
-                layer.open({
-                    type: 1,
-                    area: ['500px', 'auto'],
-                    btn: ['确定', '取消'],
-                    fixed: false,//跟随滚动
-                    shadeClose: true, //点击遮罩关闭
-                    content: $("#permission-dialog"),
-                    yes: function (index, layero) {
-                        console.log($("input[name=role]:checked").val());
-                        var roles = [];
-                        $("input[name=role]:checked").each(function(i, n){
-                            roles[i] = parseInt($(this).val());
-                        });
-                        $.ajax({
-                            url: '/admin/user/groups',
-                            type: 'POST', //GET
-                            async: true,    //或false,是否异步
-                            data: JSON.stringify({
-                                UserId: parseInt(userId),
-                                Roles: roles
-                            }),
-                            timeout: 5000,    //超时时间
-                            dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
-                            success: function (data, textStatus, jqXHR) {
-                                if (data.code == 1){
-                                    layer.msg(data.msg, {icon: 5});
-                                    return
                                 }
-                                layer.msg("修改成功！", {icon: 6});
-                                layer.close(index); //如果设定了yes回调，需进行手工关闭
-                                userList.ajax.reload();
-                            },
-                            error: function (xhr, textStatus) {
-                                layer.msg("修改失败！", {icon: 5});
-                            },
-                            complete: function () {
-
-                            }
-                        })
-                    }, btn2: function (index, layero) {
-                        layer.close(index);
-                    }
-                });
-            })
-        });
-    })
-</script>
+                            })
+                        }, btn2: function (index, layero) {
+                            layer.close(index);
+                        }
+                    });
+                })
+            });
+        })
+    </script>
 </body>
+
 </html>

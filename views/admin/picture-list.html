@@ -160,10 +160,10 @@ desired effect
                 return
               }
               var dtData = {
-                recordsTotal: res.data.total,
-                recordsFiltered: res.data.total,
-                data: res.data.result,
-                draw: res.data.draw
+                recordsTotal: res.data.total || 0,
+                recordsFiltered: res.data.total || 0,
+                data: res.data.result || [],
+                draw: res.data.draw || 0
               };
               callback(dtData);
             },
@@ -240,7 +240,7 @@ desired effect
                 return
               }
               layer.msg("删除成功！", { icon: 6 });
-              location.reload();
+              userList.ajax.reload();
             },
             error: function (xhr, textStatus) {
               console.log('错误')
