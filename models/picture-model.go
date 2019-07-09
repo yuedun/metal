@@ -15,6 +15,7 @@ type Picture struct {
 	BaseModel
 	PicUrl string `json:"pic_url"`
 	Tag    string `json:"tag"`
+	Status int    `json:"status"`
 }
 
 func init() {
@@ -36,7 +37,7 @@ func (pic *Picture) Save() (int64, error) {
 // 获取用户列表
 func (pic *Picture) GetAllByCondition(cond string, start, perPage int) (pics []Picture, total int64, newError error) {
 	o := orm.NewOrm()
-	var condition = " WHERE 1 "
+	var condition = " WHERE status = 1 "
 	if cond != "" {
 		condition += "and tag like '%" + cond + "%' "
 	}

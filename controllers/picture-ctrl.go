@@ -111,3 +111,22 @@ func (c *PictureController) ListPicture() {
 		c.Data["json"] = SuccessData(data)
 	}
 }
+
+/* 删除图片 */
+func (c *PictureController) DeletePicture() {
+	defer func() {
+		c.ServeJSON()
+	}()
+	picture := new(Picture)
+	picId, _ := c.GetInt("picId")
+	beego.Info(">>>>", picId)
+	picture.Id = uint(picId)
+	picture.Status = 0
+	_, err := picture.Delete()
+	if nil != err {
+		beego.Error(err)
+		c.Data["json"] = ErrorData(err)
+	} else {
+		c.Data["json"] = SuccessData(nil)
+	}
+}

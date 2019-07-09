@@ -15,7 +15,7 @@
     <section>
       <h1><a href="/article/{{$elem.Id}}">{{$elem.Title}}</a></h1>
       <div class="description">
-        {{str2html $elem.Img}}<br>
+        <div class="imgdiv">{{str2html $elem.Img}}</div><br>
         {{str2html $elem.Content}}
       </div>
     </section>

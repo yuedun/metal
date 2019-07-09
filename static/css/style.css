@@ -37,11 +37,15 @@ footer {
 .description {
     font-size: 16px;
 }
+.description .imgdiv{
+    margin: 0 auto;
+    text-align: center;
+}
 .description p{
     padding: 10px;
 }
 .description img {
-    width: 100%;
+    width: 50%;
 }
 a {
     color: #572C82;
@@ -75,7 +79,7 @@ article section h1{
     margin-bottom: 20px;
 }
 /*分页*/
-.pagination{text-align: center; margin-top: 40px;}
+.pagination{text-align: center; margin-top: 40px; margin-bottom: 25px;}
 .pagination a {
     text-decoration: none;
     border: 1px solid #AAE;
