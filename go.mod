@@ -3,6 +3,7 @@ module metal
 require (
 	github.com/PuerkitoBio/goquery v1.5.0
 	github.com/astaxie/beego v1.11.1
+	github.com/go-redis/redis v6.15.2+incompatible
 	github.com/go-sql-driver/mysql v1.4.1
 	github.com/microcosm-cc/bluemonday v1.0.2
 	github.com/qiniu/api.v7 v7.2.5+incompatible
