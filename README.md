@@ -43,3 +43,7 @@ GOOS=linux GOARCH=amd64 go build
 
 ## 测试
 进入到有测试文件的目录执行`go test`可测试所有测试函数，如只需测试指定的函数`go test -v -run="Redis"`
+
+## 项目结构说明
+由于本项目较简单，所以对项目目录结构没有严格要求，尤其是没有service层，而是将一些逻辑放到了model里，当初主要是觉得go的model层不像java，一个model文件中有大量的getter,setter方法，导致每个model变的很大，
+如果有其他内容显得很混乱。而go的model相对来说就很简单了，只是一个简单的struct，单独作为一层会显得多余，就决定把一些函数放到model中，可以直接通过model调用相关函数。
