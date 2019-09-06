@@ -46,5 +46,5 @@ func TestGetToken(t *testing.T) {
 //测试上传文件
 func TestUpload(t *testing.T) {
 	t.Log(">>>>>>uploadFile")
-	util.UploadFile()
+	//util.UploadFile()
 }
