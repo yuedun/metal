@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	. "metal/models" // 点操作符导入的包可以省略包名直接使用公有属性和方法
+	"metal/service"
 	"metal/util"
 	"os"
 	"strconv"
@@ -294,9 +295,11 @@ func (c *AdminController) CreateArticle() {
 	article := &Article{
 		Title:   title,
 		Content: content,
+		Status : 1,
 	}
-
-	_, err := article.Save()
+	article.CreatedAt = time.Now()
+	articleService :=service.NewService()
+	_, err := articleService.Save(article)
 	if nil != err {
 		beego.Error(err)
 		c.Data["json"] = ErrorData(err)
