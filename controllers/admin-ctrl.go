@@ -457,3 +457,46 @@ func (c *AdminController) UploadImg() {
 		c.ServeJSON()
 	}
 }
+
+// 模板网站
+//@router /template-route [get]
+func (c *AdminController) TemplatesRoute() {
+	c.TplName = "admin/template-list.html"
+}
+
+//@router /template/add [post]
+func (c *AdminController) CreateTemplate()  {
+	name:=c.GetString("name")
+	category := c.GetString("category")
+	template :=new(Template)
+	template.Name = name
+	template.Category = category
+	template.Save()
+	c.Data["json"]=SuccessData(nil)
+	c.ServeJSON()
+}
+
+//@router /templates [get]
+func (c *AdminController) TemplateList()  {
+	args := c.GetString("search") // 获取所有参数
+	start, _ := c.GetInt("start")
+	perPage, _ := c.GetInt("perPage")
+	template := new(Template)
+	param := map[string]string{
+		"status": "1,0",
+		"name": args,
+	}
+
+	list, total, err := template.GetListByCondition(param, start, perPage)
+	if nil != err {
+		beego.Error(err)
+		c.Data["json"] = ErrorData(err)
+	} else {
+		data := map[string]any{
+			"result": list,
+			"total":  total,
+		}
+		c.Data["json"] = SuccessData(data)
+	}
+	c.ServeJSON()
+}

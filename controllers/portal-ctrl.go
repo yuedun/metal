@@ -155,7 +155,7 @@ func (c *PortalController) About() {
 // markdown转html
 func md2html(in string) string {
 	input := []byte(in)
-	unsafe := blackfriday.Run(input, blackfriday.WithExtensions(blackfriday.CommonExtensions))//支持表格，代码
+	unsafe := blackfriday.Run(input, blackfriday.WithExtensions(blackfriday.CommonExtensions)) //支持表格，代码
 	htmlBytes := bluemonday.UGCPolicy().SanitizeBytes(unsafe)
 	html := string(htmlBytes)
 	return html
