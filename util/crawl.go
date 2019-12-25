@@ -55,21 +55,28 @@ type wapResBody struct {
 
 // 并行获取
 func GetJobs() {
+	log.Print(">>>>>.")
 	ch1, ch2 := make(chan int), make(chan int)
 	go RequestByAjax(ch1, "nodejs", "上海")
 	go RequestByAjax(ch2, "golang", "上海")
 	for {
 		select {
-		case c1 := <-ch1:
-			if c1 != 0 {
-				saveJob(c1, "nodejs", "上海")
-			}
-		case c2 := <-ch2:
-			if c2 != 0 {
-				saveJob(c2, "golang", "上海")
-			}
+			case c1 := <-ch1:
+				if c1 != 0 {
+					saveJob(c1, "nodejs", "上海")
+					break
+				}
+			case c2 := <-ch2:
+				if c2 != 0 {
+					saveJob(c2, "golang", "上海")
+					break
+				}
+			default:
+				break
 		}
+
 	}
+	log.Print("end")
 }
 
 // 获取HTML页面中需要的数据

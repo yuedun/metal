@@ -36,18 +36,18 @@ func init() {
 
     beego.GlobalControllerRouter["metal/controllers:AdminController"] = append(beego.GlobalControllerRouter["metal/controllers:AdminController"],
         beego.ControllerComments{
-            Method: "ArticleEdit",
+            Method: "ArticleDelete",
             Router: `/article/:id`,
-            AllowHTTPMethods: []string{"put"},
+            AllowHTTPMethods: []string{"delete"},
             MethodParams: param.Make(),
             Filters: nil,
             Params: nil})
 
     beego.GlobalControllerRouter["metal/controllers:AdminController"] = append(beego.GlobalControllerRouter["metal/controllers:AdminController"],
         beego.ControllerComments{
-            Method: "ArticleDelete",
+            Method: "ArticleEdit",
             Router: `/article/:id`,
-            AllowHTTPMethods: []string{"delete"},
+            AllowHTTPMethods: []string{"put"},
             MethodParams: param.Make(),
             Filters: nil,
             Params: nil})
@@ -83,6 +83,33 @@ func init() {
         beego.ControllerComments{
             Method: "GetLogs",
             Router: `/logs`,
+            AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["metal/controllers:AdminController"] = append(beego.GlobalControllerRouter["metal/controllers:AdminController"],
+        beego.ControllerComments{
+            Method: "TemplatesRoute",
+            Router: `/template-route`,
+            AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["metal/controllers:AdminController"] = append(beego.GlobalControllerRouter["metal/controllers:AdminController"],
+        beego.ControllerComments{
+            Method: "CreateTemplate",
+            Router: `/template/add`,
+            AllowHTTPMethods: []string{"post"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["metal/controllers:AdminController"] = append(beego.GlobalControllerRouter["metal/controllers:AdminController"],
+        beego.ControllerComments{
+            Method: "TemplateList",
+            Router: `/templates`,
             AllowHTTPMethods: []string{"get"},
             MethodParams: param.Make(),
             Filters: nil,
