@@ -329,7 +329,7 @@ func (c *AdminController) ArticlesList() {
 	article := new(Article)
 	param := map[string]string{
 		"status": "1,0",
-		"title": args,
+		"title":  args,
 	}
 
 	userList, total, err := article.GetArticlesByCondition(param, start, perPage)
@@ -465,26 +465,28 @@ func (c *AdminController) TemplatesRoute() {
 }
 
 //@router /template/add [post]
-func (c *AdminController) CreateTemplate()  {
-	name:=c.GetString("name")
+func (c *AdminController) CreateTemplate() {
+	name := c.GetString("name")
 	category := c.GetString("category")
-	template :=new(Template)
+	url := c.GetString("url")
+	template := new(Template)
 	template.Name = name
 	template.Category = category
+	template.Url = url
 	template.Save()
-	c.Data["json"]=SuccessData(nil)
+	c.Data["json"] = SuccessData(nil)
 	c.ServeJSON()
 }
 
 //@router /templates [get]
-func (c *AdminController) TemplateList()  {
+func (c *AdminController) TemplateList() {
 	args := c.GetString("search") // 获取所有参数
 	start, _ := c.GetInt("start")
 	perPage, _ := c.GetInt("perPage")
 	template := new(Template)
 	param := map[string]string{
 		"status": "1,0",
-		"name": args,
+		"name":   args,
 	}
 
 	list, total, err := template.GetListByCondition(param, start, perPage)
@@ -499,4 +501,20 @@ func (c *AdminController) TemplateList()  {
 		c.Data["json"] = SuccessData(data)
 	}
 	c.ServeJSON()
+}
+
+//@router /template/view/:id [get]
+func (c *AdminController) TemplateView() {
+	tid := c.Ctx.Input.Param(":id")
+	id, _ := strconv.Atoi(tid)
+	template := new(Template)
+	template.Id = uint(id)
+	err := template.GetById()
+	if nil != err {
+		beego.Error(err)
+		c.Data["json"] = ErrorData(err)
+	} else {
+		c.Redirect("/"+template.Url, 302)
+		// c.Redirect("/admin/login", 302)
+	}
 }

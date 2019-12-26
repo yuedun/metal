@@ -13,6 +13,7 @@ type Template struct {
 	Name     string `json:"name"`
 	Category string `json:"category"`
 	Status   uint8  `json:"status"`
+	Url      string `json:"url"`
 }
 
 func init() {
