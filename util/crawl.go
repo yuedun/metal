@@ -61,18 +61,18 @@ func GetJobs() {
 	go RequestByAjax(ch2, "golang", "上海")
 	for {
 		select {
-			case c1 := <-ch1:
-				if c1 != 0 {
-					saveJob(c1, "nodejs", "上海")
-					break
-				}
-			case c2 := <-ch2:
-				if c2 != 0 {
-					saveJob(c2, "golang", "上海")
-					break
-				}
-			default:
+		case c1 := <-ch1:
+			if c1 != 0 {
+				saveJob(c1, "nodejs", "上海")
 				break
+			}
+		case c2 := <-ch2:
+			if c2 != 0 {
+				saveJob(c2, "golang", "上海")
+				break
+			}
+		default:
+			break
 		}
 
 	}

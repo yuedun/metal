@@ -141,6 +141,11 @@ desired effect
 								<input type="text" class="form-control" id="category" placeholder="category"
 									autocomplete="off">
 							</div>
+							<div class="form-group">
+								<label for="url">url</label>
+								<input type="text" class="form-control" id="url" placeholder="url"
+									autocomplete="off">
+							</div>
 						</div>
 						<!-- /.box-body -->
 					</form>
@@ -236,8 +241,8 @@ desired effect
 					{
 						data: 'name',
 						render: function (data, type, row) {
-							var html = '<a class="" href="/admin/article-edit-route/' + row.id + '">查看</a>';
-							html += '&nbsp;<a class="J-delete" href="/admin/article-edit-route/' + row.id + '">删除</a>';
+							var html = '<a class="" href="/admin/template/view/' + row.id + '">查看</a>';
+							html += '&nbsp;<a class="J-delete" href="/admin/template/' + row.id + '">删除</a>';
 							return html;
 						}
 					}
@@ -284,13 +289,15 @@ desired effect
 			$(".h-save").on("click", function () {
 				var name = $("#name").val();
 				var category = $("#category").val();
+				var url = $("#url").val();
 				$.ajax({
 					url: '/admin/template/add',
 					type: 'post', //GET
 					async: true,    //或false,是否异步
 					data: {
 						name: name,
-						category: category
+						category: category,
+						url: url
 					},
 					timeout: 5000,    //超时时间
 					dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
