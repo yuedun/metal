@@ -134,8 +134,7 @@ desired effect
 						<div class="box-body">
 							<div class="form-group">
 								<label for="name">网站名称</label>
-								<input type="text" class="form-control" id="name" placeholder="name"
-									autocomplete="off">
+								<input type="text" class="form-control" id="name" placeholder="name" autocomplete="off">
 							</div>
 							<div class="form-group">
 								<label for="category">分类</label>
@@ -237,7 +236,8 @@ desired effect
 					{
 						data: 'name',
 						render: function (data, type, row) {
-							var html = '<a class="J-update" href="/admin/article-edit-route/' + row.id + '">查看</a>'
+							var html = '<a class="" href="/admin/article-edit-route/' + row.id + '">查看</a>';
+							html += '&nbsp;<a class="J-delete" href="/admin/article-edit-route/' + row.id + '">删除</a>';
 							return html;
 						}
 					}
@@ -252,7 +252,7 @@ desired effect
 				var id = $(this).closest("tr").attr("id");
 				if (confirm("确定删除？")) {
 					$.ajax({
-						url: '/admin/articles/delete',
+						url: '/admin/templates/delete',
 						type: 'post', //GET
 						async: true,    //或false,是否异步
 						data: {
@@ -285,34 +285,34 @@ desired effect
 				var name = $("#name").val();
 				var category = $("#category").val();
 				$.ajax({
-						url: '/admin/template/add',
-						type: 'post', //GET
-						async: true,    //或false,是否异步
-						data: {
-							name: name,
-							category:category
-						},
-						timeout: 5000,    //超时时间
-						dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
-						beforeSend: function (xhr) {
-							console.log('发送前')
-						},
-						success: function (data, textStatus, jqXHR) {
-							if (data.code == 1) {
-								layer.msg(data.msg, { icon: 5 });
-								return
-							}
-							layer.msg("添加成功！", { icon: 6 });
-							$(".pull-left").trigger("click");
-							dataList.ajax.reload();
-						},
-						error: function (xhr, textStatus) {
-							console.log('错误')
-						},
-						complete: function () {
-							console.log('结束')
+					url: '/admin/template/add',
+					type: 'post', //GET
+					async: true,    //或false,是否异步
+					data: {
+						name: name,
+						category: category
+					},
+					timeout: 5000,    //超时时间
+					dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+					beforeSend: function (xhr) {
+						console.log('发送前')
+					},
+					success: function (data, textStatus, jqXHR) {
+						if (data.code == 1) {
+							layer.msg(data.msg, { icon: 5 });
+							return
 						}
-					})
+						layer.msg("添加成功！", { icon: 6 });
+						$(".pull-left").trigger("click");
+						dataList.ajax.reload();
+					},
+					error: function (xhr, textStatus) {
+						console.log('错误')
+					},
+					complete: function () {
+						console.log('结束')
+					}
+				})
 			});
 		})
 	</script>

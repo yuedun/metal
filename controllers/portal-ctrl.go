@@ -152,6 +152,11 @@ func (c *PortalController) About() {
 	c.TplName = "about.html"
 }
 
+// @router /vipkid [get]
+func (c *PortalController) Vipkid() {
+	c.TplName = "vipkid.html"
+}
+
 // markdown转html
 func md2html(in string) string {
 	input := []byte(in)

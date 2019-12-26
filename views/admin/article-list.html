@@ -229,7 +229,7 @@ desired effect
                             return
                         }
                         layer.msg("删除成功！", {icon: 6});
-                        location.reload();
+                        articlelist.ajax.reload();
                     },
                     error: function (xhr, textStatus) {
                         console.log('错误')
