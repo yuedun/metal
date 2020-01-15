@@ -3,6 +3,7 @@ package util
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/astaxie/beego/logs"
 	"io/ioutil"
 	"log"
 	. "metal/models"
@@ -146,18 +147,18 @@ func RequestByAjax(c chan int, language, region string) {
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		beego.Error("读取body失败：", err)
+		logs.Error("读取body失败：", err)
 	}
 
 	var resBody = new(wapResBody)
 	// var resBody interface{}
 	err2 := json.Unmarshal(body, &resBody)
 	if err2 != nil {
-		beego.Error("解析body失败:", err2)
+		logs.Error("解析body失败:", err2)
 	}
 	// log.Println(resBody)
 	if resBody.State != 1 {
-		beego.Error("获取"+language+"数据为空!", fmt.Sprint("%+v", resBody))
+		logs.Error("获取"+language+"数据为空!", fmt.Sprint("%+v", resBody))
 	}
 	countStr := resBody.Content.Data.Page.TotalCount
 	count, _ := strconv.Atoi(countStr)

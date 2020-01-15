@@ -3,6 +3,7 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/astaxie/beego/logs"
 	"log"
 	. "metal/models" // 点操作符导入的包可以省略包名直接使用公有属性和方法
 	"metal/service"
@@ -29,7 +30,7 @@ func (c *AdminController) ToLogin() {
 	user := &User{Mobile: mobile}
 	err := user.GetByMobile()
 	if err != nil {
-		beego.Error(err)
+		logs.Error(err)
 		c.Data["json"] = ErrorData(err)
 	} else if user.Status == 0 {
 		c.Data["json"] = ErrorMsg("该账号已禁用，不能登录！")
@@ -114,7 +115,7 @@ func (c *AdminController) Post() {
 
 	id, err := user.Save()
 	if nil != err {
-		beego.Error(err)
+		logs.Error(err)
 		c.Data["json"] = ErrorData(err)
 	} else {
 		c.Data["json"] = SuccessData(id)
@@ -134,7 +135,7 @@ func (c *AdminController) UserGet() {
 	user.Id = uint(id)
 	userObj, err := user.GetById()
 	if err != nil {
-		beego.Error(err)
+		logs.Error(err)
 		c.Data["json"] = ErrorData(err)
 	}
 	c.Data["json"] = SuccessData(userObj)
@@ -165,7 +166,7 @@ func (c *AdminController) Put() {
 	user.UpdatedAt = updatedAt
 	upId, err := user.Update()
 	if nil != err {
-		beego.Error(err)
+		logs.Error(err)
 		c.Data["json"] = ErrorData(err)
 	} else {
 		c.Data["json"] = SuccessData(upId)
@@ -196,7 +197,7 @@ func (c *AdminController) UserList() {
 	param["username"] = args
 	userList, total, err := user.GetAllByCondition(param, start, perPage)
 	if nil != err {
-		beego.Error(err)
+		logs.Error(err)
 		c.Data["json"] = ErrorData(err)
 	} else {
 		for index, u := range userList {
@@ -226,7 +227,7 @@ func (c *AdminController) DeleteUser() {
 	user.Status = 0
 	id64, err := user.Delete()
 	if nil != err {
-		beego.Error(err)
+		logs.Error(err)
 		c.Data["json"] = ErrorData(err)
 	} else {
 		c.Data["json"] = SuccessData(id64)
@@ -251,13 +252,13 @@ func (c *AdminController) GetLogs() {
 	start, _ := c.GetInt("start")
 	perPage, _ := c.GetInt("perPage")
 	var logModel = new(Log)
-	logs, total, err := logModel.GetLogs(start, perPage)
+	logList, total, err := logModel.GetLogs(start, perPage)
 	if nil != err {
-		beego.Error(err)
+		logs.Error(err)
 		c.Data["json"] = ErrorData(err)
 	} else {
 		data := map[string]any{
-			"result": logs,
+			"result": logList,
 			"total":  total,
 		}
 		c.Data["json"] = SuccessData(data)
@@ -301,7 +302,7 @@ func (c *AdminController) CreateArticle() {
 	articleService := service.NewService()
 	_, err := articleService.Save(article)
 	if nil != err {
-		beego.Error(err)
+		logs.Error(err)
 		c.Data["json"] = ErrorData(err)
 	} else {
 		c.Data["json"] = SuccessData(nil)
@@ -334,7 +335,7 @@ func (c *AdminController) ArticlesList() {
 
 	userList, total, err := article.GetArticlesByCondition(param, start, perPage)
 	if nil != err {
-		beego.Error(err)
+		logs.Error(err)
 		c.Data["json"] = ErrorData(err)
 	} else {
 		data := map[string]any{
@@ -491,7 +492,7 @@ func (c *AdminController) TemplateList() {
 
 	list, total, err := template.GetListByCondition(param, start, perPage)
 	if nil != err {
-		beego.Error(err)
+		logs.Error(err)
 		c.Data["json"] = ErrorData(err)
 	} else {
 		data := map[string]any{
@@ -511,10 +512,15 @@ func (c *AdminController) TemplateView() {
 	template.Id = uint(id)
 	err := template.GetById()
 	if nil != err {
-		beego.Error(err)
+		logs.Error(err)
 		c.Data["json"] = ErrorData(err)
 	} else {
 		c.Redirect("/"+template.Url, 302)
 		// c.Redirect("/admin/login", 302)
 	}
+}
+
+//@router /pname/view [get]
+func (c *AdminController) PNameView() {
+	c.TplName = "admin/pname.html"
 }

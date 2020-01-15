@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
+	"github.com/astaxie/beego/logs"
 	"log"
 	"net/http"
 	"time"
@@ -9,7 +10,6 @@ import (
 	. "metal/models"
 
 	"github.com/PuerkitoBio/goquery"
-	"github.com/astaxie/beego"
 )
 
 type PictureController struct {
@@ -63,13 +63,13 @@ func (c *PictureController) AddPicture() {
 	body := c.Ctx.Input.RequestBody //接收raw body内容
 	err := json.Unmarshal(body, &args)
 	if err != nil {
-		beego.Error(err)
+		logs.Error(err)
 		c.Data["json"] = ErrorData(err)
 		return
 	}
 	picUrl := args.PicUrl
 	tag := args.Tag
-	beego.Info(">>>>>>>>", args)
+	logs.Info(">>>>>>>>", args)
 	var picture = new(Picture)
 	picture.PicUrl = picUrl
 	picture.Tag = tag
@@ -79,7 +79,7 @@ func (c *PictureController) AddPicture() {
 
 	id, err := picture.Save()
 	if nil != err {
-		beego.Error(err)
+		logs.Error(err)
 		c.Data["json"] = ErrorData(err)
 	} else {
 		c.Data["json"] = SuccessData(id)
@@ -102,7 +102,7 @@ func (c *PictureController) ListPicture() {
 	picture := new(Picture)
 	picList, total, err := picture.GetAllByCondition(search, start, perPage)
 	if nil != err {
-		beego.Error(err)
+		logs.Error(err)
 		c.Data["json"] = ErrorData(err)
 	} else {
 		data := map[string]any{
@@ -120,12 +120,12 @@ func (c *PictureController) DeletePicture() {
 	}()
 	picture := new(Picture)
 	picId, _ := c.GetInt("picId")
-	beego.Info(">>>>", picId)
+	logs.Info(">>>>", picId)
 	picture.Id = uint(picId)
 	picture.Status = 0
 	_, err := picture.Delete()
 	if nil != err {
-		beego.Error(err)
+		logs.Error(err)
 		c.Data["json"] = ErrorData(err)
 	} else {
 		c.Data["json"] = SuccessData(nil)
