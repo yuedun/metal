@@ -55,14 +55,17 @@ func (c *AdminController) ToLogin() {
 		ip := c.Ctx.Input.Header("Remote_addr")
 		// ip = "103.14.252.249"
 		if ip != "" {
-			ipBody := new(util.IPBody)
-			err := util.GetIpGeography(ip, ipBody)
-			if err == nil {
-				loginLog := new(Log)
-				// mark := fmt.Sprintf("登录IP:%s，物理地址：%s %s %s %s", ip, ipBody.Data.Country, ipBody.Data.Area, ipBody.Data.Region, ipBody.Data.City)
-				mark := fmt.Sprintf("登录IP:%s，物理地址：%s", ip, ipBody.Content.Address)
-				loginLog.Save(mark)
-			}
+			//第三方接口不稳定，会阻塞整体，所以放到协程中
+			go func() {
+				ipBody := new(util.IPBody)
+				err := util.GetIpGeography(ip, ipBody)
+				if err == nil {
+					loginLog := new(Log)
+					// mark := fmt.Sprintf("登录IP:%s，物理地址：%s %s %s %s", ip, ipBody.Data.Country, ipBody.Data.Area, ipBody.Data.Region, ipBody.Data.City)
+					mark := fmt.Sprintf("登录IP:%s，物理地址：%s", ip, ipBody.Content.Address)
+					loginLog.Save(mark)
+				}
+			}()
 		}
 		c.Data["json"] = SuccessData(nil)
 	}
