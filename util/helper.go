@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/logs"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -79,16 +80,16 @@ func GetIpGeography(ip string, objBody *IPBody) error {
 	ipService := beego.AppConfig.String("ipService")
 	res, err := http.Get(fmt.Sprintf(ipService, ip))
 	if err != nil {
-		beego.Error(err)
+		logs.Error(err)
 	}
 	defer res.Body.Close()
 	if res.StatusCode != 200 {
-		beego.Error("请求地理位置错误: ", res.Status)
+		logs.Error("请求地理位置错误: ", res.Status)
 		return errors.New("请求地理位置错误：" + res.Status)
 	} else {
 		bodyByte, err := ioutil.ReadAll(res.Body)
 		if err != nil {
-			beego.Error("地理位置解析失败：", err)
+			logs.Error("地理位置解析失败：", err)
 		}
 		json.Unmarshal(bodyByte, &objBody)
 		return nil

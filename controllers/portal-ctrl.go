@@ -2,6 +2,7 @@ package controllers
 
 //包名并非必须和文件夹名相同，但是按照惯例最后一个路径名和包名一致
 import (
+	"github.com/astaxie/beego/logs"
 	. "metal/models" // 点操作符导入的包可以省略包名直接使用公有属性和方法
 	"regexp"
 	"strconv"
@@ -60,7 +61,7 @@ func (c *PortalController) Get() {
 		c.Data["pageNo"] = pageNo
 		c.Data["pageSize"] = pageSize
 	}
-	beego.Info("访问ip:", c.Ctx.Input.Header("Remote_addr"))
+	logs.Info("访问ip:", c.Ctx.Input.Header("Remote_addr"))
 	//默认tpl或html后缀
 	c.TplName = "index.html"
 }
@@ -76,7 +77,7 @@ func (c *PortalController) Article() {
 		article.Id = uint(artId)
 		err := article.GetById()
 		if err != nil {
-			beego.Error(err)
+			logs.Error(err)
 		}
 		article.Content = md2html(article.Content)
 		c.Data["article"] = article
@@ -90,7 +91,7 @@ func (c *PortalController) MyRoute() {
 	user := &User{}
 	userList, err := user.GetAll()
 	if nil != err {
-		beego.Error(err)
+		logs.Error(err)
 		c.Data["json"] = map[string]any{"msg": err}
 		c.ServeJSON()
 	}
@@ -112,7 +113,7 @@ func (c *PortalController) AddUser() {
 
 	_, err := user.Save()
 	if nil != err {
-		beego.Error(err)
+		logs.Error(err)
 		c.Data["json"] = map[string]any{"msg": err}
 		c.ServeJSON()
 	}
@@ -127,7 +128,7 @@ func (c *PortalController) GetUser() {
 	user := &User{UserName: username}
 	err := user.GetByName()
 	if nil != err {
-		beego.Error(err)
+		logs.Error(err)
 		c.Data["json"] = map[string]any{"result": false, "msg": c.Ctx.Input.Params()}
 	} else {
 		c.Data["json"] = map[string]any{"result": true, "msg": user}

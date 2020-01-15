@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"metal/util"
 	"net/url"
-
 	"testing"
 )
 
@@ -47,4 +46,10 @@ func TestGetToken(t *testing.T) {
 func TestUpload(t *testing.T) {
 	t.Log(">>>>>>uploadFile")
 	//util.UploadFile()
+}
+
+//生成pdf文件
+// https://godoc.org/github.com/jung-kurt/gofpdf
+func TestPDF(t *testing.T) {
+
 }
