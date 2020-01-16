@@ -65,7 +65,7 @@ func init() {
 	// maxdays 文件最多保存多少天，默认保存 7 天
 	// rotate 是否开启 logrotate，默认是 true
 	// perm 日志文件权限
-	logs.SetLogger(logs.AdapterFile, `{"filename":"./logs/metal.log","level":6,"maxlines":0,"maxsize":0,"daily":true,"maxdays":30}`)
+	logs.SetLogger(logs.AdapterMultiFile, `{"filename":"./logs/metal.log","level":6,"maxlines":0,"maxsize":0,"daily":true,"maxdays":30,"separate":["emergency", "alert", "critical", "error", "warning", "notice", "info", "debug"]}`)
 }
 
 func main() {

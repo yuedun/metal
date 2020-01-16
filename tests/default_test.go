@@ -28,7 +28,7 @@ func TestOne(t *testing.T) {
 func TestCrawl(t *testing.T) {
 	//util.GetJobs()
 	var c = make(chan int)
-	go util.RequestByAjax(c, "java", "上海")
+	go util.RequestByAjax2(c, "上海", "nodejs")
 	t.Log(<-c)
 }
 
