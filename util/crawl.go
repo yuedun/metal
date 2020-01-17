@@ -47,36 +47,42 @@ type wapResBody struct {
 	Message string `json:"message"`
 }
 
-
 type JobData struct {
-	Count int //数量
-	Region string//地区
-	Language string//语言
+	Count    int    //数量
+	Region   string //地区
+	Language string //语言
 }
 
 // 并行获取
 func GetJobs() {
 	ch1, ch2 := make(chan JobData), make(chan JobData)
-	go RequestByAjax2(ch1, "上海", "nodejs")
-	go RequestByAjax2(ch2, "上海", "golang")
+	go RequestByAjax3(ch1, "上海", "nodejs")
+	go RequestByAjax3(ch2, "上海", "golang")
+	i := 0// 用于跳出for循环
 	for {
 		select {
 		case c1 := <-ch1:
 			if c1.Count != 0 {
-				saveJob(c1, "nodejs", "上海")
-				break
+				//saveJob(c1)
+			}
+			i++
+			if i == 2 {
+				fmt.Println("break now")
+				goto ForEnd
 			}
 		case c2 := <-ch2:
 			if c2.Count != 0 {
-				saveJob(c2, "golang", "上海")
-				break
+				//saveJob(c2)
 			}
-		default:
-			break
+			i++
+			if i == 2 {
+				fmt.Println("break now")
+				goto ForEnd
+			}
 		}
-
 	}
-	logs.Info("end")
+ForEnd:
+	logs.Info("for loop end")
 }
 
 // 获取HTML页面中需要的数据
@@ -159,29 +165,6 @@ func RequestByAjax(c chan JobData, language, region string) {
 	}
 }
 
-/**
- * 通过ajax post获取数据 httplib实现
- */
-func RequestByAjax2(c chan JobData, region, language string) {
-	req := httplib.Get(fmt.Sprintf("http://localhost:3000/index/lagouPosition?city=%s&positionName=%s&pageNo=1&pageSize=1", url.QueryEscape(region), language))
-	_, err := req.Response()
-	if err != nil {
-		logs.Error(err)
-	}
-	var resBody wapResBody
-	req.ToJSON(&resBody)
-	if resBody.State != 1 {
-		logs.Error("获取"+language+"数据为空!", fmt.Sprint("%+v", resBody))
-	}
-	countStr := resBody.Content.Data.Page.TotalCount
-	count, _ := strconv.Atoi(countStr)
-	c <- JobData{
-		Count:    count,
-		Region:   region,
-		Language: language,
-	}
-}
-
 //获取页面cookie
 func GetCookies(url string) []string {
 	req1 := httplib.Get(url)
@@ -227,13 +210,13 @@ func RequestByAjax3(c chan JobData, region, language string) {
 }
 
 // 保存数据
-func saveJob(c JobData, language, region string) {
+func saveJob(c JobData) {
 	jobCount := &JobCount{
-		JobTitle:  language,
+		JobTitle:  c.Language,
 		Amount:    uint(c.Count),
-		Region:    region,
+		Region:    c.Region,
 		CreatedAt: time.Now(),
 	}
 	jobCount.Save()
-	logs.Info("保存job成功", language, c)
+	logs.Info("保存job成功", c.Language, c.Count)
 }
