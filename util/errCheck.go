@@ -1,9 +1,9 @@
 package util
 
-import "log"
+import "github.com/astaxie/beego/logs"
 
 func ErrCheck(err error) {
 	if err != nil {
-		log.Println(err)
+		logs.Info(err)
 	}
 }

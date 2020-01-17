@@ -3,6 +3,7 @@ package controllers
 //包名并非必须和文件夹名相同，但是按照惯例最后一个路径名和包名一致
 import (
 	"encoding/json"
+	"github.com/astaxie/beego/logs"
 	"log"
 	. "metal/models"
 	"time"
@@ -56,7 +57,7 @@ func (c *UserGroupController) AddUserGroup() {
 
 	_, err := userGroup.Save()
 	if nil != err {
-		log.Print(err)
+		logs.Error(err)
 		c.Data["json"] = ErrorData(err)
 	} else {
 		c.Data["json"] = SuccessData(nil)

@@ -2,15 +2,15 @@ package util
 
 import (
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/logs"
 	"github.com/robfig/cron"
-	"log"
 	"strconv"
 )
 
 type MyJob struct{}
 
 func (job MyJob) Run() {
-	log.Println("职位统计任务，单任务")
+	logs.Info("职位统计任务，单任务")
 	GetJobs()
 }
 func CronStart() {

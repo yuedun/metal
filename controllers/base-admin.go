@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"log"
+	"github.com/astaxie/beego/logs"
 	"metal/controllers/permissions"
 	"metal/models"
 
@@ -38,7 +38,7 @@ func (c *AdminBaseController) Prepare() {
 		c.Data["username"] = userPermission.User.UserName
 		ctrl, runMethod := c.GetControllerAndAction() // 获取controller和method
 		requestPermission := ctrl + ":" + runMethod
-		log.Println(">>run-method:", ctrl+":"+runMethod)
+		logs.Info(">>run-method:", ctrl+":"+runMethod)
 		privileges := session.(*UserPermission).Privileges
 		hasPermission := true
 		//需要权限
@@ -53,7 +53,7 @@ func (c *AdminBaseController) Prepare() {
 				}
 			}
 			if !hasPermission {
-				log.Println("权限不足")
+				logs.Info("权限不足")
 				c.Data["json"] = ErrorMsg("权限不足")
 				c.ServeJSON()
 			}

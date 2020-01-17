@@ -1,7 +1,7 @@
 package models
 
 import (
-	"fmt"
+	"github.com/astaxie/beego/logs"
 	"strconv"
 	"sync"
 
@@ -80,7 +80,7 @@ func (user *User) GetAll() ([]User, error) {
 	o := orm.NewOrm()
 	var users []User
 	num, err := o.Raw("SELECT * FROM user").QueryRows(&users)
-	fmt.Println("查询到", num, "条数据")
+	logs.Info("查询到", num, "条数据")
 	return users, err
 
 }
@@ -112,7 +112,7 @@ func (user *User) GetAllByCondition(cond map[string]string, start, perPage int) 
 		if err != nil {
 			newError = err
 		}
-		fmt.Println("mysql row affected nums: ", total)
+		logs.Info("mysql row affected nums: ", total)
 	}()
 	wg.Wait()
 	return users, total, newError

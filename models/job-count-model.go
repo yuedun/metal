@@ -2,6 +2,7 @@ package models
 
 import (
 	"fmt"
+	"github.com/astaxie/beego/logs"
 	"time"
 
 	"github.com/astaxie/beego/orm"
@@ -37,7 +38,7 @@ func (jobCount *JobCount) GetCountData(lang, startDate, endDate string) ([]JobCo
 		sql += fmt.Sprintf("AND created_at >= '%s' AND created_at <= '%s'", startDate, endDate)
 	}
 	num, err := o.Raw(sql).QueryRows(&jobCounts)
-	fmt.Println("查询到", num, "条数据")
+	logs.Info("查询到", num, "条数据")
 	return jobCounts, err
 }
 
@@ -47,6 +48,6 @@ func (jobCount *JobCount) GetCountDataAll() ([]JobCount, error) {
 	var jobCounts []JobCount
 	var sql = fmt.Sprintf("SELECT job_title, ROUND(AVG(amount)) AS amount, DATE_FORMAT(CONCAT( YEAR (created_at), '-', MONTH (created_at), '-01'), '%%Y-%%m-%%d') AS created_at FROM job_count WHERE job_title = '%s' GROUP BY YEAR (created_at), MONTH (created_at);", jobCount.JobTitle)
 	num, err := o.Raw(sql).QueryRows(&jobCounts)
-	fmt.Println("查询到", num, "条数据")
+	logs.Info("查询到", num, "条数据")
 	return jobCounts, err
 }

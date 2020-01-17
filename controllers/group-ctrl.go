@@ -30,7 +30,7 @@ func (c *GroupController) AddUserRole() {
 		Roles  []uint
 	}
 	json.Unmarshal(c.Ctx.Input.RequestBody, &args)
-	log.Print("*********%v", args)
+	logs.Info("*********%v", args)
 	userId := args.UserId
 	if userId == 0 {
 		log.Panic("userId不能为空")
