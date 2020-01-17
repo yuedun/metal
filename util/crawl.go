@@ -16,12 +16,6 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-type JobData struct {
-	c        chan int
-	language string
-	region   string
-}
-
 // PC端结构体
 type resBody struct {
 	Content struct {
@@ -53,20 +47,27 @@ type wapResBody struct {
 	Message string `json:"message"`
 }
 
+
+type JobData struct {
+	Count int //数量
+	Region string//地区
+	Language string//语言
+}
+
 // 并行获取
 func GetJobs() {
-	ch1, ch2 := make(chan int), make(chan int)
+	ch1, ch2 := make(chan JobData), make(chan JobData)
 	go RequestByAjax2(ch1, "上海", "nodejs")
 	go RequestByAjax2(ch2, "上海", "golang")
 	for {
 		select {
 		case c1 := <-ch1:
-			if c1 != 0 {
+			if c1.Count != 0 {
 				saveJob(c1, "nodejs", "上海")
 				break
 			}
 		case c2 := <-ch2:
-			if c2 != 0 {
+			if c2.Count != 0 {
 				saveJob(c2, "golang", "上海")
 				break
 			}
@@ -79,7 +80,7 @@ func GetJobs() {
 }
 
 // 获取HTML页面中需要的数据
-func requestUrl(c chan int, language, region string) {
+func requestUrl(c chan JobData, language, region string) {
 	//请求html数据
 	res, err := http.Get(fmt.Sprintf("https://www.lagou.com/jobs/list_%s?px=default&city=%s#filterBox", language, url.QueryEscape(region)))
 	if err != nil {
@@ -100,13 +101,17 @@ func requestUrl(c chan int, language, region string) {
 	text := doc.Find("#tab_pos>span").Text()
 	log.Println(language+"职位数：", text)
 	count, _ := strconv.Atoi(text)
-	c <- count
+	c <- JobData{
+		Count:    count,
+		Region:   region,
+		Language: language,
+	}
 }
 
 /**
  * 通过ajax post获取数据
  */
-func RequestByAjax(c chan int, language, region string) {
+func RequestByAjax(c chan JobData, language, region string) {
 	client := &http.Client{}
 	// 使用wap端接口
 	req, err := http.NewRequest(http.MethodGet,
@@ -147,13 +152,17 @@ func RequestByAjax(c chan int, language, region string) {
 	}
 	countStr := resBody.Content.Data.Page.TotalCount
 	count, _ := strconv.Atoi(countStr)
-	c <- count
+	c <- JobData{
+		Count:    count,
+		Region:   region,
+		Language: language,
+	}
 }
 
 /**
  * 通过ajax post获取数据 httplib实现
  */
-func RequestByAjax2(c chan int, region, language string) {
+func RequestByAjax2(c chan JobData, region, language string) {
 	req := httplib.Get(fmt.Sprintf("http://localhost:3000/index/lagouPosition?city=%s&positionName=%s&pageNo=1&pageSize=1", url.QueryEscape(region), language))
 	_, err := req.Response()
 	if err != nil {
@@ -166,7 +175,11 @@ func RequestByAjax2(c chan int, region, language string) {
 	}
 	countStr := resBody.Content.Data.Page.TotalCount
 	count, _ := strconv.Atoi(countStr)
-	c <- count
+	c <- JobData{
+		Count:    count,
+		Region:   region,
+		Language: language,
+	}
 }
 
 //获取页面cookie
@@ -185,7 +198,7 @@ func GetCookies(url string) []string {
 }
 
 // 先访问页面获取cookie，再将cookie值放入请求header中
-func RequestByAjax3(c chan int, region, language string) {
+func RequestByAjax3(c chan JobData, region, language string) {
 	cookies := GetCookies("https://m.lagou.com/search.html")
 	//-------------------------------------
 	req := httplib.Get(fmt.Sprintf("https://m.lagou.com/search.json?city=%s&positionName=%s&pageNo=1&pageSize=1", url.QueryEscape(region), language))
@@ -206,14 +219,18 @@ func RequestByAjax3(c chan int, region, language string) {
 	}
 	countStr := resBody.Content.Data.Page.TotalCount
 	count, _ := strconv.Atoi(countStr)
-	c <- count
+	c <- JobData{
+		Count:    count,
+		Region:   region,
+		Language: language,
+	}
 }
 
 // 保存数据
-func saveJob(c int, language, region string) {
+func saveJob(c JobData, language, region string) {
 	jobCount := &JobCount{
 		JobTitle:  language,
-		Amount:    uint(c),
+		Amount:    uint(c.Count),
 		Region:    region,
 		CreatedAt: time.Now(),
 	}

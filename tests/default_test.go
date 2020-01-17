@@ -34,8 +34,7 @@ func TestCookie(t *testing.T) {
  * 爬虫测试
  */
 func TestCrawl(t *testing.T) {
-	//util.GetJobs()
-	var c = make(chan int)
+	var c = make(chan util.JobData)
 	go util.RequestByAjax3(c, "上海", "nodejs")
 	t.Log("测试结果数：", <-c)
 }
