@@ -58,12 +58,12 @@ func GetJobs() {
 	ch1, ch2 := make(chan JobData), make(chan JobData)
 	go RequestByAjax3(ch1, "上海", "nodejs")
 	go RequestByAjax3(ch2, "上海", "golang")
-	i := 0// 用于跳出for循环
+	i := 0 // 用于跳出for循环
 	for {
 		select {
 		case c1 := <-ch1:
 			if c1.Count != 0 {
-				//saveJob(c1)
+				saveJob(c1)
 			}
 			i++
 			if i == 2 {
@@ -72,7 +72,7 @@ func GetJobs() {
 			}
 		case c2 := <-ch2:
 			if c2.Count != 0 {
-				//saveJob(c2)
+				saveJob(c2)
 			}
 			i++
 			if i == 2 {
