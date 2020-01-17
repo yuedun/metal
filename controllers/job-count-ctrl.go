@@ -2,7 +2,7 @@ package controllers
 
 //包名并非必须和文件夹名相同，但是按照惯例最后一个路径名和包名一致
 import (
-	"log"
+	"github.com/astaxie/beego/logs"
 	. "metal/models"
 )
 
@@ -27,11 +27,11 @@ func (c *JobCountController) CountDataRecently() {
 	startDate := c.GetString("startDate") + " 00:00:00"
 	endDate := c.GetString("endDate") + " 23:59:59"
 
-	log.Println(lang, startDate, endDate)
+	logs.Info(lang, startDate, endDate)
 	jobCount := new(JobCount)
 	list, err := jobCount.GetCountData(lang, startDate, endDate)
 	if nil != err {
-		log.Print(err)
+		logs.Error(err)
 		c.Data["json"] = ErrorData(err)
 	} else {
 		c.Data["json"] = SuccessData(list)
@@ -48,7 +48,7 @@ func (c *JobCountController) CountDataAll() {
 	jobCount.JobTitle = lang
 	list, err := jobCount.GetCountDataAll()
 	if nil != err {
-		log.Print(err)
+		logs.Error(err)
 		c.Data["json"] = ErrorData(err)
 	} else {
 		c.Data["json"] = SuccessData(list)

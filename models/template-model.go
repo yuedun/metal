@@ -1,7 +1,7 @@
 package models
 
 import (
-	"fmt"
+	"github.com/astaxie/beego/logs"
 	"sync"
 	"time"
 
@@ -59,7 +59,7 @@ func (model *Template) GetListByCondition(param map[string]string, pageIndex, pa
 		if err != nil {
 			returnError = err
 		}
-		fmt.Println("mysql row affected nums: ", total)
+		logs.Info("mysql row affected nums: ", total)
 	}()
 	wg.Wait()
 	return list, total, returnError

@@ -34,7 +34,7 @@ func (c *PictureController) Picture() {
 		if res.StatusCode != 200 {
 			log.Fatalf("status code error: %d %s", res.StatusCode, res.Status)
 		} else {
-			log.Println("请求成功")
+			logs.Info("请求成功")
 		}
 		//转换数据为HTML对象模型
 		doc, err := goquery.NewDocumentFromReader(res.Body)

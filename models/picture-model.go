@@ -1,7 +1,7 @@
 package models
 
 import (
-	"fmt"
+	"github.com/astaxie/beego/logs"
 	"strconv"
 	"sync"
 
@@ -61,7 +61,7 @@ func (pic *Picture) GetAllByCondition(cond string, start, perPage int) (pics []P
 		if err != nil {
 			newError = err
 		}
-		fmt.Println("mysql row affected nums: ", total)
+		logs.Info("mysql row affected nums: ", total)
 	}()
 	wg.Wait()
 	return pics, total, newError

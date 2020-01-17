@@ -1,7 +1,7 @@
 package util
 
 import (
-	"fmt"
+	"github.com/astaxie/beego/logs"
 
 	"github.com/go-redis/redis"
 )
@@ -14,7 +14,7 @@ func ExampleNewClient() {
 	})
 
 	pong, err := client.Ping().Result()
-	fmt.Println(pong, err)
+	logs.Info(pong, err)
 	// Output: PONG <nil>
 	err1 := client.Set("key", "value", 0).Err()
 	if err1 != nil {
@@ -25,15 +25,15 @@ func ExampleNewClient() {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println("key", val)
+	logs.Info("key", val)
 
 	val2, err := client.Get("key2").Result()
 	if err == redis.Nil {
-		fmt.Println("key2 does not exist")
+		logs.Info("key2 does not exist")
 	} else if err != nil {
 		panic(err)
 	} else {
-		fmt.Println("key2", val2)
+		logs.Info("key2", val2)
 	}
 	// Output: key value
 	//	// key2 does not exist

@@ -67,7 +67,7 @@ func GetJobs() {
 			}
 			i++
 			if i == 2 {
-				fmt.Println("break now")
+				logs.Info("break now")
 				goto ForEnd
 			}
 		case c2 := <-ch2:
@@ -76,7 +76,7 @@ func GetJobs() {
 			}
 			i++
 			if i == 2 {
-				fmt.Println("break now")
+				logs.Info("break now")
 				goto ForEnd
 			}
 		}
@@ -96,7 +96,7 @@ func requestUrl(c chan JobData, language, region string) {
 	if res.StatusCode != 200 {
 		log.Fatalf("status code error: %d %s", res.StatusCode, res.Status)
 	} else {
-		log.Println("请求成功")
+		logs.Info("请求成功")
 	}
 	//转换数据为HTML对象模型
 	doc, err := goquery.NewDocumentFromReader(res.Body)
@@ -105,7 +105,7 @@ func requestUrl(c chan JobData, language, region string) {
 	}
 	//查找元素
 	text := doc.Find("#tab_pos>span").Text()
-	log.Println(language+"职位数：", text)
+	logs.Info(language+"职位数：", text)
 	count, _ := strconv.Atoi(text)
 	c <- JobData{
 		Count:    count,

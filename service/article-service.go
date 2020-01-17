@@ -1,7 +1,7 @@
 package service
 
 import (
-	"fmt"
+	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/orm"
 	. "metal/models"
 	"sync"
@@ -55,7 +55,7 @@ func (a *articleService) GetArticlesByCondition(param map[string]string, pageInd
 		if err != nil {
 			returnError = err
 		}
-		fmt.Println("mysql row affected nums: ", total)
+		logs.Info("mysql row affected nums: ", total)
 	}()
 	wg.Wait()
 	return articles, total, returnError

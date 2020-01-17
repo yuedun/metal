@@ -1,7 +1,7 @@
 package models
 
 import (
-	"fmt"
+	"github.com/astaxie/beego/logs"
 	"sync"
 	"time"
 
@@ -61,7 +61,7 @@ func (model *Article) GetArticlesByCondition(param map[string]string, pageIndex,
 		if err != nil {
 			returnError = err
 		}
-		fmt.Println("mysql row affected nums: ", total)
+		logs.Info("mysql row affected nums: ", total)
 	}()
 	wg.Wait()
 	return articles, total, returnError
