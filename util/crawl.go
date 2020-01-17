@@ -49,15 +49,15 @@ type wapResBody struct {
 			} `json:"custom"`
 		}
 	} `json:"content"`
-	State int `json:"state"`
-	Message   string `json:"message"`
+	State   int    `json:"state"`
+	Message string `json:"message"`
 }
 
 // 并行获取
 func GetJobs() {
 	ch1, ch2 := make(chan int), make(chan int)
-	go RequestByAjax2(ch1, "nodejs", "上海")
-	go RequestByAjax2(ch2, "golang", "上海")
+	go RequestByAjax2(ch1, "上海", "nodejs")
+	go RequestByAjax2(ch2, "上海", "golang")
 	for {
 		select {
 		case c1 := <-ch1:
@@ -138,7 +138,6 @@ func RequestByAjax(c chan int, language, region string) {
 
 	var resBody wapResBody
 	//var resBody interface{}
-	logs.Info(string(body[:]))
 	err2 := json.Unmarshal(body, &resBody)
 	if err2 != nil {
 		logs.Error("解析body失败:", err2)
@@ -155,17 +154,53 @@ func RequestByAjax(c chan int, language, region string) {
  * 通过ajax post获取数据 httplib实现
  */
 func RequestByAjax2(c chan int, region, language string) {
-
 	req := httplib.Get(fmt.Sprintf("http://localhost:3000/index/lagouPosition?city=%s&positionName=%s&pageNo=1&pageSize=1", url.QueryEscape(region), language))
-	req.Debug(true)
 	_, err := req.Response()
-	//defer resp.Body.Close()
-	if err!=nil {
+	if err != nil {
 		logs.Error(err)
 	}
 	var resBody wapResBody
 	req.ToJSON(&resBody)
-	logs.Debug("%+v", resBody)
+	if resBody.State != 1 {
+		logs.Error("获取"+language+"数据为空!", fmt.Sprint("%+v", resBody))
+	}
+	countStr := resBody.Content.Data.Page.TotalCount
+	count, _ := strconv.Atoi(countStr)
+	c <- count
+}
+
+//获取页面cookie
+func GetCookies(url string) []string {
+	req1 := httplib.Get(url)
+	req1.Header("User-Agent", "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1")
+	resp, err := req1.Response()
+	if err != nil {
+		logs.Error("请求页面错误", err.Error())
+	}
+	logs.Info("%+v", resp.Header["Set-Cookie"])
+	for key, val := range resp.Header["Set-Cookie"] {
+		logs.Debug(key, "-:", val)
+	}
+	return resp.Header["Set-Cookie"]
+}
+
+// 先访问页面获取cookie，再将cookie值放入请求header中
+func RequestByAjax3(c chan int, region, language string) {
+	cookies := GetCookies("https://m.lagou.com/search.html")
+	//-------------------------------------
+	req := httplib.Get(fmt.Sprintf("https://m.lagou.com/search.json?city=%s&positionName=%s&pageNo=1&pageSize=1", url.QueryEscape(region), language))
+	req.Header("Referer", "https://m.lagou.com/search.html")
+	var stringCookies string
+	for _, val := range cookies {
+		stringCookies += val
+	}
+	req.Header("Cookie", stringCookies)
+	//req.Header("Cookie", "JSESSIONID=ABAAAECAAHHAAFD8DC17DEB3DE2DF3C5FCAE8C3D4423759; user_trace_token=20200117101405-234d1d57-b8c1-4d66-956e-c49f35f28f75; _ga=GA1.3.2130396867.1579227245; _ga=GA1.2.2130396867.1579227245; _gid=GA1.2.1665214724.1579227245; LGSID=20200117101406-09c6fa83-38cf-11ea-b2e7-525400f775ce; PRE_UTM=; PRE_HOST=; PRE_SITE=; PRE_LAND=https%3A%2F%2Fm.lagou.com%2Fsearch.html; LGUID=20200117101406-09c6fc06-38cf-11ea-b2e7-525400f775ce; Hm_lvt_2f04b07136aeba81b3a364fd73385ff4=1579144546,1579227231; Hm_lvt_4233e74dff0ae5bd0a3d81c6ccf756e6=1579144546,1579227231; X_MIDDLE_TOKEN=0d6113694aa5cbc462c4848316855d56; _gat=1; LGRID=20200117103523-0355dbff-38d2-11ea-af1d-5254005c3644; Hm_lpvt_4233e74dff0ae5bd0a3d81c6ccf756e6=1579228523; X_HTTP_TOKEN=8e6e6bd15763030e425822975149ec77fc62d73ec7; Hm_lpvt_2f04b07136aeba81b3a364fd73385ff4=1579228523")
+	req.Header("Host", "m.lagou.com")
+	req.Header("User-Agent", "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1")
+	var resBody wapResBody
+	req.ToJSON(&resBody)
+	logs.Debug(">>>>>>%+v", resBody)
 	if resBody.State != 1 {
 		logs.Error("获取"+language+"数据为空!", fmt.Sprint("%+v", resBody))
 	}
@@ -175,13 +210,13 @@ func RequestByAjax2(c chan int, region, language string) {
 }
 
 // 保存数据
-func saveJob(c int, title, region string) {
+func saveJob(c int, language, region string) {
 	jobCount := &JobCount{
-		JobTitle:  title,
+		JobTitle:  language,
 		Amount:    uint(c),
 		Region:    region,
 		CreatedAt: time.Now(),
 	}
 	jobCount.Save()
-	logs.Info("保存job成功", title, c)
+	logs.Info("保存job成功", language, c)
 }

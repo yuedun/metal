@@ -23,13 +23,21 @@ func TestOne(t *testing.T) {
 }
 
 /**
+ * 获取cookie测试
+ */
+func TestCookie(t *testing.T) {
+	cookies := util.GetCookies("https://m.lagou.com/search.html")
+	t.Log("获取到的cookies：", cookies)
+}
+
+/**
  * 爬虫测试
  */
 func TestCrawl(t *testing.T) {
 	//util.GetJobs()
 	var c = make(chan int)
-	go util.RequestByAjax2(c, "上海", "nodejs")
-	t.Log(<-c)
+	go util.RequestByAjax3(c, "上海", "nodejs")
+	t.Log("测试结果数：", <-c)
 }
 
 //格式化
