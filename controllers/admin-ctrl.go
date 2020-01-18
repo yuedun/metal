@@ -241,8 +241,8 @@ func (c *AdminController) DeleteUser() {
 /**
  * 日志列表路由
  */
-// @router /get-logs-route
-func (c *AdminController) GetLogsRoute() {
+// @router /logs-route
+func (c *AdminController) LogsRoute() {
 	c.Data["Title"] = "日志列表"
 	c.TplName = "admin/logs.html"
 }

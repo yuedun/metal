@@ -3,6 +3,7 @@
   <meta name="baidu-site-verification" content="vmcqCp75fz" />
   <link rel="shortcut icon" href="/static/dist/img/avatar.png" type="image/x-icon" />
   <link rel="stylesheet" href="/static/css/style.css" />
+{{if eq .env "prod"}}
 <script>
   var _hmt = _hmt || [];
   (function() {
@@ -12,3 +13,4 @@
     s.parentNode.insertBefore(hm, s);
   })();
 </script>
+{{end}}
