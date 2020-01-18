@@ -4,6 +4,7 @@ package controllers
 import (
 	"github.com/astaxie/beego/logs"
 	. "metal/models" // 点操作符导入的包可以省略包名直接使用公有属性和方法
+	"reflect"
 	"regexp"
 	"strconv"
 	"time"
@@ -23,6 +24,19 @@ type PortalController struct {
 // 	c.Mapping("Get", c.Get)
 // 	c.Mapping("MyRoute", c.MyRoute)
 // }
+
+//预处理，会在下面每个路由执行前执行，可当做前置中间件使用
+func (this *PortalController) Prepare() {
+	val:= beego.AppConfig.String("runmode")
+	this.Data["env"] = val
+	ctr, meth := this.GetControllerAndAction()
+	logs.Debug(">>>>>>>>>>Prepare:package:%s, method:%s, controller:%s, %s", reflect.TypeOf(PortalController{}).PkgPath(), this.Ctx.Request.Method, ctr, meth)
+}
+
+//收尾处理，在路由执行完执行，可当做后置中间件使用
+func (this *PortalController) Finish() {
+	logs.Debug(">>>>>>>>>>Finish", "env:", this.Data)
+}
 
 //首页
 // @router / [get]
