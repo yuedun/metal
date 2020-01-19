@@ -63,7 +63,7 @@ func ErrorData(msg error, code ...int) Result {
 	return r
 }
 
-func SuccessData(data interface{}) Result {
+func SuccessData(data any) Result {
 	var r Result
 	r.Code = 0
 	r.Msg = "ok"
