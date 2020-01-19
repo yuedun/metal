@@ -45,7 +45,7 @@ footer {
     padding: 10px;
 }
 .description img {
-    width: 50%;
+    max-width: 100%;
 }
 a {
     color: #572C82;
