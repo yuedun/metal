@@ -11,7 +11,7 @@ type Role struct {
 	Groups      string `json:"groups"`
 }
 
-type UserPermisson struct {
+type UserGroups struct {
 	Role_id     uint   `json:"roleId"`
 	Description string `json:"description"`
 	Checked     bool   `json:"checked"`
@@ -21,9 +21,7 @@ func init() {
 	orm.RegisterModel(new(Role))
 }
 
-/**
- * 获取所有权限和单个用户拥有的权限
- */
+// GetRolesAndUserPermission 获取所有权限和单个用户拥有的权限
 func (role *Role) GetRolesAndUserPermission(userId int) (allRoles []Role, userRoles []uint, returnErr error) {
 	o := orm.NewOrm()
 	var wg sync.WaitGroup
