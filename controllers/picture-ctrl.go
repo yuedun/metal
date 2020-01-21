@@ -16,12 +16,12 @@ type PictureController struct {
 	AdminBaseController
 }
 
-/* icon列表 */
+// IconList 列表
 func (c *PictureController) IconList() {
 	c.TplName = "admin/icons.html"
 }
 
-/* 图片检索 */
+// Picture 图片检索
 func (c *PictureController) Picture() {
 	url := c.GetString("url")
 	if url != "" {
@@ -51,7 +51,7 @@ func (c *PictureController) Picture() {
 	c.TplName = "admin/picture.html"
 }
 
-/* 保存图片 */
+// AddPicture 保存图片
 func (c *PictureController) AddPicture() {
 	defer func() {
 		c.ServeJSON()
@@ -86,12 +86,12 @@ func (c *PictureController) AddPicture() {
 	}
 }
 
-/* 图片列表路由 */
+// ListPictureRoute 图片列表路由
 func (c *PictureController) ListPictureRoute() {
 	c.TplName = "admin/picture-list.html"
 }
 
-/* 图片列表 */
+//ListPicture 图片列表
 func (c *PictureController) ListPicture() {
 	defer func() {
 		c.ServeJSON()
@@ -100,20 +100,20 @@ func (c *PictureController) ListPicture() {
 	start, _ := c.GetInt("start")
 	perPage, _ := c.GetInt("perPage")
 	picture := new(Picture)
-	picList, total, err := picture.GetAllByCondition(search, start, perPage)
+	list, total, err := picture.GetAllByCondition(search, start, perPage)
 	if nil != err {
 		logs.Error(err)
 		c.Data["json"] = ErrorData(err)
 	} else {
 		data := map[string]any{
-			"result": picList,
+			"result": list,
 			"total":  total,
 		}
 		c.Data["json"] = SuccessData(data)
 	}
 }
 
-/* 删除图片 */
+//DeletePicture 删除图片
 func (c *PictureController) DeletePicture() {
 	defer func() {
 		c.ServeJSON()

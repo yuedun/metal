@@ -198,12 +198,12 @@ func (c *AdminController) UserList() {
 	var param = make(map[string]string)
 	param["mobile"] = args
 	param["username"] = args
-	userList, total, err := user.GetAllByCondition(param, start, perPage)
+	list, total, err := user.GetAllByCondition(param, start, perPage)
 	if nil != err {
 		logs.Error(err)
 		c.Data["json"] = ErrorData(err)
 	} else {
-		for index, u := range userList {
+		for index, u := range list {
 			userVo := new(UserVO)
 			userVo.User = u
 			userVo.Gender = SexMap[u.Gender]
@@ -255,13 +255,13 @@ func (c *AdminController) GetLogs() {
 	start, _ := c.GetInt("start")
 	perPage, _ := c.GetInt("perPage")
 	var logModel = new(Log)
-	logList, total, err := logModel.GetLogs(start, perPage)
+	list, total, err := logModel.GetLogs(start, perPage)
 	if nil != err {
 		logs.Error(err)
 		c.Data["json"] = ErrorData(err)
 	} else {
 		data := map[string]any{
-			"result": logList,
+			"result": list,
 			"total":  total,
 		}
 		c.Data["json"] = SuccessData(data)
@@ -336,13 +336,13 @@ func (c *AdminController) ArticlesList() {
 		"title":  args,
 	}
 
-	userList, total, err := article.GetArticlesByCondition(param, start, perPage)
+	list, total, err := article.GetArticlesByCondition(param, start, perPage)
 	if nil != err {
 		logs.Error(err)
 		c.Data["json"] = ErrorData(err)
 	} else {
 		data := map[string]any{
-			"result": userList,
+			"result": list,
 			"total":  total,
 		}
 		c.Data["json"] = SuccessData(data)

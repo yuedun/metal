@@ -5,7 +5,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 -->
 <html>
 <head>
-<title>用户列表</title>
+<title>登录日志</title>
 {{template "admin/html-head.html" .}}
 </head>
 <!--
@@ -131,10 +131,9 @@ desired effect
             serverSide: true,
             processing: true,
             ajax: function (data, callback, settings) {
-                console.log(data)
                 var postData = {
                     draw: data.draw,
-                    perPage: data.length,
+                    perPage: 15,
                     start: data.start,
                     search: data.search.value
                 };

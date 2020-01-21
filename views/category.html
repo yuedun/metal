@@ -16,6 +16,7 @@
     {{range $index, $item := .titles}}
     <section>
         <h2 class="title"><a href="/article/{{$item.Id}}">{{$item.Title}}</a></h2>
+        <span>{{$item.UpdatedAt}}</span>
     </section>
     {{end}}
 </article>

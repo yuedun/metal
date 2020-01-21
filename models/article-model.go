@@ -87,6 +87,6 @@ func (model *Article) Delete() (int64, error) {
 func (model *Article) GetCategory() ([]Article, error) {
 	o := orm.NewOrm()
 	titles := make([]Article, 1)
-	_, err := o.Raw("SELECT id, title FROM article WHERE status = 1 ORDER BY id DESC;").QueryRows(&titles)
+	_, err := o.Raw("SELECT id, title, updated_at FROM article WHERE status = 1 ORDER BY id DESC;").QueryRows(&titles)
 	return titles, err
 }
