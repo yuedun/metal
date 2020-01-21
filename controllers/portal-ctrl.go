@@ -35,7 +35,7 @@ func (this *PortalController) Prepare() {
 
 //收尾处理，在路由执行完执行，可当做后置中间件使用
 func (this *PortalController) Finish() {
-	logs.Debug(">>>>>>>>>>Finish", "env:", this.Data)
+	logs.Debug(">>>>>>>>>>Finish")
 }
 
 //首页

@@ -19,11 +19,11 @@ type UserGroupController struct {
 // @router /user-group/get-all-user-group [get]
 func (c *UserGroupController) GetAllUserGroup() {
 	userGroup := new(UserGroup)
-	userGroups, err := userGroup.GetUserGroupList()
+	list, err := userGroup.GetUserGroupList()
 	if nil != err {
 		c.Data["json"] = ErrorData(err)
 	} else {
-		c.Data["json"] = userGroups
+		c.Data["json"] = list
 	}
 	c.ServeJSON()
 }
