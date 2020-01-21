@@ -29,8 +29,8 @@ type PortalController struct {
 func (this *PortalController) Prepare() {
 	val:= beego.AppConfig.String("runmode")
 	this.Data["env"] = val
-	ctr, meth := this.GetControllerAndAction()
-	logs.Debug(">>>>>>>>>>Prepare:package:%s, method:%s, controller:%s, %s", reflect.TypeOf(PortalController{}).PkgPath(), this.Ctx.Request.Method, ctr, meth)
+	ctr, method := this.GetControllerAndAction()
+	logs.Debug(">>>>>>>>>>Prepare:package:%s, controller:%s, %s", reflect.TypeOf(PortalController{}).PkgPath(), ctr, method)
 }
 
 //收尾处理，在路由执行完执行，可当做后置中间件使用

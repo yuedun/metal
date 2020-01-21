@@ -3,20 +3,18 @@ package controllers
 //包名并非必须和文件夹名相同，但是按照惯例最后一个路径名和包名一致
 import (
 	"encoding/json"
+	"errors"
 	"github.com/astaxie/beego/logs"
-	"log"
 	. "metal/models"
 	"strconv"
 	"time"
 )
-
+// GroupController 用户权限管理
 type GroupController struct {
 	AdminBaseController
 }
 
-/**
-用户添加权限
-*/
+// AddUserRole 用户添加权限
 // @router /user/groups [post]
 func (c *GroupController) AddUserRole() {
 	defer func() {
@@ -29,15 +27,18 @@ func (c *GroupController) AddUserRole() {
 		UserId uint
 		Roles  []uint
 	}
-	json.Unmarshal(c.Ctx.Input.RequestBody, &args)
-	logs.Info("*********%v", args)
+	err:=json.Unmarshal(c.Ctx.Input.RequestBody, &args)
+	if err!=nil {
+		panic(err)
+	}
+	logs.Info("参数：", args)
 	userId := args.UserId
 	if userId == 0 {
-		log.Panic("userId不能为空")
+		panic(errors.New("userId不能为空"))
 	}
 	roleIds := args.Roles
 	if len(roleIds) == 0 {
-		log.Panic("roleId不能为空")
+		panic(errors.New("roleId不能为空"))
 	}
 	for _, roleId := range roleIds {
 		var userGroup = new(Groups)
@@ -54,21 +55,21 @@ func (c *GroupController) AddUserRole() {
 	c.Data["json"] = SuccessData(nil)
 }
 
-/**
- * 获取用户权限
- */
+// GetUserRoles 获取用户权限
 // @router /user-roles/:userId [get]
 func (c *GroupController) GetUserRoles() {
 	userId := c.Ctx.Input.Param(":userId")
 	uid, _ := strconv.Atoi(userId)
 	role := new(Role)
 	allRoles, userRoles, err := role.GetRolesAndUserPermission(uid)
+	logs.Debug("allRoles:", allRoles)
+	logs.Debug("userRoles:", userRoles)
 	if nil != err {
 		c.Data["json"] = ErrorData(err)
 	}
-	userPermissions := make([]UserPermisson, 0, 20)
+	userPermissions := make([]UserGroups, 0, 20)
 	for index, item := range allRoles {
-		userPremis := new(UserPermisson)
+		userPremis := new(UserGroups)
 		userPremis.Role_id = uint(item.Id)
 		userPremis.Description = item.Description
 		for _, rid := range userRoles {
@@ -79,7 +80,6 @@ func (c *GroupController) GetUserRoles() {
 		}
 		userPermissions = append(userPermissions[:index], *userPremis)
 	}
-
 	c.Data["json"] = SuccessData(userPermissions)
 	c.ServeJSON()
 }
