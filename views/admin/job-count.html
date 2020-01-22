@@ -4,9 +4,10 @@ This is a starter template page. Use this page to start your new project from
 scratch. This page gets rid of all links and provides the needed markup only.
 -->
 <html>
+
 <head>
-<title>报表</title>
-{{template "admin/html-head.html" .}}
+    <title>报表</title>
+    {{template "admin/html-head.html" .}}
 </head>
 <!--
 BODY TAG OPTIONS:
@@ -28,373 +29,191 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
+
 <body class="hold-transition skin-blue sidebar-mini">
-<div class="wrapper">
+    <div class="wrapper">
 
-    <!-- Main Header -->
-{{template "admin/html-header.html" .}}
-    <!-- Left side column. contains the logo and sidebar -->
-{{template "admin/html-aside.html" .}}
+        <!-- Main Header -->
+        {{template "admin/html-header.html" .}}
+        <!-- Left side column. contains the logo and sidebar -->
+        {{template "admin/html-aside.html" .}}
 
-    <!-- Content Wrapper. Contains page content -->
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <h1>
-                nodejs和golang拉钩职位数量曲线图表
-            </h1>
-            <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
-                <li><a href="#">工作数量统计</a></li>
-            </ol>
-        </section>
+        <!-- Content Wrapper. Contains page content -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    nodejs和golang拉钩职位数量曲线图表
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
+                    <li><a href="#">工作数量统计</a></li>
+                </ol>
+            </section>
 
-        <!-- Main content -->
-        <section class="content">
-            <!-- row 近一个月走势-->
-            <div class="row">
-                <section class="col-lg-6 connectedSortable">
-                    <!-- solid sales graph -->
-                    <div class="box box-solid bg-green-gradient">
-                        <div class="box-header">
-                            <i class="fa fa-th"></i>
-                            <h3 class="box-title">nodejs近一月</h3>
-                            <div class="box-tools pull-right">
-                                <button type="button" class="btn bg-green btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
-                                </button>
-                                <button type="button" class="btn bg-green btn-sm" data-widget="remove"><i class="fa fa-times"></i>
-                                </button>
+            <!-- Main content -->
+            <section class="content">
+                <!-- row 近一个月走势-->
+                <div class="row">
+                    <section class="col-lg-12 connectedSortable">
+                        <!-- solid sales graph -->
+                        <div class="box box-solid bg-green-gradient">
+                            <div class="box-header">
+                                <i class="fa fa-th"></i>
+                                <h3 class="box-title">近两月</h3>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn bg-green btn-sm" data-widget="collapse"><i
+                                            class="fa fa-minus"></i>
+                                    </button>
+                                    <button type="button" class="btn bg-green btn-sm" data-widget="remove"><i
+                                            class="fa fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="box-body border-radius-none">
+                                <div class="chart" id="line-chart-recently" style="height: 300px;"></div>
                             </div>
                         </div>
-                        <div class="box-body border-radius-none">
-                            <div class="chart" id="line-chart-nodejs-recently" style="height: 250px;"></div>
-                        </div>
-                    </div>
-                </section>
-                <section class="col-lg-6 connectedSortable">
-                    <!-- solid sales graph -->
-                    <div class="box box-solid bg-purple-gradient">
-                        <div class="box-header">
-                            <i class="fa fa-th"></i>
-                            <h3 class="box-title">golang近一月</h3>
-                            <div class="box-tools pull-right">
-                                <button type="button" class="btn bg-purple btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
-                                </button>
-                                <button type="button" class="btn bg-purple btn-sm" data-widget="remove"><i class="fa fa-times"></i>
-                                </button>
+                    </section>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+                <!-- row 所有历史走势-->
+                <div class="row">
+                    <section class="col-lg-12">
+                        <!-- solid sales graph -->
+                        <div class="box box-solid bg-green-gradient">
+                            <div class="box-header">
+                                <i class="fa fa-th"></i>
+                                <h3 class="box-title">每月平均</h3>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn bg-green btn-sm" data-widget="collapse"><i
+                                            class="fa fa-minus"></i>
+                                    </button>
+                                    <button type="button" class="btn bg-green btn-sm" data-widget="remove"><i
+                                            class="fa fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="box-body border-radius-none">
+                                <div class="chart" id="line-chart-history" style="height: 300px;"></div>
                             </div>
                         </div>
-                        <div class="box-body border-radius-none">
-                            <div class="chart" id="line-chart-go-recently" style="height: 250px;"></div>
-                        </div>
-                    </div>
-                </section>
-                <!-- /.col -->
-            </div>
-            <!-- /.row -->
-            <!-- row 所有历史走势-->
-            <div class="row">
-                <section class="col-lg-6">
-                    <!-- solid sales graph -->
-                    <div class="box box-solid bg-green-gradient">
-                        <div class="box-header">
-                            <i class="fa fa-th"></i>
-                            <h3 class="box-title">nodejs每月平均</h3>
-                            <div class="box-tools pull-right">
-                                <button type="button" class="btn bg-green btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
-                                </button>
-                                <button type="button" class="btn bg-green btn-sm" data-widget="remove"><i class="fa fa-times"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="box-body border-radius-none">
-                            <div class="chart">
-                                <!-- Sales Chart Canvas -->
-                                <canvas id="line-chart-nodejs-history" height="125"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                <section class="col-lg-6">
-                    <!-- solid sales graph -->
-                    <div class="box box-solid bg-purple-gradient">
-                        <div class="box-header">
-                            <i class="fa fa-th"></i>
-                            <h3 class="box-title">golang每月平均</h3>
-                            <div class="box-tools pull-right">
-                                <button type="button" class="btn bg-purple btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
-                                </button>
-                                <button type="button" class="btn bg-purple btn-sm" data-widget="remove"><i class="fa fa-times"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="box-body border-radius-none">
-                            <div class="chart">
-                                <!-- Sales Chart Canvas -->
-                                <canvas id="line-chart-go-history" height="125"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                <!-- /.col -->
-            </div>
-            <!-- /.row -->
-        </section>
-        <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
-
-    <!-- Main Footer -->
-    <footer class="main-footer">
-        <!-- To the right -->
-        <div class="pull-right hidden-xs">
-            Anything you want
+                    </section>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </section>
+            <!-- /.content -->
         </div>
-        <!-- Default to the left -->
-        <strong>Copyright &copy; 2016 <a href="#">Company</a>.</strong> All rights reserved.
-    </footer>
+        <!-- /.content-wrapper -->
 
-    <!-- Control Sidebar -->
-    {{template "admin/html-control-sidebar.html"}}
-    <!-- /.control-sidebar -->
-</div>
-<!-- ./wrapper -->
+        <!-- Main Footer -->
+        <footer class="main-footer">
+            <!-- To the right -->
+            <div class="pull-right hidden-xs">
+                Anything you want
+            </div>
+            <!-- Default to the left -->
+            <strong>Copyright &copy; 2016 <a href="#">Company</a>.</strong> All rights reserved.
+        </footer>
 
-<!-- REQUIRED JS SCRIPTS -->
-{{template "admin/html-js.html"}}
-<!-- Morris.js charts -->
-<script src="../../static/bower_components/raphael/raphael.min.js"></script>
-<script src="../../static/bower_components/morris.js/morris.min.js"></script>
-<!-- ChartJS -->
-<script src="../../static/bower_components/chart.js/Chart.min.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script>
-    $(function () {
-        //最近一个月走势
-        var startDate = moment().subtract(1, "months").format("YYYY-MM-DD");
-        var endDate = moment().format("YYYY-MM-DD");
-        $.get("/admin/job-count/count-data-recently?language=nodejs&startDate="+startDate+"&endDate="+endDate, function (res) {
-            var data = [];
-            res.data.forEach(function (item) {
-                data.push({
-                    y: moment(item.created_at).format("YYYY-MM-DD"),
-                    item1: item.amount,
-                })
-            });
-            var line = new Morris.Line({
-                element          : 'line-chart-nodejs-recently',
-                resize           : true,
-                data             : data,
-                xkey             : 'y',
-                ykeys            : ['item1'],
-                labels           : ['数量'],
-                lineColors       : ['#999'],
-                lineWidth        : 2,
-                hideHover        : true,
-                gridTextColor    : '#efefef',
-                gridStrokeWidth  : 0.4,
-                pointSize        : 4,
-                pointStrokeColors: ['#efefef'],
-                gridLineColor    : '#efefef',
-                gridTextFamily   : 'Open Sans',
-                gridTextSize     : 10,
-                xLabels          : "day"
-            });
-        });
-        $.get("/admin/job-count/count-data-recently?language=golang&startDate="+startDate+"&endDate="+endDate, function (res) {
-            var data = [];
-            res.data.forEach(function (item) {
-                data.push({
-                    y: moment(item.created_at).format("YYYY-MM-DD"),
-                    item1: item.amount,
-                })
-            });
-            var line = new Morris.Line({
-                element          : 'line-chart-go-recently',
-                resize           : true,
-                data             : data,
-                xkey             : 'y',
-                ykeys            : ['item1'],
-                labels           : ['数量'],
-                lineColors       : ['#999'],
-                lineWidth        : 2,
-                hideHover        : true,
-                gridTextColor    : '#efefef',
-                gridStrokeWidth  : 0.4,
-                pointSize        : 4,
-                pointStrokeColors: ['#efefef'],
-                gridLineColor    : '#efefef',
-                gridTextFamily   : 'Open Sans',
-                gridTextSize     : 10,
-                xLabels          : "day"
-            });
-        });
-        //历史走势
-        $.get("/admin/job-count/count-data-all?language=nodejs", function (res) {
-            var data = [];
-            res.data.forEach(function (item) {
-                data.push({
-                    date: item.created_at,
-                    value: item.amount,
-                })
-            });
-            var labelsKeys = data.map((function(item){
-                return moment(item.date).format("YYYY-MM");
-            }));
-            var dataValues = data.map((function(item){
-                return item.value;
-            }));
-            // Get context with jQuery - using jQuery's .get() method.
-            var salesChartCanvas = $('#line-chart-nodejs-history').get(0).getContext('2d');
-            // This will get the first returned node in the jQuery collection.
-            var salesChart       = new Chart(salesChartCanvas);
+        <!-- Control Sidebar -->
+        {{template "admin/html-control-sidebar.html"}}
+        <!-- /.control-sidebar -->
+    </div>
+    <!-- ./wrapper -->
 
-            var salesChartData = {
-                labels  : labelsKeys,
-                datasets: [
-                    {
-                        label               : 'Digital Goods',
-                        fillColor           : 'rgba(60,141,188,0.9)',
-                        strokeColor         : 'rgba(60,141,188,0.8)',
-                        pointColor          : '#3b8bba',
-                        pointStrokeColor    : 'rgba(60,141,188,1)',
-                        pointHighlightFill  : '#fff',
-                        pointHighlightStroke: 'rgba(60,141,188,1)',
-                        data                : dataValues
+    <!-- REQUIRED JS SCRIPTS -->
+    {{template "admin/html-js.html"}}
+    <!-- Morris.js charts -->
+    <script src="../../static/bower_components/raphael/raphael.min.js"></script>
+    <script src="../../static/bower_components/morris.js/morris.min.js"></script>
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script>
+        $(function () {
+            //最近一个月走势
+            var startDate = moment().subtract(2, "months").format("YYYY-MM-DD");
+            var endDate = moment().format("YYYY-MM-DD");
+            $.when(
+                $.get("/admin/job-count/count-data-recently?language=nodejs&startDate=" + startDate + "&endDate=" + endDate),
+                $.get("/admin/job-count/count-data-recently?language=golang&startDate=" + startDate + "&endDate=" + endDate)
+            ).done(function (res, res2) {
+                var data = [];
+                res[0] && res[0].data && res[0].data.forEach(function (item, index) {
+                    data[index] = {
+                        y: moment(item.created_at).format("YYYY-MM-DD"),
+                        item1: item.amount,
                     }
-                ]
-            };
-
-            var salesChartOptions = {
-                // Boolean - If we should show the scale at all
-                showScale               : true,
-                // Boolean - Whether grid lines are shown across the chart
-                scaleShowGridLines      : false,
-                // String - Colour of the grid lines
-                scaleGridLineColor      : 'rgba(0,0,0,.05)',
-                scaleLineColor          :'#fff',//轴线颜色
-                scaleFontColor          : "#fff",//轴线文字颜色
-                // Number - Width of the grid lines
-                scaleGridLineWidth      : 1,
-                // Boolean - Whether to show horizontal lines (except X axis)
-                scaleShowHorizontalLines: true,
-                // Boolean - Whether to show vertical lines (except Y axis)
-                scaleShowVerticalLines  : true,
-                // Boolean - Whether the line is curved between points
-                bezierCurve             : true,
-                // Number - Tension of the bezier curve between points
-                bezierCurveTension      : 0.3,
-                // Boolean - Whether to show a dot for each point
-                pointDot                : false,
-                // Number - Radius of each point dot in pixels
-                pointDotRadius          : 4,
-                // Number - Pixel width of point dot stroke
-                pointDotStrokeWidth     : 1,
-                // Number - amount extra to add to the radius to cater for hit detection outside the drawn point
-                pointHitDetectionRadius : 20,
-                // Boolean - Whether to show a stroke for datasets
-                datasetStroke           : true,
-                // Number - Pixel width of dataset stroke
-                datasetStrokeWidth      : 2,
-                // Boolean - Whether to fill the dataset with a color
-                datasetFill             : true,
-                // String - A legend template
-                legendTemplate          : '',
-                // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
-                maintainAspectRatio     : true,
-                // Boolean - whether to make the chart responsive to window resizing
-                responsive              : true
-            };
-
-            // Create the line chart
-            salesChart.Line(salesChartData, salesChartOptions);
-        });
-        $.get("/admin/job-count/count-data-all?language=golang", function (res) {
-            var data = [];
-            res.data.forEach(function (item) {
-                data.push({
-                    date: item.created_at,
-                    value: item.amount,
-                })
+                });
+                res2[0] && res2[0].data && res2[0].data.forEach(function (item, index) {
+                    data[index].item2 = item.amount;
+                });
+                var line = new Morris.Line({
+                    element: 'line-chart-recently',
+                    resize: true,
+                    data: data,
+                    xkey: 'y',
+                    ykeys: ['item1', 'item2'],
+                    labels: ['node', 'golang'],
+                    lineColors: ['#996699', '#6699CC'],
+                    lineWidth: 2,
+                    hideHover: true,
+                    gridTextColor: '#efefef',
+                    gridStrokeWidth: 0.4,
+                    pointSize: 4,
+                    pointStrokeColors: ['#efefef'],
+                    gridLineColor: '#efefef',
+                    gridTextFamily: 'Open Sans',
+                    gridTextSize: 10,
+                    xLabels: "day"
+                });
             });
-            var labelsKeys = data.map((function(item){
-                return moment(item.date).format("YYYY-MM");
-            }));
-            var dataValues = data.map((function(item){
-                return item.value;
-            }));
-            // Get context with jQuery - using jQuery's .get() method.
-            var salesChartCanvas = $('#line-chart-go-history').get(0).getContext('2d');
-            // This will get the first returned node in the jQuery collection.
-            var salesChart       = new Chart(salesChartCanvas);
 
-            var salesChartData = {
-                labels  : labelsKeys,
-                datasets: [
-                    {
-                        label               : 'Digital Goods',
-                        fillColor           : 'rgba(60,141,188,0.9)',
-                        strokeColor         : 'rgba(60,141,188,0.8)',
-                        pointColor          : '#3b8bba',
-                        pointStrokeColor    : 'rgba(60,141,188,1)',
-                        pointHighlightFill  : '#fff',
-                        pointHighlightStroke: 'rgba(60,141,188,1)',
-                        data                : dataValues
+            //历史走势
+
+            $.when(
+                $.get("/admin/job-count/count-data-all?language=nodejs"),
+                $.get("/admin/job-count/count-data-all?language=golang")
+            ).done(function (res, res2) {
+                var datas = [];
+                res[0] && res[0].data && res[0].data.forEach(function (item, index) {
+                    datas[index] = {
+                        y: moment(item.created_at).format("YYYY-MM"),
+                        item1: item.amount,
                     }
-                ]
-            };
+                });
+                res2[0] && res2[0].data && res2[0].data.forEach(function (item, index) {
+                    datas[index].item2 = item.amount;
+                });
+                var line = new Morris.Line({
+                    element: 'line-chart-history',
+                    resize: true,
+                    data: datas,
+                    xkey: 'y',
+                    ykeys: ['item1', 'item2'],
+                    labels: ['node', 'golang'],
+                    lineColors: ['#996699', '#6699CC'],
+                    lineWidth: 2,
+                    hideHover: true,
+                    gridTextColor: '#efefef',
+                    gridStrokeWidth: 0.4,
+                    pointSize: 4,
+                    pointStrokeColors: ['#efefef'],
+                    gridLineColor: '#efefef',
+                    gridTextFamily: 'Open Sans',
+                    gridTextSize: 10,
+                    xLabels: "month"
+                });
+            });
+        })
+    </script>
+    <!-- /REQUIRED JS SCRIPTS -->
 
-            var salesChartOptions = {
-                // Boolean - If we should show the scale at all
-                showScale               : true,
-                // Boolean - Whether grid lines are shown across the chart
-                scaleShowGridLines      : false,
-                // String - Colour of the grid lines
-                scaleGridLineColor      : 'rgba(0,0,0,.05)',
-                scaleLineColor          :'#fff',//轴线颜色
-                scaleFontColor          : "#fff",//轴线文字颜色
-                // Number - Width of the grid lines
-                scaleGridLineWidth      : 1,
-                // Boolean - Whether to show horizontal lines (except X axis)
-                scaleShowHorizontalLines: true,
-                // Boolean - Whether to show vertical lines (except Y axis)
-                scaleShowVerticalLines  : true,
-                // Boolean - Whether the line is curved between points
-                bezierCurve             : true,
-                // Number - Tension of the bezier curve between points
-                bezierCurveTension      : 0.3,
-                // Boolean - Whether to show a dot for each point
-                pointDot                : false,
-                // Number - Radius of each point dot in pixels
-                pointDotRadius          : 4,
-                // Number - Pixel width of point dot stroke
-                pointDotStrokeWidth     : 1,
-                // Number - amount extra to add to the radius to cater for hit detection outside the drawn point
-                pointHitDetectionRadius : 20,
-                // Boolean - Whether to show a stroke for datasets
-                datasetStroke           : true,
-                // Number - Pixel width of dataset stroke
-                datasetStrokeWidth      : 2,
-                // Boolean - Whether to fill the dataset with a color
-                datasetFill             : true,
-                // String - A legend template
-                legendTemplate          : '',
-                // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
-                maintainAspectRatio     : true,
-                // Boolean - whether to make the chart responsive to window resizing
-                responsive              : true
-            };
-
-            // Create the line chart
-            salesChart.Line(salesChartData, salesChartOptions);
-        });
-    })
-</script>
-<!-- /REQUIRED JS SCRIPTS -->
-
-<!-- Optionally, you can add Slimscroll and FastClick plugins.
+    <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. -->
 </body>
+
 </html>
