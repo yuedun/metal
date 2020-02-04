@@ -99,8 +99,26 @@ func init() {
 
     beego.GlobalControllerRouter["metal/controllers:AdminController"] = append(beego.GlobalControllerRouter["metal/controllers:AdminController"],
         beego.ControllerComments{
+            Method: "UploadImg",
+            Router: `/uploadImg`,
+            AllowHTTPMethods: []string{"post"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["metal/controllers:AdminController"] = append(beego.GlobalControllerRouter["metal/controllers:AdminController"],
+        beego.ControllerComments{
+            Method: "TemplateList",
+            Router: `/website`,
+            AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["metal/controllers:AdminController"] = append(beego.GlobalControllerRouter["metal/controllers:AdminController"],
+        beego.ControllerComments{
             Method: "TemplatesRoute",
-            Router: `/template-route`,
+            Router: `/website-route`,
             AllowHTTPMethods: []string{"get"},
             MethodParams: param.Make(),
             Filters: nil,
@@ -109,7 +127,7 @@ func init() {
     beego.GlobalControllerRouter["metal/controllers:AdminController"] = append(beego.GlobalControllerRouter["metal/controllers:AdminController"],
         beego.ControllerComments{
             Method: "CreateTemplate",
-            Router: `/template/add`,
+            Router: `/website/add`,
             AllowHTTPMethods: []string{"post"},
             MethodParams: param.Make(),
             Filters: nil,
@@ -118,26 +136,8 @@ func init() {
     beego.GlobalControllerRouter["metal/controllers:AdminController"] = append(beego.GlobalControllerRouter["metal/controllers:AdminController"],
         beego.ControllerComments{
             Method: "TemplateView",
-            Router: `/template/view/:id`,
+            Router: `/website/view/:id`,
             AllowHTTPMethods: []string{"get"},
-            MethodParams: param.Make(),
-            Filters: nil,
-            Params: nil})
-
-    beego.GlobalControllerRouter["metal/controllers:AdminController"] = append(beego.GlobalControllerRouter["metal/controllers:AdminController"],
-        beego.ControllerComments{
-            Method: "TemplateList",
-            Router: `/templates`,
-            AllowHTTPMethods: []string{"get"},
-            MethodParams: param.Make(),
-            Filters: nil,
-            Params: nil})
-
-    beego.GlobalControllerRouter["metal/controllers:AdminController"] = append(beego.GlobalControllerRouter["metal/controllers:AdminController"],
-        beego.ControllerComments{
-            Method: "UploadImg",
-            Router: `/uploadImg`,
-            AllowHTTPMethods: []string{"post"},
             MethodParams: param.Make(),
             Filters: nil,
             Params: nil})
@@ -263,6 +263,15 @@ func init() {
         beego.ControllerComments{
             Method: "GetAllUserGroup",
             Router: `/user-group/get-all-user-group`,
+            AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["metal/controllers:WebSiteController"] = append(beego.GlobalControllerRouter["metal/controllers:WebSiteController"],
+        beego.ControllerComments{
+            Method: "WidgetList",
+            Router: `/widget/list`,
             AllowHTTPMethods: []string{"get"},
             MethodParams: param.Make(),
             Filters: nil,
