@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html>
+
+<head>
+	<title>网站组件列表</title>
+	{{template "admin/html-head.html" .}}
+</head>
+<!--
+BODY TAG OPTIONS:
+=================
+Apply one or more of the following classes to get the
+desired effect
+|---------------------------------------------------------|
+| SKINS         | skin-blue                               |
+|               | skin-black                              |
+|               | skin-purple                             |
+|               | skin-yellow                             |
+|               | skin-red                                |
+|               | skin-green                              |
+|---------------------------------------------------------|
+|LAYOUT OPTIONS | fixed                                   |
+|               | layout-boxed                            |
+|               | layout-top-nav                          |
+|               | sidebar-collapse                        |
+|               | sidebar-mini                            |
+|---------------------------------------------------------|
+-->
+
+<body class="hold-transition skin-blue sidebar-mini">
+	<div class="wrapper">
+		<!-- Main Header -->
+		{{template "admin/html-header.html" .}}
+		<!-- Left side column. contains the logo and sidebar -->
+		{{template "admin/html-aside.html" .}}
+
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<h1>
+					Data Tables
+					<small>advanced tables</small>
+				</h1>
+				<ol class="breadcrumb">
+					<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+					<li><a href="#">Tables</a></li>
+					<li class="active">Data tables</li>
+				</ol>
+			</section>
+
+			<!-- Main content -->
+			<section class="content">
+				<div class="row">
+					<div class="col-md-12">
+					  <div class="box box-solid">
+						<div class="box-header with-border">
+						  <i class="fa fa-text-width"></i>
+						  <h3 class="box-title">Headlines</h3>
+						</div>
+						<!-- /.box-header -->
+						<div class="box-body">
+						  <h1>h1. Bootstrap heading</h1>
+			
+						  <h2>h2. Bootstrap heading</h2>
+			
+						  <h3>h3. Bootstrap heading</h3>
+						  <h4>h4. Bootstrap heading</h4>
+						  <h5>h5. Bootstrap heading</h5>
+						  <h6>h6. Bootstrap heading</h6>
+						</div>
+						<!-- /.box-body -->
+					  </div>
+					  <!-- /.box -->
+					</div>
+					<!-- ./col -->
+				  </div>
+				<!-- /.row -->
+			</section>
+			<!-- /.content -->
+		</div>
+		<!-- /.content-wrapper -->
+
+		<!-- Main Footer -->
+		<footer class="main-footer">
+			<!-- To the right -->
+			<div class="pull-right hidden-xs">
+				Anything you want
+			</div>
+			<!-- Default to the left -->
+			<strong>Copyright &copy; 2016 <a href="#">Company</a>.</strong> All rights reserved.
+		</footer>
+
+		<!-- Control Sidebar -->
+		{{template "admin/html-control-sidebar.html"}}
+		<!-- /.Control-sidebar -->
+	</div>
+	<!-- ./wrapper -->
+
+	<!-- 弹窗内容-->
+	<div class="modal fade" id="modal-default">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">添加网站</h4>
+				</div>
+				<div class="modal-body">
+					<form role="form">
+						<div class="box-body">
+							<div class="form-group">
+								<label for="name">网站名称</label>
+								<input type="text" class="form-control" id="name" placeholder="name" autocomplete="off">
+							</div>
+							<div class="form-group">
+								<label for="category">分类</label>
+								<input type="text" class="form-control" id="category" placeholder="category"
+									autocomplete="off">
+							</div>
+							<div class="form-group">
+								<label for="url">url</label>
+								<input type="text" class="form-control" id="url" placeholder="url"
+									autocomplete="off">
+							</div>
+						</div>
+						<!-- /.box-body -->
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary h-save">Save</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+	<!-- /弹窗内容-->
+
+	<!-- REQUIRED JS SCRIPTS -->
+	{{template "admin/html-js.html"}}
+	<!-- /REQUIRED JS SCRIPTS -->
+
+	<!-- page script -->
+	<script type="text/javascript">
+		$(function () {
+			//列表
+			var dataList = $('#dataList').DataTable({
+				language: {
+					processing: "数据加载中……",
+					zeroRecords: "No records to display"
+				},
+				paging: true,
+				lengthChange: false,
+				searching: true,
+				ordering: true,
+				info: true,
+				autoWidth: false,
+				serverSide: true,
+				processing: true,
+				ajax: function (data, callback, settings) {
+					var postData = {
+						draw: data.draw,
+						perPage: data.length,
+						start: data.start,
+						search: data.search.value
+					};
+					$.ajax({
+						url: '/admin/templates',
+						type: 'GET', //GET
+						data: postData,
+						timeout: 5000,    //超时时间
+						dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+						beforeSend: function (xhr) {
+							console.log('发送前')
+						},
+						success: function (res, textStatus, jqXHR) {
+							if (res.code == 1) {
+								layer.msg(res.msg, { icon: 5 });
+								return
+							}
+							var dtData = {
+								recordsTotal: res.data.total,
+								recordsFiltered: res.data.total,
+								data: res.data.result,
+								draw: res.data.draw
+							};
+							callback(dtData);
+						},
+						error: function (xhr, textStatus) {
+							console.log('错误')
+						},
+						complete: function () {
+							console.log('结束')
+						}
+					})
+				},
+				rowId: 'id',//自动设置行id
+				columns: [
+					{ data: 'id' },
+					{ data: 'name' },
+					{ data: 'category' },
+					{ data: 'status' },
+					{
+						data: 'created_at',
+						render: function (data, type, row) {
+							return moment(data).format("YYYY-MM-DD HH:mm:ss");
+						}
+					},
+					{
+						data: 'updated_at',
+						render: function (data, type, row) {
+							return moment(data).format("YYYY-MM-DD HH:mm:ss");
+						}
+					},
+					{
+						data: 'name',
+						render: function (data, type, row) {
+							var html = '<a class="" href="/admin/template/view/' + row.id + '">查看</a>';
+							html += '&nbsp;<a class="J-delete" href="/admin/template/' + row.id + '">删除</a>';
+							return html;
+						}
+					}
+				],
+				"createdRow": function (row, data, dataIndex) {
+					//有了DT_RowId属性就会自动添加id到行上,不需要在此操作，可以做其他事
+					$(row).data("userName", data.userName);
+				}
+			});
+			//删除
+			$("#dataList").on("click", ".J-delete", function () {
+				var id = $(this).closest("tr").attr("id");
+				if (confirm("确定删除？")) {
+					$.ajax({
+						url: '/admin/templates/delete',
+						type: 'post', //GET
+						async: true,    //或false,是否异步
+						data: {
+							userId: id
+						},
+						timeout: 5000,    //超时时间
+						dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+						beforeSend: function (xhr) {
+							console.log('发送前')
+						},
+						success: function (data, textStatus, jqXHR) {
+							if (data.code == 1) {
+								layer.msg(data.msg, { icon: 5 });
+								return
+							}
+							layer.msg("删除成功！", { icon: 6 });
+							location.reload();
+						},
+						error: function (xhr, textStatus) {
+							console.log('错误')
+						},
+						complete: function () {
+							console.log('结束')
+						}
+					})
+				}
+			});
+			//保存
+			$(".h-save").on("click", function () {
+				var name = $("#name").val();
+				var category = $("#category").val();
+				var url = $("#url").val();
+				$.ajax({
+					url: '/admin/template/add',
+					type: 'post', //GET
+					async: true,    //或false,是否异步
+					data: {
+						name: name,
+						category: category,
+						url: url
+					},
+					timeout: 5000,    //超时时间
+					dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+					beforeSend: function (xhr) {
+						console.log('发送前')
+					},
+					success: function (data, textStatus, jqXHR) {
+						if (data.code == 1) {
+							layer.msg(data.msg, { icon: 5 });
+							return
+						}
+						layer.msg("添加成功！", { icon: 6 });
+						$(".pull-left").trigger("click");
+						dataList.ajax.reload();
+					},
+					error: function (xhr, textStatus) {
+						console.log('错误')
+					},
+					complete: function () {
+						console.log('结束')
+					}
+				})
+			});
+		})
+	</script>
+</body>
+
+</html>

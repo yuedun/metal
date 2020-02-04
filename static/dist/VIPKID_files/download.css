@@ -1,0 +1,665 @@
+
+.download-introduce {
+	position: relative
+}
+
+.download-introduce #focus-banner {
+	position: relative;
+	width: 100%;
+	line-height: 0;
+	padding: 0;
+	clear: both;
+	overflow: hidden
+}
+
+.download-introduce #focus-banner #focus-banner-list {
+	position: relative;
+	height: 520px
+}
+
+.download-introduce #focus-banner #focus-banner-list li {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 520px;
+	opacity: 0;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+	filter: alpha(opacity=0)
+}
+
+.download-introduce #focus-banner #focus-banner-list li.bannerbox1 {
+	background-color: #ff6422
+}
+
+.download-introduce #focus-banner #focus-banner-list li.bannerbox2 {
+	background-color: #5d3195
+}
+
+.download-introduce #focus-banner #focus-banner-list li:first-child {
+	opacity: 1;
+	-ms-filter: none;
+	filter: none
+}
+
+.download-introduce #focus-banner #focus-banner-list li.hidebanner {
+	opacity: 0;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+	filter: alpha(opacity=0);
+	display: none
+}
+
+.download-introduce #focus-banner #focus-banner-list li.showbanner {
+	display: block;
+	opacity: 1;
+	-ms-filter: none;
+	filter: none
+}
+
+.download-introduce #focus-banner #focus-banner-list li.showbannerAnimation {
+	display: block;
+	-webkit-animation: showIn .5s linear 1 forwards;
+	-moz-animation: showIn .5s linear 1 forwards;
+	-o-animation: showIn .5s linear 1 forwards;
+	-ms-animation: showIn .5s linear 1 forwards;
+	animation: showIn .5s linear 1 forwards
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-img {
+	height: 100%;
+	margin: 0 auto
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content {
+	position: absolute;
+	top: 0;
+	left: 50%;
+	width: 980px;
+	height: 100%;
+	margin-left: -450px
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content.banner-content-mac {
+	margin-left: -373px
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-shouji {
+	float: left;
+	position: relative;
+	width: 360px;
+	height: 100%
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-shouji img.banner-one {
+	position: absolute;
+	width: 360px;
+	height: 460px;
+	right: 0;
+	bottom: 0
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-shouji img.banner-two {
+	position: absolute;
+	width: 467px;
+	height: 265px;
+	right: 0;
+	bottom: 135px
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text {
+	float: left;
+	position: relative;
+	text-align: left;
+	width: 450px;
+	height: 100%
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text .vipkid-family {
+	position: absolute;
+	width: 100%;
+	top: 140px;
+	left: 45px
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text .vipkid-family.vipkid-two-banner {
+	top: 115px
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text .vipkid-family .download-aHref {
+	position: relative;
+	display: inline-block;
+	width: 200px;
+	height: 52px;
+	line-height: 48px;
+	padding-left: 83px;
+	border: 2px solid #fff;
+	border-radius: 50px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text .vipkid-family .download-aHref img.deep-imgs,.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text .vipkid-family .download-aHref img.orange-imgs {
+	display: none
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text .vipkid-family .download-aHref.iphone-download {
+	margin-bottom: 24px
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text .vipkid-family .download-aHref.iphone-download:hover {
+	background-color: #fff;
+	color: #f85415
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text .vipkid-family .download-aHref.iphone-download:hover .iphone-small-dl {
+	display: none
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text .vipkid-family .download-aHref.iphone-download:hover .apple-orange-img {
+	display: block
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text .vipkid-family .download-aHref.android-download {
+	margin-left: 18px
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text .vipkid-family .download-aHref.android-download:hover {
+	background-color: #fff;
+	color: #f85415
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text .vipkid-family .download-aHref.android-download:hover .android-small-dl {
+	display: none
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text .vipkid-family .download-aHref.android-download:hover .android-orange-img {
+	display: block
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text .vipkid-family .download-aHref.ipad-dl {
+	display: inline-block;
+	margin-right: 18px;
+	margin-bottom: 23px
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text .vipkid-family .download-aHref.ipad-dl:hover {
+	background-color: #fff;
+	color: #5d3195
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text .vipkid-family .download-aHref.ipad-dl:hover .ipd-small-dl {
+	display: none
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text .vipkid-family .download-aHref.ipad-dl:hover .ipad-deep-img {
+	display: block
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text .vipkid-family .download-aHref.android-dl {
+	display: inline-block;
+	margin-right: 18px;
+	padding-left: 55px;
+	margin-bottom: 23px
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text .vipkid-family .download-aHref.android-dl:hover {
+	background-color: #fff;
+	color: #5d3195
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text .vipkid-family .download-aHref.android-dl:hover .android-small-dl {
+	display: none
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text .vipkid-family .download-aHref.android-dl:hover .android-deep-img {
+	display: block
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text .vipkid-family .download-aHref.mac-dl {
+	display: inline-block;
+	margin-right: 18px;
+	margin-bottom: 23px
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text .vipkid-family .download-aHref.mac-dl:hover {
+	background-color: #fff;
+	color: #5d3195
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text .vipkid-family .download-aHref.mac-dl:hover .mac-small-dl {
+	display: none
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text .vipkid-family .download-aHref.mac-dl:hover .mac-deep-img {
+	display: block
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text .vipkid-family .download-aHref.windows-dl {
+	display: inline-block;
+	padding-left: 67px;
+	margin-right: 18px;
+	margin-bottom: 23px
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text .vipkid-family .download-aHref.windows-dl:hover {
+	background-color: #fff;
+	color: #5d3195
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text .vipkid-family .download-aHref.windows-dl:hover .windows-small-dl {
+	display: none
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text .vipkid-family .download-aHref.windows-dl:hover .window-deep-img {
+	display: block
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text .vipkid-family .download-aHref .all-small-img {
+	position: absolute;
+	top: 11px;
+	left: 46px;
+	width: 26px;
+	height: 26px
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text .vipkid-family .download-aHref .android-small-dl {
+	position: absolute;
+	top: 11px;
+	left: 19px;
+	width: 26px;
+	height: 26px
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text .vipkid-family .download-aHref .windows-small-dl {
+	position: absolute;
+	top: 11px;
+	left: 30px;
+	width: 26px;
+	height: 26px
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text .vipkid-family h2 {
+	font-size: 48px;
+	font-weight: 400;
+	color: #fff;
+	line-height: 62px
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text .vipkid-family h2 span {
+	font-size: 20px;
+	margin-left: 10px
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text .vipkid-family p.more {
+	display: inline-block;
+	margin: 5px 0;
+	font-size: 18px;
+	font-weight: 400;
+	color: #fff;
+	line-height: 28px;
+	margin-right: 10px
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text .vipkid-family p.desc {
+	display: inline-block;
+	margin: 5px 0;
+	font-size: 18px;
+	font-weight: 400;
+	color: #fff;
+	line-height: 28px;
+	cursor: pointer
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text .vipkid-family p.deschover .ahovers {
+	font-size: 14px;
+	color: #ffc618
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text .vipkid-family p.deschover .ahovers:hover {
+	color: #ffe185;
+	text-decoration: underline
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text .vipkid-family p.matters {
+	height: 17px;
+	line-height: 17px;
+	font-size: 12px;
+	color: #f5f4f8;
+	white-space: nowrap;
+	-o-text-overflow: ellipsis;
+	text-overflow: ellipsis;
+	overflow: hidden
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text .vipkid-family p.matters1 {
+	margin-bottom: 24px;
+	height: 17px;
+	line-height: 17px;
+	font-size: 12px;
+	color: #f5f4f8
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text .vipkid-family p.matter {
+	text-indent: 24px
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text .vipkid-family .qr-code .code-img {
+	width: 100px;
+	display: inline-block
+}
+
+.download-introduce #focus-banner #focus-banner-list li .banner-content .banner-text .vipkid-family .qr-code .code-content {
+	color: #fff;
+	font-size: 14px;
+	line-height: 30px;
+	padding-left: 20px;
+	padding-top: 47px
+}
+
+.download-introduce #focus-banner ul#focus-bubble {
+	position: absolute;
+	width: 100%;
+	bottom: 20px;
+	z-index: 80;
+	text-align: center
+}
+
+.download-introduce #focus-banner ul#focus-bubble li {
+	display: inline-block;
+	padding: 10px 0;
+	cursor: pointer
+}
+
+.download-introduce #focus-banner ul#focus-bubble li span {
+	display: block;
+	width: 30px;
+	height: 5px;
+	margin: 0 4px;
+	background-color: rgba(0,0,0,.2)
+}
+
+.download-introduce #focus-banner ul#focus-bubble li.current span {
+	background-color: #fff
+}
+
+@-moz-keyframes showIn {
+	0% {
+		opacity: 0;
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+		filter: alpha(opacity=0)
+	}
+
+	to {
+		opacity: 1;
+		-ms-filter: none;
+		filter: none
+	}
+}
+
+@-webkit-keyframes showIn {
+	0% {
+		opacity: 0;
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+		filter: alpha(opacity=0)
+	}
+
+	to {
+		opacity: 1;
+		-ms-filter: none;
+		filter: none
+	}
+}
+
+@-o-keyframes showIn {
+	0% {
+		opacity: 0;
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+		filter: alpha(opacity=0)
+	}
+
+	to {
+		opacity: 1;
+		-ms-filter: none;
+		filter: none
+	}
+}
+
+@keyframes showIn {
+	0% {
+		opacity: 0;
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+		filter: alpha(opacity=0)
+	}
+
+	to {
+		opacity: 1;
+		-ms-filter: none;
+		filter: none
+	}
+}
+
+.downloadcenter-info {
+	padding-bottom: 40px
+}
+
+.downloadcenter-info .recommend .product-list {
+	padding: 85px 15px 0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box
+}
+
+.downloadcenter-info .recommend .product-list li {
+	padding: 0 15px 30px
+}
+
+.downloadcenter-info .recommend .product-list li .qrcode {
+	padding: 30px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	-webkit-transition: all .2s ease;
+	-moz-transition: all .2s ease;
+	-o-transition: all .2s ease;
+	-ms-transition: all .2s ease;
+	transition: all .2s ease
+}
+
+.downloadcenter-info .recommend .product-list li .qrcode:hover {
+	-webkit-transform: translate3d(0,-4px,0);
+	-moz-transform: translate3d(0,-4px,0);
+	-o-transform: translate3d(0,-4px,0);
+	-ms-transform: translate3d(0,-4px,0);
+	transform: translate3d(0,-4px,0);
+	-webkit-box-shadow: 0 10px 15px 0 rgba(0,0,0,.06),0 15px 40px 0 rgba(0,0,0,.12);
+	box-shadow: 0 10px 15px 0 rgba(0,0,0,.06),0 15px 40px 0 rgba(0,0,0,.12);
+	background: #fff;
+	border-radius: 4px
+}
+
+.downloadcenter-info .recommend .product-list li .qrcode .qrcode-img {
+	float: left;
+	width: 38%;
+	text-align: center;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box
+}
+
+.downloadcenter-info .recommend .product-list li .qrcode .qrcode-img.product-qrcode-img {
+	position: relative
+}
+
+.downloadcenter-info .recommend .product-list li .qrcode .qrcode-img img {
+	display: inline-block;
+	width: 150px
+}
+
+.downloadcenter-info .recommend .product-list li .qrcode .qrcode-img p {
+	position: absolute;
+	width: 100px;
+	bottom: -50px;
+	left: 50%;
+	font-size: 12px;
+	margin-left: -50px;
+	padding: 10px 0;
+	color: #999;
+	font-weight: 400;
+	line-height: 24px
+}
+
+.downloadcenter-info .recommend .product-list li .qrcode .qrcode-desc {
+	float: left;
+	width: 62%;
+	padding-left: 20px;
+	padding-bottom: 6px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	overflow: hidden
+}
+
+.downloadcenter-info .recommend .product-list li .qrcode .qrcode-desc h3 {
+	line-height: 30px;
+	padding-bottom: 10px;
+	color: #333;
+	font-size: 24px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box
+}
+
+.downloadcenter-info .recommend .product-list li .qrcode .qrcode-desc p {
+	height: 140px;
+	line-height: 1.6;
+	font-size: 14px;
+	color: #999;
+	word-wrap: break-word;
+	word-break: break-all;
+	overflow: hidden
+}
+
+.downloadcenter-info .recommend-software .product-list {
+	padding: 85px 15px 0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box
+}
+
+.downloadcenter-info .recommend-software .product-list li .qrcode {
+	padding: 30px 30px 18px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	-webkit-transition: all .2s ease;
+	-moz-transition: all .2s ease;
+	-o-transition: all .2s ease;
+	-ms-transition: all .2s ease;
+	transition: all .2s ease
+}
+
+.downloadcenter-info .recommend-software .product-list li .qrcode:hover {
+	-webkit-transform: translate3d(0,-4px,0);
+	-moz-transform: translate3d(0,-4px,0);
+	-o-transform: translate3d(0,-4px,0);
+	-ms-transform: translate3d(0,-4px,0);
+	transform: translate3d(0,-4px,0);
+	-webkit-box-shadow: 0 10px 15px 0 rgba(0,0,0,.06),0 15px 40px 0 rgba(0,0,0,.12);
+	box-shadow: 0 10px 15px 0 rgba(0,0,0,.06),0 15px 40px 0 rgba(0,0,0,.12);
+	background: #fff;
+	border-radius: 4px
+}
+
+.downloadcenter-info .recommend-software .product-list li .qrcode .qrcode-img {
+	float: left;
+	width: 26%;
+	text-align: center;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box
+}
+
+.downloadcenter-info .recommend-software .product-list li .qrcode .qrcode-img.product-qrcode-img {
+	position: relative
+}
+
+.downloadcenter-info .recommend-software .product-list li .qrcode .qrcode-img img {
+	display: inline-block;
+	width: 94px
+}
+
+.downloadcenter-info .recommend-software .product-list li .qrcode .qrcode-img p {
+	position: absolute;
+	width: 100px;
+	bottom: -50px;
+	left: 50%;
+	font-size: 12px;
+	margin-left: -50px;
+	padding: 10px 0;
+	color: #999;
+	font-weight: 400;
+	line-height: 24px
+}
+
+.downloadcenter-info .recommend-software .product-list li .qrcode .qrcode-desc {
+	float: left;
+	width: 74%;
+	padding-left: 20px;
+	padding-bottom: 15px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	overflow: hidden
+}
+
+.downloadcenter-info .recommend-software .product-list li .qrcode .qrcode-desc h3 {
+	line-height: 30px;
+	padding-bottom: 10px;
+	color: #333;
+	font-size: 24px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box
+}
+
+.downloadcenter-info .recommend-software .product-list li .qrcode .qrcode-desc p {
+	height: 70px;
+	line-height: 1.6;
+	font-size: 14px;
+	color: #999;
+	word-wrap: break-word;
+	word-break: break-all;
+	overflow: hidden
+}
+
+.downloadcenter-info .recommend-software .product-list li .qrcode .btn-download {
+	margin-left: 26%;
+	padding-left: 20px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box
+}
+
+.downloadcenter-info .recommend-software .product-list li .qrcode .btn-download a {
+	display: inline-block;
+	margin-bottom: 12px;
+	width: 180px;
+	height: 48px;
+	line-height: 46px;
+	text-align: center;
+	color: #f85415;
+	font-size: 18px;
+	font-weight: 400;
+	outline: none;
+	border-radius: 26px;
+	border: 1px solid #ff6422;
+	cursor: pointer
+}
+
+.downloadcenter-info .recommend-software .product-list li .qrcode .btn-download a:hover {
+	color: #fff;
+	-webkit-box-shadow: 0 0 10px 0 rgba(255,103,26,.3),0 5px 10px 0 rgba(255,103,26,.6);
+	box-shadow: 0 0 10px 0 rgba(255,103,26,.3),0 5px 10px 0 rgba(255,103,26,.6);
+	background: #ff6422
+}

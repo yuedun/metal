@@ -461,68 +461,7 @@ func (c *AdminController) UploadImg() {
 		c.ServeJSON()
 	}
 }
-
-// 模板网站
-//@router /template-route [get]
-func (c *AdminController) TemplatesRoute() {
-	c.TplName = "admin/template-list.html"
-}
-
-//@router /template/add [post]
-func (c *AdminController) CreateTemplate() {
-	name := c.GetString("name")
-	category := c.GetString("category")
-	url := c.GetString("url")
-	template := new(Template)
-	template.Name = name
-	template.Category = category
-	template.Url = url
-	template.Save()
-	c.Data["json"] = SuccessData(nil)
-	c.ServeJSON()
-}
-
-//@router /templates [get]
-func (c *AdminController) TemplateList() {
-	args := c.GetString("search") // 获取所有参数
-	start, _ := c.GetInt("start")
-	perPage, _ := c.GetInt("perPage")
-	template := new(Template)
-	param := map[string]string{
-		"status": "1,0",
-		"name":   args,
-	}
-
-	list, total, err := template.GetListByCondition(param, start, perPage)
-	if nil != err {
-		logs.Error(err)
-		c.Data["json"] = ErrorData(err)
-	} else {
-		data := map[string]any{
-			"result": list,
-			"total":  total,
-		}
-		c.Data["json"] = SuccessData(data)
-	}
-	c.ServeJSON()
-}
-
-//@router /template/view/:id [get]
-func (c *AdminController) TemplateView() {
-	tid := c.Ctx.Input.Param(":id")
-	id, _ := strconv.Atoi(tid)
-	template := new(Template)
-	template.Id = uint(id)
-	err := template.GetById()
-	if nil != err {
-		logs.Error(err)
-		c.Data["json"] = ErrorData(err)
-	} else {
-		c.Redirect("/"+template.Url, 302)
-		// c.Redirect("/admin/login", 302)
-	}
-}
-
+// 通讯录
 //@router /pname/view [get]
 func (c *AdminController) PNameView() {
 	c.TplName = "admin/pname.html"

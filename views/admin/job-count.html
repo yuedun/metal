@@ -8,6 +8,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
     <title>报表</title>
     {{template "admin/html-head.html" .}}
+    <!-- Morris chart -->
+    <link rel="stylesheet" href="../../static/bower_components/morris.js/morris.css">
 </head>
 <!--
 BODY TAG OPTIONS:
@@ -130,7 +132,6 @@ desired effect
     <!-- Morris.js charts -->
     <script src="../../static/bower_components/raphael/raphael.min.js"></script>
     <script src="../../static/bower_components/morris.js/morris.min.js"></script>
-    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script>
         $(function () {
             //最近一个月走势
