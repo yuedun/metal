@@ -164,7 +164,6 @@ func (c *AdminController) TemplateList() {
 		"status": "1,0",
 		"name":   args,
 	}
-
 	list, total, err := website.GetListByCondition(param, start, perPage)
 	if nil != err {
 		logs.Error(err)

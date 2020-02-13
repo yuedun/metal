@@ -68,7 +68,7 @@ func (c *PortalController) Get() {
 			artList[index].Content = beego.Substr(re.ReplaceAllString(htmlStr, ""), 0, 300)
 			artList[index].Img = string(reimg.Find([]byte(htmlStr)))
 			artList[index].Status = art.Status
-			artList[index].CreatedAt = art.CreatedAt
+			artList[index].UpdatedAt = art.UpdatedAt.Format("2006-01-02 15:04")
 		}
 		c.Data["articleList"] = artList
 		c.Data["total"] = total
