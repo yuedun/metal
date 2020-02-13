@@ -33,9 +33,7 @@ type Result struct {
 	Msg  string      `json:"msg"`
 }
 
-/**
-返回错误信息，code是可选的自定义代码
-*/
+// 返回错误信息，code是可选的自定义代码
 func ErrorMsg(msg string, code ...int) Result {
 	var r Result
 	if len(code) > 0 {

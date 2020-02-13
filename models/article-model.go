@@ -17,6 +17,7 @@ type Article struct {
 type ArticlePortal struct {
 	Article
 	Img string
+	UpdatedAt string
 }
 
 func init() {
@@ -84,9 +85,9 @@ func (model *Article) Delete() (int64, error) {
 	return id, err
 }
 
-func (model *Article) GetCategory() ([]Article, error) {
+func (model *Article) GetCategory() ([]ArticlePortal, error) {
 	o := orm.NewOrm()
-	titles := make([]Article, 1)
-	_, err := o.Raw("SELECT id, title, updated_at FROM article WHERE status = 1 ORDER BY id DESC;").QueryRows(&titles)
+	titles := make([]ArticlePortal, 1)
+	_, err := o.Raw("SELECT id, title, DATE_FORMAT(updated_at,'%Y-%m-%d %H:%i') as updated_at FROM article WHERE status = 1 ORDER BY id DESC;").QueryRows(&titles)
 	return titles, err
 }

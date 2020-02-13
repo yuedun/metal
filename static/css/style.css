@@ -74,9 +74,15 @@ article section {
 }
 
 article section h1{
+    font-size: 24px;
+    display: inline;
+}
+article section .title-header{
     text-align: center;
-    font-size: 20px;
-    margin-bottom: 20px;
+}
+.title-header span{
+    font-size: small;
+    color: #6e7373;
 }
 /*分页*/
 .pagination{text-align: center; margin-top: 40px; margin-bottom: 25px;}
