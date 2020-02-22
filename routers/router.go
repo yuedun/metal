@@ -58,7 +58,6 @@ func init() {
 			&controllers.GroupController{},
 			&controllers.AdminController{},
 			&controllers.JobCountController{},
-			&controllers.WebSiteController{},
 		),
 	)
 	//注册namespace
