@@ -106,42 +106,6 @@ func init() {
             Filters: nil,
             Params: nil})
 
-    beego.GlobalControllerRouter["metal/controllers:AdminController"] = append(beego.GlobalControllerRouter["metal/controllers:AdminController"],
-        beego.ControllerComments{
-            Method: "TemplateList",
-            Router: `/website`,
-            AllowHTTPMethods: []string{"get"},
-            MethodParams: param.Make(),
-            Filters: nil,
-            Params: nil})
-
-    beego.GlobalControllerRouter["metal/controllers:AdminController"] = append(beego.GlobalControllerRouter["metal/controllers:AdminController"],
-        beego.ControllerComments{
-            Method: "TemplatesRoute",
-            Router: `/website-route`,
-            AllowHTTPMethods: []string{"get"},
-            MethodParams: param.Make(),
-            Filters: nil,
-            Params: nil})
-
-    beego.GlobalControllerRouter["metal/controllers:AdminController"] = append(beego.GlobalControllerRouter["metal/controllers:AdminController"],
-        beego.ControllerComments{
-            Method: "CreateTemplate",
-            Router: `/website/add`,
-            AllowHTTPMethods: []string{"post"},
-            MethodParams: param.Make(),
-            Filters: nil,
-            Params: nil})
-
-    beego.GlobalControllerRouter["metal/controllers:AdminController"] = append(beego.GlobalControllerRouter["metal/controllers:AdminController"],
-        beego.ControllerComments{
-            Method: "TemplateView",
-            Router: `/website/view/:id`,
-            AllowHTTPMethods: []string{"get"},
-            MethodParams: param.Make(),
-            Filters: nil,
-            Params: nil})
-
     beego.GlobalControllerRouter["metal/controllers:GroupController"] = append(beego.GlobalControllerRouter["metal/controllers:GroupController"],
         beego.ControllerComments{
             Method: "GetUserRoles",
@@ -263,15 +227,6 @@ func init() {
         beego.ControllerComments{
             Method: "GetAllUserGroup",
             Router: `/user-group/get-all-user-group`,
-            AllowHTTPMethods: []string{"get"},
-            MethodParams: param.Make(),
-            Filters: nil,
-            Params: nil})
-
-    beego.GlobalControllerRouter["metal/controllers:WebSiteController"] = append(beego.GlobalControllerRouter["metal/controllers:WebSiteController"],
-        beego.ControllerComments{
-            Method: "WidgetList",
-            Router: `/widget/list`,
             AllowHTTPMethods: []string{"get"},
             MethodParams: param.Make(),
             Filters: nil,

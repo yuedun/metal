@@ -9,7 +9,6 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
 	"io/ioutil"
-	"log"
 	"net/http"
 )
 
@@ -21,8 +20,8 @@ func GetMD5(password string) string {
 	Md5Inst.Write([]byte(password))
 	Result := Md5Inst.Sum(nil)
 	// 以下两种输出结果一样
-	log.Printf("格式化>>>>>>>%x\n", Result)
-	log.Print("hex解码>>>>>>>", hex.EncodeToString(Result), "\n")
+	logs.Debug("格式化>>>>>>>%x\n", Result)
+	logs.Debug("hex解码>>>>>>>", hex.EncodeToString(Result), "\n")
 	return fmt.Sprintf("%x", Result)
 }
 
