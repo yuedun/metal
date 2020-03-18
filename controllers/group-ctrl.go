@@ -9,6 +9,7 @@ import (
 	"strconv"
 	"time"
 )
+
 // GroupController 用户权限管理
 type GroupController struct {
 	AdminBaseController
@@ -27,8 +28,8 @@ func (c *GroupController) AddUserRole() {
 		UserId uint
 		Roles  []uint
 	}
-	err:=json.Unmarshal(c.Ctx.Input.RequestBody, &args)
-	if err!=nil {
+	err := json.Unmarshal(c.Ctx.Input.RequestBody, &args)
+	if err != nil {
 		panic(err)
 	}
 	logs.Info("参数：", args)

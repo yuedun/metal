@@ -6,13 +6,16 @@
   <link rel="stylesheet" href="/static/plugins/highlight/styles/dark.css" />
 </head>
 
-<body onload="load()">
+<body>
   <header>
     {{template "./layout-menu.html"}}
   </header>
   <article>
     <section>
-      <h1>{{.article.Title}}</h1>
+      <div class="title-header">
+        <h1 class="title-info">{{.article.Title}}</h1>
+        <span>（{{.article.UpdatedAt}}）</span>
+      </div>
       <div class="description">
         {{str2html .article.Content}}
       </div>

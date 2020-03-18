@@ -461,6 +461,7 @@ func (c *AdminController) UploadImg() {
 		c.ServeJSON()
 	}
 }
+
 // 通讯录
 //@router /pname/view [get]
 func (c *AdminController) PNameView() {

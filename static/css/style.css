@@ -73,12 +73,11 @@ article section {
     border-bottom: 1px solid #dae1e4;
 }
 
-article section h1{
-    font-size: 24px;
-    display: inline;
-}
 article section .title-header{
     text-align: center;
+    font-size: 24px;
+    /*line-height: 25px;*/
+    margin-bottom: 10px;
 }
 .title-header span{
     font-size: small;
@@ -106,6 +105,11 @@ article section .title-header{
     border-color:#999;
     background:#fff;
 }
+/*表格样式*/
+table, th, td {
+    border: 1px solid #572C82;
+}
+
 /* 中等屏幕（桌面显示器，平板电脑，大于等于 992px） */
 @media screen and (min-width: 768px) and (max-width: 992px) {
 

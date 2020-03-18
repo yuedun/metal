@@ -59,7 +59,7 @@ func init() {
 	logs.Async()
 
 	//设置生产环境日志输出级别，此处设置输出 信息级别，不输出debug日志
-	level, _:=beego.AppConfig.Int("logLevel")
+	level, _ := beego.AppConfig.Int("logLevel")
 	logs.SetLevel(level)
 	// level 日志保存的时候的级别，默认是 Trace 级别，level值越高，记录的日志范围越广
 	// filename 保存的文件名

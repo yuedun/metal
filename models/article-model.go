@@ -16,7 +16,7 @@ type Article struct {
 }
 type ArticlePortal struct {
 	Article
-	Img string
+	Img       string
 	UpdatedAt string
 }
 
