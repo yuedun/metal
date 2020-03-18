@@ -1,16 +1,10 @@
 #!/bin/bash
 
-echo 'building...'
-go build
-
-pid=`ps -ef|grep metal|grep -v grep|awk '{print $2}'`
-if [ -n "$pid" ]; then
-    echo "process id is: $pid"
-    kill $pid
-    echo 'process killed'
-else
-    echo "metal process id is not found!"
-fi
-
-pm2 ls
+rm metal
+echo "上传文件......"
+rz
+echo "文件执行权限"
+chmod u+x metal
+echo "重启服务"
+pm2 restart metal
 # pm2 startOrRestart pm2.json
