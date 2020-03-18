@@ -2,16 +2,13 @@ package controllers
 
 //包名并非必须和文件夹名相同，但是按照惯例最后一个路径名和包名一致
 import (
+	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
 	. "metal/models" // 点操作符导入的包可以省略包名直接使用公有属性和方法
+	"metal/util"
 	"reflect"
 	"regexp"
 	"strconv"
-	"time"
-
-	"github.com/astaxie/beego"
-	"github.com/microcosm-cc/bluemonday"
-	"github.com/russross/blackfriday"
 )
 
 type PortalController struct {
@@ -27,8 +24,8 @@ type PortalController struct {
 
 //预处理，会在下面每个路由执行前执行，可当做前置中间件使用
 func (this *PortalController) Prepare() {
-	val:= beego.AppConfig.String("runmode")
-	this.Data["env"] = val
+	val := beego.AppConfig.String("runmode")
+	this.Data["env"] = val // 用户百度统计设置，测服环境不需要统计
 	ctr, method := this.GetControllerAndAction()
 	logs.Debug(">>>>>>>>>>Prepare:package:%s, controller:%s, %s", reflect.TypeOf(PortalController{}).PkgPath(), ctr, method)
 }
@@ -62,7 +59,7 @@ func (c *PortalController) Get() {
 		for index, art := range articleList {
 			re := regexp.MustCompile("\\<[\\S\\s]+?\\>")                //html标签
 			reimg := regexp.MustCompile(`<img (\S*?)[^>]*>.*?|<.*? />`) //获取一张图片
-			htmlStr := md2html(art.Content)
+			htmlStr := util.Md2html(art.Content)
 			artList[index].Id = art.Id
 			artList[index].Title = art.Title
 			artList[index].Content = beego.Substr(re.ReplaceAllString(htmlStr, ""), 0, 300)
@@ -93,47 +90,13 @@ func (c *PortalController) Article() {
 		if err != nil {
 			logs.Error(err)
 		}
-		article.Content = md2html(article.Content)
-		c.Data["article"] = article
+		articlePortal := ArticlePortal{}
+		articlePortal.Title = article.Title
+		articlePortal.Content = util.Md2html(article.Content)
+		articlePortal.UpdatedAt = article.UpdatedAt.Format("2006-01-02 15:04")
+		c.Data["article"] = articlePortal
 		c.TplName = "article.html"
 	}
-}
-
-// @router /test [get]
-func (c *PortalController) MyRoute() {
-	c.Data["content"] = "这是一个自定义控制器"
-	user := &User{}
-	userList, err := user.GetAll()
-	if nil != err {
-		logs.Error(err)
-		c.Data["json"] = map[string]any{"msg": err}
-		c.ServeJSON()
-	}
-	c.Data["userList"] = userList
-	c.TplName = "myroute.html" //其他数据相关的可以写到if块中，本行最好不要
-
-}
-
-// @router /user [post]
-func (c *PortalController) AddUser() {
-	username := c.GetString("username")
-	password := c.GetString("password")
-
-	var user = new(User)
-	user.UserName = username
-	user.Password = password
-	user.CreatedAt = time.Now()
-	user.UpdatedAt = time.Now()
-
-	_, err := user.Save()
-	if nil != err {
-		logs.Error(err)
-		c.Data["json"] = map[string]any{"msg": err}
-		c.ServeJSON()
-	}
-	userList, err := user.GetAll()
-	c.Data["userList"] = userList
-	c.TplName = "myroute.html" //其他数据相关的可以写到if块中，本行最好不要
 }
 
 // @route /getUserByName [get]
@@ -165,18 +128,4 @@ func (c *PortalController) Category() {
 // @router /about [get]
 func (c *PortalController) About() {
 	c.TplName = "about.html"
-}
-
-// @router /vipkid [get]
-func (c *PortalController) Vipkid() {
-	c.TplName = "vipkid.html"
-}
-
-// markdown转html
-func md2html(in string) string {
-	input := []byte(in)
-	unsafe := blackfriday.Run(input, blackfriday.WithExtensions(blackfriday.CommonExtensions)) //支持表格，代码
-	htmlBytes := bluemonday.UGCPolicy().SanitizeBytes(unsafe)
-	html := string(htmlBytes)
-	return html
 }

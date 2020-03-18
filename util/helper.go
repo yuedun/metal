@@ -8,6 +8,8 @@ import (
 	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
+	"github.com/microcosm-cc/bluemonday"
+	"github.com/russross/blackfriday"
 	"io/ioutil"
 	"net/http"
 )
@@ -93,4 +95,13 @@ func GetIpGeography(ip string, objBody *IPBody) error {
 		json.Unmarshal(bodyByte, &objBody)
 		return nil
 	}
+}
+
+// markdown转html
+func Md2html(in string) string {
+	input := []byte(in)
+	unsafe := blackfriday.Run(input, blackfriday.WithExtensions(blackfriday.CommonExtensions)) //支持表格，代码
+	htmlBytes := bluemonday.UGCPolicy().SanitizeBytes(unsafe)
+	html := string(htmlBytes)
+	return html
 }

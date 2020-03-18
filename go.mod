@@ -5,10 +5,8 @@ go 1.13
 require (
 	github.com/PuerkitoBio/goquery v1.5.0
 	github.com/astaxie/beego v1.12.0
-	github.com/belogik/goes v0.0.0-20151229125003-e54d722c3aff // indirect
 	github.com/go-redis/redis v6.15.2+incompatible
 	github.com/go-sql-driver/mysql v1.4.1
-	github.com/jung-kurt/gofpdf v1.16.2 // indirect
 	github.com/microcosm-cc/bluemonday v1.0.2
 	github.com/onsi/ginkgo v1.10.2 // indirect
 	github.com/onsi/gomega v1.7.0 // indirect
