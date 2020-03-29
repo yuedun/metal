@@ -107,8 +107,33 @@ article section .title-header{
     background:#fff;
 }
 /*表格样式*/
-table, th, td {
-    border: 1px solid #572C82;
+table {
+    display: block;
+    width: 100%;
+    overflow: auto;
+    word-break: normal;
+    word-break: keep-all;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+table th {
+    font-weight: bold;
+}
+
+table th,
+table td {
+    padding: 6px 13px;
+    border: 1px solid #ddd;
+}
+
+table tr {
+    background-color: #fff;
+    border-top: 1px solid #ccc;
+}
+
+table tr:nth-child(2n) {
+    background-color: #f8f8f8;
 }
 
 /* 中等屏幕（桌面显示器，平板电脑，大于等于 992px） */
