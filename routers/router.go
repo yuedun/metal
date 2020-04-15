@@ -52,6 +52,7 @@ func init() {
 		beego.NSRouter("/picture-list-route", &controllers.PictureController{}, "get:ListPictureRoute"),
 		beego.NSRouter("/picture-list", &controllers.PictureController{}, "get:ListPicture"),
 		beego.NSRouter("/picture-delete", &controllers.PictureController{}, "delete,post:DeletePicture"),
+		beego.NSRouter("/system-info", &controllers.SystemController{}, "get:SystemInfo"),
 
 		//也可以使用注解自动路由
 		beego.NSInclude(

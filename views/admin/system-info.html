@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html>
+
+<head>
+    <title>系统信息</title>
+    {{template "admin/html-head.html"}}
+</head>
+<!--
+BODY TAG OPTIONS:
+=================
+Apply one or more of the following classes to get the
+desired effect
+|---------------------------------------------------------|
+| SKINS         | skin-blue                               |
+|               | skin-black                              |
+|               | skin-purple                             |
+|               | skin-yellow                             |
+|               | skin-red                                |
+|               | skin-green                              |
+|---------------------------------------------------------|
+|LAYOUT OPTIONS | fixed                                   |
+|               | layout-boxed                            |
+|               | layout-top-nav                          |
+|               | sidebar-collapse                        |
+|               | sidebar-mini                            |
+|---------------------------------------------------------|
+-->
+
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+
+        <!-- Main Header -->
+        {{template "admin/html-header.html"}}
+        <!-- Left side column. contains the logo and sidebar -->
+        {{template "admin/html-aside.html"}}
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    系统细心
+                    <small>Preview</small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li><a href="#">Forms</a></li>
+                    <li class="active">General Elements</li>
+                </ol>
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="row">
+                    <!-- left column -->
+                    <div class="col-md-6">
+                        <!-- /.box -->
+                        <div class="box box-primary">
+                            <!-- /.box-header -->
+                            <div class="box-header with-border">
+                                <h3 class="box-title">服务器</h3>
+                            </div>
+                            <!-- /.box-header -->
+                            <!-- /.box-body -->
+                            <div class="box-body no-padding">
+                                <table class="table table-condensed">
+                                    <tbody>
+                                        <tr>
+                                            <th>属性</th>
+                                            <th>值</th>
+                                        </tr>
+                                        <tr>
+                                            <td>服务器架构</td>
+                                            <td>{{.os.arch}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>操作系统</td>
+                                            <td>{{.os.goOs}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>核心数</td>
+                                            <td>{{.cpu.cpuNum}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                        <!-- /.box -->
+                    </div>
+                    <!--/.col (left) -->
+
+                    <!-- right column -->
+                    <div class="col-md-6">
+                        <!-- /.box -->
+                        <div class="box box-primary">
+                            <!-- /.box-header -->
+                            <div class="box-header with-border">
+                                <h3 class="box-title">内存</h3>
+                            </div>
+                            <!-- /.box-header -->
+                            <!-- /.box-body -->
+                            <div class="box-body no-padding">
+                                <table class="table table-condensed">
+                                    <tbody>
+                                        <tr>
+                                            <th>属性</th>
+                                            <th>值</th>
+                                        </tr>
+                                        <tr>
+                                            <td>总内存</td>
+                                            <td>{{.mem.total}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>已使用</td>
+                                            <td>{{.mem.used}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>占比</td>
+                                            <td>{{.mem.usage}}%</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                        <!-- /.box -->
+                    </div>
+                    <!--/.col (right) -->
+
+                    <!-- left column -->
+                    <div class="col-md-6">
+                        <!-- /.box -->
+                        <div class="box box-primary">
+                            <!-- /.box-header -->
+                            <div class="box-header with-border">
+                                <h3 class="box-title">磁盘</h3>
+                            </div>
+                            <!-- /.box-header -->
+                            <!-- /.box-body -->
+                            <div class="box-body no-padding">
+                                <table class="table table-condensed">
+                                    <tbody>
+                                        <tr>
+                                            <th>属性</th>
+                                            <th>值</th>
+                                        </tr>
+                                        <tr>
+                                            <td>总共</td>
+                                            <td>{{.disk.total}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>可用</td>
+                                            <td>{{.disk.free}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                        <!-- /.box -->
+                    </div>
+                    <!--/.col (left) -->
+
+                    <!-- right column -->
+                    <div class="col-md-6">
+                        <!-- /.box -->
+                        <div class="box box-primary">
+                            <!-- /.box-header -->
+                            <div class="box-header with-border">
+                                <h3 class="box-title">go环境</h3>
+                            </div>
+                            <!-- /.box-header -->
+                            <!-- /.box-body -->
+                            <div class="box-body no-padding">
+                                <table class="table table-condensed">
+                                    <tbody>
+                                        <tr>
+                                            <th>属性</th>
+                                            <th>值</th>
+                                        </tr>
+                                        <tr>
+                                            <td>go version</td>
+                                            <td>{{.os.version}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Goroutine</td>
+                                            <td>{{.os.numGoroutine}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                        <!-- /.box -->
+                    </div>
+                    <!--/.col (right) -->
+                </div>
+                <!-- /.row -->
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+
+        <!-- Main Footer -->
+        <footer class="main-footer">
+            <!-- To the right -->
+            <div class="pull-right hidden-xs">
+                Anything you want
+            </div>
+            <!-- Default to the left -->
+            <strong>Copyright &copy; 2016 <a href="#">Company</a>.</strong> All rights reserved.
+        </footer>
+
+        <!-- Control Sidebar -->
+        {{template "admin/html-control-sidebar.html"}}
+        <!-- /.control-sidebar -->
+        <!-- Add the sidebar's background. This div must be placed
+    immediately after the control sidebar -->
+        <div class="control-sidebar-bg"></div>
+    </div>
+    <!-- ./wrapper -->
+
+    <!-- REQUIRED JS SCRIPTS -->
+    {{template "admin/html-js.html"}}
+    <!-- /REQUIRED JS SCRIPTS -->
+
+    <!-- page script -->
+    <script>
+        $(function () {
+            $("form").on("submit", function () {
+                var params = $("form").serializeArray();
+                var values = {};
+                for (x in params) {
+                    values[params[x].name] = params[x].value;
+                }
+                var idata = JSON.stringify(values)
+                $.ajax({
+                    url: '/admin/user',
+                    type: 'post', //GET
+                    async: true,    //或false,是否异步
+                    data: idata,
+                    timeout: 5000,    //超时时间
+                    dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                    beforeSend: function (xhr) {
+                        console.log('发送前')
+                    },
+                    success: function (data, textStatus, jqXHR) {
+                        if (data.code == 1) {
+                            layer.msg(data.msg);
+                            return
+                        }
+                        layer.msg(data.msg)
+                    },
+                    error: function (xhr, textStatus) {
+                        console.log('错误', textStatus)
+                    },
+                    complete: function () {
+                        console.log('结束')
+                    }
+                })
+            });
+        })
+    </script>
+</body>
+
+</html>
