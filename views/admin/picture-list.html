@@ -146,7 +146,7 @@ desired effect
             search: data.search.value
           };
           $.ajax({
-            url: '/admin/picture-list',
+            url: '/admin/api/picture-list',
             type: 'GET', //GET
             data: postData,
             timeout: 5000,    //超时时间
@@ -223,7 +223,7 @@ desired effect
         var id = $(this).closest("tr").attr("id");
         if (confirm("确定删除？")) {
           $.ajax({
-            url: '/admin/picture-delete',
+            url: '/admin/api/picture-delete',
             type: 'post', //GET
             async: true,    //或false,是否异步
             data: {

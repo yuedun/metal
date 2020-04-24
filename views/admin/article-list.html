@@ -148,7 +148,7 @@ desired effect
                     search: data.search.value
                 };
                 $.ajax({
-                    url: '/admin/articles',
+                    url: '/admin/api/articles',
                     type: 'GET', //GET
                     data: postData,
                     timeout: 5000,    //超时时间
@@ -197,7 +197,7 @@ desired effect
                 {
                     data: 'title',
                     render: function (data, type, row) {
-                        var html = '<a class="J-update" href="/admin/article-edit-route/'+row.id+'">编辑</a>'
+                        var html = '<a class="J-update" href="/admin/page/article-edit?id='+row.id+'">编辑</a>'
                         return html;
                     }
                 }
@@ -212,7 +212,7 @@ desired effect
             var id = $(this).closest("tr").attr("id");
             if (confirm("确定删除？")) {
                 $.ajax({
-                    url: '/admin/articles/delete',
+                    url: '/admin/api/articles/delete',
                     type: 'post', //GET
                     async: true,    //或false,是否异步
                     data: {

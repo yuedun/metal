@@ -119,7 +119,7 @@
         var content = $("#art_content").val();
         var id = $("#artId").val();
         $.ajax({
-          url: '/admin/article/' + id,
+          url: '/admin/api/article/' + id,
           type: 'PUT',
           async: true,    //或false,是否异步
           data: { id: id, title: title, content: content },
