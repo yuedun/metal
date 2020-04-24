@@ -138,8 +138,8 @@ desired effect
             var startDate = moment().subtract(2, "months").format("YYYY-MM-DD");
             var endDate = moment().format("YYYY-MM-DD");
             $.when(
-                $.get("/admin/job-count/count-data-recently?language=nodejs&startDate=" + startDate + "&endDate=" + endDate),
-                $.get("/admin/job-count/count-data-recently?language=golang&startDate=" + startDate + "&endDate=" + endDate)
+                $.get("/admin/api/job-count/count-data-recently?language=nodejs&startDate=" + startDate + "&endDate=" + endDate),
+                $.get("/admin/api/job-count/count-data-recently?language=golang&startDate=" + startDate + "&endDate=" + endDate)
             ).done(function (res, res2) {
                 var data = [];
                 res[0] && res[0].data && res[0].data.forEach(function (item, index) {
@@ -173,10 +173,9 @@ desired effect
             });
 
             //历史走势
-
             $.when(
-                $.get("/admin/job-count/count-data-all?language=nodejs"),
-                $.get("/admin/job-count/count-data-all?language=golang")
+                $.get("/admin/api/job-count/count-data-all?language=nodejs"),
+                $.get("/admin/api/job-count/count-data-all?language=golang")
             ).done(function (res, res2) {
                 var datas = [];
                 res[0] && res[0].data && res[0].data.forEach(function (item, index) {

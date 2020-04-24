@@ -100,7 +100,7 @@
         path: "/static/plugins/editor.md-master/lib/",
         imageUpload: true,
         imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-        imageUploadURL: "/admin/uploadImg",//上传图片接口
+        imageUploadURL: "/admin/api/uploadImg",//上传图片接口
         /*
         上传的后台只需要返回一个 JSON 数据，结构如下：
         {
@@ -116,10 +116,10 @@
       $(".J-submit").on("click", function () {
         var title = $("#art_title").val();
         var content = $("#art_content").val();
-        $.post("/admin/article", { title: title, content: content }, function (result) {
+        $.post("/admin/api/article", { title: title, content: content }, function (result) {
           if (result.code == 0) {
             // layer.msg("新建成功！", { icon: 6 });
-            location.href = "/admin/articles-route"
+            location.href = "/admin/page/articles"
           } else {
             layer.msg("新建失败！" + result.msg, { icon: 5 });
           }

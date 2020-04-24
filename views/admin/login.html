@@ -59,7 +59,7 @@
         });
         $("form").on("submit", function () {
             $.ajax({
-                url: '/admin/to-login',
+                url: '/admin/api/to-login',
                 type: 'post', //GET
                 async: true,    //或false,是否异步
                 data: {
@@ -73,7 +73,7 @@
                 },
                 success: function (data, textStatus, jqXHR) {
                     if (data.code == 0){
-                        location.href="/admin/welcome"
+                        location.href="/admin/page/welcome"
                     } else {
                         alert(data.msg)
                     }

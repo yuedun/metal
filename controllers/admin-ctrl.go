@@ -241,7 +241,6 @@ func (c *AdminController) DeleteUser() {
 /**
  * 日志列表路由
  */
-// @router /logs-route
 func (c *AdminController) LogsRoute() {
 	c.Data["Title"] = "日志列表"
 	c.TplName = "admin/logs.html"
@@ -250,7 +249,6 @@ func (c *AdminController) LogsRoute() {
 /**
  * 日志列表接口
  */
-// @router /logs [get]
 func (c *AdminController) GetLogs() {
 	start, _ := c.GetInt("start")
 	perPage, _ := c.GetInt("perPage")
@@ -272,7 +270,6 @@ func (c *AdminController) GetLogs() {
 /**
  * 创建文章路由
  */
-// @router /article-route [get]
 func (c *AdminController) CreateArticleRoute() {
 	c.TplName = "admin/article-create.html"
 }
@@ -280,7 +277,6 @@ func (c *AdminController) CreateArticleRoute() {
 /**
  * 创建文章接口
  */
-// @router /article [post]
 func (c *AdminController) CreateArticle() {
 	defer func() {
 		if err := recover(); err != nil {
@@ -316,7 +312,6 @@ func (c *AdminController) CreateArticle() {
 /**
  * 文章列表路由
  */
-//@router /articles-route [get]
 func (c *AdminController) ArticlesRoute() {
 	c.TplName = "admin/article-list.html"
 }
@@ -325,7 +320,6 @@ func (c *AdminController) ArticlesRoute() {
  * 文章列表接口
  * /admin/articles
  */
-//@router /articles
 func (c *AdminController) ArticlesList() {
 	args := c.GetString("search") // 获取所有参数
 	start, _ := c.GetInt("start")
@@ -354,10 +348,9 @@ func (c *AdminController) ArticlesList() {
  * 编辑文章路由
  * /admin/articles
  */
-//@router /article-edit-route/:id [get]
 func (c *AdminController) ArticleEditRoute() {
 	article := new(Article)
-	artId, _ := strconv.Atoi(c.Ctx.Input.Param(":id"))
+	artId, _:=c.GetInt("id")
 	article.Id = uint(artId)
 	article.GetById()
 	c.Data["article"] = article
@@ -368,7 +361,6 @@ func (c *AdminController) ArticleEditRoute() {
  * 修改文章接口
  * /admin/article/:id
  */
-//@router /article/:id [put]
 func (c *AdminController) ArticleEdit() {
 	defer func() {
 		if err := recover(); err != nil {
@@ -398,7 +390,6 @@ func (c *AdminController) ArticleEdit() {
  * 删除文章接口
  * /admin/articles
  */
-//@router /article/:id [delete]
 func (c *AdminController) ArticleDelete() {
 	article := new(Article)
 	artId, _ := strconv.Atoi(c.Ctx.Input.Param(":id"))
@@ -412,7 +403,6 @@ func (c *AdminController) ArticleDelete() {
  * 上传图片
  * /admin/uploadImg
  */
-//@router /uploadImg [post]
 func (c *AdminController) UploadImg() {
 	file, h, err := c.GetFile("editormd-image-file")
 	if err != nil {
@@ -463,7 +453,6 @@ func (c *AdminController) UploadImg() {
 }
 
 // 通讯录
-//@router /pname/view [get]
 func (c *AdminController) PNameView() {
 	c.TplName = "admin/pname.html"
 }

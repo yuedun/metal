@@ -236,7 +236,7 @@ desired effect
                         search: data.search.value
                     };
                     $.ajax({
-                        url: '/admin/users',
+                        url: '/admin/api/users',
                         type: 'GET', //GET
                         data: postData,
                         timeout: 5000,    //超时时间
@@ -308,7 +308,7 @@ desired effect
                 var id = $(this).closest("tr").attr("id");
                 if (confirm("确定删除？")) {
                     $.ajax({
-                        url: '/admin/user/delete',
+                        url: '/admin/api/user/delete',
                         type: 'post', //GET
                         async: true,    //或false,是否异步
                         data: {
@@ -339,7 +339,7 @@ desired effect
             //修改
             $("#userlist").on("click", ".J-update", function () {
                 var id = $(this).closest("tr").attr("id");
-                $.get("/admin/user/" + id, function (data) {
+                $.get("/admin/api/user/" + id, function (data) {
                     $("#userId").val(id);
                     $("#username").val(data.data.user_name);
                     $("#gender").val(data.data.gender);
@@ -356,7 +356,7 @@ desired effect
                         content: $("#update-dialog"),
                         yes: function (index, layero) {
                             $.ajax({
-                                url: '/admin/user',
+                                url: '/admin/api/user',
                                 type: 'PUT', //GET
                                 async: true,    //或false,是否异步
                                 data: {
@@ -396,7 +396,7 @@ desired effect
             $("#userlist").on("click", ".J-permission", function () {
                 var userId = $(this).closest("tr").attr("id");
                 var userName = $(this).closest("tr").data("user_name");
-                $.get("/admin/user-roles/" + userId, function (data) {
+                $.get("/admin/api/user-roles/" + userId, function (data) {
                     // $("#userName").html(userName);
                     var ps = "";
                     data.data.forEach(function (item, index) {
@@ -419,7 +419,7 @@ desired effect
                                 roles[i] = parseInt($(this).val());
                             });
                             $.ajax({
-                                url: '/admin/user/groups',
+                                url: '/admin/api/user/groups',
                                 type: 'POST', //GET
                                 async: true,    //或false,是否异步
                                 data: JSON.stringify({

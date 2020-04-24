@@ -20,8 +20,8 @@ type UserPermission struct {
 // 后台权限验证
 var HasAdminPermission = func(ctx *context.Context) {
 	loginUser := ctx.Input.CruSession.Get("loginUser")
-	if loginUser == nil && ctx.Input.URL() != "/admin/login" && ctx.Input.URL() != "/admin/to-login" {
-		ctx.Redirect(302, "/admin/login")
+	if loginUser == nil && ctx.Input.URL() != "/admin/page/login" && ctx.Input.URL() != "/admin/api/to-login" {
+		ctx.Redirect(302, "/admin/page/login")
 	}
 }
 

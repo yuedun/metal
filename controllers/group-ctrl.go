@@ -16,7 +16,6 @@ type GroupController struct {
 }
 
 // AddUserRole 用户添加权限
-// @router /user/groups [post]
 func (c *GroupController) AddUserRole() {
 	defer func() {
 		if err := recover(); err != nil {
@@ -57,7 +56,6 @@ func (c *GroupController) AddUserRole() {
 }
 
 // GetUserRoles 获取用户权限
-// @router /user-roles/:userId [get]
 func (c *GroupController) GetUserRoles() {
 	userId := c.Ctx.Input.Param(":userId")
 	uid, _ := strconv.Atoi(userId)
