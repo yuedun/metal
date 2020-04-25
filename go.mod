@@ -23,6 +23,7 @@ require (
 	golang.org/x/crypto v0.0.0-20200423211502-4bdfaf469ed5 // indirect
 	golang.org/x/net v0.0.0-20200421231249-e086a090c8fd // indirect
 	golang.org/x/text v0.3.2 // indirect
+	golang.org/x/tools v0.0.0-20200117065230-39095c1d176c
 	gopkg.in/yaml.v2 v2.2.8 // indirect
 	qiniupkg.com/x v7.0.8+incompatible // indirect
 )

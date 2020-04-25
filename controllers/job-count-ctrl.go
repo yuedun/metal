@@ -2,12 +2,13 @@ package controllers
 
 //包名并非必须和文件夹名相同，但是按照惯例最后一个路径名和包名一致
 import (
-	"github.com/astaxie/beego/logs"
 	. "metal/models"
+
+	"github.com/astaxie/beego/logs"
 )
 
 type JobCountController struct {
-	BaseController
+	AdminBaseController
 }
 
 /**

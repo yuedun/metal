@@ -1,10 +1,11 @@
 package controllers
 
 import (
+	"runtime"
+
 	"github.com/shirou/gopsutil/cpu"
 	"github.com/shirou/gopsutil/disk"
 	"github.com/shirou/gopsutil/mem"
-	"runtime"
 )
 
 type SystemController struct {

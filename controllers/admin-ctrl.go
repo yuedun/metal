@@ -3,7 +3,6 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/astaxie/beego/logs"
 	"log"
 	. "metal/models" // 点操作符导入的包可以省略包名直接使用公有属性和方法
 	"metal/service"
@@ -13,6 +12,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/astaxie/beego/logs"
+
 	"github.com/astaxie/beego"
 )
 
@@ -20,9 +21,12 @@ type AdminController struct {
 	AdminBaseController
 }
 
+//登录路由
 func (c *AdminController) Login() {
 	c.TplName = "admin/login.html"
 }
+
+//登录接口
 func (c *AdminController) ToLogin() {
 	var mobile = c.GetString("mobile")
 	var password = c.GetString("password")
@@ -53,7 +57,6 @@ func (c *AdminController) ToLogin() {
 		c.SetSession("loginUser", userPermission)
 		// c.Ctx.Input.IP()获取到的是Nginx内网ip，需要在Nginx配置proxy_set_header Remote_addr $remote_addr;
 		ip := c.Ctx.Input.Header("Remote_addr")
-		// ip = "103.14.252.249"
 		if ip != "" {
 			//第三方接口不稳定，会阻塞整体，所以放到协程中
 			go func() {
@@ -350,7 +353,7 @@ func (c *AdminController) ArticlesList() {
  */
 func (c *AdminController) ArticleEditRoute() {
 	article := new(Article)
-	artId, _:=c.GetInt("id")
+	artId, _ := c.GetInt("id")
 	article.Id = uint(artId)
 	article.GetById()
 	c.Data["article"] = article
@@ -401,7 +404,7 @@ func (c *AdminController) ArticleDelete() {
 
 /**
  * 上传图片
- * /admin/uploadImg
+ * /admin/upload-img
  */
 func (c *AdminController) UploadImg() {
 	file, h, err := c.GetFile("editormd-image-file")

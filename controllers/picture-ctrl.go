@@ -2,10 +2,11 @@ package controllers
 
 import (
 	"encoding/json"
-	"github.com/astaxie/beego/logs"
 	"log"
 	"net/http"
 	"time"
+
+	"github.com/astaxie/beego/logs"
 
 	. "metal/models"
 
