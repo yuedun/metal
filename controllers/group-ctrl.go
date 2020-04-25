@@ -4,10 +4,11 @@ package controllers
 import (
 	"encoding/json"
 	"errors"
-	"github.com/astaxie/beego/logs"
 	. "metal/models"
 	"strconv"
 	"time"
+
+	"github.com/astaxie/beego/logs"
 )
 
 // GroupController 用户权限管理
