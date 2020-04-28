@@ -137,19 +137,14 @@ desired effect
             //最近一个月走势
             var startDate = moment().subtract(2, "months").format("YYYY-MM-DD");
             var endDate = moment().format("YYYY-MM-DD");
-            $.when(
-                $.get("/admin/api/job-count/count-data-recently?language=nodejs&startDate=" + startDate + "&endDate=" + endDate),
-                $.get("/admin/api/job-count/count-data-recently?language=golang&startDate=" + startDate + "&endDate=" + endDate)
-            ).done(function (res, res2) {
+            $.get("/admin/api/job-count/count-data-recently?startDate=" + startDate + "&endDate=" + endDate).done(function (res) {
                 var data = [];
-                res[0] && res[0].data && res[0].data.forEach(function (item, index) {
+                res.data.forEach(function (item, index) {
                     data[index] = {
-                        y: moment(item.created_at).format("YYYY-MM-DD"),
-                        item1: item.amount,
+                        y: item.created_at,
+                        item1: item.nodejs,
+                        item2: item.golang,
                     }
-                });
-                res2[0] && res2[0].data && res2[0].data.forEach(function (item, index) {
-                    data[index].item2 = item.amount;
                 });
                 var line = new Morris.Line({
                     element: 'line-chart-recently',
@@ -173,19 +168,14 @@ desired effect
             });
 
             //历史走势
-            $.when(
-                $.get("/admin/api/job-count/count-data-all?language=nodejs"),
-                $.get("/admin/api/job-count/count-data-all?language=golang")
-            ).done(function (res, res2) {
+            $.get("/admin/api/job-count/count-data-all").done(function (res) {
                 var datas = [];
-                res[0] && res[0].data && res[0].data.forEach(function (item, index) {
+                res.data.forEach(function (item, index) {
                     datas[index] = {
-                        y: moment(item.created_at).format("YYYY-MM"),
-                        item1: item.amount,
+                        y: item.created_at,
+                        item1: item.nodejs,
+                        item2: item.golang
                     }
-                });
-                res2[0] && res2[0].data && res2[0].data.forEach(function (item, index) {
-                    datas[index].item2 = item.amount;
                 });
                 var line = new Morris.Line({
                     element: 'line-chart-history',

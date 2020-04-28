@@ -11,23 +11,20 @@ type JobCountController struct {
 	AdminBaseController
 }
 
-/**
- * 工作数量统计
- */
+//JobCount 工作数量统计
 func (c *JobCountController) JobCount() {
 	c.Data["title"] = "报表"
 	c.TplName = "admin/job-count.html"
 }
 
-//  近一个月数据
+//CountDataRecently 近一个月数据
 func (c *JobCountController) CountDataRecently() {
-	lang := c.GetString("language")
 	startDate := c.GetString("startDate") + " 00:00:00"
 	endDate := c.GetString("endDate") + " 23:59:59"
 
-	logs.Info(lang, startDate, endDate)
+	logs.Info(startDate, endDate)
 	jobCount := new(JobCount)
-	list, err := jobCount.GetCountData(lang, startDate, endDate)
+	list, err := jobCount.GetCountData(startDate, endDate)
 	if nil != err {
 		logs.Error(err)
 		c.Data["json"] = ErrorData(err)
@@ -37,12 +34,9 @@ func (c *JobCountController) CountDataRecently() {
 	c.ServeJSON()
 }
 
-// 所有历史数据，按月平均值统计
+//CountDataAll 所有历史数据，按月平均值统计
 func (c *JobCountController) CountDataAll() {
-	lang := c.GetString("language")
-
 	jobCount := new(JobCount)
-	jobCount.JobTitle = lang
 	list, err := jobCount.GetCountDataAll()
 	if nil != err {
 		logs.Error(err)

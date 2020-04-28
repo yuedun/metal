@@ -2,17 +2,16 @@ package models
 
 import (
 	"fmt"
-	"github.com/astaxie/beego/logs"
 	"time"
+
+	"github.com/astaxie/beego/logs"
 
 	"github.com/astaxie/beego/orm"
 )
 
-/**
- * 添加tag标签
- */
+//JobCount 添加tag标签
 type JobCount struct {
-	Id        uint      `json:"id"`
+	ID        uint      `json:"id"`
 	CreatedAt time.Time `json:"created_at"`
 	JobTitle  string    `json:"job_title"`
 	Amount    uint      `json:"amount"`
@@ -23,31 +22,47 @@ func init() {
 	orm.RegisterModel(new(JobCount))
 }
 
-// 添加记录
+//Save 添加记录
 func (jobCount *JobCount) Save() (int64, error) {
 	o := orm.NewOrm()
 	return o.Insert(jobCount)
 }
 
-// 获取记录列表
-func (jobCount *JobCount) GetCountData(lang, startDate, endDate string) ([]JobCount, error) {
+type JobData struct {
+	CreatedAt string `json:"created_at"`
+	Golang string `json:"golang"`
+	Nodejs string `json:"nodejs"`
+}
+//GetCountData 获取记录列表，利用行专列将同一天数据一行展示
+func (jobCount *JobCount) GetCountData(startDate, endDate string) ([]JobData, error) {
 	o := orm.NewOrm()
-	var jobCounts []JobCount
-	var sql = fmt.Sprintf("SELECT job_title, amount,DATE_FORMAT(created_at,'%%Y-%%m-%%d') AS created_at FROM job_count WHERE job_title='%s'", lang)
+	var jobCounts []JobData
+	var sql = fmt.Sprintf(`SELECT 
+		a.created_at, 
+		MAX( CASE a.job_title WHEN 'golang' THEN a.amount ELSE 0 END ) 'golang', 
+		MAX( CASE a.job_title WHEN 'nodejs' THEN a.amount ELSE 0 END ) 'nodejs' 
+	FROM ( SELECT job_title, amount, DATE_FORMAT(created_at, '%%Y-%%m-%%d') AS created_at FROM job_count ) AS a `)
 	if startDate != "" && endDate != "" {
-		sql += fmt.Sprintf("AND created_at >= '%s' AND created_at <= '%s'", startDate, endDate)
+		sql += fmt.Sprintf("WHERE a.created_at >= '%s' AND a.created_at <= '%s'", startDate, endDate)
 	}
+	sql += " GROUP BY a.created_at;"
 	num, err := o.Raw(sql).QueryRows(&jobCounts)
-	logs.Info("查询到", num, "条数据")
+	logs.Info("近一个月查询到", num, "条数据")
 	return jobCounts, err
 }
 
-//所有历史数据，按月平均值统计
-func (jobCount *JobCount) GetCountDataAll() ([]JobCount, error) {
+//GetCountDataAll 所有历史数据，按月平均值统计
+func (jobCount *JobCount) GetCountDataAll() ([]JobData, error) {
 	o := orm.NewOrm()
-	var jobCounts []JobCount
-	var sql = fmt.Sprintf("SELECT job_title, ROUND(AVG(amount)) AS amount, DATE_FORMAT(CONCAT( YEAR (created_at), '-', MONTH (created_at), '-01'), '%%Y-%%m-%%d') AS created_at FROM job_count WHERE job_title = '%s' GROUP BY YEAR (created_at), MONTH (created_at);", jobCount.JobTitle)
+	var jobCounts []JobData
+	var sql = `
+		SELECT 
+			a.created_at, 
+			MAX( CASE a.job_title WHEN 'golang' THEN a.amount ELSE 0 END ) 'golang', 
+			MAX( CASE a.job_title WHEN 'nodejs' THEN a.amount ELSE 0 END ) 'nodejs' FROM 
+		( SELECT job_title, ROUND(AVG(amount)) AS amount, DATE_FORMAT(created_at, '%Y-%m') AS created_at FROM job_count GROUP BY job_title, YEAR (created_at), MONTH (created_at) ) AS a 
+		GROUP BY a.created_at;`
 	num, err := o.Raw(sql).QueryRows(&jobCounts)
-	logs.Info("查询到", num, "条数据")
+	logs.Info("每月平均查询到", num, "条数据")
 	return jobCounts, err
 }

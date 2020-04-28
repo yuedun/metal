@@ -61,7 +61,7 @@ func (c *PortalController) Get() {
 			re := regexp.MustCompile("\\<[\\S\\s]+?\\>")                //html标签
 			reimg := regexp.MustCompile(`<img (\S*?)[^>]*>.*?|<.*? />`) //获取一张图片
 			htmlStr := util.Md2html(art.Content)
-			artList[index].Id = art.Id
+			artList[index].ID = art.ID
 			artList[index].Title = art.Title
 			artList[index].Content = beego.Substr(re.ReplaceAllString(htmlStr, ""), 0, 300)
 			artList[index].Img = string(reimg.Find([]byte(htmlStr)))
@@ -86,7 +86,7 @@ func (c *PortalController) Article() {
 		c.TplName = "404.html"
 	} else {
 		article := &Article{}
-		article.Id = uint(artId)
+		article.ID = uint(artId)
 		err := article.GetById()
 		if err != nil {
 			logs.Error(err)
