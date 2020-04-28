@@ -70,10 +70,10 @@ func (c *GroupController) GetUserRoles() {
 	userPermissions := make([]UserGroups, 0, 20)
 	for index, item := range allRoles {
 		userPremis := new(UserGroups)
-		userPremis.Role_id = uint(item.Id)
+		userPremis.Role_id = uint(item.ID)
 		userPremis.Description = item.Description
 		for _, rid := range userRoles {
-			if item.Id == rid {
+			if item.ID == rid {
 				userPremis.Checked = true
 				break
 			}

@@ -1,9 +1,10 @@
 package models
 
 import (
-	"github.com/astaxie/beego/logs"
 	"sync"
 	"time"
+
+	"github.com/astaxie/beego/logs"
 
 	"github.com/astaxie/beego/orm"
 )

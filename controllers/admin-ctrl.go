@@ -42,7 +42,7 @@ func (c *AdminController) ToLogin() {
 		c.Data["json"] = ErrorMsg("密码不正确！")
 	} else {
 		group := new(Groups)
-		roleList, err := group.GetGroupByUserId(user.Id)
+		roleList, err := group.GetGroupByUserId(user.ID)
 		if err != nil {
 			c.Data["json"] = ErrorData(err)
 		}
@@ -138,7 +138,7 @@ func (c *AdminController) UserGet() {
 	idstr := c.Ctx.Input.Param(":id")
 	id, _ := strconv.Atoi(idstr)
 	user := new(User)
-	user.Id = uint(id)
+	user.ID = uint(id)
 	userObj, err := user.GetById()
 	if err != nil {
 		logs.Error(err)
@@ -162,7 +162,7 @@ func (c *AdminController) Put() {
 	updatedAt := time.Now()
 
 	var user = new(User)
-	user.Id = uint(userId)
+	user.ID = uint(userId)
 	user.UserName = username
 	user.Gender = gender
 	user.Email = email
@@ -229,7 +229,7 @@ func (c *AdminController) UserList() {
 func (c *AdminController) DeleteUser() {
 	id, _ := c.GetInt("userId")
 	var user = new(User)
-	user.Id = uint(id)
+	user.ID = uint(id)
 	user.Status = 0
 	id64, err := user.Delete()
 	if nil != err {
@@ -354,7 +354,7 @@ func (c *AdminController) ArticlesList() {
 func (c *AdminController) ArticleEditRoute() {
 	article := new(Article)
 	artId, _ := c.GetInt("id")
-	article.Id = uint(artId)
+	article.ID = uint(artId)
 	article.GetById()
 	c.Data["article"] = article
 	c.TplName = "admin/article-edit.html"
@@ -375,7 +375,7 @@ func (c *AdminController) ArticleEdit() {
 	artId, _ := strconv.Atoi(c.Ctx.Input.Param(":id"))
 	title := c.GetString("title")
 	content := c.GetString("content")
-	article.Id = uint(artId)
+	article.ID = uint(artId)
 	article.Title = title
 	article.Content = content
 	article.UpdatedAt = time.Now()
@@ -396,7 +396,7 @@ func (c *AdminController) ArticleEdit() {
 func (c *AdminController) ArticleDelete() {
 	article := new(Article)
 	artId, _ := strconv.Atoi(c.Ctx.Input.Param(":id"))
-	article.Id = uint(artId)
+	article.ID = uint(artId)
 	article.Delete()
 	c.Data["json"] = SuccessData(nil)
 	c.ServeJSON()
