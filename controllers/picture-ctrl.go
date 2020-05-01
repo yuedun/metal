@@ -122,7 +122,7 @@ func (c *PictureController) DeletePicture() {
 	picture := new(Picture)
 	picId, _ := c.GetInt("picId")
 	logs.Info(">>>>", picId)
-	picture.ID = uint(picId)
+	picture.Id = uint(picId)
 	picture.Status = 0
 	_, err := picture.Delete()
 	if nil != err {
