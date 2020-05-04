@@ -1,57 +1,65 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-cn-Hans">
+
 <head>
-  <title>golang</title>
-  {{template "./layout-head.html" .}}
-  <link rel="stylesheet" href="/static/plugins/highlight/styles/dark.css" />
+    <title>golang</title>
+    {{template "./layout-head.html" .}}
+    <link rel="stylesheet" href="/static/plugins/highlight/styles/dark.css" />
 </head>
 
 <body>
-  <header>
+
+<div class="layui-layout layui-layout-admin">
+    <!-- 顶部栏 -->
     {{template "./layout-menu.html"}}
-  </header>
-  <article>
-    {{range $index, $elem := .articleList}}
-    <section>
-      <div class="title-header">
-        <h1 class="title-info"><a href="/article/{{$elem.Id}}">{{$elem.Title}}</a></h1>
-        <span>（{{$elem.UpdatedAt}}）</span>
-      </div>
-      <div class="description">
-        <div class="imgdiv">{{str2html $elem.Img}}</div><br>
-        {{str2html $elem.Content}}
-      </div>
-    </section>
-    {{end}}
-  </article>
-  <div id="Pagination" class="pagination"><!-- 这里显示分页 --></div>
-  <footer>
-    {{template "./layout-footer.html"}}
-  </footer>
-  <script src="./static/plugins/highlight/highlight.pack.js"></script>
-  <script src="http://apps.bdimg.com/libs/zepto/1.1.4/zepto.min.js"></script>
-  <script src="./static/dist/js/jquery.pagination.js"></script>
-  <script type="text/javascript">
-    $(function(){
-      hljs.initHighlightingOnLoad();//代码高亮
-      
-      var current = {{.pageNo}}
-      var pageSize = {{.pageSize}}
-      var totalIndex = {{.total}}
-      $("#Pagination").pagination(totalIndex, {
-        num_edge_entries: 1, //边缘页数
-        num_display_entries: 4, //主体页数
-        prev_text: "« 上一页",
-        next_text: "下一页 »",
-        current_page: current,
-        link_to: "/?pageNo=__id__&pageSize="+pageSize,
-        callback: function (page_index, jq) {
-          return true;
-        },
-        items_per_page: pageSize, //每页多少条
-        load_first_page: false
-      });
-    });
+    <!-- 顶部栏 -->
+    <!-- 中间内容区 -->
+    <div style="padding: 15px; overflow-y: auto;">
+        <div class="layui-container">
+            <div class="layui-row">
+                <div class="layui-col-md8 layui-col-md-offset1">
+                    {{range $index, $elem := .articleList}}
+                    <article class="article">
+                        <header>
+                            <p><b><a href="/article/{{$elem.Id}}">{{$elem.Title}}</a></b></p>
+                            <time class="time-text">{{$elem.UpdatedAt}}</time>
+                        </header>
+                        <section>
+                            <p>{{str2html $elem.Content}}</p>
+                            <p>
+                                <img src="{{str2html $elem.Img}}"></img>
+                            </p>
+                        </section>
+                    </article>
+                    {{end}}
+                    <div id="page"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <script>
+        layui.use(['jquery', 'layer', 'form', 'laypage'], function () {
+            var $ = layui.jquery,
+                laypage = layui.laypage;
+
+            var next = parseInt('<%=currentIndex%>')+1;
+            var prev = parseInt('<%=currentIndex%>')-1;
+            //执行一个laypage实例
+            laypage.render({
+                elem: 'page' //注意，这里的 test1 是 ID，不用加 # 号
+                , limit: 5
+                , curr: '<%=currentIndex%>'
+                , count: '<%=total%>' //数据总数，从服务端得到
+                , hash: true
+                , jump: function(obj, first){
+                    //首次不执行
+                    if(!first){
+                        location.href = '/platform/assistance-list?pageIndex='+obj.curr;
+                    }
+                }
+            });
+        });
     </script>
 </body>
 

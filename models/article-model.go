@@ -71,7 +71,7 @@ func (model *Article) GetArticlesByCondition(param map[string]string, pageIndex,
 
 func (model *Article) GetById() error {
 	o := orm.NewOrm()
-	err := o.Read(model, "id")
+	err := o.Read(model)
 	return err
 }
 
