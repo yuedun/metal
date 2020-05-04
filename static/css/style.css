@@ -10,110 +10,12 @@ body {
     line-height: 20px;
     background-color: #f7f7f7;
 }
-nav {
-    padding: 30px 0;
-}
-nav ul {
-    display: block;
-    text-align: center;
-    font-size: 24px;
-    border-bottom: 1px solid #efefef;
-    line-height: 50px;
-}
-nav ul li {
-    display: inline;
-}
-article,
-footer {
-    width: 960px;
-    margin-left: auto;
-    margin-right: auto;
-}
 
-footer {
-    line-height: 1.8;
-    text-align: center;
-    padding: 50px 0;
-    color: #999;
-}
-.description {
-    font-size: 16px;
-}
-.description .imgdiv{
-    margin: 0 auto;
-    text-align: center;
-    max-width: 50%;
-}
-.description p{
-    padding: 10px;
-}
-.description img {
-    max-width: 100%;
-}
-a {
-    color: #572C82;
-    text-decoration: none;
-}
-a:hover{
-    text-decoration-line: underline;
-}
-.backdrop {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    top: 0;
-    left: 0;
-}
-.category-body{
-    width: 960px;
-    border-left: 1px solid #333;
-    margin: 30px auto;
-    padding: 0 50px;
-}
-article section {
-    padding: 20px 23px;
-    border-bottom: 1px solid #dae1e4;
-}
-
-article section .title-header{
-    text-align: center;
-    font-size: 24px;
-    /*line-height: 25px;*/
-    margin-bottom: 10px;
-}
-.title-header span{
-    font-size: small;
-    color: #6e7373;
-}
-/*分页*/
-.pagination{text-align: center; margin-top: 40px; margin-bottom: 25px;}
-.pagination a {
-    text-decoration: none;
-    border: 1px solid #AAE;
-}
-.pagination a, .pagination span {
-    display: inline-block;
-    padding: 0.1em 0.4em;
-    margin-right: 5px;
-    margin-bottom: 5px;
-}
-.pagination .current {
-    background: #572C82;
-    color: #fff;
-    border: 1px solid #AAE;
-}
-.pagination .current.prev, .pagination .current.next{
-    color:#999;
-    border-color:#999;
-    background:#fff;
-}
 /*表格样式*/
 table {
     display: block;
     width: 100%;
     overflow: auto;
-    word-break: normal;
     word-break: keep-all;
     border-collapse: collapse;
     border-spacing: 0;
@@ -147,4 +49,44 @@ table tr:nth-child(2n) {
     article, footer{
         width:100%
     }
+}
+
+.system-description{
+    min-height: 160px;
+    text-align: center;
+    padding: 0 140px;
+}
+.system-description p{
+    font-size: 24px;
+}
+
+.article{
+    border-color: #e2e2e2;
+    border-style: solid;
+    border-width: 1px;
+    background: 0 0;
+    margin: 10px;
+    padding: 10px;
+}
+.article ul li{
+    display: inline-block;
+    width: 22%;
+    border-left: bisque solid 1px;
+    padding: 0 5px;
+    border-right: bisque solid 1px;
+}
+.article ul li a{
+    display: block;
+    text-align: center;
+}
+.article section img{
+    width: 49%;
+    height: auto;
+}
+.time-text{
+    color: #c2c2c2;
+    font-size: 10px;
+}
+a i{
+    color: #FF5722;
 }
