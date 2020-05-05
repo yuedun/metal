@@ -1,26 +1,38 @@
 <!DOCTYPE html>
+<html lang="zh-cn-Hans">
 
-<html lang="zh">
 <head>
-    <title>golang关于</title>
+    <title>golang</title>
     {{template "./layout-head.html" .}}
 </head>
 
 <body>
-<header>
-{{template "./layout-menu.html"}}
-</header>
-<article>
-    <section>
-        <h1 class="logo">beego 简介</h1>
-        <div class="description">
-            beego 是一个快速开发 Go 应用的 HTTP 框架，他可以用来快速开发 API、Web 及后端服务等各种应用，是一个 RESTful 的框架，主要设计灵感来源于 tornado、sinatra 和 flask
-            这三个框架，但是结合了 Go 本身的一些特性（interface、struct 嵌入等）而设计的一个框架。
+
+<div class="layui-layout layui-layout-admin">
+    <!-- 顶部栏 -->
+    {{template "./layout-menu.html"}}
+    <!-- 顶部栏 -->
+    <!-- 中间内容区 -->
+    <div style="padding: 15px; overflow-y: auto;">
+        <div class="layui-container">
+            <div class="layui-row">
+                <div class="layui-col-md9">
+                    beego 是一个快速开发 Go 应用的 HTTP 框架，他可以用来快速开发 API、Web 及后端服务等各种应用，是一个 RESTful 的框架，主要设计灵感来源于 tornado、sinatra 和 flask
+                    这三个框架，但是结合了 Go 本身的一些特性（interface、struct 嵌入等）而设计的一个框架。
+                </div>
+            </div>
         </div>
-    </section>
-</article>
-<footer>
-{{template "./layout-footer.html"}}
-</footer>
+    </div>
+    <footer>
+        {{template "./layout-footer.html"}}
+    </footer>
+</div>
+<script>
+    layui.use(['jquery'], function () {
+        var $ = layui.jquery;
+
+    });
+</script>
 </body>
+
 </html>

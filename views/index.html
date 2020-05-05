@@ -27,7 +27,7 @@
                         <section>
                             <p>{{str2html $elem.Content}}</p>
                             <p>
-                                <img src="{{str2html $elem.Img}}"></img>
+                                {{str2html $elem.Img}}
                             </p>
                         </section>
                     </article>
@@ -37,9 +37,12 @@
             </div>
         </div>
     </div>
+    <footer>
+        {{template "./layout-footer.html"}}
+    </footer>
 </div>
     <script>
-        layui.use(['jquery', 'layer', 'form', 'laypage'], function () {
+        layui.use(['jquery', 'laypage'], function () {
             var $ = layui.jquery,
                 laypage = layui.laypage;
 

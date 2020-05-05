@@ -1,33 +1,48 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-cn-Hans">
+
 <head>
-  <title>{{.article.Title}}</title>
-  {{template "./layout-head.html" .}}
-  <link rel="stylesheet" href="/static/plugins/highlight/styles/dark.css" />
+    <title>golang</title>
+    {{template "./layout-head.html" .}}
+    <link rel="stylesheet" href="/static/plugins/highlight/styles/dark.css" />
 </head>
 
 <body>
-  <header>
+
+<div class="layui-layout layui-layout-admin">
+    <!-- 顶部栏 -->
     {{template "./layout-menu.html"}}
-  </header>
-  <article>
-    <section>
-      <div class="title-header">
-        <h1 class="title-info">{{.article.Title}}</h1>
-        <span>（{{.article.UpdatedAt}}）</span>
-      </div>
-      <div class="description">
-        {{str2html .article.Content}}
-      </div>
-    </section>
-  </article>
-  <footer>
-    {{template "./layout-footer.html"}}
-  </footer>
-  <script src="/static/plugins/highlight/highlight.pack.js"></script>
-  <script type="text/javascript">
-      hljs.initHighlightingOnLoad();//代码高亮
-  </script>
+    <!-- 顶部栏 -->
+    <!-- 中间内容区 -->
+    <div style="padding: 15px; overflow-y: auto;">
+        <div class="layui-container">
+            <div class="layui-row">
+                <div class="layui-col-md8 layui-col-md-offset1">
+                    <article>
+                        <section>
+                          <div class="title-header">
+                            <h1 class="title-info">{{.article.Title}}</h1>
+                            <span>（{{.article.UpdatedAt}}）</span>
+                          </div>
+                          <div class="description">
+                            {{str2html .article.Content}}
+                          </div>
+                        </section>
+                      </article>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        {{template "./layout-footer.html"}}
+    </footer>
+</div>
+    <script>
+        layui.use(['jquery', 'laypage'], function () {
+            var $ = layui.jquery;
+
+        });
+    </script>
 </body>
 
 </html>
