@@ -47,7 +47,7 @@ func (c *PortalController) Get() {
 	if err != nil {
 		pageSize = 5
 	}
-	skip := pageNo * pageSize
+	skip := (pageNo - 1) * pageSize
 	params := map[string]string{}
 	params["status"] = "1"
 	article := &Article{}

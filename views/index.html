@@ -43,22 +43,22 @@
 </div>
     <script>
         layui.use(['jquery', 'laypage'], function () {
-            var $ = layui.jquery,
-                laypage = layui.laypage;
+            var laypage = layui.laypage;
 
-            var next = parseInt('<%=currentIndex%>')+1;
-            var prev = parseInt('<%=currentIndex%>')-1;
+            var current = '{{.pageNo}}';
+            var pageSize = '{{.pageSize}}';
+            var total = '{{.total}}';
             //执行一个laypage实例
             laypage.render({
                 elem: 'page' //注意，这里的 test1 是 ID，不用加 # 号
-                , limit: 5
-                , curr: '<%=currentIndex%>'
-                , count: '<%=total%>' //数据总数，从服务端得到
+                , limit: pageSize
+                , curr: parseInt(current)
+                , count: total //数据总数，从服务端得到
                 , hash: true
                 , jump: function(obj, first){
                     //首次不执行
                     if(!first){
-                        location.href = '/platform/assistance-list?pageIndex='+obj.curr;
+                        location.href = '/?pageNo='+obj.curr+'&pageSize='+pageSize;
                     }
                 }
             });
