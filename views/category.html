@@ -1,27 +1,47 @@
 <!DOCTYPE html>
+<html lang="zh-cn-Hans">
 
-<html lang="zh">
 <head>
-    <title>golang目录</title>
+    <title>golang</title>
     {{template "./layout-head.html" .}}
 </head>
 
 <body>
-<header>
-    <header>
+
+<div class="layui-layout layui-layout-admin">
+    <!-- 顶部栏 -->
     {{template "./layout-menu.html"}}
-    </header>
-</header>
-<article class="category-body">
-    {{range $index, $item := .titles}}
-    <section>
-        <h2 class="title"><a href="/article/{{$item.Id}}">{{$item.Title}}</a></h2>
-        <span>{{$item.UpdatedAt}}</span>
-    </section>
-    {{end}}
-</article>
-<footer>
-{{template "./layout-footer.html"}}
-</footer>
+    <!-- 顶部栏 -->
+    <!-- 中间内容区 -->
+    <div style="padding: 15px; overflow-y: auto;">
+        <div class="layui-container">
+            <div class="layui-row">
+                <div class="layui-col-md8 layui-col-md-offset1">
+                    <ul class="layui-timeline">
+                        {{range $index, $item := .titles}}
+                            <li class="layui-timeline-item">
+                                <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                                <div class="layui-timeline-content layui-text">
+                                    <h3 class="layui-timeline-title"><a href="/article/{{$item.Id}}">{{$item.Title}}</a></h3>
+                                    <p>{{$item.UpdatedAt}}</p>
+                                </div>
+                            </li>
+                        {{end}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        {{template "./layout-footer.html"}}
+    </footer>
+</div>
+<script>
+    layui.use(['jquery'], function () {
+        var $ = layui.jquery;
+
+    });
+</script>
 </body>
+
 </html>

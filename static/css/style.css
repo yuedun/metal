@@ -10,7 +10,13 @@ body {
     line-height: 20px;
     background-color: #f7f7f7;
 }
-
+.layui-container a {
+    color: #572C82!important;
+    text-decoration: none!important;
+}
+a:hover{
+    text-decoration-line: underline;
+}
 /*表格样式*/
 table {
     display: block;
@@ -38,17 +44,6 @@ table tr {
 
 table tr:nth-child(2n) {
     background-color: #f8f8f8;
-}
-
-/* 中等屏幕（桌面显示器，平板电脑，大于等于 992px） */
-@media screen and (min-width: 768px) and (max-width: 992px) {
-
-}
-/* 小屏幕（平板，大于等于 768px） */
-@media screen and (max-width:768px) { 
-    article, footer{
-        width:100%
-    }
 }
 
 .system-description{
@@ -89,4 +84,20 @@ table tr:nth-child(2n) {
 }
 a i{
     color: #FF5722;
+}
+
+article section {
+    padding: 20px 23px;
+    border-bottom: 1px solid #dae1e4;
+}
+
+article section .title-header{
+    text-align: center;
+    font-size: 24px;
+    /*line-height: 25px;*/
+    margin-bottom: 10px;
+}
+.title-header span{
+    font-size: small;
+    color: #6e7373;
 }
