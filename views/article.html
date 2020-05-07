@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-cn-Hans">
+<html lang="zh">
 
 <head>
     <title>golang</title>
     {{template "./layout-head.html" .}}
-    <link rel="stylesheet" href="/static/plugins/highlight/styles/dark.css" />
+    <link rel="stylesheet" href="/static/plugins/highlight/styles/railscasts.css" />
 </head>
 
 <body>
@@ -37,10 +37,11 @@
         {{template "./layout-footer.html"}}
     </footer>
 </div>
+    <script src="/static/plugins/highlight/highlight.pack.js"></script>
     <script>
         layui.use(['jquery', 'laypage'], function () {
             var $ = layui.jquery;
-
+            hljs.initHighlightingOnLoad();//代码高亮
         });
     </script>
 </body>
