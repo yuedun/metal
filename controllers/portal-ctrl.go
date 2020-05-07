@@ -41,7 +41,7 @@ func (this *PortalController) Finish() {
 func (c *PortalController) Get() {
 	pageNo, err := c.GetInt("pageNo")
 	if err != nil {
-		pageNo = 0
+		pageNo = 1
 	}
 	pageSize, err := c.GetInt("pageSize")
 	if err != nil {

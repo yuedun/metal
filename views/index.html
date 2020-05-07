@@ -56,7 +56,6 @@
                 , count: total //数据总数，从服务端得到
                 , hash: true
                 , jump: function(obj, first){
-                    //首次不执行
                     if(!first){
                         location.href = '/?pageNo='+obj.curr+'&pageSize='+pageSize;
                     }
