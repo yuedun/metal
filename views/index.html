@@ -21,14 +21,12 @@
                     {{range $index, $elem := .articleList}}
                     <article class="article">
                         <header>
-                            <p><b><a href="/article/{{$elem.Id}}">{{$elem.Title}}</a></b></p>
+                            <h2><a href="/article/{{$elem.Id}}">{{$elem.Title}}</a></h2>
                             <time class="time-text">{{$elem.UpdatedAt}}</time>
                         </header>
                         <section>
                             <p>{{str2html $elem.Content}}</p>
-                            <p>
-                                {{str2html $elem.Img}}
-                            </p>
+                            <p>{{str2html $elem.Img}}</p>
                         </section>
                     </article>
                     {{end}}
