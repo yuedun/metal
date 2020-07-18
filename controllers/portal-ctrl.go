@@ -45,7 +45,7 @@ func (c *PortalController) Get() {
 	}
 	pageSize, err := c.GetInt("pageSize")
 	if err != nil {
-		pageSize = 5
+		pageSize = 10
 	}
 	skip := (pageNo - 1) * pageSize
 	params := map[string]string{}
