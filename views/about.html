@@ -15,12 +15,15 @@
     {{template "./layout-menu.html"}}
     <!-- 顶部栏 -->
     <!-- 中间内容区 -->
-    <div style="overflow-y: auto;">
+    <div style="overflow-y: auto;" class="about-page">
         <div class="layui-container">
             <div class="layui-row">
-                <div class="layui-col-md8 layui-col-md-offset1 my-container">
-                    beego 是一个快速开发 Go 应用的 HTTP 框架，他可以用来快速开发 API、Web 及后端服务等各种应用，是一个 RESTful 的框架，主要设计灵感来源于 tornado、sinatra 和 flask
-                    这三个框架，但是结合了 Go 本身的一些特性（interface、struct 嵌入等）而设计的一个框架。
+                <div class="layui-col-md12">
+                    <div class="description">
+                        <p>本站基于golang语言，beego框架开发。项目同时包含了用户界面和管理后台，无需部署两个服务，同时提供了数据库结构，可直接拿来使用。
+                            本项目对个人用户友好，前端使用了最原始的html，js，css开发无需搭建繁琐的开发环境，不追求高大上（假大空）的技术，返璞归真，让个人网站更易建立。</p>
+                        <p class="wechat"><img src="/static/dist/img/wx.jpg" alt="微信"></p>
+                    </div>
                 </div>
             </div>
         </div>
