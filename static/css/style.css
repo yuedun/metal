@@ -55,7 +55,7 @@ table tr:nth-child(2n) {
     font-size: 24px;
 }
 
-.article{
+.home-page .article{
     border-color: #e2e2e2;
     border-style: solid;
     border-width: 1px;
@@ -63,59 +63,73 @@ table tr:nth-child(2n) {
     margin: 10px;
     padding: 10px;
 }
-.article section {
+.home-page .article section {
     font-size: 16px;
 }
-.article ul li{
+.home-page .article ul li{
     display: inline-block;
     width: 22%;
     border-left: bisque solid 1px;
     padding: 0 5px;
     border-right: bisque solid 1px;
 }
-.article ul li a{
+.home-page .article ul li a{
     display: block;
     text-align: center;
 }
-.article section img{
+.home-page .article section img{
     width: 49%;
     height: auto;
 }
-.time-text{
+.home-page .time-text{
     color: #c2c2c2;
-    font-size: 10px;
+    font-size: 14px;
 }
 a i{
     color: #FF5722;
 }
 
-article section {
-    padding: 20px 23px;
-    border-bottom: 1px solid #dae1e4;
-}
-
-article section .title-header{
+.article-page article section .title-header{
     text-align: center;
     font-size: 24px;
-    /*line-height: 25px;*/
     margin-bottom: 10px;
 }
-.title-header span{
+.article-page .title-header span{
     font-size: small;
     color: #6e7373;
 }
-.description {
+.article-page .description {
     line-height: 1.8;
     font-size: 16px;
 }
 
-.description p{
+.article-page .description p{
     padding: 10px;
 }
-.description img {
+.article-page .description img {
     max-width: 100%;
 }
-.my-container{
-    padding-top: 20px;
-    padding-bottom: 20px;
+
+.category-page .category-h1{
+    margin-bottom: 10px;
+}
+.about-page .description{
+    margin: 20px 0;
+    font-size: 16px;
+}
+
+.about-page .wechat{
+    text-align: center;
+}
+.about-page .wechat img{
+    width: 30%;
+}
+@media (max-width: 767px) {
+    .about-page .wechat img{
+        width: 70%;
+    }
+}
+.footer-container .info{
+    margin: 30px 20px;
+    text-align: center;
 }

@@ -28,7 +28,7 @@ func (this *PortalController) Prepare() {
 	val := beego.AppConfig.String("runmode")
 	this.Data["env"] = val // 用户百度统计设置，测服环境不需要统计
 	ctr, method := this.GetControllerAndAction()
-	logs.Debug(">>>>>>>>>>Prepare:package:%s, controller:%s, %s", reflect.TypeOf(PortalController{}).PkgPath(), ctr, method)
+	logs.Debug("包， 结构体，请求方法:%s, %s, %s", reflect.TypeOf(PortalController{}).PkgPath(), ctr, method)
 }
 
 //收尾处理，在路由执行完执行，可当做后置中间件使用
@@ -100,20 +100,6 @@ func (c *PortalController) Article() {
 	}
 }
 
-// @route /getUserByName [get]
-func (c *PortalController) GetUser() {
-	username := c.Ctx.Input.Param(":username")
-	user := &User{UserName: username}
-	err := user.GetByName()
-	if nil != err {
-		logs.Error(err)
-		c.Data["json"] = map[string]any{"result": false, "msg": c.Ctx.Input.Params()}
-	} else {
-		c.Data["json"] = map[string]any{"result": true, "msg": user}
-	}
-	c.ServeJSON()
-}
-
 // @router /category [get]
 func (c *PortalController) Category() {
 	article := new(Article)
@@ -122,6 +108,7 @@ func (c *PortalController) Category() {
 		c.Data["titles"] = []string{}
 	} else {
 		c.Data["titles"] = titles
+		c.Data["count"] = len(titles)
 	}
 	c.TplName = "category.html"
 }

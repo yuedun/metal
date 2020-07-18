@@ -15,14 +15,14 @@
     {{template "./layout-menu.html"}}
     <!-- 顶部栏 -->
     <!-- 中间内容区 -->
-    <div style="overflow-y: auto;">
+    <div style="overflow-y: auto;" class="home-page">
         <div class="layui-container">
             <div class="layui-row">
-                <div class="layui-col-md8 layui-col-md-offset1">
+                <div class="layui-col-md12">
                     {{range $index, $elem := .articleList}}
                     <article class="article">
                         <header>
-                            <h2><a href="/article/{{$elem.Id}}">{{$elem.Title}}</a></h2>
+                            <h1><a href="/article/{{$elem.Id}}">{{$elem.Title}}</a></h1>
                             <time class="time-text">{{$elem.UpdatedAt}}</time>
                         </header>
                         <section>
