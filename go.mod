@@ -10,6 +10,7 @@ require (
 	github.com/go-redis/redis v6.15.8+incompatible
 	github.com/go-sql-driver/mysql v1.5.0
 	github.com/golang/protobuf v1.4.2 // indirect
+	github.com/gomarkdown/markdown v0.0.0-20200609195525-3f9352745725
 	github.com/microcosm-cc/bluemonday v1.0.3
 	github.com/onsi/ginkgo v1.14.0 // indirect
 	github.com/qiniu/api.v7 v7.2.5+incompatible

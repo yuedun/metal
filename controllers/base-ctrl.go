@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/context"
 )
 
 type BaseController struct {
@@ -13,11 +12,6 @@ type BaseController struct {
  * 给interface起个别名，这样是不是简短很多了
  */
 type any = interface{}
-
-// 前端权限验证
-var HasIndexPermission = func(ctx *context.Context) {
-	// TODO 做一些验证
-}
 
 // 自定义404错误页面
 // 需要beego.Run之前注册beego.ErrorController(&controllers.ErrorController{})

@@ -17,34 +17,6 @@ body {
 a:hover{
     text-decoration-line: underline;
 }
-/*表格样式*/
-table {
-    display: block;
-    width: 100%;
-    overflow: auto;
-    word-break: keep-all;
-    border-collapse: collapse;
-    border-spacing: 0;
-}
-
-table th {
-    font-weight: bold;
-}
-
-table th,
-table td {
-    padding: 6px 13px;
-    border: 1px solid #ddd;
-}
-
-table tr {
-    background-color: #fff;
-    border-top: 1px solid #ccc;
-}
-
-table tr:nth-child(2n) {
-    background-color: #f8f8f8;
-}
 
 .system-description{
     min-height: 160px;
@@ -92,6 +64,7 @@ a i{
 .article-page article section .title-header{
     text-align: center;
     font-size: 24px;
+    margin-top: 10px;
     margin-bottom: 10px;
 }
 .article-page .title-header span{
