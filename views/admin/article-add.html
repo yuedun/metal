@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>修改文章</title>
+  <title>创建文章</title>
   {{template "admin/html-head.html"}}
   <link rel="stylesheet" href="/static/plugins/editor.md/css/editormd.css">
 </head>
@@ -43,15 +43,14 @@
               <!-- /.box-header -->
               <div class="box-body pad">
                 <form role="form">
-                  <input type="hidden" name="artId" id="artId" value="{{.article.Id}}">
                   <div class="form-group">
                     <label for="art_title">标题</label>
-                    <input type="text" class="form-control" id="art_title" placeholder="title" value="{{.article.Title}}">
+                    <input type="text" class="form-control" id="art_title" placeholder="title">
                   </div>
                   <div class="form-group">
                     <label for="art_content">内容</label>
                     <div id="art_div">
-                      <textarea class="textarea" id="art_content" placeholder="Place some text here" style="display:none;">{{.article.Content}}</textarea>
+                      <textarea class="textarea" id="art_content" placeholder="Place some text here" style="display:none;"></textarea>
                     </div>
                   </div>
                 </form>
@@ -101,7 +100,7 @@
         path: "/static/plugins/editor.md/lib/",
         imageUpload: true,
         imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-        imageUploadURL: "/admin/upload-img",//上传图片接口
+        imageUploadURL: "/admin/api/upload-img",//上传图片接口
         /*
         上传的后台只需要返回一个 JSON 数据，结构如下：
         {
@@ -117,28 +116,14 @@
       $(".J-submit").on("click", function () {
         var title = $("#art_title").val();
         var content = $("#art_content").val();
-        var id = $("#artId").val();
-        $.ajax({
-          url: '/admin/api/article/' + id,
-          type: 'PUT',
-          async: true,    //或false,是否异步
-          data: { id: id, title: title, content: content },
-          timeout: 5000,    //超时时间
-          dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
-          success: function (data, textStatus, jqXHR) {
-            if (data.code == 1) {
-              layer.msg(data.msg, { icon: 5 });
-              return
-            }
-            layer.msg("修改成功！", { icon: 6 });
-          },
-          error: function (xhr, textStatus) {
-            layer.msg("修改失败！", { icon: 5 });
-          },
-          complete: function () {
-
+        $.post("/admin/api/article", { title: title, content: content }, function (result) {
+          if (result.code == 0) {
+            // layer.msg("新建成功！", { icon: 6 });
+            location.href = "/admin/page/articles"
+          } else {
+            layer.msg("新建失败！" + result.msg, { icon: 5 });
           }
-        })
+        }, "json");
       })
     });
   </script>

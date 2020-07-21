@@ -274,7 +274,7 @@ func (c *AdminController) GetLogs() {
  * 创建文章路由
  */
 func (c *AdminController) CreateArticleRoute() {
-	c.TplName = "admin/article-create.html"
+	c.TplName = "admin/article-add.html"
 }
 
 /**
@@ -315,7 +315,7 @@ func (c *AdminController) CreateArticle() {
 /**
  * 文章列表路由
  */
-func (c *AdminController) ArticlesRoute() {
+func (c *AdminController) ArticleListRoute() {
 	c.TplName = "admin/article-list.html"
 }
 

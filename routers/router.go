@@ -26,7 +26,7 @@ func init() {
 			beego.NSRouter("/user-list", &controllers.AdminController{}, "get:UserListRoute"),
 			beego.NSRouter("/user-add", &controllers.AdminController{}, "get:UserAddRoute"),
 			beego.NSRouter("/article-add", &controllers.AdminController{}, "get:CreateArticleRoute"),
-			beego.NSRouter("/articles", &controllers.AdminController{}, "get:ArticlesRoute"),
+			beego.NSRouter("/article-list", &controllers.AdminController{}, "get:ArticleListRoute"),
 			beego.NSRouter("/article-edit", &controllers.AdminController{}, "get:ArticleEditRoute"),
 			beego.NSRouter("/logs", &controllers.AdminController{}, "get:LogsRoute"),
 			beego.NSRouter("/pname/view", &controllers.AdminController{}, "get:PNameView"),
