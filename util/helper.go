@@ -6,12 +6,14 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/logs"
-	"github.com/microcosm-cc/bluemonday"
-	"github.com/russross/blackfriday"
 	"io/ioutil"
 	"net/http"
+
+	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/logs"
+	"github.com/gomarkdown/markdown"
+	"github.com/microcosm-cc/bluemonday"
+	"github.com/russross/blackfriday"
 )
 
 /**
@@ -101,6 +103,15 @@ func GetIpGeography(ip string, objBody *IPBody) error {
 func Md2html(in string) string {
 	input := []byte(in)
 	unsafe := blackfriday.Run(input, blackfriday.WithExtensions(blackfriday.CommonExtensions)) //支持表格，代码
+	htmlBytes := bluemonday.UGCPolicy().SanitizeBytes(unsafe)
+	html := string(htmlBytes)
+	return html
+}
+
+// markdown转html v2
+func Md2htmlV2(in string) string {
+	input := []byte(in)
+	unsafe := markdown.ToHTML(input, nil, nil)
 	htmlBytes := bluemonday.UGCPolicy().SanitizeBytes(unsafe)
 	html := string(htmlBytes)
 	return html

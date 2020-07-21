@@ -7,9 +7,6 @@ import (
 )
 
 func init() {
-	//添加过滤器(这个正则还有问题，只能匹配到首页)
-	beego.InsertFilter("/:*^(admin)", beego.BeforeRouter, controllers.HasIndexPermission, false)
-
 	//注解路由
 	beego.Include(
 		&controllers.PortalController{},
