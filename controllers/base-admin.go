@@ -42,7 +42,7 @@ func (c *AdminBaseController) Prepare() {
 		requestPermission := ctrl + ":" + runMethod
 		logs.Info(reflect.Indirect(reflect.ValueOf(c.AppController)).Type().PkgPath()) //获取包名
 		logs.Info("ctrl:method=", ctrl+":"+runMethod)
-		privileges := session.(*UserPermission).Privileges // 获取用户拥有的权限
+		privileges := userPermission.Privileges // 获取用户拥有的权限
 		hasPermission := true
 		//检查需要权限的路由和接口用户是否拥有
 		if permissions.NeedPermission[requestPermission] {

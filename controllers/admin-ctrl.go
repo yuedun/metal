@@ -295,9 +295,14 @@ func (c *AdminController) CreateArticle() {
 	if content == "" {
 		log.Panic("content不能为空")
 	}
+	category := c.GetString("category")
+	keywords := c.GetString("keywords")
+
 	article := new(Article)
 	article.Title = title
 	article.Content = content
+	article.Category = category
+	article.Keywords = keywords
 	article.Status = 1
 	article.CreatedAt = time.Now()
 	article.UpdatedAt = time.Now()
@@ -375,9 +380,13 @@ func (c *AdminController) ArticleEdit() {
 	artId, _ := strconv.Atoi(c.Ctx.Input.Param(":id"))
 	title := c.GetString("title")
 	content := c.GetString("content")
+	category := c.GetString("category")
+	keywords := c.GetString("keywords")
 	article.Id = uint(artId)
 	article.Title = title
 	article.Content = content
+	article.Category = category
+	article.Keywords = keywords
 	article.UpdatedAt = time.Now()
 	_, err := article.Update()
 	if err != nil {

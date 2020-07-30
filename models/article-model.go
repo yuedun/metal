@@ -11,9 +11,11 @@ import (
 
 type Article struct {
 	BaseModel
-	Title   string `json:"title"`
-	Content string `json:"content"`
-	Status  uint8  `json:"status"`
+	Title    string `json:"title"`
+	Keywords string `json:"keywords"`
+	Content  string `json:"content"`
+	Category string `json:"category"`
+	Status   uint8  `json:"status"`
 }
 type ArticlePortal struct {
 	Article
@@ -77,7 +79,7 @@ func (model *Article) GetById() error {
 
 func (model *Article) Update() (int64, error) {
 	o := orm.NewOrm()
-	id, err := o.Update(model, "title", "content", "updated_at")
+	id, err := o.Update(model, "title", "content", "category", "keywords", "updated_at")
 	return id, err
 }
 func (model *Article) Delete() (int64, error) {
