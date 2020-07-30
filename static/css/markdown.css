@@ -57,6 +57,9 @@ ul, ol {
 li {
     line-height: 24px;
 }
+li {
+    list-style: disc!important;
+}
 p, ul, ol {
     font-size: 16px;
     line-height: 24px;

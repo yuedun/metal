@@ -3,8 +3,8 @@
 
 <head>
     <title>{{.article.Title}}</title>
-    <meta name="keywords" content="golang,go-micro,博客,管理后台">
-    <meta name="description" content="golang,go-micro,博客,管理后台">
+    <meta name="keywords" content="{{.article.Keywords}}">
+    <meta name="description" content="{{substr .article.Content 0 30}}">
     {{template "./layout-head.html" .}}
     <link rel="stylesheet" href="/static/css/markdown.css" />
 </head>
