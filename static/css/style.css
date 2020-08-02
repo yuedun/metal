@@ -57,12 +57,6 @@ a:hover{
     color: #c2c2c2;
     font-size: 14px;
 }
-/* 小屏幕（平板，大于等于 768px） */
-@media screen and (max-width:768px) { 
-    article, footer{
-        width:100%
-    }
-}
 
 .article-page article section .title-header{
     text-align: center;
