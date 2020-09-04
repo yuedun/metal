@@ -6,8 +6,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <html>
 
 <head>
-<title>首页</title>
-{{template "admin/html-head.html" .}}
+    <title>首页</title>
+    {{template "admin/html-head.html" .}}
 </head>
 <!--
 BODY TAG OPTIONS:
@@ -55,7 +55,8 @@ desired effect
                         <!-- Profile Image -->
                         <div class="box box-primary">
                             <div class="box-body box-profile">
-                                <img class="profile-user-img img-responsive img-circle" src="http://hopefully-img.yuedun.wang/FhVgrAON10Nk97pm8lj1X-2Gt28n"
+                                <img class="profile-user-img img-responsive img-circle"
+                                    src="http://hopefully-img.yuedun.wang/FhVgrAON10Nk97pm8lj1X-2Gt28n"
                                     alt="User profile picture">
 
                                 <h3 class="profile-username text-center">月盾</h3>
@@ -87,10 +88,20 @@ desired effect
                                 </p>
                                 <hr>
                                 <strong><i class="fa fa-moon-o margin-r-5"></i>个人博客</strong>
-                                <p class="text-muted"><a href="http://www.yuedun.wang/?from=hopefly" target="_blank">http://www.yuedun.wang</a></p>
+                                <p class="text-muted"><a href="http://www.yuedun.wang/?from=hopefly"
+                                        target="_blank">http://www.yuedun.wang</a></p>
                                 <hr>
                                 <strong><i class="fa fa-github margin-r-5"></i>GitHub地址</strong>
-                                <p class="text-muted"><a href="https://github.com/yuedun/metal" target="_blank">https://github.com/yuedun/metal</a></p>
+                                <p class="text-muted"><a href="https://github.com/yuedun/metal"
+                                        target="_blank">https://github.com/yuedun/metal</a></p>
+                                <p>
+                                    <iframe
+                                        src="https://ghbtns.com/github-btn.html?user=yuedun&repo=metal&type=star&count=true"
+                                        frameborder="0" scrolling="0" width="100px" height="20px"></iframe>
+                                    <iframe
+                                        src="https://ghbtns.com/github-btn.html?user=yuedun&repo=metal&type=fork&count=true"
+                                        frameborder="0" scrolling="0" width="100px" height="20px"></iframe>
+                                </p>
                                 <hr>
                                 <strong><i class="fa fa-file-text-o margin-r-5"></i>备注</strong>
                                 <p>该系统由golang开发，包含登录，权限，用户列表，定时任务，爬虫等功能</p>
