@@ -57,6 +57,9 @@ a:hover{
     color: #c2c2c2;
     font-size: 14px;
 }
+.home-page #page{
+    padding-left: 20px;
+}
 
 .article-page article section .title-header{
     text-align: center;

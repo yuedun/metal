@@ -5,21 +5,18 @@ go 1.14
 require (
 	github.com/PuerkitoBio/goquery v1.5.1
 	github.com/StackExchange/wmi v0.0.0-20190523213315-cbe66965904d // indirect
-	github.com/astaxie/beego v1.12.1
+	github.com/astaxie/beego v1.12.2
 	github.com/go-ole/go-ole v1.2.4 // indirect
-	github.com/go-redis/redis v6.15.8+incompatible
+	github.com/go-redis/redis v6.15.9+incompatible
 	github.com/go-sql-driver/mysql v1.5.0
-	github.com/golang/protobuf v1.4.2 // indirect
-	github.com/gomarkdown/markdown v0.0.0-20200609195525-3f9352745725
-	github.com/microcosm-cc/bluemonday v1.0.3
+	github.com/gomarkdown/markdown v0.0.0-20200824053859-8c8b3816f167
+	github.com/microcosm-cc/bluemonday v1.0.4
 	github.com/onsi/ginkgo v1.14.0 // indirect
 	github.com/qiniu/api.v7 v7.2.5+incompatible
 	github.com/qiniu/x v7.0.8+incompatible // indirect
 	github.com/robfig/cron v1.2.0
 	github.com/russross/blackfriday v2.0.0+incompatible
-	github.com/sclevine/agouti v3.0.0+incompatible // indirect
-	github.com/shiena/ansicolor v0.0.0-20151119151921-a422bbe96644 // indirect
-	github.com/shirou/gopsutil v2.20.6+incompatible
+	github.com/shirou/gopsutil v2.20.8+incompatible
 	github.com/shurcooL/sanitized_anchor_name v1.0.0 // indirect
 	github.com/stretchr/testify v1.6.1 // indirect
 	golang.org/x/crypto v0.0.0-20200709230013-948cd5f35899 // indirect
