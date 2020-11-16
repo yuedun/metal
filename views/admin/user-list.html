@@ -276,7 +276,7 @@ desired effect
                     {
                         data: 'status',
                         render: function (data, type, row) {
-                            var html = '<span class="label label-primary">为止</span>';
+                            var html = '<span class="label label-primary">未知</span>';
                             if (data == 0) {
                                 html = '<span class="label label-danger">禁用</span>';
                             } else {
@@ -291,9 +291,9 @@ desired effect
                     {
                         data: 'mobile',
                         render: function (data, type, row) {
-                            var html = '<button class="btn btn-sm btn-primary J-update">编辑</button>'
-                                + '<button class="btn btn-sm btn-danger J-delete">禁用</button>'
-                                + '<button class="btn btn-sm btn-info J-permission">权限</button>'
+                            var html = '<a href="javascript:void(0);" class="J-update">编辑</a>&nbsp;'
+                                + '<a href="javascript:void(0);" class="J-delete">禁用</a>&nbsp;'
+                                + '<a href="javascript:void(0);" class="J-permission">权限</a>'
                             return html;
                         }
                     }
