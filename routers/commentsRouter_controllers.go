@@ -10,7 +10,7 @@ func init() {
     beego.GlobalControllerRouter["metal/controllers:PortalController"] = append(beego.GlobalControllerRouter["metal/controllers:PortalController"],
         beego.ControllerComments{
             Method: "Get",
-            Router: `/`,
+            Router: "/",
             AllowHTTPMethods: []string{"get"},
             MethodParams: param.Make(),
             Filters: nil,
@@ -19,7 +19,7 @@ func init() {
     beego.GlobalControllerRouter["metal/controllers:PortalController"] = append(beego.GlobalControllerRouter["metal/controllers:PortalController"],
         beego.ControllerComments{
             Method: "About",
-            Router: `/about`,
+            Router: "/about",
             AllowHTTPMethods: []string{"get"},
             MethodParams: param.Make(),
             Filters: nil,
@@ -28,7 +28,7 @@ func init() {
     beego.GlobalControllerRouter["metal/controllers:PortalController"] = append(beego.GlobalControllerRouter["metal/controllers:PortalController"],
         beego.ControllerComments{
             Method: "Article",
-            Router: `/article/:id`,
+            Router: "/article/:id",
             AllowHTTPMethods: []string{"get"},
             MethodParams: param.Make(),
             Filters: nil,
@@ -37,7 +37,7 @@ func init() {
     beego.GlobalControllerRouter["metal/controllers:PortalController"] = append(beego.GlobalControllerRouter["metal/controllers:PortalController"],
         beego.ControllerComments{
             Method: "Category",
-            Router: `/category`,
+            Router: "/category",
             AllowHTTPMethods: []string{"get"},
             MethodParams: param.Make(),
             Filters: nil,
@@ -46,7 +46,7 @@ func init() {
     beego.GlobalControllerRouter["metal/controllers:UserGroupController"] = append(beego.GlobalControllerRouter["metal/controllers:UserGroupController"],
         beego.ControllerComments{
             Method: "AddUserGroup",
-            Router: `/user-group/add-user-group`,
+            Router: "/user-group/add-user-group",
             AllowHTTPMethods: []string{"post"},
             MethodParams: param.Make(),
             Filters: nil,
@@ -55,7 +55,7 @@ func init() {
     beego.GlobalControllerRouter["metal/controllers:UserGroupController"] = append(beego.GlobalControllerRouter["metal/controllers:UserGroupController"],
         beego.ControllerComments{
             Method: "GetAllUserGroup",
-            Router: `/user-group/get-all-user-group`,
+            Router: "/user-group/get-all-user-group",
             AllowHTTPMethods: []string{"get"},
             MethodParams: param.Make(),
             Filters: nil,
