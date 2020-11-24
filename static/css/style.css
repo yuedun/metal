@@ -75,14 +75,12 @@ a:hover{
     line-height: 1.8;
     font-size: 16px;
 }
-
 .article-page .description p{
     padding: 10px;
 }
 .article-page .description img {
     max-width: 100%;
 }
-
 .category-page .category-h1{
     margin-bottom: 10px;
 }
@@ -90,12 +88,14 @@ a:hover{
     margin: 20px 0;
     font-size: 16px;
 }
-
 .about-page .wechat{
     text-align: center;
 }
 .about-page .wechat img{
-    width: 30%;
+    width: 20%;
+}
+.message-page textarea{
+    width: 100%;
 }
 @media (max-width: 767px) {
     .about-page .wechat img{

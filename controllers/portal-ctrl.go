@@ -118,3 +118,8 @@ func (c *PortalController) Category() {
 func (c *PortalController) About() {
 	c.TplName = "about.html"
 }
+
+// @router /message [get]
+func (c *PortalController) Message() {
+	c.TplName = "message.html"
+}

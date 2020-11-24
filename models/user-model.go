@@ -1,9 +1,10 @@
 package models
 
 import (
-	"github.com/astaxie/beego/logs"
 	"strconv"
 	"sync"
+
+	"github.com/astaxie/beego/logs"
 
 	"github.com/astaxie/beego/orm"
 )
@@ -125,13 +126,22 @@ func (user *User) Update() (int64, error) {
 	return id, err
 }
 
-// 通过id删除用户
-func (user *User) Delete() (int64, error) {
+// 修改用户状态
+func (user *User) UpdateStatus() (int64, error) {
 	o := orm.NewOrm()
 	id, err := o.Update(user, "status") // 要修改的对象和需要修改的字段
 	if err != nil {
 		return id, err
-	} else {
-		return id, nil
 	}
+	return id, nil
+}
+
+// 通过id删除用户
+func (user *User) Delete() (int64, error) {
+	o := orm.NewOrm()
+	id, err := o.Delete(user, "status") // 要修改的对象和需要修改的字段
+	if err != nil {
+		return id, err
+	}
+	return id, nil
 }

@@ -292,8 +292,12 @@ desired effect
                         data: 'mobile',
                         render: function (data, type, row) {
                             var html = '<a href="javascript:void(0);" class="J-update">编辑</a>&nbsp;'
-                                + '<a href="javascript:void(0);" class="J-delete">禁用</a>&nbsp;'
-                                + '<a href="javascript:void(0);" class="J-permission">权限</a>'
+                            if (row.status == 1) {
+                                html += '<a href="javascript:void(0);" class="J-disable">禁用</a>&nbsp;'
+                            } else {
+                                html += '<a href="javascript:void(0);" class="J-enable">启用</a>&nbsp;'
+                            }
+                            html += '<a href="javascript:void(0);" class="J-permission">权限</a>'
                             return html;
                         }
                     }
@@ -303,13 +307,13 @@ desired effect
                     $(row).data("userName", data.userName);
                 }
             });
-            //删除
-            $("#userlist").on("click", ".J-delete", function () {
+            //禁用
+            $("#userlist").on("click", ".J-disable", function () {
                 var id = $(this).closest("tr").attr("id");
-                if (confirm("确定删除？")) {
+                if (confirm("禁用后不可登录，确定？")) {
                     $.ajax({
-                        url: '/admin/api/user/delete',
-                        type: 'post', //GET
+                        url: '/admin/api/user/disable/' + id,
+                        type: 'get', //GET
                         async: true,    //或false,是否异步
                         data: {
                             userId: id
@@ -324,7 +328,40 @@ desired effect
                                 layer.msg(data.msg, { icon: 5 });
                                 return
                             }
-                            layer.msg("删除成功！", { icon: 6 });
+                            layer.msg("操作成功！", { icon: 6 });
+                            userList.ajax.reload();
+                        },
+                        error: function (xhr, textStatus) {
+                            console.log('错误')
+                        },
+                        complete: function () {
+                            console.log('结束')
+                        }
+                    })
+                }
+            });
+            //启用
+            $("#userlist").on("click", ".J-enable", function () {
+                var id = $(this).closest("tr").attr("id");
+                if (confirm("确定启用？")) {
+                    $.ajax({
+                        url: '/admin/api/user/enable/' + id,
+                        type: 'get', //GET
+                        async: true,    //或false,是否异步
+                        data: {
+                            userId: id
+                        },
+                        timeout: 5000,    //超时时间
+                        dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                        beforeSend: function (xhr) {
+                            console.log('发送前')
+                        },
+                        success: function (data, textStatus, jqXHR) {
+                            if (data.code == 1) {
+                                layer.msg(data.msg, { icon: 5 });
+                                return
+                            }
+                            layer.msg("操作成功！", { icon: 6 });
                             userList.ajax.reload();
                         },
                         error: function (xhr, textStatus) {

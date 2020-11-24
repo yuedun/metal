@@ -3,8 +3,6 @@ package util
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/astaxie/beego/httplib"
-	"github.com/astaxie/beego/logs"
 	"io/ioutil"
 	"log"
 	. "metal/models"
@@ -12,6 +10,9 @@ import (
 	"net/url"
 	"strconv"
 	"time"
+
+	"github.com/astaxie/beego/httplib"
+	"github.com/astaxie/beego/logs"
 
 	"github.com/PuerkitoBio/goquery"
 )
@@ -47,7 +48,7 @@ type wapResBody struct {
 	Message string `json:"message"`
 }
 
-type JobData struct {
+type JobDataLanguage struct {
 	Count    int    //数量
 	Region   string //地区
 	Language string //语言
@@ -55,7 +56,7 @@ type JobData struct {
 
 // 并行获取
 func GetJobs() {
-	ch1, ch2 := make(chan JobData), make(chan JobData)
+	ch1, ch2 := make(chan JobDataLanguage), make(chan JobDataLanguage)
 	go RequestByAjax3(ch1, "上海", "nodejs")
 	go RequestByAjax3(ch2, "上海", "golang")
 	i := 0 // 用于跳出for循环
@@ -86,7 +87,7 @@ ForEnd:
 }
 
 // 获取HTML页面中需要的数据
-func requestUrl(c chan JobData, language, region string) {
+func requestUrl(c chan JobDataLanguage, language, region string) {
 	//请求html数据
 	res, err := http.Get(fmt.Sprintf("https://www.lagou.com/jobs/list_%s?px=default&city=%s#filterBox", language, url.QueryEscape(region)))
 	if err != nil {
@@ -107,7 +108,7 @@ func requestUrl(c chan JobData, language, region string) {
 	text := doc.Find("#tab_pos>span").Text()
 	logs.Info(language+"职位数：", text)
 	count, _ := strconv.Atoi(text)
-	c <- JobData{
+	c <- JobDataLanguage{
 		Count:    count,
 		Region:   region,
 		Language: language,
@@ -117,7 +118,7 @@ func requestUrl(c chan JobData, language, region string) {
 /**
  * 通过ajax post获取数据
  */
-func RequestByAjax(c chan JobData, language, region string) {
+func RequestByAjax(c chan JobDataLanguage, language, region string) {
 	client := &http.Client{}
 	// 使用wap端接口
 	req, err := http.NewRequest(http.MethodGet,
@@ -158,7 +159,7 @@ func RequestByAjax(c chan JobData, language, region string) {
 	}
 	countStr := resBody.Content.Data.Page.TotalCount
 	count, _ := strconv.Atoi(countStr)
-	c <- JobData{
+	c <- JobDataLanguage{
 		Count:    count,
 		Region:   region,
 		Language: language,
@@ -181,7 +182,7 @@ func GetCookies(url string) []string {
 }
 
 // 先访问页面获取cookie，再将cookie值放入请求header中
-func RequestByAjax3(c chan JobData, region, language string) {
+func RequestByAjax3(c chan JobDataLanguage, region, language string) {
 	cookies := GetCookies("https://m.lagou.com/search.html")
 	//-------------------------------------
 	req := httplib.Get(fmt.Sprintf("https://m.lagou.com/search.json?city=%s&positionName=%s&pageNo=1&pageSize=1", url.QueryEscape(region), language))
@@ -202,7 +203,7 @@ func RequestByAjax3(c chan JobData, region, language string) {
 	}
 	countStr := resBody.Content.Data.Page.TotalCount
 	count, _ := strconv.Atoi(countStr)
-	c <- JobData{
+	c <- JobDataLanguage{
 		Count:    count,
 		Region:   region,
 		Language: language,
@@ -210,7 +211,7 @@ func RequestByAjax3(c chan JobData, region, language string) {
 }
 
 // 保存数据
-func saveJob(c JobData) {
+func saveJob(c JobDataLanguage) {
 	jobCount := &JobCount{
 		JobTitle:  c.Language,
 		Amount:    uint(c.Count),

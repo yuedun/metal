@@ -4,6 +4,7 @@ package controllers
 import (
 	"encoding/json"
 	"errors"
+	"log"
 	. "metal/models"
 	"strconv"
 	"time"
@@ -11,13 +12,68 @@ import (
 	"github.com/astaxie/beego/logs"
 )
 
-// GroupController 用户权限管理
-type GroupController struct {
+// UserGroupController 用户角色权限管理
+type UserGroupController struct {
 	AdminBaseController
 }
 
+func (c *UserGroupController) Roles() {
+	c.TplName = "admin/roles.html"
+}
+
+/**
+ * 获取所有权限
+ */
+// @router /user-group/get-all-user-group [get]
+func (c *UserGroupController) GetAllUserGroup() {
+	userGroup := new(UserGroup)
+	list, err := userGroup.GetUserGroupList()
+	if nil != err {
+		c.Data["json"] = ErrorData(err)
+	} else {
+		c.Data["json"] = list
+	}
+	c.ServeJSON()
+}
+
+/**
+用户添加权限
+*/
+// @router /user-group/add-user-group [post]
+func (c *UserGroupController) AddUserGroup() {
+	defer func() {
+		if err := recover(); err != nil {
+			c.Data["json"] = ErrorMsg(err.(string))
+		}
+		c.ServeJSON()
+	}()
+	args := UserGroup{}
+	json.Unmarshal(c.Ctx.Input.RequestBody, &args)
+	userId := args.UserId
+	if userId == 0 {
+		log.Panic("userId不能为空")
+	}
+	groupId := args.GroupId
+	if groupId == 0 {
+		log.Panic("groupId不能为空")
+	}
+	var userGroup = new(UserGroup)
+	userGroup.UserId = userId
+	userGroup.GroupId = groupId
+	userGroup.CreatedAt = time.Now()
+	userGroup.UpdatedAt = time.Now()
+
+	_, err := userGroup.Save()
+	if nil != err {
+		logs.Error(err)
+		c.Data["json"] = ErrorData(err)
+	} else {
+		c.Data["json"] = SuccessData(nil)
+	}
+}
+
 // AddUserRole 用户添加权限
-func (c *GroupController) AddUserRole() {
+func (c *UserGroupController) AddUserRole() {
 	defer func() {
 		if err := recover(); err != nil {
 			c.Data["json"] = ErrorData(err.(error))
@@ -57,7 +113,7 @@ func (c *GroupController) AddUserRole() {
 }
 
 // GetUserRoles 获取用户权限
-func (c *GroupController) GetUserRoles() {
+func (c *UserGroupController) GetUserRoles() {
 	userId := c.Ctx.Input.Param(":userId")
 	uid, _ := strconv.Atoi(userId)
 	role := new(Role)

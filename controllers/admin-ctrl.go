@@ -151,7 +151,7 @@ func (c *AdminController) UserGet() {
 /**
  * 修改用户
  */
-func (c *AdminController) Put() {
+func (c *AdminController) UpdateUser() {
 	userId, _ := c.GetInt("userId")
 	username := c.GetString("username") // 只能接收url后面的参数，不能接收body中的参数
 	email := c.GetString("email")
@@ -219,6 +219,42 @@ func (c *AdminController) UserList() {
 			"total":  total,
 		}
 		c.Data["json"] = SuccessData(data)
+	}
+	c.ServeJSON()
+}
+
+/**
+ * 禁用用户
+ */
+func (c *AdminController) DisableUser() {
+	id, _ := strconv.Atoi(c.Ctx.Input.Param(":id"))
+	var user = new(User)
+	user.Id = uint(id)
+	user.Status = 0
+	id64, err := user.UpdateStatus()
+	if nil != err {
+		logs.Error(err)
+		c.Data["json"] = ErrorData(err)
+	} else {
+		c.Data["json"] = SuccessData(id64)
+	}
+	c.ServeJSON()
+}
+
+/**
+ * 启用用户
+ */
+func (c *AdminController) EnableUser() {
+	id, _ := strconv.Atoi(c.Ctx.Input.Param(":id"))
+	var user = new(User)
+	user.Id = uint(id)
+	user.Status = 1
+	id64, err := user.UpdateStatus()
+	if nil != err {
+		logs.Error(err)
+		c.Data["json"] = ErrorData(err)
+	} else {
+		c.Data["json"] = SuccessData(id64)
 	}
 	c.ServeJSON()
 }
