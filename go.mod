@@ -5,11 +5,12 @@ go 1.14
 require (
 	github.com/PuerkitoBio/goquery v1.5.1
 	github.com/StackExchange/wmi v0.0.0-20190523213315-cbe66965904d // indirect
-	github.com/astaxie/beego v1.12.2
+	github.com/astaxie/beego v1.12.3
 	github.com/go-ole/go-ole v1.2.4 // indirect
 	github.com/go-redis/redis v6.15.9+incompatible
 	github.com/go-sql-driver/mysql v1.5.0
 	github.com/gomarkdown/markdown v0.0.0-20200824053859-8c8b3816f167
+	github.com/lib/pq v1.8.0 // indirect
 	github.com/microcosm-cc/bluemonday v1.0.4
 	github.com/onsi/ginkgo v1.14.0 // indirect
 	github.com/qiniu/api.v7 v7.2.5+incompatible
@@ -20,7 +21,9 @@ require (
 	github.com/shurcooL/sanitized_anchor_name v1.0.0 // indirect
 	github.com/stretchr/testify v1.6.1 // indirect
 	golang.org/x/crypto v0.0.0-20200709230013-948cd5f35899 // indirect
-	golang.org/x/text v0.3.3 // indirect
+	golang.org/x/sys v0.0.0-20201107080550-4d91cf3a1aaf // indirect
+	golang.org/x/text v0.3.4 // indirect
+	gopkg.in/check.v1 v1.0.0-20200902074654-038fdea0a05b // indirect
 	qiniupkg.com/x v7.0.8+incompatible // indirect
 )
 
