@@ -80,7 +80,7 @@ func (c *AdminController) ToLogin() {
  */
 func (c *AdminController) LoginOut() {
 	c.DelSession("loginUser")
-	c.Redirect("/admin/login", 302)
+	c.Redirect("/admin/page/login", 302)
 }
 
 func (c *AdminController) Welcome() {
