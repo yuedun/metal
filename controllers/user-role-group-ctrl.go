@@ -97,17 +97,10 @@ func (c *UserGroupController) AddUserRole() {
 	if len(roleIds) == 0 {
 		panic(errors.New("roleId不能为空"))
 	}
-	for _, roleId := range roleIds {
-		var userGroup = new(Groups)
-		userGroup.UserId = userId
-		userGroup.RoleId = roleId
-		userGroup.CreatedAt = time.Now()
-		userGroup.UpdatedAt = time.Now()
-		_, err := userGroup.Save()
-		if nil != err {
-			logs.Error(err)
-			panic(err)
-		}
+	var userGroup = new(Groups)
+	err = userGroup.UpdateUserRoles(userId, roleIds)
+	if err != nil {
+		panic(err)
 	}
 	c.Data["json"] = SuccessData(nil)
 }
@@ -137,5 +130,64 @@ func (c *UserGroupController) GetUserRoles() {
 		userPermissions = append(userPermissions[:index], *userPremis)
 	}
 	c.Data["json"] = SuccessData(userPermissions)
+	c.ServeJSON()
+}
+
+func (c *UserGroupController) GetRolesList() {
+	// args := c.GetString("search") //搜索框
+	start, _ := c.GetInt("start")
+	perPage, _ := c.GetInt("perPage")
+	role := new(Role)
+
+	list, total, err := role.GetRolesList(*role, start, perPage)
+	if nil != err {
+		logs.Error(err)
+		c.Data["json"] = ErrorData(err)
+	}
+	data := map[string]any{
+		"result": list,
+		"total":  total,
+	}
+	c.Data["json"] = SuccessData(data)
+
+	c.ServeJSON()
+}
+
+func (c *UserGroupController) CreateRole() {
+	roleName := c.GetString("roleName")
+	groups := c.GetString("permissions")
+	role := Role{
+		Description: roleName,
+		Groups:      groups,
+	}
+	role.CreatedAt = time.Now()
+	role.UpdatedAt = time.Now()
+	_, err := role.Create()
+	if nil != err {
+		logs.Error(err)
+		c.Data["json"] = ErrorData(err)
+	}
+	c.Data["json"] = SuccessData(role)
+	c.ServeJSON()
+}
+
+func (c *UserGroupController) UpdateRole() {
+	// args := c.GetString("search") //搜索框
+	roleId := c.GetString("roleId")
+	ridint, _ := strconv.Atoi(roleId)
+	rid := uint(ridint)
+	roleName := c.GetString("roleName")
+	groups := c.GetString("permissions")
+	role := Role{
+		Description: roleName,
+		Groups:      groups,
+	}
+	role.Id = rid
+	_, err := role.Update()
+	if nil != err {
+		logs.Error(err)
+		c.Data["json"] = ErrorData(err)
+	}
+	c.Data["json"] = SuccessData(role)
 	c.ServeJSON()
 }

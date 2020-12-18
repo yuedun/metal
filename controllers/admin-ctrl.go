@@ -131,7 +131,7 @@ func (c *AdminController) Post() {
 
 /**
  * 通过如下方式获取路由参数
- * /admin/user/:id
+ * /admin/page/user/:id
  * c.Ctx.Input.Param(":id")
  */
 func (c *AdminController) UserGet() {
@@ -190,7 +190,7 @@ func (c *AdminController) UserListRoute() {
 
 /**
  * 用户列表接口
- * /admin/users
+ * /admin/page/users
  */
 func (c *AdminController) UserList() {
 	args := c.GetString("search") //搜索框
@@ -362,7 +362,7 @@ func (c *AdminController) ArticleListRoute() {
 
 /**
  * 文章列表接口
- * /admin/articles
+ * /admin/page/articles
  */
 func (c *AdminController) ArticlesList() {
 	args := c.GetString("search") // 获取所有参数
@@ -390,7 +390,7 @@ func (c *AdminController) ArticlesList() {
 
 /**
  * 编辑文章路由
- * /admin/articles
+ * /admin/page/articles
  */
 func (c *AdminController) ArticleEditRoute() {
 	article := new(Article)
@@ -403,7 +403,7 @@ func (c *AdminController) ArticleEditRoute() {
 
 /**
  * 修改文章接口
- * /admin/article/:id
+ * /admin/page/article/:id
  */
 func (c *AdminController) ArticleEdit() {
 	defer func() {
@@ -436,7 +436,7 @@ func (c *AdminController) ArticleEdit() {
 
 /**
  * 删除文章接口
- * /admin/articles
+ * /admin/page/articles
  */
 func (c *AdminController) ArticleDelete() {
 	article := new(Article)
@@ -449,7 +449,7 @@ func (c *AdminController) ArticleDelete() {
 
 /**
  * 上传图片
- * /admin/upload-img
+ * /admin/page/upload-img
  */
 func (c *AdminController) UploadImg() {
 	file, h, err := c.GetFile("editormd-image-file")
@@ -503,4 +503,41 @@ func (c *AdminController) UploadImg() {
 // 通讯录
 func (c *AdminController) PNameView() {
 	c.TplName = "admin/pname.html"
+}
+
+/**
+ * 留言查看，审核 页面
+ * /admin/page/messages
+ */
+func (c *AdminController) MessagesRoute() {
+	article := new(Article)
+	artId, _ := c.GetInt("id")
+	article.Id = uint(artId)
+	article.GetById()
+	c.Data["article"] = article
+	c.TplName = "admin/messages.html"
+}
+
+/**
+ * 留言查看，审核
+ * /admin/api/message/list
+ */
+func (c *AdminController) MessageList() {
+	args := c.GetString("search")
+	start, _ := c.GetInt("start")
+	perPage, _ := c.GetInt("perPage")
+	message := new(Message)
+	var param = make(map[string]string)
+	param["mobile"] = args
+	param["username"] = args
+	list, total, err := message.GetAllByCondition(param, start, perPage)
+	if err != nil {
+
+	}
+	data := map[string]any{
+		"result": list,
+		"total":  total,
+	}
+	c.Data["json"] = SuccessData(data)
+	c.ServeJSON()
 }

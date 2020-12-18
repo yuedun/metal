@@ -6,7 +6,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <html>
 
 <head>
-    <title>角色管理</title>
+    <title>留言管理</title>
     {{template "admin/html-head.html" .}}
 </head>
 <!--
@@ -67,8 +67,9 @@ desired effect
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>角色</th>
-                                            <th>权限</th>
+                                            <th>昵称</th>
+                                            <th>邮箱</th>
+                                            <th>内容</th>
                                             <th>创建时间</th>
                                             <th>操作</th>
                                         </tr>
@@ -79,8 +80,9 @@ desired effect
                                     <tfoot>
                                         <tr>
                                             <th>ID</th>
-                                            <th>角色</th>
-                                            <th>权限</th>
+                                            <th>昵称</th>
+                                            <th>邮箱</th>
+                                            <th>内容</th>
                                             <th>创建时间</th>
                                             <th>操作</th>
                                         </tr>
@@ -114,64 +116,7 @@ desired effect
         <!-- /.Control-sidebar -->
     </div>
     <!-- ./wrapper -->
-    <!-- 弹窗内容 新增-->
-    <div id="create-dialog" style="display: none;">
-        <div class="col-md-6">
-            <!-- general form elements -->
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title">新增角色</h3>
-                </div>
-                <!-- /.box-header -->
-                <!-- form start -->
-                <form role="form" method="post" onsubmit="return false">
-                    <div class="box-body">
-                        <div class="form-group">
-                            <label for="roleName">角色</label>
-                            <input type="text" class="form-control" id="roleName" name="roleName"
-                                placeholder="roleName">
-                        </div>
-                        <div class="form-group">
-                            <label for="permissions">permissions</label>
-                            <textarea type="text" class="form-control" id="permissions" name="permissions"
-                                placeholder="permissions"></textarea>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <!-- /.box -->
-        </div>
-    </div>
-    <!-- 弹窗内容 修改-->
-    <div id="update-dialog" style="display: none;">
-        <div class="col-md-6">
-            <!-- general form elements -->
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title">编辑角色</h3>
-                </div>
-                <!-- /.box-header -->
-                <!-- form start -->
-                <form role="form" method="post" onsubmit="return false">
-                    <input type="hidden" id="roleId">
-                    <div class="box-body">
-                        <div class="form-group">
-                            <label for="roleName">角色</label>
-                            <input type="text" class="form-control" id="roleName" name="roleName"
-                                placeholder="roleName">
-                        </div>
-                        <div class="form-group">
-                            <label for="permissions">permissions</label>
-                            <textarea type="text" class="form-control" id="permissions" name="permissions"
-                                placeholder="permissions"></textarea>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <!-- /.box -->
-        </div>
-    </div>
-
+    
     <!-- REQUIRED JS SCRIPTS -->
     {{template "admin/html-js.html"}}
     <!-- /REQUIRED JS SCRIPTS -->
@@ -201,7 +146,7 @@ desired effect
                         search: data.search.value
                     };
                     $.ajax({
-                        url: '/admin/api/roles/list',
+                        url: '/admin/api/message/list',
                         type: 'GET', //GET
                         data: postData,
                         timeout: 5000,    //超时时间
@@ -233,8 +178,9 @@ desired effect
                 rowId: 'id',//自动设置行id
                 columns: [
                     { data: 'id' },
-                    { data: 'description' },
-                    { data: 'groups' },
+                    { data: 'nick_name' },
+                    { data: 'email' },
+                    { data: 'content' },
                     {
                         name: "created_at",
                         data: "created_at",
@@ -244,7 +190,7 @@ desired effect
                     },
                     {
                         render: function (data, type, row, settings) {
-                            var html = '<a href="javascript:void(0);" class="J-update">编辑</a>&nbsp;'
+                            var html = '<a href="javascript:void(0);" class="J-update">审核</a>&nbsp;'
                             html += '<a href="javascript:void(0);" class="J-delete">删除</a>'
                             return html;
                         }
@@ -276,8 +222,8 @@ desired effect
                             type: 'POST', //GET
                             async: true,    //或false,是否异步
                             data: {
-                                roleName: $("#create-dialog #roleName").val(),
-                                permissions: $("#create-dialog #permissions").val(),
+                                roleName: $("#roleName").val(),
+                                permissions: $("#permissions").val(),
                             },
                             timeout: 5000,    //超时时间
                             dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
@@ -302,15 +248,15 @@ desired effect
                     }
                 });
             })
-            //修改
+            // 审核
             $("#dataList").on("click", ".J-update", function () {
                 var data = dataList;
                 var id = $(this).closest("tr").attr("id");
                 var roleName = $(this).closest("tr").data("roleName");
                 var permissions = $(this).closest("tr").data("persmissions");
-                $("#update-dialog #roleId").val(id);
-                $("#update-dialog #roleName").val(roleName);
-                $("#update-dialog #permissions").val(permissions);
+                $("#roleId").val(id);
+                $("#roleName").val(roleName);
+                $("#permissions").val(permissions);
                 layer.open({
                     type: 1,
                     area: ['500px', 'auto'],
@@ -324,9 +270,9 @@ desired effect
                             type: 'PUT', //GET
                             async: true,    //或false,是否异步
                             data: {
-                                roleId: $("#update-dialog #roleId").val(),
-                                roleName: $("#update-dialog #roleName").val(),
-                                permissions: $("#update-dialog #permissions").val(),
+                                roleId: $("#roleId").val(),
+                                roleName: $("#roleName").val(),
+                                permissions: $("#permissions").val(),
                             },
                             timeout: 5000,    //超时时间
                             dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text

@@ -1,6 +1,11 @@
 package models
 
 import (
+	"context"
+	"database/sql"
+	"time"
+
+	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/orm"
 )
 
@@ -48,4 +53,36 @@ func (group *Groups) Save() (int64, error) {
 	// 每次操作都需要新建一个Ormer变量，当然也可以全局设置
 	// 需要 切换数据库 和 事务处理 的话，不要使用全局保存的 Ormer 对象。
 	return o.Insert(group)
+}
+
+// 修改用户权限
+func (group *Groups) UpdateUserRoles(userId uint, roleIds []uint) error {
+	o := orm.NewOrm()
+	err := o.BeginTx(context.Background(), &sql.TxOptions{Isolation: sql.LevelRepeatableRead})
+	if err != nil {
+		logs.Error("start the transaction failed")
+		return err
+	}
+	group.UserId = userId
+	if _, err := o.Delete(group, "user_id"); err == nil {
+		logs.Error(err)
+	}
+
+	for _, roleId := range roleIds {
+		var userGroup = new(Groups)
+		userGroup.UserId = userId
+		userGroup.RoleId = roleId
+		userGroup.CreatedAt = time.Now()
+		userGroup.UpdatedAt = time.Now()
+		_, err := o.Insert(userGroup)
+		if nil != err {
+			logs.Error(err)
+			o.Rollback()
+			return err
+		}
+	}
+
+	err = o.Commit()
+
+	return err
 }
