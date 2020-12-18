@@ -36,7 +36,10 @@ var NeedPermission = map[string]bool{
 	"JobCountController:CountDataAll":      false,
 	"JobCountController:CountDataRecently": false,
 	"UserGroupController:GetUserRoles":     false,
-	"UserGroupController:AddUserRole":      true,
+	"UserGroupController:AddUserRole":      false,
 	"UserGroupController:AddUserGroup":     false,
 	"UserGroupController:GetAllUserGroup":  false,
+	"UserGroupController:Roles":            true,
+	"UserGroupController:UpdateRole":       true,
+	"UserGroupController:CreateRole":       true,
 }

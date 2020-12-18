@@ -44,3 +44,35 @@ func (role *Role) GetRolesAndUserPermission(userId int) (allRoles []Role, userRo
 	wg.Wait()
 	return
 }
+
+// GetRolesList 获取角色列表
+func (role *Role) GetRolesList(search Role, offset, limit int) (allRoles []Role, count int64, err error) {
+	o := orm.NewOrm()
+	var wg sync.WaitGroup
+	wg.Add(2)
+	go func() {
+		defer wg.Done()
+		count, err = o.QueryTable("role").Count()
+
+	}()
+	go func() {
+		defer wg.Done()
+		_, err = o.Raw("SELECT * FROM role LIMIT ?, ?;", offset, limit).QueryRows(&allRoles)
+	}()
+	wg.Wait()
+	return
+}
+
+// 创建角色
+func (role *Role) Create() (int64, error) {
+	o := orm.NewOrm()
+	id, err := o.Insert(role) // 要修改的对象和需要修改的字段
+	return id, err
+}
+
+// 通过id修改
+func (role *Role) Update() (int64, error) {
+	o := orm.NewOrm()
+	id, err := o.Update(role, "description", "groups") // 要修改的对象和需要修改的字段
+	return id, err
+}

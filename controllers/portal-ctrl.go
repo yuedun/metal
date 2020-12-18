@@ -7,6 +7,7 @@ import (
 	"reflect"
 	"regexp"
 	"strconv"
+	"time"
 
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
@@ -121,5 +122,34 @@ func (c *PortalController) About() {
 
 // @router /message [get]
 func (c *PortalController) Message() {
+	message := new(Message)
+	cond := map[string]string{}
+	cond["status"] = "1"
+	list, total, err := message.GetAllByCondition(cond, 0, 10)
+	if err != nil {
+
+	}
+	logs.Info(list)
+	c.Data["messageList"] = list
+	c.Data["total"] = total
+	// c.Data["pageNo"] = pageNo
+	// c.Data["pageSize"] = pageSize
 	c.TplName = "message.html"
+}
+
+// @router /message [post]
+func (c *PortalController) CreateMessage() {
+	nickName := c.GetString("nickName")
+	email := c.GetString("email")
+	content := c.GetString("content")
+	message := new(Message)
+	message.NickName = nickName
+	message.Email = email
+	message.Content = content
+	message.Status = 0 //待审核
+	message.CreatedAt = time.Now()
+	message.UpdatedAt = time.Now()
+	message.Save()
+	c.Data["json"] = SuccessData("留言成功")
+	c.ServeJSON()
 }

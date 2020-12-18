@@ -5,29 +5,29 @@ body {
 }
 body {
     margin: 0;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif!important;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
     font-size: 16px;
     line-height: 20px;
     background-color: #f7f7f7;
 }
 .layui-container a {
-    color: #572C82!important;
-    text-decoration: none!important;
+    color: #572c82 !important;
+    text-decoration: none !important;
 }
-a:hover{
+a:hover {
     text-decoration-line: underline;
 }
 
-.system-description{
+.system-description {
     min-height: 160px;
     text-align: center;
     padding: 0 140px;
 }
-.system-description p{
+.system-description p {
     font-size: 24px;
 }
 
-.home-page .article{
+.home-page .article {
     border-color: #e2e2e2;
     border-style: solid;
     border-width: 1px;
@@ -38,36 +38,36 @@ a:hover{
 .home-page .article section {
     font-size: 16px;
 }
-.home-page .article ul li{
+.home-page .article ul li {
     display: inline-block;
     width: 22%;
     border-left: bisque solid 1px;
     padding: 0 5px;
     border-right: bisque solid 1px;
 }
-.home-page .article ul li a{
+.home-page .article ul li a {
     display: block;
     text-align: center;
 }
-.home-page .article section img{
-    width: 100%;
+.home-page .article section img {
+    width: 50%;
     height: auto;
 }
-.home-page .time-text{
+.home-page .time-text {
     color: #c2c2c2;
     font-size: 14px;
 }
-.home-page #page{
+.home-page #page {
     padding-left: 20px;
 }
 
-.article-page article section .title-header{
+.article-page article section .title-header {
     text-align: center;
     font-size: 24px;
     margin-top: 10px;
     margin-bottom: 10px;
 }
-.article-page .title-header span{
+.article-page .title-header span {
     font-size: small;
     color: #6e7373;
 }
@@ -75,35 +75,39 @@ a:hover{
     line-height: 1.8;
     font-size: 16px;
 }
-.article-page .description p{
+.article-page .description p {
     padding: 10px;
     word-break: break-all;
 }
 .article-page .description img {
     max-width: 100%;
 }
-.category-page .category-h1{
+.category-page .category-h1 {
     margin-bottom: 10px;
 }
-.about-page .description{
+.about-page .description {
     margin: 20px 0;
     font-size: 16px;
 }
-.about-page .wechat{
+.about-page .wechat {
     text-align: center;
 }
-.about-page .wechat img{
+.about-page .wechat img {
     width: 20%;
 }
-.message-page textarea{
+.message-page textarea {
     width: 100%;
 }
-@media (max-width: 767px) {
-    .about-page .wechat img{
-        width: 70%;
-    }
-}
-.footer-container .info{
+.footer-container .info {
     margin: 30px 20px;
     text-align: center;
+}
+@media (max-width: 767px) {
+    .about-page .wechat img {
+        width: 70%;
+    }
+    .home-page .article section img {
+        width: 100%;
+        height: auto;
+    }
 }

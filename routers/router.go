@@ -37,6 +37,7 @@ func init() {
 			beego.NSRouter("/system-info", &controllers.SystemController{}, "get:SystemInfo"),
 			beego.NSRouter("/job-count", &controllers.JobCountController{}, "get:JobCount"),
 			beego.NSRouter("/roles", &controllers.UserGroupController{}, "get:Roles"),
+			beego.NSRouter("/messages", &controllers.AdminController{}, "get:MessagesRoute"),
 		),
 		beego.NSNamespace("/api",
 			beego.NSBefore(controllers.HasAdminPermission), //过滤器
@@ -59,8 +60,12 @@ func init() {
 			beego.NSRouter("/picture-delete", &controllers.PictureController{}, "delete,post:DeletePicture"),
 			beego.NSRouter("/user/groups", &controllers.UserGroupController{}, "post:AddUserRole"),
 			beego.NSRouter("/user-roles/:userId", &controllers.UserGroupController{}, "get:GetUserRoles"),
+			beego.NSRouter("/roles/list", &controllers.UserGroupController{}, "get:GetRolesList"),
+			beego.NSRouter("/roles/update", &controllers.UserGroupController{}, "put:UpdateRole"),
+			beego.NSRouter("/roles/create", &controllers.UserGroupController{}, "post:CreateRole"),
 			beego.NSRouter("/job-count/count-data-recently", &controllers.JobCountController{}, "get:CountDataRecently"),
 			beego.NSRouter("/job-count/count-data-all", &controllers.JobCountController{}, "get:CountDataAll"),
+			beego.NSRouter("/message/list", &controllers.AdminController{}, "get:MessageList"),
 		),
 	)
 	//注册namespace
