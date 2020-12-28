@@ -149,7 +149,10 @@ func (c *PortalController) CreateMessage() {
 	message.Status = 0 //待审核
 	message.CreatedAt = time.Now()
 	message.UpdatedAt = time.Now()
-	message.Save()
+	_, err := message.Save()
+	if err != nil {
+		c.Data["json"] = ErrorMsg("留言失败！")
+	}
 	c.Data["json"] = SuccessData("留言成功")
 	c.ServeJSON()
 }

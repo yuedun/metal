@@ -66,6 +66,7 @@ func init() {
 			beego.NSRouter("/job-count/count-data-recently", &controllers.JobCountController{}, "get:CountDataRecently"),
 			beego.NSRouter("/job-count/count-data-all", &controllers.JobCountController{}, "get:CountDataAll"),
 			beego.NSRouter("/message/list", &controllers.AdminController{}, "get:MessageList"),
+			beego.NSRouter("/message/update/:id", &controllers.AdminController{}, "put:MessageUpdate"),
 		),
 	)
 	//注册namespace
