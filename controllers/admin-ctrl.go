@@ -541,3 +541,17 @@ func (c *AdminController) MessageList() {
 	c.Data["json"] = SuccessData(data)
 	c.ServeJSON()
 }
+
+/**
+ * 留言审核通过
+ * /admin/api/message/update
+ */
+func (c *AdminController) MessageUpdate() {
+	article := new(Message)
+	artId, _ := strconv.Atoi(c.Ctx.Input.Param(":id"))
+	article.Id = uint(artId)
+	article.Status = 1
+	article.UpdateStatus()
+	c.Data["json"] = SuccessData("审核成功！")
+	c.ServeJSON()
+}

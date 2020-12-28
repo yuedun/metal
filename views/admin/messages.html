@@ -75,7 +75,9 @@ desired effect
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{/*<tr><td></td></tr>*/}}
+                                        {{/*<tr>
+                                            <td></td>
+                                        </tr>*/}}
                                     </tbody>
                                     <tfoot>
                                         <tr>
@@ -116,7 +118,7 @@ desired effect
         <!-- /.Control-sidebar -->
     </div>
     <!-- ./wrapper -->
-    
+
     <!-- REQUIRED JS SCRIPTS -->
     {{template "admin/html-js.html"}}
     <!-- /REQUIRED JS SCRIPTS -->
@@ -190,7 +192,7 @@ desired effect
                     },
                     {
                         render: function (data, type, row, settings) {
-                            var html = '<a href="javascript:void(0);" class="J-update">审核</a>&nbsp;'
+                            var html = '<a href="javascript:void(0);" class="J-update">审核通过</a>&nbsp;'
                             html += '<a href="javascript:void(0);" class="J-delete">删除</a>'
                             return html;
                         }
@@ -203,10 +205,6 @@ desired effect
                     $(row).data("persmissions", data.groups);
                 }
             });
-            // 新增按钮
-            $('#dataList_wrapper').find('.row').eq(0).find('.col-sm-6').eq(0).html('<div class="btn-group">'
-                + '<button type="button" class="btn btn-info J-create"><i class="fa fa-plus">新增</i></button>'
-                + '</div>');
 
             $('#dataList_wrapper').delegate('.J-create', 'click', function () {
                 layer.open({
@@ -250,52 +248,28 @@ desired effect
             })
             // 审核
             $("#dataList").on("click", ".J-update", function () {
-                var data = dataList;
                 var id = $(this).closest("tr").attr("id");
-                var roleName = $(this).closest("tr").data("roleName");
-                var permissions = $(this).closest("tr").data("persmissions");
-                $("#roleId").val(id);
-                $("#roleName").val(roleName);
-                $("#permissions").val(permissions);
-                layer.open({
-                    type: 1,
-                    area: ['500px', 'auto'],
-                    btn: ['确定', '取消'],
-                    fixed: false,//跟随滚动
-                    shadeClose: true, //点击遮罩关闭
-                    content: $("#update-dialog"),
-                    yes: function (index, layero) {
-                        $.ajax({
-                            url: '/admin/api/roles/update',
-                            type: 'PUT', //GET
-                            async: true,    //或false,是否异步
-                            data: {
-                                roleId: $("#roleId").val(),
-                                roleName: $("#roleName").val(),
-                                permissions: $("#permissions").val(),
-                            },
-                            timeout: 5000,    //超时时间
-                            dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
-                            success: function (data, textStatus, jqXHR) {
-                                if (data.code == 1) {
-                                    layer.msg(data.msg, { icon: 5 });
-                                    return
-                                }
-                                layer.msg("修改成功！", { icon: 6 });
-                                layer.close(index); //如果设定了yes回调，需进行手工关闭
-                                dataList.ajax.reload();
-                            },
-                            error: function (xhr, textStatus) {
-                                layer.msg("修改失败！", { icon: 5 });
-                            },
-                            complete: function () {
+                $.ajax({
+                    url: '/admin/api/message/update/'+id,
+                    type: 'PUT', //GET
+                    async: true,    //或false,是否异步
+                    timeout: 5000,    //超时时间
+                    dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                    success: function (data, textStatus, jqXHR) {
+                        if (data.code == 1) {
+                            layer.msg(data.msg, { icon: 5 });
+                            return
+                        }
+                        layer.msg("审核成功！", { icon: 6 });
+                        dataList.ajax.reload();
+                    },
+                    error: function (xhr, textStatus) {
+                        layer.msg("审核失败！", { icon: 5 });
+                    },
+                    complete: function () {
 
-                            }
-                        })
-                    }, btn2: function (index, layero) {
-                        layer.close(index);
                     }
-                });
+                })
             });
         })
     </script>
