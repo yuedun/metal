@@ -8,6 +8,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
     <title>角色管理</title>
     {{template "admin/html-head.html" .}}
+    <style>
+        .td {
+            word-break: break-all;
+        }
+    </style>
 </head>
 <!--
 BODY TAG OPTIONS:
@@ -74,7 +79,9 @@ desired effect
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{/*<tr><td></td></tr>*/}}
+                                        {{/*<tr>
+                                            <td></td>
+                                        </tr>*/}}
                                     </tbody>
                                     <tfoot>
                                         <tr>
@@ -234,7 +241,7 @@ desired effect
                 columns: [
                     { data: 'id' },
                     { data: 'description' },
-                    { data: 'groups' },
+                    { data: 'groups', className: "td", width: "70%" },
                     {
                         name: "created_at",
                         data: "created_at",
