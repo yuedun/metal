@@ -50,7 +50,7 @@ a:hover {
     text-align: center;
 }
 .home-page .article section img {
-    width: 50%;
+    max-width: 50%;
     height: auto;
 }
 .home-page .time-text {
@@ -83,7 +83,8 @@ a:hover {
     max-width: 100%;
 }
 .category-page .category-h1 {
-    margin-bottom: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 .about-page .description {
     margin: 20px 0;
@@ -107,7 +108,7 @@ a:hover {
         width: 70%;
     }
     .home-page .article section img {
-        width: 100%;
+        max-width: 100%;
         height: auto;
     }
 }
