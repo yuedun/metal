@@ -18,9 +18,18 @@
         <div style="overflow-y: auto;" class="message-page">
             <div class="layui-container">
                 <div class="layui-row">
-                {{range $index, $elem := .messageList}}
-                    {{$elem.NickName}}：{{$elem.Content}}-{{$elem.CreatedAt}}<br/>
-                {{end}}
+                    <ul class="layui-timeline">
+                        {{range $index, $elem := .messageList}}
+                            <li class="layui-timeline-item">
+                                <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                                <div class="layui-timeline-content layui-text">
+                                    <h3 class="layui-timeline-title">{{$elem.NickName}}</h3>
+                                    <p>{{$elem.Content}}</p>
+                                    <p>创建于：{{$elem.CreatedAt}}</p>
+                                </div>
+                            </li>
+                        {{end}}
+                    </ul>
                 </div>
                 <div class="layui-row">
                     <div class="layui-col-md12">
