@@ -10,39 +10,40 @@
 
 <body>
 
-<div class="layui-layout layui-layout-admin">
-    <!-- 顶部栏 -->
-    {{template "./layout-menu.html"}}
-    <!-- 顶部栏 -->
-    <!-- 中间内容区 -->
-    <div class="home-page">
-        <div class="layui-container">
-            <div class="layui-row">
-                <div class="layui-col-sm12 layui-col-md12">
-                    {{range $index, $elem := .articleList}}
-                    <article class="article">
-                        <header>
-                            <h2><a href="/article/{{$elem.Id}}" title="{{$elem.Title}}">{{$elem.Title}}</a></h2>
-                            <time class="time-text">{{$elem.UpdatedAt}}</time>
-                        </header>
-                        <section>
-                            <p>{{str2html $elem.Content}}</p>
-                            <p>{{str2html $elem.Img}}</p>
-                        </section>
-                    </article>
-                    {{end}}
-                    <div id="page"></div>
+    <div class="layui-layout layui-layout-admin">
+        <!-- 顶部栏 -->
+        {{template "./layout-menu.html"}}
+        <!-- 顶部栏 -->
+        <!-- 中间内容区 -->
+        <div class="home-page">
+            <div class="layui-container">
+                <div class="layui-row">
+                    <div class="layui-col-md12">
+                        {{range $index, $elem := .articleList}}
+                        <article class="article">
+                            <header>
+                                <h2><a href="/article/{{$elem.Id}}" title="{{$elem.Title}}">{{$elem.Title}}</a></h2>
+                                <time class="time-text">{{$elem.UpdatedAt}}</time>
+                            </header>
+                            <section>
+                                <p>{{str2html $elem.Content}}</p>
+                                <p>{{str2html $elem.Img}}</p>
+                            </section>
+                        </article>
+                        {{end}}
+                        <div id="page"></div>
+                    </div>
                 </div>
             </div>
+            <footer>
+                {{template "./layout-footer.html"}}
+            </footer>
         </div>
-        <footer>
-            {{template "./layout-footer.html"}}
-        </footer>
     </div>
-</div>
     <script>
         layui.use(['jquery', 'laypage'], function () {
             var laypage = layui.laypage;
+            var $ = layui.jquery;
 
             var current = '{{.pageNo}}';
             var pageSize = '{{.pageSize}}';
@@ -54,9 +55,9 @@
                 , curr: parseInt(current)
                 , count: total //数据总数，从服务端得到
                 , hash: true
-                , jump: function(obj, first){
-                    if(!first){
-                        location.href = '/?pageNo='+obj.curr+'&pageSize='+pageSize;
+                , jump: function (obj, first) {
+                    if (!first) {
+                        location.href = '/?pageNo=' + obj.curr + '&pageSize=' + pageSize;
                     }
                 }
             });

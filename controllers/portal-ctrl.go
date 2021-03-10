@@ -88,16 +88,17 @@ func (c *PortalController) Article() {
 	} else {
 		article := &Article{}
 		article.Id = uint(artId)
-		err := article.GetById()
+		articlePortal, err := article.ArticleDetail()
 		if err != nil {
 			logs.Error(err)
 		}
-		articlePortal := ArticlePortal{}
+		// articlePortal := ArticlePortal{}
 		articlePortal.Title = article.Title
 		articlePortal.Keywords = article.Keywords
 		articlePortal.Content = util.Md2html(article.Content)
 		articlePortal.UpdatedAt = article.UpdatedAt.Format("2006-01-02 15:04")
 		c.Data["article"] = articlePortal
+		c.Data["zero"] = uint(0)
 		c.TplName = "article.html"
 	}
 }

@@ -2,43 +2,48 @@
 <html lang="zh-CN">
 
 <head>
-    <title>{{.article.Title}}</title>
-    <meta name="keywords" content="{{.article.Keywords}}">
-    <meta name="description" content="{{substr .article.Content 0 200}}">
-    {{template "./layout-head.html" .}}
-    <link rel="stylesheet" href="/static/css/markdown.css" />
+	<title>{{.article.Title}}</title>
+	<meta name="keywords" content="{{.article.Keywords}}">
+	<meta name="description" content="{{substr .article.Content 0 200}}">
+	{{template "./layout-head.html" .}}
+	<link rel="stylesheet" href="/static/css/markdown.css" />
 </head>
 
 <body>
 
-<div class="layui-layout layui-layout-admin">
-    <!-- 顶部栏 -->
-    {{template "./layout-menu.html"}}
-    <!-- 顶部栏 -->
-    <!-- 中间内容区 -->
-    <div style="overflow-y: auto;" class="article-page">
-        <div class="layui-container">
-            <div class="layui-row">
-                <div class="layui-col-md12">
-                    <article>
-                        <section>
-                          <div class="title-header">
-                            <h1 class="title-info">{{.article.Title}}</h1>
-                            <span>（{{.article.UpdatedAt}}）</span>
-                          </div>
-                          <div class="description">
-                            {{str2html .article.Content}}
-                          </div>
-                        </section>
-                      </article>
-                </div>
-            </div>
-        </div>
-    </div>
-    <footer>
-        {{template "./layout-footer.html"}}
-    </footer>
-</div>
+	<div class="layui-layout layui-layout-admin">
+		<!-- 顶部栏 -->
+		{{template "./layout-menu.html"}}
+		<!-- 顶部栏 -->
+		<!-- 中间内容区 -->
+		<div style="overflow-y: auto;" class="article-page">
+			<div class="layui-container">
+				<div class="layui-row">
+					<div class="layui-col-md12">
+						<article>
+							<section>
+								<div class="title-header">
+									<h1 class="title-info">{{.article.Title}}</h1>
+									<span>（{{.article.UpdatedAt}}）</span>
+								</div>
+								<div class="description">
+									{{str2html .article.Content}}
+								</div>
+							</section>
+						</article>
+					</div>
+				</div>
+				<hr>
+				<div class="lay-row">
+					<div class="layui-col-md6">{{if gt .article.Previous.Id .zero}}<i class="layui-icon layui-icon-left"></i><a href="/article/{{.article.Previous.Id}}">{{.article.Previous.Title}}</a>{{end}}</div>
+					<div class="layui-col-md6" style="text-align: right;">{{if gt .article.Next.Id .zero}}<a href="/article/{{.article.Next.Id}}">{{.article.Next.Title}}</a><i class="layui-icon layui-icon-right"></i>{{end}}</div>
+				</div>
+			</div>
+		</div>
+		<footer>
+			{{template "./layout-footer.html"}}
+		</footer>
+	</div>
 </body>
 
 </html>

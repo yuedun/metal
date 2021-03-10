@@ -38,17 +38,19 @@
                         </fieldset>
                         <form class="layui-form" onsubmit="return false">
                             <div class="layui-form-item">
-                                <label class="layui-form-label">昵称：</label>
-                                <div class="layui-input-inline">
-                                    <input type="text" name="nickName" placeholder="请输入昵称（可选）" autocomplete="off"
-                                        class="layui-input">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">昵称：</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="nickName" required lay-verify="required" placeholder="请输入昵称" autocomplete="off"
+                                            class="layui-input">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">邮箱：</label>
-                                <div class="layui-input-inline">
-                                    <input type="text" name="email" placeholder="请输入邮箱（可选）" autocomplete="off"
-                                        class="layui-input">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">邮箱：</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="email" required lay-verify="required" placeholder="请输入邮箱" autocomplete="off"
+                                            class="layui-input">
+                                    </div>
                                 </div>
                             </div>
                             <div class="layui-form-item layui-form-text">
