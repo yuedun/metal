@@ -8,7 +8,7 @@
 {{if eq .env "prod"}}
 <script>
     var _hmt = _hmt || [];
-    (function() {
+    (function () {
         var hm = document.createElement("script");
         hm.src = "https://hm.baidu.com/hm.js?33e46fa33fe7baa55c00e78c60dbc83c";
         var s = document.getElementsByTagName("script")[0];
@@ -16,3 +16,17 @@
     })();
 </script>
 {{end}}
+<script>
+    layui.use(['jquery'], function () {
+        var $ = layui.jquery;
+        window.onscroll = function () {
+            if ($(document).scrollTop() > 0) {
+                //$("#pf_nav").show();   
+                $(".nav").css('position', 'fixed').css('top', '0').css('width', '100%');
+            } else {
+                //$("#pf_nav").hide();   
+                $(".nav").css('position', '');
+            }
+        }
+    })
+</script>

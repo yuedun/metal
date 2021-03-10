@@ -1,6 +1,7 @@
 package models
 
 import (
+	"strconv"
 	"sync"
 	"time"
 
@@ -21,6 +22,8 @@ type ArticlePortal struct {
 	Article
 	Img       string
 	UpdatedAt string
+	Previous  Article
+	Next      Article
 }
 
 func init() {
@@ -93,4 +96,18 @@ func (model *Article) GetCategory() ([]ArticlePortal, error) {
 	titles := make([]ArticlePortal, 1)
 	_, err := o.Raw("SELECT id, title, DATE_FORMAT(updated_at,'%Y-%m-%d %H:%i') as updated_at FROM article WHERE status = 1 ORDER BY id DESC;").QueryRows(&titles)
 	return titles, err
+}
+
+// 文章详情
+func (model *Article) ArticleDetail() (ArticlePortal, error) {
+	o := orm.NewOrm()
+	err := o.Read(model)
+	articlePortal := ArticlePortal{}
+	strID := strconv.Itoa(int(model.Id))
+	var next, previous Article
+	o.Raw("SELECT id, title FROM article WHERE id > " + strID + " ORDER BY id ASC LIMIT 1;").QueryRow(&next)
+	o.Raw("SELECT id, title FROM article WHERE id < " + strID + " ORDER BY id DESC LIMIT 1;").QueryRow(&previous)
+	articlePortal.Previous = previous
+	articlePortal.Next = next
+	return articlePortal, err
 }
