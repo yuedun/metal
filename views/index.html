@@ -9,36 +9,29 @@
 </head>
 
 <body>
-
     <div class="layui-layout layui-layout-admin">
         <!-- 顶部栏 -->
         {{template "./layout-menu.html"}}
         <!-- 顶部栏 -->
         <!-- 中间内容区 -->
-        <div class="home-page">
-            <div class="layui-container">
-                <div class="layui-row">
-                    <div class="layui-col-md12">
-                        {{range $index, $elem := .articleList}}
-                        <article class="article">
-                            <header>
-                                <h2><a href="/article/{{$elem.Id}}" title="{{$elem.Title}}">{{$elem.Title}}</a></h2>
-                                <time class="time-text">{{$elem.UpdatedAt}}</time>
-                            </header>
-                            <section>
-                                <p>{{str2html $elem.Content}}</p>
-                                <p>{{str2html $elem.Img}}</p>
-                            </section>
-                        </article>
-                        {{end}}
-                        <div id="page"></div>
-                    </div>
-                </div>
+        <section class="home-page">
+            <div class="layui-container page-container">
+                {{range $index, $elem := .articleList}}
+                <article class="article">
+                    <header>
+                        <h2><a href="/article/{{$elem.Id}}" title="{{$elem.Title}}">{{$elem.Title}}</a></h2>
+                        <time class="time-text">{{$elem.UpdatedAt}}</time>
+                    </header>
+                    <section>
+                        <p>{{str2html $elem.Content}}</p>
+                        <p>{{str2html $elem.Img}}</p>
+                    </section>
+                </article>
+                {{end}}
+                <div id="page"></div>
             </div>
-            <footer>
-                {{template "./layout-footer.html"}}
-            </footer>
-        </div>
+        </section>
+        {{template "./layout-footer.html"}}
     </div>
     <script>
         layui.use(['jquery', 'laypage'], function () {
@@ -64,5 +57,4 @@
         });
     </script>
 </body>
-
 </html>
