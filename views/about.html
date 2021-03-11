@@ -9,35 +9,27 @@
 </head>
 
 <body>
-
-<div class="layui-layout layui-layout-admin">
-    <!-- 顶部栏 -->
-    {{template "./layout-menu.html"}}
-    <!-- 顶部栏 -->
-    <!-- 中间内容区 -->
-    <div style="overflow-y: auto;" class="about-page">
-        <div class="layui-container">
-            <div class="layui-row">
-                <div class="layui-col-md12">
-                    <div class="description">
-                        <p>本站基于golang语言，beego框架开发。项目同时包含了用户界面和管理后台，无需部署两个服务，同时提供了数据库结构，可直接拿来使用。
-                            本项目对个人用户友好，前端使用了最原始的html，js，css开发无需搭建繁琐的开发环境，不追求高大上（假大空）的技术，返璞归真，让个人网站更易建立。</p>
-                        <p class="wechat"><img src="/static/dist/img/wx.jpg" alt="微信"></p>
-                    </div>
+    <div class="layui-layout layui-layout-admin">
+        <!-- 顶部栏 -->
+        {{template "./layout-menu.html"}}
+        <!-- 顶部栏 -->
+        <!-- 中间内容区 -->
+        <section class="about-page">
+            <div class="layui-container page-container">
+                <div class="description">
+                    <p>本站基于golang语言，beego框架开发。项目同时包含了用户界面和管理后台，无需部署两个服务，同时提供了数据库结构，可直接拿来使用。
+                        本项目对个人用户友好，前端使用了最原始的html，js，css开发无需搭建繁琐的开发环境，不追求高大上（假大空）的技术，返璞归真，让个人网站更易建立。</p>
+                    <p class="wechat"><img src="/static/dist/img/wx.jpg" alt="微信"></p>
                 </div>
             </div>
-        </div>
-    </div>
-    <footer>
+        </section>
         {{template "./layout-footer.html"}}
-    </footer>
-</div>
-<script>
-    layui.use(['jquery'], function () {
-        var $ = layui.jquery;
+    </div>
+    <script>
+        layui.use(['jquery'], function () {
+            var $ = layui.jquery;
 
-    });
-</script>
+        });
+    </script>
 </body>
-
 </html>
