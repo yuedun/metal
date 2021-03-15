@@ -105,7 +105,10 @@ a:hover {
     margin: 30px 20px;
     text-align: center;
 }
-@media (max-width: 767px) {
+@media screen and (max-width: 768px){
+    .page-container{
+        padding: 20px 1% 50px;
+    }
     .about-page .wechat img {
         width: 70%;
     }
