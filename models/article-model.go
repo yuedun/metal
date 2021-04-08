@@ -41,9 +41,6 @@ func (model *Article) Save() (int64, error) {
 func (model *Article) GetArticlesByCondition(param map[string]string, pageIndex, pageSize int) (articles []Article, total int64, returnError error) {
 	o := orm.NewOrm()
 	var condition = ""
-	if param["status"] != "" {
-		condition += " AND status IN (" + param["status"] + ")"
-	}
 	if param["title"] != "" {
 		condition += " AND title LIKE '" + param["title"] + "%'"
 	}

@@ -26,7 +26,7 @@ func TestOne(t *testing.T) {
  * 获取cookie测试
  */
 func TestCookie(t *testing.T) {
-	cookies := util.GetCookies("https://www.baidu.com")
+	cookies := util.GetCookies("https://m.lagou.com/search.html")
 	t.Log("获取到的cookies：", cookies)
 }
 

@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 
 <head>
-	<title>{{.article.Title}}</title>
+	<title>{{.article.Title}}-月盾的网站</title>
 	<meta name="keywords" content="{{.article.Keywords}}">
 	<meta name="description" content="{{substr .article.Content 0 200}}">
 	{{template "./layout-head.html" .}}
@@ -21,7 +21,7 @@
 				<article>
 					<header class="title-header">
 						<h1 class="title-info">{{.article.Title}}</h1>
-						<span>（{{.article.UpdatedAt}}）</span>
+						<time>（{{.article.UpdatedAt}}）</time>
 					</header>
 					<div class="description">
 						{{str2html .article.Content}}

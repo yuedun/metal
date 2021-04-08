@@ -69,7 +69,7 @@ a:hover {
     margin-top: 10px;
     margin-bottom: 10px;
 }
-.article-page .title-header span {
+.article-page .title-header time {
     font-size: small;
     color: #6e7373;
 }
