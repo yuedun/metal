@@ -14,7 +14,7 @@ import (
 )
 
 type PortalController struct {
-	BaseController
+	beego.Controller
 }
 
 //用户如果没有进行注册，那么就会通过反射来执行对应的函数，如果注册了就会通过 interface 来进行执行函数
@@ -28,13 +28,17 @@ type PortalController struct {
 func (this *PortalController) Prepare() {
 	val := beego.AppConfig.String("runmode")
 	this.Data["env"] = val // 用户百度统计设置，测服环境不需要统计
+	// 设置TKD信息
+	this.Data["title"] = "月盾的网站，基于beego开发的web项目"
+	this.Data["keywords"] = "golang,go-micro,博客,管理后台"
+	this.Data["description"] = "golang,go-micro,博客,管理后台"
 	ctr, method := this.GetControllerAndAction()
 	logs.Debug("包， 结构体，请求方法:%s, %s, %s", reflect.TypeOf(PortalController{}).PkgPath(), ctr, method)
 }
 
-//收尾处理，在路由执行完执行，可当做后置中间件使用
+//收尾处理，在路由执行完执行，已经渲染了数据，所以Finish里设置数据不会渲染到模板中
 func (this *PortalController) Finish() {
-	logs.Debug(">>>>>>>>>>Finish")
+	logs.Debug(">>>>>>>>>>Finish 执行完相应的 HTTP Method 方法之后执行的")
 }
 
 //首页
