@@ -67,7 +67,7 @@ desired effect
 							<div class="box-header with-border">
 								<h3 class="box-title">原网页内容</h3>
 							</div>
-							<form role="form" method="get" action="/admin/picture">
+							<form role="form" method="get" action="/admin/page/picture">
 								<div class="box-body">
 									<div class="form-group">
 										<label for="name">name</label>
@@ -205,7 +205,7 @@ desired effect
 					tag: tags.toString()
 				}
 				$.ajax({
-					url: '/admin/pictures',
+					url: '/admin/api/pictures',
 					type: 'post', //GET
 					async: true,    //或false,是否异步
 					data: JSON.stringify(params),
