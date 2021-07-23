@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/astaxie/beego/logs"
+	"github.com/beego/beego/v2/core/logs"
 )
 
 type UserAPIController struct {

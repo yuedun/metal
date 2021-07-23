@@ -11,9 +11,9 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/astaxie/beego/logs"
+	"github.com/beego/beego/v2/core/logs"
 
-	"github.com/astaxie/beego"
+	beego "github.com/beego/beego/v2/server/web"
 )
 
 /**
@@ -90,10 +90,11 @@ func (c *AdminAPIController) UploadImg() {
 			log.Fatal(err)
 		}
 		os.Remove(fileName)
+		url, _ := beego.AppConfig.String("qiniuUrl")
 		c.Data["json"] = map[string]any{
 			"success": 1,
 			"message": "ok",
-			"url":     beego.AppConfig.String("qiniuUrl") + ret.Key,
+			"url":     url + ret.Key,
 		}
 		c.ServeJSON()
 	}

@@ -9,8 +9,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/logs"
+	"github.com/beego/beego/v2/core/logs"
+	beego "github.com/beego/beego/v2/server/web"
 )
 
 type PortalController struct {
@@ -26,7 +26,7 @@ type PortalController struct {
 
 //预处理，会在下面每个路由执行前执行，可当做前置中间件使用
 func (this *PortalController) Prepare() {
-	val := beego.AppConfig.String("runmode")
+	val, _ := beego.AppConfig.String("runmode")
 	this.Data["env"] = val // 用户百度统计设置，测服环境不需要统计
 	// 设置TKD信息
 	this.Data["title"] = "月盾的网站，基于beego开发的web项目"

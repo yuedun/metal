@@ -9,8 +9,8 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/logs"
+	"github.com/beego/beego/v2/core/logs"
+	beego "github.com/beego/beego/v2/server/web"
 	"github.com/gomarkdown/markdown"
 	"github.com/microcosm-cc/bluemonday"
 	"github.com/russross/blackfriday"
@@ -35,7 +35,7 @@ func GetMD5(password string) string {
 func GeneratePassword(mobile string) string {
 	b := []byte(mobile)
 	p := b[7:]
-	password := "hello" + string(p)
+	password := "metal" + string(p)
 	return GetMD5(password)
 }
 
@@ -80,7 +80,8 @@ type IPBody struct {
 }
 
 func GetIpGeography(ip string, objBody *IPBody) error {
-	ipService := beego.AppConfig.String("ipService")
+	ipstr, _ := beego.AppConfig.String("ipService")
+	ipService := ipstr
 	res, err := http.Get(fmt.Sprintf(ipService, ip))
 	if err != nil {
 		logs.Error(err)

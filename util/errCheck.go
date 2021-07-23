@@ -1,6 +1,6 @@
 package util
 
-import "github.com/astaxie/beego/logs"
+import "github.com/beego/beego/v2/core/logs"
 
 func ErrCheck(err error) {
 	if err != nil {

@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/astaxie/beego/logs"
+	"github.com/beego/beego/v2/core/logs"
 
-	"github.com/astaxie/beego/orm"
+	"github.com/beego/beego/v2/client/orm"
 )
 
 //JobCount 添加tag标签
@@ -30,9 +30,10 @@ func (jobCount *JobCount) Save() (int64, error) {
 
 type JobData struct {
 	CreatedAt string `json:"created_at"`
-	Golang string `json:"golang"`
-	Nodejs string `json:"nodejs"`
+	Golang    string `json:"golang"`
+	Nodejs    string `json:"nodejs"`
 }
+
 //GetCountData 获取记录列表，利用行专列将同一天数据一行展示
 func (jobCount *JobCount) GetCountData(startDate, endDate string) ([]JobData, error) {
 	o := orm.NewOrm()

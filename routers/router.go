@@ -5,7 +5,7 @@ import (
 	"metal/controllers/api"
 	"metal/controllers/page"
 
-	"github.com/astaxie/beego"
+	beego "github.com/beego/beego/v2/server/web"
 )
 
 func init() {
@@ -20,10 +20,10 @@ func init() {
 	ns := beego.NewNamespace("/admin",
 		//根据实际经验，推荐使用直接注册的方式来管理路由，而不是注解路由。
 		//原因：可以直接明了的看到所有路由，不再使用可以直接注释掉，方便搜索。而注解路由过于分散不易管理，且并不能减少代码量
-		beego.NSBefore(controllers.HasAdminPermission), //权限校验
+		// beego.NSBefore(controllers.HasAdminPermission), //权限校验
 		beego.NSRouter("/", &page.AdminPageController{}, "get:Welcome"),
 		beego.NSNamespace("/page",
-			beego.NSBefore(controllers.HasAdminPermission), //过滤器
+			// beego.NSBefore(controllers.HasAdminPermission), //过滤器
 			beego.NSRouter("/", &page.AdminPageController{}, "get:Welcome"),
 			beego.NSRouter("/welcome", &page.AdminPageController{}, "get:Welcome"),
 			beego.NSRouter("/login", &page.AdminPageController{}, "get:Login"),
@@ -43,7 +43,7 @@ func init() {
 			beego.NSRouter("/messages", &page.AdminPageController{}, "get:MessagesRoute"),
 		),
 		beego.NSNamespace("/api",
-			beego.NSBefore(controllers.HasAdminPermission), //过滤器
+			// beego.NSBefore(controllers.HasAdminPermission), //过滤器
 			beego.NSRouter("/to-login", &api.UserAPIController{}, "post:ToLogin"),
 			beego.NSRouter("/login-out", &api.UserAPIController{}, "get:LoginOut"),
 			beego.NSRouter("/user/disable/:id", &api.UserAPIController{}, "get:DisableUser"),

@@ -1,11 +1,12 @@
 package models
 
 import (
-	"github.com/astaxie/beego/logs"
 	"strconv"
 	"sync"
 
-	"github.com/astaxie/beego/orm"
+	"github.com/beego/beego/v2/core/logs"
+
+	"github.com/beego/beego/v2/client/orm"
 )
 
 /**
