@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/astaxie/beego/logs"
+	"github.com/beego/beego/v2/core/logs"
 )
 
 type ArticleAPIController struct {

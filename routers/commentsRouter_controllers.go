@@ -1,11 +1,29 @@
 package routers
 
 import (
-	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/context/param"
+	beego "github.com/beego/beego/v2/server/web"
+	"github.com/beego/beego/v2/server/web/context/param"
 )
 
 func init() {
+
+    beego.GlobalControllerRouter["metal/controllers/api:AdminAPIController"] = append(beego.GlobalControllerRouter["metal/controllers/api:AdminAPIController"],
+        beego.ControllerComments{
+            Method: "AddUserGroup",
+            Router: "/user-group/add-user-group",
+            AllowHTTPMethods: []string{"post"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["metal/controllers/api:AdminAPIController"] = append(beego.GlobalControllerRouter["metal/controllers/api:AdminAPIController"],
+        beego.ControllerComments{
+            Method: "GetAllUserGroup",
+            Router: "/user-group/get-all-user-group",
+            AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
 
     beego.GlobalControllerRouter["metal/controllers:PortalController"] = append(beego.GlobalControllerRouter["metal/controllers:PortalController"],
         beego.ControllerComments{

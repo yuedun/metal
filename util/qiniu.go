@@ -3,18 +3,15 @@ package util
 import (
 	"context"
 
-	"github.com/astaxie/beego"
-	"github.com/qiniu/api.v7/auth/qbox"
-	"github.com/qiniu/api.v7/storage"
-)
-
-var (
-	accessKey = beego.AppConfig.String("accessKey")
-	secretKey = beego.AppConfig.String("secretKey")
-	bucket    = beego.AppConfig.String("bucket")
+	beego "github.com/beego/beego/v2/server/web"
+	"github.com/qiniu/go-sdk/v7/auth/qbox"
+	"github.com/qiniu/go-sdk/v7/storage"
 )
 
 func GetToken() string {
+	accessKey, _ := beego.AppConfig.String("accessKey")
+	secretKey, _ := beego.AppConfig.String("secretKey")
+	bucket, _ := beego.AppConfig.String("bucket")
 	putPolicy := storage.PutPolicy{
 		Scope: bucket,
 	}

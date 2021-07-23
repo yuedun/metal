@@ -1,10 +1,11 @@
 package service
 
 import (
-	"github.com/astaxie/beego/logs"
-	"github.com/astaxie/beego/orm"
 	. "metal/models"
 	"sync"
+
+	"github.com/beego/beego/v2/client/orm"
+	"github.com/beego/beego/v2/core/logs"
 )
 
 type ArticleService interface {

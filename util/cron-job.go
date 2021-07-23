@@ -1,10 +1,11 @@
 package util
 
 import (
-	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/logs"
-	"github.com/robfig/cron"
 	"strconv"
+
+	"github.com/beego/beego/v2/core/logs"
+	beego "github.com/beego/beego/v2/server/web"
+	"github.com/robfig/cron"
 )
 
 type MyJob struct{}
@@ -14,13 +15,15 @@ func (job MyJob) Run() {
 	GetJobs()
 }
 func CronStart() {
-	runCron, err := strconv.ParseBool(beego.AppConfig.String("runCron"))
+	runCronStr, _ := beego.AppConfig.String("runCron")
+	runCron, err := strconv.ParseBool(runCronStr)
 	if err == nil && runCron {
 		c := cron.New()
-		spec := beego.AppConfig.String("cron")
+		cron, _ := beego.AppConfig.String("cron")
+		spec := cron
 		c.AddFunc(spec, func() {
 			GetJobs()
-			beego.Info("职位统计任务已执行！")
+			logs.Info("职位统计任务已执行！")
 		})
 		//c.AddJob(spec, MyJob{})
 		c.Start()

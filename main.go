@@ -1,42 +1,39 @@
 package main
 
 import (
-	"encoding/gob"
 	"log"
-	"metal/controllers"
 	_ "metal/routers"
 	"metal/util"
 	"time"
 
-	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/logs"
-	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
+
+	"github.com/beego/beego/v2/client/orm"
+	"github.com/beego/beego/v2/core/logs"
+	"github.com/beego/beego/v2/server/web"
+	beego "github.com/beego/beego/v2/server/web"
 )
 
 var port string
 
 func init() {
-	dbUser := beego.AppConfig.String("mysqluser")
-	dbPass := beego.AppConfig.String("mysqlpass")
-	dbName := beego.AppConfig.String("mysqldb")
-	dbURL := beego.AppConfig.String("mysqlurls")
-	dbPort := beego.AppConfig.String("mysqlport")
-	port = beego.AppConfig.String("httpport")
+	dbUser, err := web.AppConfig.String("mysqluser")
+	dbPass, err := web.AppConfig.String("mysqlpass")
+	dbName, err := web.AppConfig.String("mysqldb")
+	dbURL, err := web.AppConfig.String("mysqlurls")
+	dbPort, err := web.AppConfig.String("mysqlport")
+	port, err = web.AppConfig.String("httpport")
+	if err != nil {
+		panic(err)
+	}
 	orm.RegisterDriver("mysql", orm.DRMySQL)
-	maxIdle := 5
-	maxConn := 5
 	// 参数1        数据库的别名，用来在ORM中切换数据库使用
 	// 参数2        driverName
 	// 参数3        对应的链接字符串
 	// 参数4(可选)  设置最大空闲连接
 	// 参数5(可选)  设置最大数据库连接 (go >= 1.2) username:password@tcp(127.0.0.1:3306)/db_name
-	orm.RegisterDataBase(
-		"default",
-		"mysql",
-		dbUser+":"+dbPass+"@tcp("+dbURL+":"+dbPort+")/"+dbName+"?charset=utf8&parseTime=true&loc=Asia%2FShanghai",
-		maxIdle,
-		maxConn)
+	// set default database
+	orm.RegisterDataBase("default", "mysql", dbUser+":"+dbPass+"@tcp("+dbURL+":"+dbPort+")/"+dbName+"?charset=utf8&parseTime=true&loc=Asia%2FShanghai")
 	orm.Debug = true // 控制台打印查询语句
 	// 自动建表
 	// orm.RunSyncdb("default", false, true)
@@ -47,7 +44,7 @@ func init() {
 	 * 非 memory 的引擎，请自己在 main.go 的 init 里面注册需要保存的这些结构体，不然会引起应用重启之后出现无法解析的错误
 	 * 如：gob: name not registered for interface: "*controllers.SessionObject"
 	 */
-	gob.Register(&controllers.UserPermission{})
+	// gob.Register(&controllers.UserPermission{})
 	// session 开发环境下使用file存储，生产环境使用redis等数据库存储
 	beego.BConfig.WebConfig.Session.SessionCookieLifeTime = 60 * 60 * 24 * 10 //cookie时长 10天 不会变
 	beego.BConfig.WebConfig.Session.SessionGCMaxLifetime = 60 * 60 * 24 * 3   // session时长 3天 刷新会变

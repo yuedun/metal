@@ -8,7 +8,7 @@ import (
 	"runtime"
 
 	"github.com/PuerkitoBio/goquery"
-	"github.com/astaxie/beego/logs"
+	"github.com/beego/beego/v2/core/logs"
 	"github.com/shirou/gopsutil/cpu"
 	"github.com/shirou/gopsutil/disk"
 	"github.com/shirou/gopsutil/mem"

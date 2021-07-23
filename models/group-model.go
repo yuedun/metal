@@ -1,12 +1,10 @@
 package models
 
 import (
-	"context"
-	"database/sql"
 	"time"
 
-	"github.com/astaxie/beego/logs"
-	"github.com/astaxie/beego/orm"
+	"github.com/beego/beego/v2/client/orm"
+	"github.com/beego/beego/v2/core/logs"
 )
 
 type Groups struct {
@@ -58,13 +56,13 @@ func (group *Groups) Save() (int64, error) {
 // 修改用户权限
 func (group *Groups) UpdateUserRoles(userId uint, roleIds []uint) error {
 	o := orm.NewOrm()
-	err := o.BeginTx(context.Background(), &sql.TxOptions{Isolation: sql.LevelRepeatableRead})
+	to, err := o.Begin()
 	if err != nil {
 		logs.Error("start the transaction failed")
 		return err
 	}
 	group.UserId = userId
-	if _, err := o.Delete(group, "user_id"); err == nil {
+	if _, err := to.Delete(group, "user_id"); err == nil {
 		logs.Error(err)
 	}
 
@@ -74,15 +72,15 @@ func (group *Groups) UpdateUserRoles(userId uint, roleIds []uint) error {
 		userGroup.RoleId = roleId
 		userGroup.CreatedAt = time.Now()
 		userGroup.UpdatedAt = time.Now()
-		_, err := o.Insert(userGroup)
+		_, err := to.Insert(userGroup)
 		if nil != err {
 			logs.Error(err)
-			o.Rollback()
+			to.Rollback()
 			return err
 		}
 	}
 
-	err = o.Commit()
+	err = to.Commit()
 
 	return err
 }
