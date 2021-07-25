@@ -7,7 +7,7 @@ import (
 	"github.com/beego/beego/v2/core/logs"
 	beego "github.com/beego/beego/v2/server/web"
 
-	"github.com/astaxie/beego/context"
+	"github.com/beego/beego/v2/server/web/context"
 )
 
 type AdminBaseController struct {
@@ -76,7 +76,7 @@ type UserPermission struct {
 
 // 后台校验是否登录，未登录请求跳转到登录页
 var HasAdminPermission = func(ctx *context.Context) {
-	loginUser := ctx.Input.CruSession.Get("loginUser")
+	loginUser := ctx.Input.Session("loginUser")
 	if loginUser == nil && ctx.Input.URL() != "/admin/page/login" && ctx.Input.URL() != "/admin/api/to-login" {
 		ctx.Redirect(302, "/admin/page/login")
 	}
