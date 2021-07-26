@@ -11,7 +11,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/astaxie/beego/httplib"
+	"github.com/beego/beego/v2/client/httplib"
 	"github.com/beego/beego/v2/core/logs"
 
 	"github.com/PuerkitoBio/goquery"

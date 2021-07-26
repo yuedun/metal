@@ -2,8 +2,11 @@
 ![后台模板](http://hopefully-img.yuedun.wang/adminlte.png)
 
 ## go版本要求
-本项目使用了`go 1.15`，`beego v1.12.3`。
-
+本项目使用了`go 1.15`，`beego v2`, `beev2`。
+```sh
+go get -u github.com/beego/beego/v2
+go get -u github.com/beego/bee/v2
+```
 ## 项目启动
 
 - 该项目包含数据库文件，请自行创建`issue`数据库，执行`issue.sql`数据脚本导入数据。
@@ -13,12 +16,9 @@
 linux:`go env -w GOPROXY=https://goproxy.cn,direct`
 windows:`$env:GOPROXY = "https://goproxy.cn"`
 
-`go get -u github.com/beego/bee`安装beego命令行工具
-
 执行`bee run`如果未找到bee命令，在系统变量Path中追加%GOBIN%，作用是执行第三方命令，比如beego会在该目录下安装bee命令
 
 ```bash
-> cd %GOPATH%/src
 > cd metal
 > bee run
 ```

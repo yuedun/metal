@@ -17,15 +17,13 @@ import (
 var port string
 
 func init() {
-	dbUser, err := web.AppConfig.String("mysqluser")
-	dbPass, err := web.AppConfig.String("mysqlpass")
-	dbName, err := web.AppConfig.String("mysqldb")
-	dbURL, err := web.AppConfig.String("mysqlurls")
-	dbPort, err := web.AppConfig.String("mysqlport")
-	port, err = web.AppConfig.String("httpport")
-	if err != nil {
-		panic(err)
-	}
+	dbUser, _ := web.AppConfig.String("mysqluser")
+	dbPass, _ := web.AppConfig.String("mysqlpass")
+	dbName, _ := web.AppConfig.String("mysqldb")
+	dbURL, _ := web.AppConfig.String("mysqlurls")
+	dbPort, _ := web.AppConfig.String("mysqlport")
+	port, _ = web.AppConfig.String("httpport")
+
 	orm.RegisterDriver("mysql", orm.DRMySQL)
 	// 参数1        数据库的别名，用来在ORM中切换数据库使用
 	// 参数2        driverName
