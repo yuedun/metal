@@ -1,7 +1,9 @@
 package main
 
 import (
+	"encoding/gob"
 	"log"
+	"metal/controllers"
 	_ "metal/routers"
 	"metal/util"
 	"time"
@@ -42,7 +44,7 @@ func init() {
 	 * 非 memory 的引擎，请自己在 main.go 的 init 里面注册需要保存的这些结构体，不然会引起应用重启之后出现无法解析的错误
 	 * 如：gob: name not registered for interface: "*controllers.SessionObject"
 	 */
-	// gob.Register(&controllers.UserPermission{})
+	gob.Register(&controllers.UserPermission{})
 	// session 开发环境下使用file存储，生产环境使用redis等数据库存储
 	beego.BConfig.WebConfig.Session.SessionCookieLifeTime = 60 * 60 * 24 * 10 //cookie时长 10天 不会变
 	beego.BConfig.WebConfig.Session.SessionGCMaxLifetime = 60 * 60 * 24 * 3   // session时长 3天 刷新会变
