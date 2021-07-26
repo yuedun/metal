@@ -29,9 +29,9 @@ func (this *PortalController) Prepare() {
 	val, _ := beego.AppConfig.String("runmode")
 	this.Data["env"] = val // 用户百度统计设置，测服环境不需要统计
 	// 设置TKD信息
-	this.Data["title"] = "月盾的网站，基于beego开发的web项目"
-	this.Data["keywords"] = "golang,go-micro,博客,管理后台"
-	this.Data["description"] = "golang,go-micro,博客,管理后台"
+	this.Data["title"] = "月盾的网站，基于beego v2开发的web项目"
+	this.Data["keywords"] = "golang,go-micro,beego v2博客,管理后台"
+	this.Data["description"] = "golang,go-micro,beego v2博客,管理后台"
 	ctr, method := this.GetControllerAndAction()
 	logs.Debug("包， 结构体，请求方法:%s, %s, %s", reflect.TypeOf(PortalController{}).PkgPath(), ctr, method)
 }
