@@ -107,17 +107,17 @@ func (c *PortalController) Article() {
 	}
 }
 
-// @router /category [get]
-func (c *PortalController) Category() {
+// @router /catalog [get]
+func (c *PortalController) Catalog() {
 	article := new(Article)
-	titles, err := article.GetCategory()
+	titles, err := article.GetCatalog()
 	if err != nil {
 		c.Data["titles"] = []string{}
 	} else {
 		c.Data["titles"] = titles
 		c.Data["count"] = len(titles)
 	}
-	c.TplName = "category.html"
+	c.TplName = "catalog.html"
 }
 
 // @router /about [get]

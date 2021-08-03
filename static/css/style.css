@@ -84,7 +84,7 @@ a:hover {
 .article-page .description img {
     max-width: 100%;
 }
-.category-page .category-h1 {
+.catalog-page header {
     margin-top: 20px;
     margin-bottom: 20px;
 }
@@ -104,6 +104,13 @@ a:hover {
 .footer-container .info {
     margin: 30px 20px;
     text-align: center;
+}
+.footer {
+    background-color: #23262E;
+    color: #999;
+}
+.footer a {
+    color: #999;
 }
 @media screen and (max-width: 768px){
     .page-container{
