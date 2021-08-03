@@ -55,9 +55,10 @@ a:hover {
     max-width: 50%;
     height: auto;
 }
-.home-page .time-text {
+.home-page .article-info {
     color: #c2c2c2;
     font-size: 14px;
+    margin-right: 20px;
 }
 .home-page #page {
     padding-left: 20px;

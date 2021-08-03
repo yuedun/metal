@@ -45,11 +45,11 @@ func init() {
 	 * 如：gob: name not registered for interface: "*controllers.SessionObject"
 	 */
 	gob.Register(&controllers.UserPermission{})
-	// session 开发环境下使用file存储，生产环境使用redis等数据库存储
-	beego.BConfig.WebConfig.Session.SessionCookieLifeTime = 60 * 60 * 24 * 10 //cookie时长 10天 不会变
-	beego.BConfig.WebConfig.Session.SessionGCMaxLifetime = 60 * 60 * 24 * 3   // session时长 3天 刷新会变
+	// session 开发环境下使用file存储，生产环境使用redis等数据库存储https://beego.me/docs/mvc/controller/session.md
 	beego.BConfig.WebConfig.Session.SessionProvider = "file"
 	beego.BConfig.WebConfig.Session.SessionProviderConfig = "./tmp"
+	beego.BConfig.WebConfig.Session.SessionCookieLifeTime = 60 * 60 * 24 * 10 //cookie时长 10天 不会变
+	beego.BConfig.WebConfig.Session.SessionGCMaxLifetime = 60 * 60 * 24 * 3   // session时长 3天 刷新会变
 
 	// 日志：会保存手动输出的日志和系统异常日志
 	// 如： logs.Error和panic

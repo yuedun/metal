@@ -54,7 +54,6 @@ func (c *PortalController) Get() {
 	}
 	skip := (pageNo - 1) * pageSize
 	params := map[string]string{}
-	params["status"] = "1"
 	article := &Article{}
 	articleList, total, err := article.GetArticlesByCondition(params, skip, pageSize)
 	if nil != err {
@@ -71,6 +70,7 @@ func (c *PortalController) Get() {
 			artList[index].Content = beego.Substr(re.ReplaceAllString(htmlStr, ""), 0, 300)
 			artList[index].Img = string(reimg.Find([]byte(htmlStr)))
 			artList[index].Status = art.Status
+			artList[index].Category = art.Category
 			artList[index].UpdatedAt = art.UpdatedAt.Format("2006-01-02 15:04")
 		}
 		c.Data["articleList"] = artList

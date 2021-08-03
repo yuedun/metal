@@ -20,7 +20,8 @@
                 <article class="article">
                     <header>
                         <h2><a href="/article/{{$elem.Id}}" title="{{$elem.Title}}">{{$elem.Title}}</a></h2>
-                        <time class="time-text">{{$elem.UpdatedAt}}</time>
+                        <time class="article-info">{{$elem.UpdatedAt}}</time>
+                        <span class="article-info">分类：{{$elem.Category}}</span>
                     </header>
                     <section>
                         <p>{{str2html $elem.Content}}</p>

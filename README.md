@@ -1,8 +1,9 @@
 # 项目说明
-![后台模板](http://hopefully-img.yuedun.wang/adminlte.png)
+![前台模板](https://hopefully-img.yuedun.wang/c1ba1907e36a3440dad489c99ca53f11 "前台模板")
+![后台模板](https://hopefully-img.yuedun.wang/adminlte.png "后台模板")
 
 ## go版本要求
-本项目使用了`go 1.15`，`beego v2`, `beev2`。
+本项目使用了`go 1.16`，`beego v2`, `bee v2`。
 ```sh
 go get -u github.com/beego/beego/v2
 go get -u github.com/beego/bee/v2
@@ -12,8 +13,8 @@ go get -u github.com/beego/bee/v2
 - 该项目包含数据库文件，请自行创建`issue`数据库，执行`issue.sql`数据脚本导入数据。
 - 复制`conf/app-sample.conf`文件并重命名为`app.conf`
 
-`go get`安装所需依赖，默认的代理可能不能顺利安装，可设置国内代理
-linux:`go env -w GOPROXY=https://goproxy.cn,direct`
+`go get`安装所需依赖，默认的代理可能不能顺利安装，可设置国内代理  
+linux:`go env -w GOPROXY=https://goproxy.cn,direct`  
 windows:`$env:GOPROXY = "https://goproxy.cn"`
 
 执行`bee run`如果未找到bee命令，在系统变量Path中追加%GOBIN%，作用是执行第三方命令，比如beego会在该目录下安装bee命令
@@ -22,7 +23,7 @@ windows:`$env:GOPROXY = "https://goproxy.cn"`
 > cd metal
 > bee run
 ```
-**生产环境启动**
+## 生产环境启动*
 > ./run.sh
 脚本内容需要自身需求编写，我的发布流程并不一定适合你。
 ## 守护进程
@@ -46,12 +47,15 @@ GOOS=linux GOARCH=amd64 go build
 需要的只是重启一下服务即可。
 
 ## 测试
-进入到有测试文件的目录执行`go test`可测试所有测试函数，如只需测试指定的函数`go test -v -run="Redis"`
+进入到有测试文件的目录执行`go test`可测试所有测试函数，如只需测试指定的函数  
+`go test -v -run="Redis"`
 
 ## 项目结构说明
-由于本项目较简单，所以对项目目录结构没有严格要求，尤其是没有service层，而是将一些逻辑放到了model里，当初主要是觉得go的model层不像java，一个model文件中有大量的getter,setter方法，导致每个model变的很大，
+由于本项目较简单，所以对项目目录结构没有严格要求，本项目暂时没有service层，而是将一些逻辑放到了model里，主要是觉得go的model层不像java那样，Java的model文件中有大量的getter,setter方法，导致每个model变的很大，
 所以java喜欢对每种文件做分类。而go的model相对来说就很简单了，只是一个简单的struct，单独作为一层会显得多余，就决定把一些函数放到model中，可以直接通过model调用相关函数。go和java还是有很大的区别，如果还是用老的一套会显得繁琐和鸡肋。
 
 ## 权限设计
 基于角色的访问控制方法（RBAC）,目前只是简单的使用用户和角色，每个角色可以有一个权限，也可以有多个权限，所以赋值角色即分配了权限。
 比如：删除用户，既是角色，也是权限。
+
+图标库： https://iconpark.oceanengine.com/official
