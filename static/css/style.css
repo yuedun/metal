@@ -26,8 +26,29 @@ a:hover {
 .system-description p {
     font-size: 24px;
 }
+.width-visual {
+	width: 1100px;
+	margin: 0 auto
+}
 .page-container {
-    padding: 30px 7% 80px;
+    width: 70%;
+}
+.siderbar {
+    width: 30%;
+
+}
+.siderbar .box {
+    background-color: #fff;
+    border-color: #e2e2e2;
+    border-style: solid;
+    border-width: 1px;
+    margin: 10px;
+    padding: 10px;
+}
+.home-page {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 .home-page .article {
     background-color: #fff;

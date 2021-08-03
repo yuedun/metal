@@ -14,8 +14,8 @@
         {{template "./layout-menu.html"}}
         <!-- 顶部栏 -->
         <!-- 中间内容区 -->
-        <section class="home-page">
-            <div class="layui-container page-container">
+        <section class="home-page width-visual">
+            <div class="page-container">
                 {{range $index, $elem := .articleList}}
                 <article class="article">
                     <header>
@@ -31,9 +31,10 @@
                 {{end}}
                 <div id="page"></div>
             </div>
+            {{/*template "./partials/asider.html"*/}}
         </section>
-        {{template "./layout-footer.html"}}
     </div>
+    {{template "./layout-footer.html"}}
     <script>
         layui.use(['jquery', 'laypage'], function () {
             var laypage = layui.laypage;
