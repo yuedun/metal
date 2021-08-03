@@ -15,7 +15,7 @@ type Article struct {
 	Title    string `json:"title"`
 	Keywords string `json:"keywords"`
 	Content  string `json:"content"`
-	Category string `json:"category"`
+	Category string `json:"category"` //分类
 	Status   uint8  `json:"status"`
 }
 type ArticlePortal struct {
@@ -49,7 +49,7 @@ func (model *Article) GetArticlesByCondition(param map[string]string, pageIndex,
 	wg.Add(2)
 	go func() {
 		defer wg.Done()
-		var sql = "SELECT * FROM article WHERE 1=1"
+		var sql = "SELECT * FROM article WHERE status = 1"
 		sql += condition
 		sql += " ORDER BY id DESC"
 		sql += " LIMIT ?, ?;"
@@ -89,10 +89,27 @@ func (model *Article) Delete() (int64, error) {
 	return id, err
 }
 
+//目录
 func (model *Article) GetCatalog() ([]ArticlePortal, error) {
 	o := orm.NewOrm()
 	titles := make([]ArticlePortal, 1)
 	_, err := o.Raw("SELECT id, title, DATE_FORMAT(created_at,'%Y-%m-%d') as created_at, DATE_FORMAT(updated_at,'%Y-%m-%d') as updated_at FROM article WHERE status = 1 ORDER BY id DESC;").QueryRows(&titles)
+	return titles, err
+}
+
+//查询所有分类
+func (model *Article) GetCategories() ([]string, error) {
+	o := orm.NewOrm()
+	titles := make([]string, 1)
+	_, err := o.Raw("SELECT category FROM article GROUP BY category;").QueryRows(&titles)
+	return titles, err
+}
+
+//查询所有标签
+func (model *Article) GetKeywords() ([]ArticlePortal, error) {
+	o := orm.NewOrm()
+	titles := make([]ArticlePortal, 1)
+	_, err := o.Raw("SELECT keywords FROM article GROUP BY keywords;").QueryRows(&titles)
 	return titles, err
 }
 

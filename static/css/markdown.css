@@ -1,71 +1,71 @@
 
-h1, h2, h3, h4 {
+.markdown h1, h2, h3, h4 {
     color: #111111;
     font-weight: 400;
     margin-top: 0.5em;
 }
 
-h1, h2, h3, h4, h5 {
+.markdown h1, h2, h3, h4, h5 {
 	font-family: Georgia, Palatino, serif;
 }
-h1, h2, h3, h4, h5, p , dl{
+.markdown h1, h2, h3, h4, h5, p , dl{
     margin-bottom: 16px;
     padding: 0;
 }
-h1 {
+.markdown h1 {
     font-size: 48px;
     line-height: 54px;
 }
-h2 {
+.markdown h2 {
     font-size: 36px;
     line-height: 42px;
 }
-h1, h2 {
+.markdown h1, h2 {
     border-bottom: 1px solid #EFEAEA;
     padding-bottom: 10px;
 }
-h3 {
+.markdown h3 {
     font-size: 24px;
     line-height: 30px;
 }
-h4 {
+.markdown h4 {
     font-size: 21px;
     line-height: 26px;
 }
-h5 {
+.markdown h5 {
     font-size: 18px;
     list-style: 23px;
 }
-a {
+.markdown a {
     color: #0099ff;
     margin: 0;
     padding: 0;
     vertical-align: baseline;
 }
-a:hover {
+.markdown a:hover {
     text-decoration: none;
     color: #ff6600;
 }
-a:visited {
+.markdown a:visited {
     /*color: purple;*/
 }
-ul, ol {
+.markdown ul, ol {
     padding: 0;
     padding-left: 24px;
     margin: 0;
 }
-li {
+.markdown li {
     line-height: 24px;
 }
-li {
+.markdown li {
     list-style: disc!important;
 }
-p, ul, ol {
+.markdown p, ul, ol {
     font-size: 16px;
     line-height: 24px;
 }
 
-ol ol, ul ol {
+.markdown ol ol, ul ol {
     list-style-type: lower-roman;
 }
 
@@ -80,25 +80,25 @@ code {
     font-size: 13px;
 }*/
 
-code, pre {
+.markdown code, pre {
     border-radius: 3px;
     background-color:#f7f7f7;
     color: inherit;
 }
 
-code {
+.markdown code {
     font-family: Consolas, Monaco, Andale Mono, monospace;
     margin: 0 2px;
 }
 
-pre {
+.markdown pre {
     line-height: 1.5em;
     overflow: auto;
     padding: 2px 10px;
     border-left: 5px solid #6CE26C;
 }
 
-pre > code {
+.markdown pre > code {
     border: 0;
     display: inline;
     max-width: initial;
@@ -112,7 +112,7 @@ pre > code {
 
 }
 
-code {
+.markdown code {
     color: #666555;
 }
 
@@ -130,29 +130,29 @@ code .comment {
   color: #998
 }*/
 
-aside {
+.markdown aside {
     display: block;
     float: right;
     width: 390px;
 }
-blockquote {
+.markdown blockquote {
     border-left:.5em solid #eee;
     padding: 0 0 0 2em;
     margin-left:0;
 }
-blockquote  cite {
+.markdown blockquote  cite {
     font-size:14px;
     line-height:20px;
     color:#bfbfbf;
 }
-blockquote cite:before {
+.markdown blockquote cite:before {
     content: '\2014 \00A0';
 }
 
-blockquote p {
+.markdown blockquote p {
     color: #666;
 }
-hr {
+.markdown hr {
     text-align: left;
     color: #999;
     height: 2px;
@@ -162,11 +162,11 @@ hr {
     border: 0 none;
 }
 
-dl {
+.markdown dl {
     padding: 0;
 }
 
-dl dt {
+.markdown dl dt {
     padding: 10px 0;
     margin-top: 16px;
     font-size: 1em;
@@ -174,18 +174,18 @@ dl dt {
     font-weight: bold;
 }
 
-dl dd {
+.markdown dl dd {
     padding: 0 16px;
     margin-bottom: 16px;
 }
 
-dd {
+.markdown dd {
     margin-left: 0;
 }
 
 /* Code below this line is copyright Twitter Inc. */
 
-button,
+.markdown button,
 input,
 select,
 textarea {
@@ -194,41 +194,41 @@ textarea {
     vertical-align: baseline;
     *vertical-align: middle;
 }
-button, input {
+.markdown button, input {
     line-height: normal;
     *overflow: visible;
 }
-button::-moz-focus-inner, input::-moz-focus-inner {
+.markdown button::-moz-focus-inner, input::-moz-focus-inner {
     border: 0;
     padding: 0;
 }
-button,
+.markdown button,
 input[type="button"],
 input[type="reset"],
 input[type="submit"] {
     cursor: pointer;
     -webkit-appearance: button;
 }
-input[type=checkbox], input[type=radio] {
+.markdown input[type=checkbox], input[type=radio] {
     cursor: pointer;
 }
 /* override default chrome & firefox settings */
-input:not([type="image"]), textarea {
+.markdown input:not([type="image"]), textarea {
     -webkit-box-sizing: content-box;
     -moz-box-sizing: content-box;
     box-sizing: content-box;
 }
 
-input[type="search"] {
+.markdown input[type="search"] {
     -webkit-appearance: textfield;
     -webkit-box-sizing: content-box;
     -moz-box-sizing: content-box;
     box-sizing: content-box;
 }
-input[type="search"]::-webkit-search-decoration {
+.markdown input[type="search"]::-webkit-search-decoration {
     -webkit-appearance: none;
 }
-label,
+.markdown label,
 input,
 select,
 textarea {
@@ -238,11 +238,11 @@ textarea {
     line-height: normal;
     margin-bottom: 18px;
 }
-input[type=checkbox], input[type=radio] {
+.markdown input[type=checkbox], input[type=radio] {
     cursor: pointer;
     margin-bottom: 0;
 }
-input[type=text],
+.markdown input[type=text],
 input[type=password],
 textarea,
 select {
@@ -259,11 +259,11 @@ select {
     -moz-border-radius: 3px;
     border-radius: 3px;
 }
-select, input[type=file] {
+.markdown select, input[type=file] {
     height: 27px;
     line-height: 27px;
 }
-textarea {
+.markdown textarea {
     height: auto;
 }
 /* grey out placeholders */
@@ -273,7 +273,7 @@ textarea {
 ::-webkit-input-placeholder {
     color: #bfbfbf;
 }
-input[type=text],
+.markdown input[type=text],
 input[type=password],
 select,
 textarea {
@@ -284,7 +284,7 @@ textarea {
     -moz-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
-input[type=text]:focus, input[type=password]:focus, textarea:focus {
+.markdown input[type=text]:focus, input[type=password]:focus, textarea:focus {
     outline: none;
     border-color: rgba(82, 168, 236, 0.8);
     -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px rgba(82, 168, 236, 0.6);
@@ -292,7 +292,7 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px rgba(82, 168, 236, 0.6);
 }
 /* buttons */
-button {
+.markdown button {
     display: inline-block;
     padding: 4px 14px;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -323,26 +323,26 @@ button {
     border-color: #0064cd #0064cd #003f81;
     border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 }
-button:hover {
+.markdown button:hover {
     color: #fff;
     background-position: 0 -15px;
     text-decoration: none;
 }
-button:active {
+.markdown button:active {
     -webkit-box-shadow: inset 0 3px 7px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
     -moz-box-shadow: inset 0 3px 7px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
     box-shadow: inset 0 3px 7px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
 }
-button::-moz-focus-inner {
+.markdown button::-moz-focus-inner {
     padding: 0;
     border: 0;
 }
-table {
+.markdown table {
     *border-collapse: collapse; /* IE7 and lower */
     border-spacing: 0;
     width: 100%;
 }
-table {
+.markdown table {
     border: solid #ccc 1px;
     -moz-border-radius: 6px;
     -webkit-border-radius: 6px;
@@ -351,7 +351,7 @@ table {
     -moz-box-shadow: 0 1px 1px #ccc;
     box-shadow: 0 1px 1px #ccc;   */
 }
-table tr:hover {
+.markdown table tr:hover {
     background: #fbf8e9;
     -o-transition: all 0.1s ease-in-out;
     -webkit-transition: all 0.1s ease-in-out;
@@ -359,14 +359,14 @@ table tr:hover {
     -ms-transition: all 0.1s ease-in-out;
     transition: all 0.1s ease-in-out;
 }
-table td, .table th {
+.markdown table td, .table th {
     border-left: 1px solid #ccc;
     border-top: 1px solid #ccc;
     padding: 10px;
     text-align: left;
 }
 
-table th {
+.markdown table th {
     background-color: #dce9f9;
     background-image: -webkit-gradient(linear, left top, left bottom, from(#ebf3fc), to(#dce9f9));
     background-image: -webkit-linear-gradient(top, #ebf3fc, #dce9f9);
@@ -382,31 +382,31 @@ table th {
     padding: 5px;
 }
 
-table td:first-child, table th:first-child {
+.markdown table td:first-child, table th:first-child {
     border-left: none;
 }
 
-table th:first-child {
+.markdown table th:first-child {
     -moz-border-radius: 6px 0 0 0;
     -webkit-border-radius: 6px 0 0 0;
     border-radius: 6px 0 0 0;
 }
-table th:last-child {
+.markdown table th:last-child {
     -moz-border-radius: 0 6px 0 0;
     -webkit-border-radius: 0 6px 0 0;
     border-radius: 0 6px 0 0;
 }
-table th:only-child{
+.markdown table th:only-child{
     -moz-border-radius: 6px 6px 0 0;
     -webkit-border-radius: 6px 6px 0 0;
     border-radius: 6px 6px 0 0;
 }
-table tr:last-child td:first-child {
+.markdown table tr:last-child td:first-child {
     -moz-border-radius: 0 0 0 6px;
     -webkit-border-radius: 0 0 0 6px;
     border-radius: 0 0 0 6px;
 }
-table tr:last-child td:last-child {
+.markdown table tr:last-child td:last-child {
     -moz-border-radius: 0 0 6px 0;
     -webkit-border-radius: 0 0 6px 0;
     border-radius: 0 0 6px 0;
