@@ -41,6 +41,7 @@ func init() {
 			beego.NSRouter("/job-count", &page.AdminPageController{}, "get:JobCount"),
 			beego.NSRouter("/roles", &page.AdminPageController{}, "get:Roles"),
 			beego.NSRouter("/messages", &page.AdminPageController{}, "get:MessagesRoute"),
+			beego.NSRouter("/category-list", &page.AdminPageController{}, "get:CategoryList"),
 		),
 		beego.NSNamespace("/api",
 			beego.NSBefore(controllers.HasAdminPermission), //过滤器
@@ -70,6 +71,7 @@ func init() {
 			beego.NSRouter("/job-count/count-data-all", &api.AdminAPIController{}, "get:CountDataAll"),
 			beego.NSRouter("/message/list", &api.AdminAPIController{}, "get:MessageList"),
 			beego.NSRouter("/message/update/:id", &api.AdminAPIController{}, "put:MessageUpdate"),
+			beego.NSRouter("/categories", &api.AdminAPIController{}, "get:Categories"),
 		),
 	)
 	//注册namespace

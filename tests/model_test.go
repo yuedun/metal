@@ -6,28 +6,22 @@ import (
 	"testing"
 	"time"
 
-	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/orm"
+	beego "github.com/beego/beego/v2/server/web"
+
+	"github.com/beego/beego/v2/client/orm"
 	_ "github.com/go-sql-driver/mysql"
 )
 
 func TestMain(t *testing.M) {
-	dbUser := beego.AppConfig.String("mysqluser") //获取不到
-	dbPass := beego.AppConfig.String("mysqlpass")
-	dbName := beego.AppConfig.String("mysqldb")
-	dbURL := beego.AppConfig.String("mysqlurls")
-	dbPort := beego.AppConfig.String("mysqlport")
+	dbUser, _ := beego.AppConfig.String("mysqluser") //获取不到
+	dbPass, _ := beego.AppConfig.String("mysqlpass")
+	dbName, _ := beego.AppConfig.String("mysqldb")
+	dbURL, _ := beego.AppConfig.String("mysqlurls")
+	dbPort, _ := beego.AppConfig.String("mysqlport")
 	orm.RegisterDriver("mysql", orm.DRMySQL)
-	maxIdle := 5
-	maxConn := 5
 
 	fmt.Println(dbUser + ":" + dbPass + "@tcp(" + dbURL + ":" + dbPort + ")/" + dbName + "?charset=utf8&parseTime=true&loc=Asia%2FShanghai")
-	orm.RegisterDataBase(
-		"default",
-		"mysql",
-		dbUser+":"+dbPass+"@tcp("+dbURL+":"+dbPort+")/"+dbName+"?charset=utf8&parseTime=true&loc=Asia%2FShanghai",
-		maxIdle,
-		maxConn)
+	orm.RegisterDataBase("default", "mysql", dbUser+":"+dbPass+"@tcp("+dbURL+":"+dbPort+")/"+dbName+"?charset=utf8&parseTime=true&loc=Asia%2FShanghai")
 	orm.Debug = true // 控制台打印查询语句
 	// 自动建表
 	// orm.RunSyncdb("default", false, true)
