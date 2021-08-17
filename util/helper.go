@@ -13,7 +13,7 @@ import (
 	beego "github.com/beego/beego/v2/server/web"
 	"github.com/gomarkdown/markdown"
 	"github.com/microcosm-cc/bluemonday"
-	"github.com/russross/blackfriday"
+	blackfriday "github.com/russross/blackfriday/v2"
 )
 
 /**
@@ -104,8 +104,8 @@ func GetIpGeography(ip string, objBody *IPBody) error {
 func Md2html(in string) string {
 	input := []byte(in)
 	unsafe := blackfriday.Run(input, blackfriday.WithExtensions(blackfriday.CommonExtensions)) //支持表格，代码
-	htmlBytes := bluemonday.UGCPolicy().SanitizeBytes(unsafe)
-	html := string(htmlBytes)
+	// htmlBytes := bluemonday.UGCPolicy().SanitizeBytes(unsafe)// 会class="language-xx"过滤掉
+	html := string(unsafe)
 	return html
 }
 

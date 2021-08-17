@@ -77,7 +77,7 @@ a:hover {
     height: auto;
 }
 .home-page .article-info {
-    color: #c2c2c2;
+    color: #6e7373;
     font-size: 14px;
     margin-right: 20px;
 }
@@ -87,13 +87,14 @@ a:hover {
 
 .article-page article .title-header {
     text-align: center;
-    font-size: 24px;
     margin-top: 10px;
     margin-bottom: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
-.article-page .title-header time {
-    font-size: small;
-    color: #6e7373;
+.article-page .title-header h1 {
+    font-size: 22px;
+    line-height: 22px;
 }
 .article-page .description {
     line-height: 1.8;
@@ -105,6 +106,13 @@ a:hover {
 }
 .article-page .description img {
     max-width: 100%;
+}
+.article-page .article-info li {
+    display: inline;
+}
+.article-page .article-info {
+    font-size: small;
+    color: #6e7373;
 }
 .catalog-page header {
     margin-top: 20px;
@@ -135,8 +143,11 @@ a:hover {
     color: #999;
 }
 @media screen and (max-width: 768px){
+    .width-visual {
+        width: 100%;
+    }
     .page-container{
-        padding: 20px 1% 50px;
+        width: 100%;
     }
     .about-page .wechat img {
         width: 70%;

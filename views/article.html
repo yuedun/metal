@@ -20,15 +20,19 @@
 			<div class="layui-container page-container">
 				<article>
 					<header class="title-header">
-						<h1 class="title-info">{{.article.Title}}</h1>
-						<time>（{{.article.UpdatedAt}}）</time>
+						<h1>{{.article.Title}}</h1>
+						<ul class="article-info">
+							<li><time>时间：{{.article.UpdatedAt}}</time></li>
+							<li>分类：{{.article.Category}}</li>
+							<li>浏览：1</li>
+						</ul>
 					</header>
-					<div class="description">
+					<div class="description markdown">
 						{{str2html .article.Content}}
 					</div>
 				</article>
 				<hr>
-				<div class="lay-row">
+				<div class="layui-row">
 					<div class="layui-col-md6">{{if gt .article.Previous.Id .zero}}<i
 							class="layui-icon layui-icon-left"></i><a
 							href="/article/{{.article.Previous.Id}}">{{.article.Previous.Title}}</a>{{end}}</div>

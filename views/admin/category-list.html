@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html>
+
+<head>
+    <title>文章分类管理</title>
+    {{template "admin/html-head.html" .}}
+</head>
+<!--
+BODY TAG OPTIONS:
+=================
+Apply one or more of the following classes to get the
+desired effect
+|---------------------------------------------------------|
+| SKINS         | skin-blue                               |
+|               | skin-black                              |
+|               | skin-purple                             |
+|               | skin-yellow                             |
+|               | skin-red                                |
+|               | skin-green                              |
+|---------------------------------------------------------|
+|LAYOUT OPTIONS | fixed                                   |
+|               | layout-boxed                            |
+|               | layout-top-nav                          |
+|               | sidebar-collapse                        |
+|               | sidebar-mini                            |
+|---------------------------------------------------------|
+-->
+
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+
+        <!-- Main Header -->
+        {{template "admin/html-header.html" .}}
+        <!-- Left side column. contains the logo and sidebar -->
+        {{template "admin/html-aside.html" .}}
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    Data Tables
+                    <small>advanced tables</small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="/admin"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li class="active">分类管理</li>
+                </ol>
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="box">
+                            <div class="box-header">
+                                <button class="btn btn-primary" id="J-create">新建</button>
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <table id="dataList" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>name</th>
+                                            <th>createdAt</th>
+                                            <th>updatedAt</th>
+                                            <th width="120px">操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{/*<tr>
+                                            <td></td>
+                                        </tr>*/}}
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>name</th>
+                                            <th>createdAt</th>
+                                            <th>updatedAt</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                        <!-- /.box -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+
+        <!-- Main Footer -->
+        <footer class="main-footer">
+            <!-- To the right -->
+            <div class="pull-right hidden-xs">
+                Anything you want
+            </div>
+            <!-- Default to the left -->
+            <strong>Copyright &copy; 2016 <a href="#">Company</a>.</strong> All rights reserved.
+        </footer>
+
+        <!-- Control Sidebar -->
+        {{template "admin/html-control-sidebar.html"}}
+        <!-- /.Control-sidebar -->
+    </div>
+    <!-- ./wrapper -->
+
+    <!-- 弹窗内容-->
+    <div id="update-dialog" style="display: none;">
+        <div class="col-md-6">
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Quick Example</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                <form role="form" method="post" onsubmit="return false">
+                    <input type="hidden" id="userId">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="name">name</label>
+                            <input type="text" class="form-control" id="username" name="username"
+                                placeholder="username">
+                        </div>
+                        <div class="form-group">
+                            <label for="gender">gender</label>
+                            <select id="gender" name="gender" class="form-control">
+                                <option value="0">女</option>
+                                <option value="1">男</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="mobile">mobile</label>
+                            <input type="text" class="form-control" id="mobile" name="mobile" placeholder="mobile"
+                                disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">email</label>
+                            <input type="text" class="form-control" id="email" name="email" placeholder="email">
+                        </div>
+                        <div class="form-group">
+                            <label for="address">address</label>
+                            <input type="text" class="form-control" id="address" name="addr" placeholder="addr">
+                        </div>
+                        <div class="form-group">
+                            <label for="desc">description</label>
+                            <input type="text" class="form-control" id="desc" name="desc" placeholder="description">
+                        </div>
+                    </div>
+                    <!-- /.box-body 使用layer的回调执行提交
+                <div class="box-footer">
+                  <input type="hidden" id="userId">
+                  <button type="submit" class="btn btn-primary J-submit">Submit</button>
+                </div>
+                -->
+                </form>
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+    <!-- 加权限 -->
+    <div id="permission-dialog" style="display: none;">
+        <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">编辑权限</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                <form role="form" method="post" onsubmit="return false">
+                    <input type="hidden" id="userId">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <div class="checkbox" id="perssions">
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+    <!-- /弹窗内容-->
+
+    <!-- REQUIRED JS SCRIPTS -->
+    {{template "admin/html-js.html"}}
+    <!-- /REQUIRED JS SCRIPTS -->
+
+    <!-- page script -->
+    <script type="text/javascript">
+        $(function () {
+            //列表
+            var dataList = $('#dataList').DataTable({
+                language: {
+                    processing: "数据加载中……",
+                    zeroRecords: "No records to display"
+                },
+                paging: true,
+                lengthChange: false,
+                searching: true,
+                ordering: true,
+                info: true,
+                autoWidth: false,
+                serverSide: true,
+                processing: true,
+                ajax: function (data, callback, settings) {
+                    var postData = {
+                        draw: data.draw,
+                        perPage: data.length,
+                        start: data.start,
+                        search: data.search.value
+                    };
+                    $.ajax({
+                        url: '/admin/api/categories',
+                        type: 'GET', //GET
+                        data: postData,
+                        timeout: 5000,    //超时时间
+                        dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                        beforeSend: function (xhr) {
+                            console.log('发送前')
+                        },
+                        success: function (res, textStatus, jqXHR) {
+                            if (res.code == 1) {
+                                layer.msg(res.msg, { icon: 5 });
+                                return
+                            }
+                            var dtData = {
+                                recordsTotal: res.data.total || 0,
+                                recordsFiltered: res.data.total || 0,
+                                data: res.data.result || [],
+                                draw: res.data.draw || 0
+                            };
+                            callback(dtData);
+                        },
+                        error: function (xhr, textStatus) {
+                            console.log('错误')
+                        },
+                        complete: function () {
+                            console.log('结束')
+                        }
+                    })
+                },
+                rowId: 'id',//自动设置行id
+                columns: [
+                    { data: 'id' },
+                    { data: 'name' },
+                    { data: 'created_at' },
+                    { data: 'updated_at' },
+                    {
+                        data: 'mobile',
+                        render: function (data, type, row) {
+                            var html = '<a href="javascript:void(0);" class="J-update">编辑</a>&nbsp;'
+                            if (row.status == 1) {
+                                html += '<a href="javascript:void(0);" class="J-disable">禁用</a>&nbsp;'
+                            } else {
+                                html += '<a href="javascript:void(0);" class="J-enable">启用</a>&nbsp;'
+                            }
+                            html += '<a href="javascript:void(0);" class="J-permission">权限</a>'
+                            return html;
+                        }
+                    }
+                ],
+                "createdRow": function (row, data, dataIndex) {
+                    //有了DT_RowId属性就会自动添加id到行上,不需要在此操作，可以做其他事
+                    $(row).data("userName", data.userName);
+                }
+            });
+            //创建
+            $("#J-create").on("click", function () {
+                layer.open({
+                    type: 1,
+                    area: ['500px', 'auto'],
+                    btn: ['确定', '取消'],
+                    fixed: false,//跟随滚动
+                    shadeClose: true, //点击遮罩关闭
+                    content: $("#update-dialog"),
+                    yes: function (index, layero) {
+                        $.ajax({
+                            url: '/admin/api/user',
+                            type: 'PUT', //GET
+                            async: true,    //或false,是否异步
+                            data: {
+                                userId: $("#userId").val(),
+                                username: $("#username").val(),
+                                gender: $("#gender").val(),
+                                email: $("#email").val(),
+                                mobile: $("#mobile").val(),
+                                desc: $("#desc").val(),
+                                addr: $("#address").val()
+                            },
+                            timeout: 5000,    //超时时间
+                            dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                            success: function (data, textStatus, jqXHR) {
+                                if (data.code == 1) {
+                                    layer.msg(data.msg, { icon: 5 });
+                                    return
+                                }
+                                layer.msg("修改成功！", { icon: 6 });
+                                layer.close(index); //如果设定了yes回调，需进行手工关闭
+                                dataList.ajax.reload();
+                            },
+                            error: function (xhr, textStatus) {
+                                layer.msg("修改失败！", { icon: 5 });
+                            },
+                            complete: function () {
+
+                            }
+                        })
+                    }, btn2: function (index, layero) {
+                        layer.close(index);
+                    }
+                });
+            });
+        })
+    </script>
+</body>
+
+</html>

@@ -199,3 +199,8 @@ func (c *AdminPageController) SystemInfo() {
 func (c *AdminPageController) Roles() {
 	c.TplName = "admin/roles.html"
 }
+
+// 文章分类
+func (c *AdminPageController) CategoryList() {
+	c.TplName = "admin/category-list.html"
+}

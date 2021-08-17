@@ -414,3 +414,23 @@ func (c *AdminAPIController) UpdateRole() {
 	c.Data["json"] = controllers.SuccessData(role)
 	c.ServeJSON()
 }
+
+func (c *AdminAPIController) Categories() {
+	// args := c.GetString("search") //搜索框
+	start, _ := c.GetInt("start")
+	perPage, _ := c.GetInt("perPage")
+	category := Category{}
+
+	list, total, err := category.GetCategoryList(category, start, perPage)
+	if nil != err {
+		logs.Error(err)
+		c.Data["json"] = controllers.ErrorData(err)
+	}
+	data := map[string]any{
+		"result": list,
+		"total":  total,
+	}
+	c.Data["json"] = controllers.SuccessData(data)
+
+	c.ServeJSON()
+}
