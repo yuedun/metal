@@ -71,6 +71,8 @@ func (c *PortalController) Get() {
 			artList[index].Img = string(reimg.Find([]byte(htmlStr)))
 			artList[index].Status = art.Status
 			artList[index].Category = art.Category
+			count, _ := article.GetArticleViewCount(art.Id)
+			artList[index].ViewCount = count
 			artList[index].UpdatedAt = art.UpdatedAt.Format("2006-01-02 15:04")
 		}
 		c.Data["articleList"] = artList
@@ -93,10 +95,12 @@ func (c *PortalController) Article() {
 		article := &Article{}
 		article.Id = uint(artId)
 		articlePortal, err := article.ArticleDetail()
+
+		artLog := &ArticleLog{}
+		artLog.Save(article.Id, "") //记录访问日志
 		if err != nil {
 			logs.Error(err)
 		}
-		// articlePortal := ArticlePortal{}
 		articlePortal.Title = article.Title
 		articlePortal.Keywords = article.Keywords
 		articlePortal.Content = util.Md2html(article.Content)
