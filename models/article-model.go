@@ -20,7 +20,8 @@ type Article struct {
 }
 type ArticlePortal struct {
 	Article
-	Img       string
+	ViewCount int    //浏览量
+	Img       string //缩略图
 	CreatedAt string
 	UpdatedAt string
 	Previous  Article
@@ -120,9 +121,22 @@ func (model *Article) ArticleDetail() (ArticlePortal, error) {
 	articlePortal := ArticlePortal{}
 	strID := strconv.Itoa(int(model.Id))
 	var next, previous Article
+	viewCount := 0
+	o.Raw("SELECT count(1) FROM article_log WHERE article_id = ?", model.Id).QueryRow(&viewCount)
 	o.Raw("SELECT id, title FROM article WHERE id > " + strID + " ORDER BY id ASC LIMIT 1;").QueryRow(&next)
 	o.Raw("SELECT id, title FROM article WHERE id < " + strID + " ORDER BY id DESC LIMIT 1;").QueryRow(&previous)
+	articlePortal.ViewCount = viewCount
 	articlePortal.Previous = previous
 	articlePortal.Next = next
 	return articlePortal, err
+}
+
+func (model *Article) GetArticleViewCount(id uint) (int, error) {
+	o := orm.NewOrm()
+	count := 0
+	err := o.Raw("SELECT count(1) FROM article_log WHERE article_id = ?", id).QueryRow(&count)
+	if err != nil {
+		return 0, err
+	}
+	return count, nil
 }
