@@ -33,7 +33,17 @@ func (category *Category) GetCategoryList(search Category, offset, limit int) (a
 	return
 }
 
-// 创建角色
+// GetAllCategories 获取所有分类列表
+func (category *Category) GetAllCategories() (allCategorys []Category, err error) {
+	o := orm.NewOrm()
+	_, err = o.Raw("SELECT * FROM category;").QueryRows(&allCategorys)
+	if err != nil {
+		return nil, err
+	}
+	return allCategorys, nil
+}
+
+// 创建分类
 func (category *Category) Create() (int64, error) {
 	o := orm.NewOrm()
 	id, err := o.Insert(category) // 要修改的对象和需要修改的字段
@@ -43,6 +53,13 @@ func (category *Category) Create() (int64, error) {
 // 通过id修改
 func (category *Category) Update() (int64, error) {
 	o := orm.NewOrm()
-	id, err := o.Update(category, "description", "groups") // 要修改的对象和需要修改的字段
+	id, err := o.Update(category) // 要修改的对象和需要修改的字段
 	return id, err
+}
+
+// 通过名称查记录
+func (category *Category) GetByName() error {
+	o := orm.NewOrm()
+	err := o.Read(category) // 要修改的对象和需要修改的字段
+	return err
 }

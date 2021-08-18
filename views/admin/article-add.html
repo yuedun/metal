@@ -57,8 +57,14 @@
                   <div class="row">
                     <div class="col-lg-6">
                       <div class="form-group">
-                        <label for="art_category">分类</label>
-                        <input type="text" class="form-control" id="art_category" placeholder="分类">
+                        <label for="art_category">gender</label>
+                        <input type="text" class="form-control" id="art_category" list="catelist" value="{{.article.Category}}" placeholder="分类">
+                        <datalist id="catelist">
+                          <option value="">选择</option>
+                          {{range $index, $item := .categories}}
+                          <option value="{{$item.Name}}">
+                          {{end}}
+                        </datalist>
                       </div>
                     </div>
                     <div class="col-lg-6">

@@ -117,7 +117,7 @@ desired effect
     <!-- ./wrapper -->
 
     <!-- 弹窗内容-->
-    <div id="update-dialog" style="display: none;">
+    <div id="create-dialog" style="display: none;">
         <div class="col-md-6">
             <!-- general form elements -->
             <div class="box box-primary">
@@ -127,36 +127,10 @@ desired effect
                 <!-- /.box-header -->
                 <!-- form start -->
                 <form role="form" method="post" onsubmit="return false">
-                    <input type="hidden" id="userId">
                     <div class="box-body">
                         <div class="form-group">
-                            <label for="name">name</label>
-                            <input type="text" class="form-control" id="username" name="username"
-                                placeholder="username">
-                        </div>
-                        <div class="form-group">
-                            <label for="gender">gender</label>
-                            <select id="gender" name="gender" class="form-control">
-                                <option value="0">女</option>
-                                <option value="1">男</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="mobile">mobile</label>
-                            <input type="text" class="form-control" id="mobile" name="mobile" placeholder="mobile"
-                                disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">email</label>
-                            <input type="text" class="form-control" id="email" name="email" placeholder="email">
-                        </div>
-                        <div class="form-group">
-                            <label for="address">address</label>
-                            <input type="text" class="form-control" id="address" name="addr" placeholder="addr">
-                        </div>
-                        <div class="form-group">
-                            <label for="desc">description</label>
-                            <input type="text" class="form-control" id="desc" name="desc" placeholder="description">
+                            <label for="name">分类名</label>
+                            <input type="text" class="form-control" name="name" placeholder="分类名">
                         </div>
                     </div>
                     <!-- /.box-body 使用layer的回调执行提交
@@ -170,26 +144,27 @@ desired effect
             <!-- /.box -->
         </div>
     </div>
-    <!-- 加权限 -->
-    <div id="permission-dialog" style="display: none;">
-        <div class="col-md-12">
+    <!-- /弹窗内容-->
+
+    <!-- 弹窗内容-->
+    <div id="update-dialog" style="display: none;">
+        <div class="col-md-6">
             <!-- general form elements -->
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">编辑权限</h3>
+                    <h3 class="box-title">Quick Example</h3>
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
                 <form role="form" method="post" onsubmit="return false">
-                    <input type="hidden" id="userId">
                     <div class="box-body">
                         <div class="form-group">
-                            <div class="checkbox" id="perssions">
-
-                            </div>
+                            <label for="name">分类名</label>
+                            <input type="text" class="form-control" name="name" placeholder="分类名">
                         </div>
                     </div>
                 </form>
+                <!-- form end -->
             </div>
             <!-- /.box -->
         </div>
@@ -263,20 +238,14 @@ desired effect
                     {
                         data: 'mobile',
                         render: function (data, type, row) {
-                            var html = '<a href="javascript:void(0);" class="J-update">编辑</a>&nbsp;'
-                            if (row.status == 1) {
-                                html += '<a href="javascript:void(0);" class="J-disable">禁用</a>&nbsp;'
-                            } else {
-                                html += '<a href="javascript:void(0);" class="J-enable">启用</a>&nbsp;'
-                            }
-                            html += '<a href="javascript:void(0);" class="J-permission">权限</a>'
+                            var html = '<a href="javascript:void(0);" class="J-update">编辑</a>';
                             return html;
                         }
                     }
                 ],
                 "createdRow": function (row, data, dataIndex) {
                     //有了DT_RowId属性就会自动添加id到行上,不需要在此操作，可以做其他事
-                    $(row).data("userName", data.userName);
+                    $(row).attr("data-name", data.name);
                 }
             });
             //创建
@@ -287,20 +256,14 @@ desired effect
                     btn: ['确定', '取消'],
                     fixed: false,//跟随滚动
                     shadeClose: true, //点击遮罩关闭
-                    content: $("#update-dialog"),
+                    content: $("#create-dialog"),
                     yes: function (index, layero) {
                         $.ajax({
-                            url: '/admin/api/user',
-                            type: 'PUT', //GET
+                            url: '/admin/api/categories',
+                            type: 'POST', //GET
                             async: true,    //或false,是否异步
                             data: {
-                                userId: $("#userId").val(),
-                                username: $("#username").val(),
-                                gender: $("#gender").val(),
-                                email: $("#email").val(),
-                                mobile: $("#mobile").val(),
-                                desc: $("#desc").val(),
-                                addr: $("#address").val()
+                                name: $("#name").val(),
                             },
                             timeout: 5000,    //超时时间
                             dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
@@ -309,12 +272,56 @@ desired effect
                                     layer.msg(data.msg, { icon: 5 });
                                     return
                                 }
-                                layer.msg("修改成功！", { icon: 6 });
+                                layer.msg("添加成功！", { icon: 6 });
                                 layer.close(index); //如果设定了yes回调，需进行手工关闭
                                 dataList.ajax.reload();
                             },
                             error: function (xhr, textStatus) {
-                                layer.msg("修改失败！", { icon: 5 });
+                                layer.msg("添加失败！", { icon: 5 });
+                            },
+                            complete: function () {
+
+                            }
+                        })
+                    }, btn2: function (index, layero) {
+                        layer.close(index);
+                    }
+                });
+            });
+            // 修改
+            $("#dataList").on("click", ".J-update", function () {
+                var id = $(this).closest("tr").attr("id");
+                $("#update-dialog #name").val($(this).closest("tr").data("name"));
+                layer.open({
+                    type: 1,
+                    area: ['500px', 'auto'],
+                    btn: ['确定', '取消'],
+                    fixed: false,//跟随滚动
+                    shadeClose: true, //点击遮罩关闭
+                    content: $("#update-dialog"),
+                    yes: function (index, layero) {
+                        var name = $('#update-dialog input[name=name]').val();
+                        $.ajax({
+                            url: '/admin/api/categories',
+                            type: 'PUT', //GET
+                            async: true,    //或false,是否异步
+                            data: {
+                                id: id,
+                                name: name,
+                            },
+                            timeout: 5000,    //超时时间
+                            dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                            success: function (data, textStatus, jqXHR) {
+                                if (data.code == 1) {
+                                    layer.msg(data.msg, { icon: 5 });
+                                    return
+                                }
+                                layer.msg("添加成功！", { icon: 6 });
+                                layer.close(index); //如果设定了yes回调，需进行手工关闭
+                                dataList.ajax.reload();
+                            },
+                            error: function (xhr, textStatus) {
+                                layer.msg("添加失败！", { icon: 5 });
                             },
                             complete: function () {
 

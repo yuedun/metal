@@ -8,6 +8,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/beego/beego/v2/client/orm"
 	"github.com/beego/beego/v2/core/logs"
 )
 
@@ -46,6 +47,15 @@ func (c *ArticleAPIController) CreateArticle() {
 	article.UpdatedAt = time.Now()
 	articleService := service.NewService()
 	_, err := articleService.Save(article)
+
+	categoryRec := &Category{Name: category}
+	err2 := categoryRec.GetByName()
+	if err2 == orm.ErrNoRows || err2 == orm.ErrMissPK {
+		logs.Debug("【%s】分类记录不存在，去创建！", category)
+		categoryRec.CreatedAt = time.Now()
+		categoryRec.UpdatedAt = time.Now()
+		categoryRec.Create()
+	}
 	if nil != err {
 		logs.Error(err)
 		c.Data["json"] = controllers.ErrorData(err)
@@ -106,6 +116,15 @@ func (c *ArticleAPIController) ArticleEdit() {
 	article.Keywords = keywords
 	article.UpdatedAt = time.Now()
 	_, err := article.Update()
+
+	categoryRec := &Category{Name: category}
+	err2 := categoryRec.GetByName()
+	if err2 == orm.ErrNoRows || err2 == orm.ErrMissPK {
+		logs.Debug("【%s】分类记录不存在，去创建！", category)
+		categoryRec.CreatedAt = time.Now()
+		categoryRec.UpdatedAt = time.Now()
+		categoryRec.Create()
+	}
 	if err != nil {
 		c.Data["json"] = controllers.ErrorData(err.(error))
 		c.ServeJSON()
