@@ -37,6 +37,19 @@ CREATE TABLE `article_log` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
+--  Table structure for `category`
+-- ----------------------------
+DROP TABLE IF EXISTS `category`;
+CREATE TABLE `category` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(10) NOT NULL DEFAULT '',
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+
+
+-- ----------------------------
 --  Table structure for `groups`
 -- ----------------------------
 DROP TABLE IF EXISTS `groups`;

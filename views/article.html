@@ -23,7 +23,7 @@
 						<h1>{{.article.Title}}</h1>
 						<ul class="article-info">
 							<li><time>时间：{{.article.UpdatedAt}}</time></li>
-							<li>分类：{{.article.Category}}</li>
+							<li>分类：<a href="/categories/{{.article.Category}}">{{.article.Category}}</a></li>
 							<li>浏览：{{.article.ViewCount}}</li>
 						</ul>
 					</header>
@@ -31,6 +31,8 @@
 						{{str2html .article.Content}}
 					</div>
 				</article>
+				<hr>
+				<p>关键词：{{.article.Keywords}}</p>
 				<hr>
 				<div class="layui-row">
 					<div class="layui-col-md6">{{if gt .article.Previous.Id .zero}}<i

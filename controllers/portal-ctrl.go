@@ -104,11 +104,60 @@ func (c *PortalController) Article() {
 		articlePortal.Title = article.Title
 		articlePortal.Keywords = article.Keywords
 		articlePortal.Content = util.Md2html(article.Content)
+		articlePortal.Category = article.Category
 		articlePortal.UpdatedAt = article.UpdatedAt.Format("2006-01-02 15:04")
 		c.Data["article"] = articlePortal
 		c.Data["zero"] = uint(0)
 		c.TplName = "article.html"
 	}
+}
+
+// @router /categories/:category [get]
+func (c *PortalController) Categories() {
+	category := c.Ctx.Input.Param(":category")
+	params := map[string]string{}
+	params["category"] = category
+	article := new(Article)
+	articleList, _, err := article.GetArticlesByCondition(params, 0, 100)
+	if err != nil {
+		c.Data["titles"] = []string{}
+	} else {
+		var artList = make([]ArticlePortal, len(articleList)) // 切片长度去实际数据长度
+		for index, art := range articleList {
+			artList[index].Id = art.Id
+			artList[index].Title = art.Title
+			artList[index].Category = art.Category
+			artList[index].CreatedAt = art.CreatedAt.Format("2006-01-02 15:04")
+			artList[index].UpdatedAt = art.UpdatedAt.Format("2006-01-02 15:04")
+		}
+		c.Data["category"] = category
+		c.Data["titles"] = artList
+	}
+	c.TplName = "categories-tags.html"
+}
+
+// @router /tags/:tag [get]
+func (c *PortalController) Tags() {
+	tag := c.Ctx.Input.Param(":tag")
+	params := map[string]string{}
+	params["keywords"] = tag
+	article := new(Article)
+	articleList, _, err := article.GetArticlesByCondition(params, 0, 100)
+	if err != nil {
+		c.Data["titles"] = []string{}
+	} else {
+		var artList = make([]ArticlePortal, len(articleList)) // 切片长度去实际数据长度
+		for index, art := range articleList {
+			artList[index].Id = art.Id
+			artList[index].Title = art.Title
+			artList[index].Category = art.Category
+			artList[index].CreatedAt = art.CreatedAt.Format("2006-01-02 15:04")
+			artList[index].UpdatedAt = art.UpdatedAt.Format("2006-01-02 15:04")
+		}
+		c.Data["category"] = tag
+		c.Data["titles"] = artList
+	}
+	c.TplName = "categories-tags.html"
 }
 
 // @router /catalog [get]
