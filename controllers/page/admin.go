@@ -40,14 +40,14 @@ func (c *AdminPageController) Welcome() {
 	c.TplName = "admin/index.html"
 }
 
-func (c *AdminPageController) UserAddRoute() {
+func (c *AdminPageController) UserAdd() {
 	c.TplName = "admin/user-add.html"
 }
 
 /**
  * 用户列表路由
  */
-func (c *AdminPageController) UserListRoute() {
+func (c *AdminPageController) UserList() {
 	c.Data["Title"] = "用户列表"
 	c.TplName = "admin/user-list.html"
 }
@@ -55,7 +55,7 @@ func (c *AdminPageController) UserListRoute() {
 /**
  * 日志列表路由
  */
-func (c *AdminPageController) LogsRoute() {
+func (c *AdminPageController) Logs() {
 	c.Data["Title"] = "日志列表"
 	c.TplName = "admin/logs.html"
 }
@@ -63,14 +63,21 @@ func (c *AdminPageController) LogsRoute() {
 /**
  * 创建文章路由
  */
-func (c *AdminPageController) CreateArticleRoute() {
+func (c *AdminPageController) CreateArticle() {
+	category := &Category{}
+	list, err := category.GetAllCategories()
+	if err != nil {
+		c.Data["categories"] = make(map[string]string)
+	}
+	logs.Debug("%+v", list)
+	c.Data["categories"] = list
 	c.TplName = "admin/article-add.html"
 }
 
 /**
  * 文章列表路由
  */
-func (c *AdminPageController) ArticleListRoute() {
+func (c *AdminPageController) ArticleList() {
 	c.TplName = "admin/article-list.html"
 }
 
@@ -78,11 +85,19 @@ func (c *AdminPageController) ArticleListRoute() {
  * 编辑文章路由
  * /admin/page/articles
  */
-func (c *AdminPageController) ArticleEditRoute() {
+func (c *AdminPageController) ArticleEdit() {
 	article := new(Article)
 	artId, _ := c.GetInt("id")
 	article.Id = uint(artId)
 	article.GetById()
+
+	category := &Category{}
+	list, err := category.GetAllCategories()
+	if err != nil {
+		c.Data["categories"] = make(map[string]string)
+	}
+	logs.Debug("%+v", list)
+	c.Data["categories"] = list
 	c.Data["article"] = article
 	c.TplName = "admin/article-edit.html"
 }
@@ -96,7 +111,7 @@ func (c *AdminPageController) PNameView() {
  * 留言查看，审核 页面
  * /admin/page/messages
  */
-func (c *AdminPageController) MessagesRoute() {
+func (c *AdminPageController) Messages() {
 	article := new(Article)
 	artId, _ := c.GetInt("id")
 	article.Id = uint(artId)
@@ -146,8 +161,8 @@ func (c *AdminPageController) Picture() {
 	c.TplName = "admin/picture.html"
 }
 
-// ListPictureRoute 图片列表路由
-func (c *AdminPageController) ListPictureRoute() {
+// ListPicture 图片列表路由
+func (c *AdminPageController) ListPicture() {
 	c.TplName = "admin/picture-list.html"
 }
 

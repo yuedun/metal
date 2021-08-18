@@ -434,3 +434,39 @@ func (c *AdminAPIController) Categories() {
 
 	c.ServeJSON()
 }
+
+//创建分类
+func (c *AdminAPIController) CreateCategories() {
+	name := c.GetString("name")
+	category := Category{
+		Name: name,
+	}
+	category.CreatedAt = time.Now()
+	category.UpdatedAt = time.Now()
+	_, err := category.Create()
+	if nil != err {
+		logs.Error(err)
+		c.Data["json"] = controllers.ErrorData(err)
+	}
+	c.Data["json"] = controllers.SuccessData(category)
+	c.ServeJSON()
+}
+
+//修改分类
+func (c *AdminAPIController) UpdateCategories() {
+	id, _ := c.GetInt("id")
+	name := c.GetString("name")
+	category := new(Category)
+	category.Id = uint(id)
+	category.Name = name
+
+	category.CreatedAt = time.Now()
+	category.UpdatedAt = time.Now()
+	_, err := category.Update()
+	if nil != err {
+		logs.Error(err)
+		c.Data["json"] = controllers.ErrorData(err)
+	}
+	c.Data["json"] = controllers.SuccessData(category)
+	c.ServeJSON()
+}

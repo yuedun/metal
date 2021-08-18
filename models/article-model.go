@@ -120,14 +120,9 @@ func (model *Article) ArticleDetail() (ArticlePortal, error) {
 	err := o.Read(model)
 	articlePortal := ArticlePortal{}
 	strID := strconv.Itoa(int(model.Id))
-	var next, previous Article
-	viewCount := 0
-	o.Raw("SELECT count(1) FROM article_log WHERE article_id = ?", model.Id).QueryRow(&viewCount)
-	o.Raw("SELECT id, title FROM article WHERE id > " + strID + " ORDER BY id ASC LIMIT 1;").QueryRow(&next)
-	o.Raw("SELECT id, title FROM article WHERE id < " + strID + " ORDER BY id DESC LIMIT 1;").QueryRow(&previous)
-	articlePortal.ViewCount = viewCount
-	articlePortal.Previous = previous
-	articlePortal.Next = next
+	o.Raw("SELECT count(1) FROM article_log WHERE article_id = ?", model.Id).QueryRow(&articlePortal.ViewCount)
+	o.Raw("SELECT id, title FROM article WHERE id < " + strID + " ORDER BY id DESC LIMIT 1;").QueryRow(&articlePortal.Previous)
+	o.Raw("SELECT id, title FROM article WHERE id > " + strID + " ORDER BY id ASC LIMIT 1;").QueryRow(&articlePortal.Next)
 	return articlePortal, err
 }
 
