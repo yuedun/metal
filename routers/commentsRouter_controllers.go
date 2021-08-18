@@ -63,6 +63,15 @@ func init() {
 
     beego.GlobalControllerRouter["metal/controllers:PortalController"] = append(beego.GlobalControllerRouter["metal/controllers:PortalController"],
         beego.ControllerComments{
+            Method: "Categories",
+            Router: "/categories/:category",
+            AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["metal/controllers:PortalController"] = append(beego.GlobalControllerRouter["metal/controllers:PortalController"],
+        beego.ControllerComments{
             Method: "Message",
             Router: "/message",
             AllowHTTPMethods: []string{"get"},
@@ -75,6 +84,15 @@ func init() {
             Method: "CreateMessage",
             Router: "/message",
             AllowHTTPMethods: []string{"post"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["metal/controllers:PortalController"] = append(beego.GlobalControllerRouter["metal/controllers:PortalController"],
+        beego.ControllerComments{
+            Method: "Tags",
+            Router: "/tags/:tag",
+            AllowHTTPMethods: []string{"get"},
             MethodParams: param.Make(),
             Filters: nil,
             Params: nil})

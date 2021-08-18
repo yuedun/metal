@@ -46,6 +46,12 @@ func (model *Article) GetArticlesByCondition(param map[string]string, pageIndex,
 	if param["title"] != "" {
 		condition += " AND title LIKE '" + param["title"] + "%'"
 	}
+	if param["category"] != "" {
+		condition += " AND category = '" + param["category"] + "'"
+	}
+	if param["keywords"] != "" {
+		condition += " AND keywords LIKE '%" + param["keywords"] + "%'"
+	}
 	var wg sync.WaitGroup
 	wg.Add(2)
 	go func() {
