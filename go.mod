@@ -14,7 +14,7 @@ require (
 	github.com/gomarkdown/markdown v0.0.0-20210514010506-3b9f47219fe7
 	github.com/google/go-cmp v0.5.6 // indirect
 	github.com/lib/pq v1.10.4 // indirect
-	github.com/microcosm-cc/bluemonday v1.0.15
+	github.com/microcosm-cc/bluemonday v1.0.16
 	github.com/mitchellh/mapstructure v1.4.3 // indirect
 	github.com/qiniu/go-sdk/v7 v7.9.6
 	github.com/robfig/cron v1.2.0
