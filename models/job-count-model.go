@@ -2,7 +2,6 @@ package models
 
 import (
 	"fmt"
-	"time"
 
 	"github.com/beego/beego/v2/core/logs"
 
@@ -11,11 +10,10 @@ import (
 
 //JobCount 添加tag标签
 type JobCount struct {
-	ID        uint      `json:"id"`
-	CreatedAt time.Time `json:"created_at"`
-	JobTitle  string    `json:"job_title"`
-	Amount    uint      `json:"amount"`
-	Region    string    `json:"region"`
+	BaseModel
+	JobTitle string `json:"job_title"`
+	Amount   uint   `json:"amount"`
+	Region   string `json:"region"`
 }
 
 func init() {

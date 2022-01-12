@@ -9,7 +9,7 @@ import (
 
 type ArticleLog struct {
 	BaseModel
-	ArticleId uint   `json:"articleId"`
+	ArticleId uint   `orm:"index" json:"articleId"`
 	Mark      string `json:"mark"`
 }
 

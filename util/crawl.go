@@ -9,7 +9,6 @@ import (
 	"net/http"
 	"net/url"
 	"strconv"
-	"time"
 
 	"github.com/beego/beego/v2/client/httplib"
 	"github.com/beego/beego/v2/core/logs"
@@ -213,10 +212,9 @@ func RequestByAjax3(c chan JobDataLanguage, region, language string) {
 // 保存数据
 func saveJob(c JobDataLanguage) {
 	jobCount := &JobCount{
-		JobTitle:  c.Language,
-		Amount:    uint(c.Count),
-		Region:    c.Region,
-		CreatedAt: time.Now(),
+		JobTitle: c.Language,
+		Amount:   uint(c.Count),
+		Region:   c.Region,
 	}
 	jobCount.Save()
 	logs.Info("保存job成功", c.Language, c.Count)

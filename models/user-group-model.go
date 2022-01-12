@@ -6,8 +6,8 @@ import (
 
 type UserGroup struct {
 	BaseModel
-	UserId  int `json:"user_id"`
-	GroupId int `json:"group_id"`
+	UserId  int `orm:"index" json:"user_id"`
+	GroupId int `orm:"index" json:"group_id"`
 }
 
 func init() {
