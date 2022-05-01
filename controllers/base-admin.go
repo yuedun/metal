@@ -34,7 +34,7 @@ type Result struct {
 }
 
 // 返回错误信息，code是可选的自定义代码
-func ErrorMsg(msg string, code ...int) Result {
+func (h *AdminBaseController) ErrorMsg(msg string, code ...int) Result {
 	var r Result
 	if len(code) > 0 {
 		r.Code = code[0]
@@ -49,7 +49,7 @@ func ErrorMsg(msg string, code ...int) Result {
 /**
  * ErrorMsg和ErrorData作用一样，只不过是为了方便调用方不用手动msg.Error()，只需传error类型即可
  */
-func ErrorData(msg error, code ...int) Result {
+func (h *AdminBaseController) ErrorData(msg error, code ...int) Result {
 	var r Result
 	if len(code) > 0 {
 		r.Code = code[0]
@@ -61,7 +61,7 @@ func ErrorData(msg error, code ...int) Result {
 	return r
 }
 
-func SuccessData(data any) Result {
+func (h *AdminBaseController) SuccessData(data any) Result {
 	var r Result
 	r.Code = 0
 	r.Msg = "ok"
@@ -112,7 +112,7 @@ func (c *AdminBaseController) Prepare() {
 			}
 			if !hasPermission {
 				logs.Info("权限不足")
-				c.Data["json"] = ErrorMsg("权限不足")
+				c.Data["json"] = c.ErrorMsg("权限不足")
 				c.ServeJSON()
 			}
 		}

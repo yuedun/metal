@@ -209,8 +209,13 @@ func (c *PortalController) CreateMessage() {
 	message.UpdatedAt = time.Now()
 	_, err := message.Save()
 	if err != nil {
-		c.Data["json"] = ErrorMsg("留言失败！")
+		c.Data["json"] = Result{
+			Code: 1,
+			Msg:  "留言失败！",
+		}
 	}
-	c.Data["json"] = SuccessData("留言成功")
+	c.Data["json"] = Result{
+		Msg: "留言成功",
+	}
 	c.ServeJSON()
 }

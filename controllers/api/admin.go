@@ -35,13 +35,13 @@ func (c *AdminAPIController) GetLogs() {
 	list, total, err := logModel.GetLogs(start, perPage)
 	if nil != err {
 		logs.Error(err)
-		c.Data["json"] = controllers.ErrorData(err)
+		c.Data["json"] = c.ErrorData(err)
 	} else {
 		data := map[string]any{
 			"result": list,
 			"total":  total,
 		}
-		c.Data["json"] = controllers.SuccessData(data)
+		c.Data["json"] = c.SuccessData(data)
 	}
 	c.ServeJSON()
 }
@@ -120,7 +120,7 @@ func (c *AdminAPIController) MessageList() {
 		"result": list,
 		"total":  total,
 	}
-	c.Data["json"] = controllers.SuccessData(data)
+	c.Data["json"] = c.SuccessData(data)
 	c.ServeJSON()
 }
 
@@ -134,7 +134,7 @@ func (c *AdminAPIController) MessageUpdate() {
 	article.Id = uint(artId)
 	article.Status = 1
 	article.UpdateStatus()
-	c.Data["json"] = controllers.SuccessData("审核成功！")
+	c.Data["json"] = c.SuccessData("审核成功！")
 	c.ServeJSON()
 }
 
@@ -148,9 +148,9 @@ func (c *AdminAPIController) CountDataRecently() {
 	list, err := jobCount.GetCountData(startDate, endDate)
 	if nil != err {
 		logs.Error(err)
-		c.Data["json"] = controllers.ErrorData(err)
+		c.Data["json"] = c.ErrorData(err)
 	} else {
-		c.Data["json"] = controllers.SuccessData(list)
+		c.Data["json"] = c.SuccessData(list)
 	}
 	c.ServeJSON()
 }
@@ -161,9 +161,9 @@ func (c *AdminAPIController) CountDataAll() {
 	list, err := jobCount.GetCountDataAll()
 	if nil != err {
 		logs.Error(err)
-		c.Data["json"] = controllers.ErrorData(err)
+		c.Data["json"] = c.ErrorData(err)
 	} else {
-		c.Data["json"] = controllers.SuccessData(list)
+		c.Data["json"] = c.SuccessData(list)
 	}
 	c.ServeJSON()
 }
@@ -181,7 +181,7 @@ func (c *AdminAPIController) AddPicture() {
 	err := json.Unmarshal(body, &args)
 	if err != nil {
 		logs.Error(err)
-		c.Data["json"] = controllers.ErrorData(err)
+		c.Data["json"] = c.ErrorData(err)
 		return
 	}
 	picUrl := args.PicUrl
@@ -197,9 +197,9 @@ func (c *AdminAPIController) AddPicture() {
 	id, err := picture.Save()
 	if nil != err {
 		logs.Error(err)
-		c.Data["json"] = controllers.ErrorData(err)
+		c.Data["json"] = c.ErrorData(err)
 	} else {
-		c.Data["json"] = controllers.SuccessData(id)
+		c.Data["json"] = c.SuccessData(id)
 	}
 }
 
@@ -215,13 +215,13 @@ func (c *AdminAPIController) ListPicture() {
 	list, total, err := picture.GetAllByCondition(search, start, perPage)
 	if nil != err {
 		logs.Error(err)
-		c.Data["json"] = controllers.ErrorData(err)
+		c.Data["json"] = c.ErrorData(err)
 	} else {
 		data := map[string]any{
 			"result": list,
 			"total":  total,
 		}
-		c.Data["json"] = controllers.SuccessData(data)
+		c.Data["json"] = c.SuccessData(data)
 	}
 }
 
@@ -238,9 +238,9 @@ func (c *AdminAPIController) DeletePicture() {
 	_, err := picture.Delete()
 	if nil != err {
 		logs.Error(err)
-		c.Data["json"] = controllers.ErrorData(err)
+		c.Data["json"] = c.ErrorData(err)
 	} else {
-		c.Data["json"] = controllers.SuccessData(nil)
+		c.Data["json"] = c.SuccessData(nil)
 	}
 }
 
@@ -252,7 +252,7 @@ func (c *AdminAPIController) GetAllUserGroup() {
 	userGroup := new(UserGroup)
 	list, err := userGroup.GetUserGroupList()
 	if nil != err {
-		c.Data["json"] = controllers.ErrorData(err)
+		c.Data["json"] = c.ErrorData(err)
 	} else {
 		c.Data["json"] = list
 	}
@@ -266,7 +266,7 @@ func (c *AdminAPIController) GetAllUserGroup() {
 func (c *AdminAPIController) AddUserGroup() {
 	defer func() {
 		if err := recover(); err != nil {
-			c.Data["json"] = controllers.ErrorMsg(err.(string))
+			c.Data["json"] = c.ErrorMsg(err.(string))
 		}
 		c.ServeJSON()
 	}()
@@ -289,9 +289,9 @@ func (c *AdminAPIController) AddUserGroup() {
 	_, err := userGroup.Save()
 	if nil != err {
 		logs.Error(err)
-		c.Data["json"] = controllers.ErrorData(err)
+		c.Data["json"] = c.ErrorData(err)
 	} else {
-		c.Data["json"] = controllers.SuccessData(nil)
+		c.Data["json"] = c.SuccessData(nil)
 	}
 }
 
@@ -299,7 +299,7 @@ func (c *AdminAPIController) AddUserGroup() {
 func (c *AdminAPIController) AddUserRole() {
 	defer func() {
 		if err := recover(); err != nil {
-			c.Data["json"] = controllers.ErrorData(err.(error))
+			c.Data["json"] = c.ErrorData(err.(error))
 		}
 		c.ServeJSON()
 	}()
@@ -325,7 +325,7 @@ func (c *AdminAPIController) AddUserRole() {
 	if err != nil {
 		panic(err)
 	}
-	c.Data["json"] = controllers.SuccessData(nil)
+	c.Data["json"] = c.SuccessData(nil)
 }
 
 // GetUserRoles 获取用户权限
@@ -337,7 +337,7 @@ func (c *AdminAPIController) GetUserRoles() {
 	logs.Debug("allRoles:", allRoles)
 	logs.Debug("userRoles:", userRoles)
 	if nil != err {
-		c.Data["json"] = controllers.ErrorData(err)
+		c.Data["json"] = c.ErrorData(err)
 	}
 	userPermissions := make([]UserGroups, 0, 20)
 	for index, item := range allRoles {
@@ -352,7 +352,7 @@ func (c *AdminAPIController) GetUserRoles() {
 		}
 		userPermissions = append(userPermissions[:index], *userPremis)
 	}
-	c.Data["json"] = controllers.SuccessData(userPermissions)
+	c.Data["json"] = c.SuccessData(userPermissions)
 	c.ServeJSON()
 }
 
@@ -365,13 +365,13 @@ func (c *AdminAPIController) GetRolesList() {
 	list, total, err := role.GetRolesList(*role, start, perPage)
 	if nil != err {
 		logs.Error(err)
-		c.Data["json"] = controllers.ErrorData(err)
+		c.Data["json"] = c.ErrorData(err)
 	}
 	data := map[string]any{
 		"result": list,
 		"total":  total,
 	}
-	c.Data["json"] = controllers.SuccessData(data)
+	c.Data["json"] = c.SuccessData(data)
 
 	c.ServeJSON()
 }
@@ -388,9 +388,9 @@ func (c *AdminAPIController) CreateRole() {
 	_, err := role.Create()
 	if nil != err {
 		logs.Error(err)
-		c.Data["json"] = controllers.ErrorData(err)
+		c.Data["json"] = c.ErrorData(err)
 	}
-	c.Data["json"] = controllers.SuccessData(role)
+	c.Data["json"] = c.SuccessData(role)
 	c.ServeJSON()
 }
 
@@ -409,9 +409,9 @@ func (c *AdminAPIController) UpdateRole() {
 	_, err := role.Update()
 	if nil != err {
 		logs.Error(err)
-		c.Data["json"] = controllers.ErrorData(err)
+		c.Data["json"] = c.ErrorData(err)
 	}
-	c.Data["json"] = controllers.SuccessData(role)
+	c.Data["json"] = c.SuccessData(role)
 	c.ServeJSON()
 }
 
@@ -424,13 +424,13 @@ func (c *AdminAPIController) Categories() {
 	list, total, err := category.GetCategoryList(category, start, perPage)
 	if nil != err {
 		logs.Error(err)
-		c.Data["json"] = controllers.ErrorData(err)
+		c.Data["json"] = c.ErrorData(err)
 	}
 	data := map[string]any{
 		"result": list,
 		"total":  total,
 	}
-	c.Data["json"] = controllers.SuccessData(data)
+	c.Data["json"] = c.SuccessData(data)
 
 	c.ServeJSON()
 }
@@ -446,9 +446,9 @@ func (c *AdminAPIController) CreateCategories() {
 	_, err := category.Create()
 	if nil != err {
 		logs.Error(err)
-		c.Data["json"] = controllers.ErrorData(err)
+		c.Data["json"] = c.ErrorData(err)
 	}
-	c.Data["json"] = controllers.SuccessData(category)
+	c.Data["json"] = c.SuccessData(category)
 	c.ServeJSON()
 }
 
@@ -465,8 +465,8 @@ func (c *AdminAPIController) UpdateCategories() {
 	_, err := category.Update()
 	if nil != err {
 		logs.Error(err)
-		c.Data["json"] = controllers.ErrorData(err)
+		c.Data["json"] = c.ErrorData(err)
 	}
-	c.Data["json"] = controllers.SuccessData(category)
+	c.Data["json"] = c.SuccessData(category)
 	c.ServeJSON()
 }

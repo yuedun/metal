@@ -22,7 +22,7 @@ type ArticleAPIController struct {
 func (c *ArticleAPIController) CreateArticle() {
 	defer func() {
 		if err := recover(); err != nil {
-			c.Data["json"] = controllers.ErrorMsg(err.(string))
+			c.Data["json"] = c.ErrorMsg(err.(string))
 		}
 		c.ServeJSON()
 	}()
@@ -58,9 +58,9 @@ func (c *ArticleAPIController) CreateArticle() {
 	}
 	if nil != err {
 		logs.Error(err)
-		c.Data["json"] = controllers.ErrorData(err)
+		c.Data["json"] = c.ErrorData(err)
 	} else {
-		c.Data["json"] = controllers.SuccessData(nil)
+		c.Data["json"] = c.SuccessData(nil)
 	}
 	c.ServeJSON()
 }
@@ -81,13 +81,13 @@ func (c *ArticleAPIController) ArticlesList() {
 	list, total, err := article.GetArticlesByCondition(param, start, perPage)
 	if nil != err {
 		logs.Error(err)
-		c.Data["json"] = controllers.ErrorData(err)
+		c.Data["json"] = c.ErrorData(err)
 	} else {
 		data := map[string]any{
 			"result": list,
 			"total":  total,
 		}
-		c.Data["json"] = controllers.SuccessData(data)
+		c.Data["json"] = c.SuccessData(data)
 	}
 	c.ServeJSON()
 }
@@ -99,7 +99,7 @@ func (c *ArticleAPIController) ArticlesList() {
 func (c *ArticleAPIController) ArticleEdit() {
 	defer func() {
 		if err := recover(); err != nil {
-			c.Data["json"] = controllers.ErrorData(err.(error))
+			c.Data["json"] = c.ErrorData(err.(error))
 			c.ServeJSON()
 		}
 	}()
@@ -126,11 +126,11 @@ func (c *ArticleAPIController) ArticleEdit() {
 		categoryRec.Create()
 	}
 	if err != nil {
-		c.Data["json"] = controllers.ErrorData(err.(error))
+		c.Data["json"] = c.ErrorData(err.(error))
 		c.ServeJSON()
 		return
 	}
-	c.Data["json"] = controllers.SuccessData(nil)
+	c.Data["json"] = c.SuccessData(nil)
 	c.ServeJSON()
 }
 
@@ -143,6 +143,6 @@ func (c *ArticleAPIController) ArticleDelete() {
 	artId, _ := strconv.Atoi(c.Ctx.Input.Param(":id"))
 	article.Id = uint(artId)
 	article.Delete()
-	c.Data["json"] = controllers.SuccessData(nil)
+	c.Data["json"] = c.SuccessData(nil)
 	c.ServeJSON()
 }
