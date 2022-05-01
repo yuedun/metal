@@ -26,16 +26,16 @@ func (c *UserAPIController) ToLogin() {
 	err := user.GetByMobile()
 	if err != nil {
 		logs.Error(err)
-		c.Data["json"] = controllers.ErrorData(err)
+		c.Data["json"] = c.ErrorData(err)
 	} else if user.Status == 0 {
-		c.Data["json"] = controllers.ErrorMsg("该账号已禁用，不能登录！")
+		c.Data["json"] = c.ErrorMsg("该账号已禁用，不能登录！")
 	} else if user.Password != util.GetMD5(password) {
-		c.Data["json"] = controllers.ErrorMsg("密码不正确！")
+		c.Data["json"] = c.ErrorMsg("密码不正确！")
 	} else {
 		group := new(Groups)
 		roleList, err := group.GetGroupByUserId(user.Id)
 		if err != nil {
-			c.Data["json"] = controllers.ErrorData(err)
+			c.Data["json"] = c.ErrorData(err)
 		}
 		var privileges []string
 		for _, v := range roleList {
@@ -61,7 +61,7 @@ func (c *UserAPIController) ToLogin() {
 				}
 			}()
 		}
-		c.Data["json"] = controllers.SuccessData(nil)
+		c.Data["json"] = c.SuccessData(nil)
 	}
 	c.ServeJSON()
 }
@@ -105,9 +105,9 @@ func (c *UserAPIController) Post() {
 	id, err := user.Save()
 	if nil != err {
 		logs.Error(err)
-		c.Data["json"] = controllers.ErrorData(err)
+		c.Data["json"] = c.ErrorData(err)
 	} else {
-		c.Data["json"] = controllers.SuccessData(id)
+		c.Data["json"] = c.SuccessData(id)
 	}
 	c.ServeJSON()
 }
@@ -125,9 +125,9 @@ func (c *UserAPIController) UserGet() {
 	userObj, err := user.GetById()
 	if err != nil {
 		logs.Error(err)
-		c.Data["json"] = controllers.ErrorData(err)
+		c.Data["json"] = c.ErrorData(err)
 	}
-	c.Data["json"] = controllers.SuccessData(userObj)
+	c.Data["json"] = c.SuccessData(userObj)
 	c.ServeJSON()
 }
 
@@ -156,9 +156,9 @@ func (c *UserAPIController) UpdateUser() {
 	upId, err := user.Update()
 	if nil != err {
 		logs.Error(err)
-		c.Data["json"] = controllers.ErrorData(err)
+		c.Data["json"] = c.ErrorData(err)
 	} else {
-		c.Data["json"] = controllers.SuccessData(upId)
+		c.Data["json"] = c.SuccessData(upId)
 	}
 	c.ServeJSON()
 }
@@ -179,7 +179,7 @@ func (c *UserAPIController) UserList() {
 	list, total, err := user.GetAllByCondition(param, start, perPage)
 	if nil != err {
 		logs.Error(err)
-		c.Data["json"] = controllers.ErrorData(err)
+		c.Data["json"] = c.ErrorData(err)
 	} else {
 		for index, u := range list {
 			userVo := new(UserVO)
@@ -193,7 +193,7 @@ func (c *UserAPIController) UserList() {
 			"result": userVOList,
 			"total":  total,
 		}
-		c.Data["json"] = controllers.SuccessData(data)
+		c.Data["json"] = c.SuccessData(data)
 	}
 	c.ServeJSON()
 }
@@ -209,9 +209,9 @@ func (c *UserAPIController) DisableUser() {
 	id64, err := user.UpdateStatus()
 	if nil != err {
 		logs.Error(err)
-		c.Data["json"] = controllers.ErrorData(err)
+		c.Data["json"] = c.ErrorData(err)
 	} else {
-		c.Data["json"] = controllers.SuccessData(id64)
+		c.Data["json"] = c.SuccessData(id64)
 	}
 	c.ServeJSON()
 }
@@ -227,9 +227,9 @@ func (c *UserAPIController) EnableUser() {
 	id64, err := user.UpdateStatus()
 	if nil != err {
 		logs.Error(err)
-		c.Data["json"] = controllers.ErrorData(err)
+		c.Data["json"] = c.ErrorData(err)
 	} else {
-		c.Data["json"] = controllers.SuccessData(id64)
+		c.Data["json"] = c.SuccessData(id64)
 	}
 	c.ServeJSON()
 }
@@ -245,9 +245,9 @@ func (c *UserAPIController) DeleteUser() {
 	id64, err := user.Delete()
 	if nil != err {
 		logs.Error(err)
-		c.Data["json"] = controllers.ErrorData(err)
+		c.Data["json"] = c.ErrorData(err)
 	} else {
-		c.Data["json"] = controllers.SuccessData(id64)
+		c.Data["json"] = c.SuccessData(id64)
 	}
 	c.ServeJSON()
 }

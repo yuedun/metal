@@ -18,6 +18,20 @@ type Article struct {
 	Category string `json:"category"` //分类
 	Status   uint8  `json:"status"`
 }
+
+// func (a Article) MarshalJSON() ([]byte, error) {
+// 	type TT Article
+// 	return json.Marshal(struct {
+// 		TT
+// 		CreatedAt string
+// 		UpdatedAt string
+// 	}{
+// 		TT(a),
+// 		a.CreatedAt.Format("2006-01-02 15:04"),
+// 		a.CreatedAt.Format("2006-01-02 15:04"),
+// 	})
+// }
+
 type ArticlePortal struct {
 	Article
 	ViewCount int    //浏览量
