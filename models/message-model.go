@@ -66,7 +66,7 @@ func (msg *Message) GetAllByCondition(cond map[string]string, start, perPage int
 		defer wg.Done()
 		var sql = "SELECT * FROM message "
 		sql += condition
-		sql += " LIMIT ?, ?"
+		sql += " ORDER BY id DESC LIMIT ?, ?"
 		_, err := o.Raw(sql, strconv.Itoa(start), strconv.Itoa(perPage)).QueryRows(&list)
 		if err != nil {
 			newError = err

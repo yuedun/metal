@@ -80,7 +80,7 @@ func (user *User) GetByMobile() error {
 func (user *User) GetAll() ([]User, error) {
 	o := orm.NewOrm()
 	var users []User
-	num, err := o.Raw("SELECT * FROM user").QueryRows(&users)
+	num, err := o.Raw("SELECT * FROM user ORDER BY id DESC;").QueryRows(&users)
 	logs.Info("查询到", num, "条数据")
 	return users, err
 

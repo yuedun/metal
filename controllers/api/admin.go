@@ -114,7 +114,7 @@ func (c *AdminAPIController) MessageList() {
 	param["username"] = args
 	list, total, err := message.GetAllByCondition(param, start, perPage)
 	if err != nil {
-
+		c.ErrorMsg(err.Error())
 	}
 	data := map[string]any{
 		"result": list,
