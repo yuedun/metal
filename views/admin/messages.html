@@ -70,6 +70,7 @@ desired effect
                                             <th>昵称</th>
                                             <th>邮箱</th>
                                             <th>内容</th>
+                                            <th>状态</th>
                                             <th>创建时间</th>
                                             <th>操作</th>
                                         </tr>
@@ -85,6 +86,7 @@ desired effect
                                             <th>昵称</th>
                                             <th>邮箱</th>
                                             <th>内容</th>
+                                            <th>状态</th>
                                             <th>创建时间</th>
                                             <th>操作</th>
                                         </tr>
@@ -183,6 +185,17 @@ desired effect
                     { data: 'email' },
                     { data: 'content' },
                     {
+                        data: 'status', 
+                        render: function (data, type, row, settings) {
+                            const mm={
+                                0:'待审核',
+                                1:'通过',
+                                2:'不通过'
+                            }
+                            return mm[data];
+                        }
+                    },
+                    {
                         name: "created_at",
                         data: "created_at",
                         render: function (data, type, row, settings) {
@@ -249,7 +262,7 @@ desired effect
             $("#dataList").on("click", ".J-update", function () {
                 var id = $(this).closest("tr").attr("id");
                 $.ajax({
-                    url: '/admin/api/message/update/'+id,
+                    url: '/admin/api/message/update/' + id,
                     type: 'PUT', //GET
                     async: true,    //或false,是否异步
                     timeout: 5000,    //超时时间

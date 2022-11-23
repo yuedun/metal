@@ -14,10 +14,10 @@ import (
  */
 type Message struct {
 	BaseModel
-	NickName string `json:"nick_name"`
-	Email    string `json:"email"`
-	Content  string `json:"content"`
-	Status   int    `json:"status"` // 0待审核，1通过，2不通过
+	NickName string `json:"nick_name" orm:"size(20)"`
+	Email    string `json:"email" orm:"size(30)"`
+	Content  string `json:"content" orm:"size(200)"`
+	Status   int    `json:"status" orm:"default(0);description(0待审核，1通过，2不通过)"` // 0待审核，1通过，2不通过
 }
 
 func init() {

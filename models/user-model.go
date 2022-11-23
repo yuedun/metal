@@ -19,12 +19,12 @@ type User struct {
 	BaseModel
 	UserName    string `json:"user_name"`
 	Password    string `json:"password"`
-	Gender      int    `json:"gender"` // 0女，1男
+	Gender      int    `json:"gender" orm:"default(1);description(0女，1男)"` // 0女，1男
 	Mobile      string `json:"mobile"`
 	Email       string `json:"email"`
 	Addr        string `json:"addr"`
 	Description string `json:"description"`
-	Status      int    `json:"status"` // 0不可用，1可用
+	Status      int    `json:"status" orm:"default(1);description(0不可用，1可用)"` // 0不可用，1可用
 }
 type UserVO struct {
 	User

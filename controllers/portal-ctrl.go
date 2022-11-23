@@ -25,19 +25,19 @@ type PortalController struct {
 // }
 
 //预处理，会在下面每个路由执行前执行，可当做前置中间件使用
-func (this *PortalController) Prepare() {
+func (c *PortalController) Prepare() {
 	val, _ := beego.AppConfig.String("runmode")
-	this.Data["env"] = val // 用户百度统计设置，测服环境不需要统计
+	c.Data["env"] = val // 用户百度统计设置，测服环境不需要统计
 	// 设置TKD信息
-	this.Data["title"] = "月盾的网站，基于beego v2开发的web项目"
-	this.Data["keywords"] = "golang,go-micro,beego v2博客,管理后台"
-	this.Data["description"] = "golang,go-micro,beego v2博客,管理后台"
-	ctr, method := this.GetControllerAndAction()
+	c.Data["title"] = "月盾的网站，基于beego v2开发的web项目"
+	c.Data["keywords"] = "golang,go-micro,beego v2博客,管理后台"
+	c.Data["description"] = "golang,go-micro,beego v2博客,管理后台"
+	ctr, method := c.GetControllerAndAction()
 	logs.Debug("包， 结构体，请求方法:%s, %s, %s", reflect.TypeOf(PortalController{}).PkgPath(), ctr, method)
 }
 
 //收尾处理，在路由执行完执行，已经渲染了数据，所以Finish里设置数据不会渲染到模板中
-func (this *PortalController) Finish() {
+func (c *PortalController) Finish() {
 	logs.Debug(">>>>>>>>>>Finish 执行完相应的 HTTP Method 方法之后执行的")
 }
 
@@ -54,7 +54,7 @@ func (c *PortalController) Get() {
 	}
 	skip := (pageNo - 1) * pageSize
 	params := map[string]string{}
-	article := &Article{}
+	article := Article{}
 	articleList, total, err := article.GetArticlesByCondition(params, skip, pageSize)
 	if nil != err {
 		c.Data["articleList"] = []Article{}
@@ -62,7 +62,7 @@ func (c *PortalController) Get() {
 	} else {
 		var artList = make([]ArticlePortal, len(articleList)) // 切片长度去实际数据长度
 		for index, art := range articleList {
-			re := regexp.MustCompile("\\<[\\S\\s]+?\\>")                //html标签
+			re := regexp.MustCompile(`\\<[\\S\\s]+?\\>`)                //html标签
 			reimg := regexp.MustCompile(`<img (\S*?)[^>]*>.*?|<.*? />`) //获取一张图片
 			htmlStr := util.Md2html(art.Content)
 			artList[index].Id = art.Id
@@ -185,7 +185,8 @@ func (c *PortalController) Message() {
 	cond["status"] = "1"
 	list, total, err := message.GetAllByCondition(cond, 0, 10)
 	if err != nil {
-
+		c.Data["messageList"] = list
+		c.Data["total"] = total
 	}
 	logs.Info(list)
 	c.Data["messageList"] = list
@@ -200,7 +201,13 @@ func (c *PortalController) CreateMessage() {
 	nickName := c.GetString("nickName")
 	email := c.GetString("email")
 	content := c.GetString("content")
-	message := new(Message)
+	if nickName == "" || email == "" || content == "" {
+		c.Data["json"] = Result{
+			Code: 1,
+			Msg:  "留言失败！",
+		}
+	}
+	message := Message{}
 	message.NickName = nickName
 	message.Email = email
 	message.Content = content
