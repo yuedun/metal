@@ -1,6 +1,6 @@
 module metal
 
-go 1.18
+go 1.19
 
 require (
 	github.com/PuerkitoBio/goquery v1.7.1
@@ -9,7 +9,7 @@ require (
 	github.com/go-sql-driver/mysql v1.6.0
 	github.com/gomarkdown/markdown v0.0.0-20210514010506-3b9f47219fe7
 	github.com/microcosm-cc/bluemonday v1.0.16
-	github.com/qiniu/go-sdk/v7 v7.9.6
+	github.com/qiniu/go-sdk/v7 v7.13.0
 	github.com/robfig/cron v1.2.0
 	github.com/russross/blackfriday/v2 v2.1.0
 	github.com/shirou/gopsutil v3.21.6+incompatible
@@ -49,7 +49,7 @@ require (
 	golang.org/x/sys v0.2.0 // indirect
 	golang.org/x/text v0.4.0 // indirect
 	google.golang.org/protobuf v1.28.0 // indirect
-	gopkg.in/check.v1 v1.0.0-20200902074654-038fdea0a05b // indirect
+	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
