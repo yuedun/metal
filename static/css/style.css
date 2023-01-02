@@ -64,22 +64,20 @@ a:hover {
 .home-page .article ul li {
     display: inline-block;
     width: 22%;
-    border-left: bisque solid 1px;
     padding: 0 5px;
-    border-right: bisque solid 1px;
 }
-.home-page .article ul li a {
-    display: block;
-    text-align: center;
-}
+
 .home-page .article section img {
     max-width: 50%;
     height: auto;
 }
-.home-page .article-info {
+.home-page .article .article-info {
     color: #6e7373;
     font-size: 14px;
-    margin-right: 20px;
+    margin: 5px;
+}
+.home-page .article .article-info a{
+    color: #6e7373;
 }
 .home-page #page {
     padding-left: 20px;

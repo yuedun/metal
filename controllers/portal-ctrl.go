@@ -73,7 +73,7 @@ func (c *PortalController) Get() {
 			artList[index].Category = art.Category
 			count, _ := article.GetArticleViewCount(art.Id)
 			artList[index].ViewCount = count
-			artList[index].UpdatedAt = art.UpdatedAt.Format("2006-01-02 15:04")
+			artList[index].UpdatedAt = art.UpdatedAt.Format("2006-01-02")
 		}
 		c.Data["articleList"] = artList
 		c.Data["total"] = total
