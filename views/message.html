@@ -16,18 +16,23 @@
         <!-- 中间内容区 -->
         <section class="message-page  width-visual">
             <div class="layui-container page-container">
-                <ul class="layui-timeline">
-                    {{range $index, $elem := .messageList}}
-                    <li class="layui-timeline-item">
-                        <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
-                        <div class="layui-timeline-content layui-text">
-                            <h3 class="layui-timeline-title">{{$elem.NickName}}</h3>
-                            <p>{{$elem.Content}}</p>
-                            <p>创建于：{{$elem.CreatedAt}}</p>
-                        </div>
-                    </li>
-                    {{end}}
-                </ul>
+                <div class="layui-row">
+                    <div class="layui-col-md12">
+                        <ul class="layui-timeline">
+                            {{range $index, $elem := .messageList}}
+                            <li class="layui-timeline-item">
+                                <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                                <div class="layui-timeline-content layui-text">
+                                    <h3 class="layui-timeline-title">{{$elem.NickName}}</h3>
+                                    <p>{{$elem.Content}}</p>
+                                    <p>创建于：{{$elem.CreatedAt}}</p>
+                                </div>
+                            </li>
+                            {{end}}
+                        </ul>
+                    </div>
+                </div>
+
                 <div class="layui-row">
                     <div class="layui-col-md12">
                         <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
@@ -38,8 +43,8 @@
                                 <div class="layui-inline">
                                     <label class="layui-form-label">昵称：</label>
                                     <div class="layui-input-inline">
-                                        <input type="text" name="nickName" required lay-verify="required" placeholder="请输入昵称" autocomplete="off"
-                                            class="layui-input">
+                                        <input type="text" name="nickName" required lay-verify="required"
+                                            placeholder="请输入昵称" autocomplete="off" class="layui-input">
                                     </div>
                                 </div>
                                 <div class="layui-inline">
