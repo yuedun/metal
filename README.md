@@ -62,4 +62,5 @@ GOOS=linux GOARCH=amd64 go build
 基于角色的访问控制方法（RBAC）,目前只是简单的使用用户和角色，每个角色可以有一个权限，也可以有多个权限，所以赋值角色即分配了权限。
 比如：删除用户，既是角色，也是权限。
 
-图标库： https://iconpark.oceanengine.com/official
+[图标库](https://iconpark.oceanengine.com/official)
+[beego](https://beego.gocn.vip/beego/zh/developing/)

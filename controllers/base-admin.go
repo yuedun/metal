@@ -14,11 +14,6 @@ type AdminBaseController struct {
 	beego.Controller
 }
 
-/**
- * 给interface起个别名，这样是不是简短很多了
- */
-type any = interface{}
-
 // 自定义404错误页面
 // 需要beego.Run之前注册beego.ErrorController(&controllers.ErrorController{})
 // func (c *BaseController) Error404() {
@@ -29,6 +24,7 @@ type any = interface{}
 // 接口返回数据标准化
 type Result struct {
 	Code int         `json:"code"`
+	Cost int64       `json:"cost"`
 	Data interface{} `json:"data"`
 	Msg  string      `json:"msg"`
 }

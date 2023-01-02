@@ -2,9 +2,7 @@ package models
 
 import "time"
 
-type any = interface{}
-
-//BaseModel 数据模型公共字段
+// BaseModel 数据模型公共字段
 type BaseModel struct {
 	Id        uint      `json:"id" orm:"pk"`
 	CreatedAt time.Time `json:"created_at" orm:"auto_now_add;type(datetime)"`

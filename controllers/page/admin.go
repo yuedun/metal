@@ -1,11 +1,12 @@
 package page
 
 import (
-	"log"
+	"fmt"
 	"metal/controllers"
 	. "metal/models" // 点操作符导入的包可以省略包名直接使用公有属性和方法
 	"net/http"
 	"runtime"
+	"time"
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/beego/beego/v2/core/logs"
@@ -14,16 +15,11 @@ import (
 	"github.com/shirou/gopsutil/mem"
 )
 
-/**
- * 给interface起个别名，这样是不是简短很多了
- */
-type any = interface{}
-
 type AdminPageController struct {
 	controllers.AdminBaseController
 }
 
-//登录路由
+// 登录路由
 func (c *AdminPageController) Login() {
 	c.TplName = "admin/login.html"
 }
@@ -120,7 +116,7 @@ func (c *AdminPageController) Messages() {
 	c.TplName = "admin/messages.html"
 }
 
-//JobCount 工作数量统计
+// JobCount 工作数量统计
 func (c *AdminPageController) JobCount() {
 	c.Data["title"] = "报表"
 	c.TplName = "admin/job-count.html"
@@ -133,23 +129,39 @@ func (c *AdminPageController) IconList() {
 
 // Picture 图片检索
 func (c *AdminPageController) Picture() {
+	var err error
+	var code int
+	var data interface{}
+	defer func(start time.Time) {
+		var rsp controllers.Result
+		rsp.Code = code
+		rsp.Cost = time.Since(start).Milliseconds()
+		rsp.Msg = http.StatusText(code)
+		if err != nil {
+			rsp.Msg = fmt.Sprintf("%s - %s", rsp.Msg, err.Error())
+			logs.Error(rsp.Msg)
+			c.Data["json"] = c.ErrorData(err, code)
+		} else {
+			c.Data["json"] = c.SuccessData(data)
+		}
+		c.ServeJSON()
+	}(time.Now())
 	url := c.GetString("url")
 	if url != "" {
 		//请求html数据
 		res, err := http.Get(url)
 		if err != nil {
-			log.Fatal(err)
+			return
 		}
 		defer res.Body.Close()
 		if res.StatusCode != 200 {
-			log.Fatalf("status code error: %d %s", res.StatusCode, res.Status)
-		} else {
-			logs.Info("请求成功")
+			return
 		}
+		logs.Info("请求成功")
 		//转换数据为HTML对象模型
 		doc, err := goquery.NewDocumentFromReader(res.Body)
 		if err != nil {
-			log.Fatal(err)
+			return
 		}
 		//查找元素
 		text, _ := doc.Find("body").Html()

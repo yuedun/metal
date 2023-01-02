@@ -396,15 +396,16 @@ desired effect
                                 url: '/admin/api/user',
                                 type: 'PUT', //GET
                                 async: true,    //或false,是否异步
-                                data: {
-                                    userId: $("#userId").val(),
+                                contentType:'application/json',
+                                data: JSON.stringify({
+                                    userId: Number($("#userId").val()),
                                     username: $("#username").val(),
                                     gender: $("#gender").val(),
                                     email: $("#email").val(),
                                     mobile: $("#mobile").val(),
                                     desc: $("#desc").val(),
                                     addr: $("#address").val()
-                                },
+                                }),
                                 timeout: 5000,    //超时时间
                                 dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
                                 success: function (data, textStatus, jqXHR) {

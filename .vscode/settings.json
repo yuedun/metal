@@ -1,3 +1,8 @@
 {
-    "go.testFlags": ["-v"]
+    "go.testFlags": ["-v", "--count=1","--tags=dis", "--timeout=1000s"],
+    "gopls": {
+        "build.buildFlags": [
+            "-tags=dis"
+        ]
+    }
 }

@@ -34,10 +34,13 @@ func (group *Groups) GetUserGroupList() ([]Role, error) {
 func (group *Groups) GetGroupByUserId(userId uint) ([]Role, error) {
 	o := orm.NewOrm()
 	var userGroups []Role
-	//var userGroups []orm.Params//orm.Params是一个map类型
-	_, err := o.Raw(`SELECT role.groups from role
-		INNER JOIN groups ON role.id = groups.role_id
-		WHERE groups.user_id = ?;`, userId).QueryRows(&userGroups)
+	qb, _ := orm.NewQueryBuilder("mysql")
+	qb.Select("role.groups").From("role").InnerJoin("`groups` as g").On("role.id = g.role_id").Where("g.user_id = ?")
+	// 导出 SQL 语句
+	sql := qb.String()
+	// 执行 SQL 语句
+	_, err := o.Raw(sql, userId).QueryRows(&userGroups)
+
 	if nil != err {
 		return nil, err
 	}

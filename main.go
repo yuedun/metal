@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/gob"
-	"log"
 	"metal/controllers"
 	_ "metal/routers"
 	"metal/util"
@@ -11,20 +10,20 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 
 	"github.com/beego/beego/v2/client/orm"
+	"github.com/beego/beego/v2/core/config"
 	"github.com/beego/beego/v2/core/logs"
-	"github.com/beego/beego/v2/server/web"
 	beego "github.com/beego/beego/v2/server/web"
 )
 
 var port string
 
 func init() {
-	dbUser, _ := web.AppConfig.String("mysqluser")
-	dbPass, _ := web.AppConfig.String("mysqlpass")
-	dbName, _ := web.AppConfig.String("mysqldb")
-	dbURL, _ := web.AppConfig.String("mysqlurls")
-	dbPort, _ := web.AppConfig.String("mysqlport")
-	port, _ = web.AppConfig.String("httpport")
+	dbUser, _ := config.String("mysqluser")
+	dbPass, _ := config.String("mysqlpass")
+	dbName, _ := config.String("mysqldb")
+	dbURL, _ := config.String("mysqlurls")
+	dbPort, _ := config.String("mysqlport")
+	port, _ = config.String("httpport")
 
 	orm.RegisterDriver("mysql", orm.DRMySQL)
 	// 参数1        数据库的别名，用来在ORM中切换数据库使用
@@ -77,6 +76,6 @@ func init() {
 
 func main() {
 	util.CronStart() //启动定时任务
-	log.Printf("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n浏览器访问：http://localhost:%s\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", port)
+	logs.Info("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n浏览器访问：http://localhost:%s\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", port)
 	beego.Run() //下面的代码不会执行，需要执行的代码放到上面
 }

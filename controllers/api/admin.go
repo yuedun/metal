@@ -2,11 +2,11 @@ package api
 
 import (
 	"encoding/json"
-	"errors"
-	"log"
+	"fmt"
 	"metal/controllers"
 	. "metal/models" // 点操作符导入的包可以省略包名直接使用公有属性和方法
 	"metal/util"
+	"net/http"
 	"os"
 	"strconv"
 	"time"
@@ -15,11 +15,6 @@ import (
 
 	beego "github.com/beego/beego/v2/server/web"
 )
-
-/**
- * 给interface起个别名，这样是不是简短很多了
- */
-type any = interface{}
 
 type AdminAPIController struct {
 	controllers.AdminBaseController
@@ -51,52 +46,73 @@ func (c *AdminAPIController) GetLogs() {
  * /admin/page/upload-img
  */
 func (c *AdminAPIController) UploadImg() {
+	var err error
+	var code int
+	var data interface{}
+	defer func(start time.Time) {
+		var rsp controllers.Result
+		rsp.Code = code
+		rsp.Cost = time.Since(start).Milliseconds()
+		rsp.Msg = http.StatusText(code)
+		if err != nil {
+			rsp.Msg = fmt.Sprintf("%s - %s", rsp.Msg, err.Error())
+			logs.Error(rsp.Msg)
+			c.Data["json"] = c.ErrorData(err, code)
+		} else {
+			c.Data["json"] = c.SuccessData(data)
+		}
+		c.ServeJSON()
+	}(time.Now())
 	file, h, err := c.GetFile("editormd-image-file")
 	if err != nil {
-		log.Fatal("getfile err ", err)
+		logs.Error("getfile err ", err)
+		code = http.StatusBadRequest
+		return
 	}
 	defer file.Close()
-	_, derr := os.Stat("tmp/upload")
-	if derr != nil {
+	_, err = os.Stat("tmp/upload")
+	if err != nil {
 		os.Mkdir("tmp/upload", os.ModePerm)
 	}
 
 	fileName := "tmp/upload/" + h.Filename
 	err = c.SaveToFile("editormd-image-file", fileName)
 	if err != nil {
-		c.Data["json"] = map[string]any{
+		data = map[string]any{
 			"success": 0,
 			"message": err.Error(),
 		}
-	} else {
-		//接收成功上传到七牛
-		ret, err := util.UploadFile(fileName, h.Filename)
-		if err != nil {
-			c.Data["json"] = map[string]any{
-				"success": 0,
-				"message": err,
-				"url":     fileName,
-			}
-			c.ServeJSON()
-			return
+		return
+	}
+	//接收成功上传到七牛
+	ret, err := util.UploadFile(fileName, h.Filename)
+	if err != nil {
+		data = map[string]any{
+			"success": 0,
+			"message": err,
+			"url":     fileName,
 		}
-		//上传到七牛后删除本地文件
-		localFile, err := os.Open(fileName)
-		defer localFile.Close()
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		if err := localFile.Close(); err != nil {
-			log.Fatal(err)
-		}
-		os.Remove(fileName)
-		url, _ := beego.AppConfig.String("qiniuUrl")
-		c.Data["json"] = map[string]any{
-			"success": 1,
-			"message": "ok",
-			"url":     url + ret.Key,
-		}
-		c.ServeJSON()
+		return
+	}
+	//上传到七牛后删除本地文件
+	localFile, err := os.Open(fileName)
+	if err != nil {
+		logs.Error(err.Error())
+		code = http.StatusInternalServerError
+		return
+	}
+	defer localFile.Close()
+	if err := localFile.Close(); err != nil {
+		logs.Error(err)
+		code = http.StatusInternalServerError
+		return
+	}
+	os.Remove(fileName)
+	url, _ := beego.AppConfig.String("qiniuUrl")
+	c.Data["json"] = map[string]any{
+		"success": 1,
+		"message": "ok",
+		"url":     url + ret.Key,
 	}
 }
 
@@ -138,7 +154,7 @@ func (c *AdminAPIController) MessageUpdate() {
 	c.ServeJSON()
 }
 
-//CountDataRecently 近一个月数据
+// CountDataRecently 近一个月数据
 func (c *AdminAPIController) CountDataRecently() {
 	startDate := c.GetString("startDate") + " 00:00:00"
 	endDate := c.GetString("endDate") + " 23:59:59"
@@ -155,7 +171,7 @@ func (c *AdminAPIController) CountDataRecently() {
 	c.ServeJSON()
 }
 
-//CountDataAll 所有历史数据，按月平均值统计
+// CountDataAll 所有历史数据，按月平均值统计
 func (c *AdminAPIController) CountDataAll() {
 	jobCount := new(JobCount)
 	list, err := jobCount.GetCountDataAll()
@@ -203,7 +219,7 @@ func (c *AdminAPIController) AddPicture() {
 	}
 }
 
-//ListPicture 图片列表
+// ListPicture 图片列表
 func (c *AdminAPIController) ListPicture() {
 	defer func() {
 		c.ServeJSON()
@@ -225,7 +241,7 @@ func (c *AdminAPIController) ListPicture() {
 	}
 }
 
-//DeletePicture 删除图片
+// DeletePicture 删除图片
 func (c *AdminAPIController) DeletePicture() {
 	defer func() {
 		c.ServeJSON()
@@ -264,68 +280,96 @@ func (c *AdminAPIController) GetAllUserGroup() {
 */
 // @router /user-group/add-user-group [post]
 func (c *AdminAPIController) AddUserGroup() {
-	defer func() {
-		if err := recover(); err != nil {
-			c.Data["json"] = c.ErrorMsg(err.(string))
+	var err error
+	var code int
+	var data interface{}
+	defer func(start time.Time) {
+		var rsp controllers.Result
+		rsp.Code = code
+		rsp.Cost = time.Since(start).Milliseconds()
+		rsp.Msg = http.StatusText(code)
+		if err != nil {
+			rsp.Msg = fmt.Sprintf("%s - %s", rsp.Msg, err.Error())
+			logs.Error(rsp.Msg)
+			c.Data["json"] = c.ErrorData(err, code)
+		} else {
+			c.Data["json"] = c.SuccessData(data)
 		}
 		c.ServeJSON()
-	}()
+	}(time.Now())
 	args := UserGroup{}
 	json.Unmarshal(c.Ctx.Input.RequestBody, &args)
 	userId := args.UserId
 	if userId == 0 {
-		log.Panic("userId不能为空")
+		logs.Warn("userId不能为空")
+		err = fmt.Errorf("userId不能为空")
+		return
 	}
 	groupId := args.GroupId
 	if groupId == 0 {
-		log.Panic("groupId不能为空")
+		logs.Warn("groupId不能为空")
+		err = fmt.Errorf("groupId不能为空")
+		return
 	}
-	var userGroup = new(UserGroup)
+	userGroup := UserGroup{}
 	userGroup.UserId = userId
 	userGroup.GroupId = groupId
 	userGroup.CreatedAt = time.Now()
 	userGroup.UpdatedAt = time.Now()
 
-	_, err := userGroup.Save()
+	_, err = userGroup.Save()
 	if nil != err {
 		logs.Error(err)
-		c.Data["json"] = c.ErrorData(err)
-	} else {
-		c.Data["json"] = c.SuccessData(nil)
+		code = http.StatusBadRequest
+		return
 	}
 }
 
 // AddUserRole 用户添加权限
 func (c *AdminAPIController) AddUserRole() {
-	defer func() {
-		if err := recover(); err != nil {
-			c.Data["json"] = c.ErrorData(err.(error))
+	var err error
+	var code int
+	var data interface{}
+	defer func(start time.Time) {
+		var rsp controllers.Result
+		rsp.Code = code
+		rsp.Cost = time.Since(start).Milliseconds()
+		rsp.Msg = http.StatusText(code)
+		if err != nil {
+			rsp.Msg = fmt.Sprintf("%s - %s", rsp.Msg, err.Error())
+			logs.Error(rsp.Msg)
+			c.Data["json"] = c.ErrorData(err, code)
+		} else {
+			c.Data["json"] = c.SuccessData(data)
 		}
 		c.ServeJSON()
-	}()
+	}(time.Now())
 	var args struct {
 		UserId uint
 		Roles  []uint
 	}
-	err := json.Unmarshal(c.Ctx.Input.RequestBody, &args)
+	err = json.Unmarshal(c.Ctx.Input.RequestBody, &args)
 	if err != nil {
-		panic(err)
+		return
 	}
 	logs.Info("参数：", args)
 	userId := args.UserId
 	if userId == 0 {
-		panic(errors.New("userId不能为空"))
+		logs.Warn("userId不能为空")
+		err = fmt.Errorf("userId不能为空")
+		return
 	}
 	roleIds := args.Roles
 	if len(roleIds) == 0 {
-		panic(errors.New("roleId不能为空"))
+		logs.Warn("roleId不能为空")
+		err = fmt.Errorf("roleId不能为空")
+		return
 	}
-	var userGroup = new(Groups)
+	userGroup := Groups{}
 	err = userGroup.UpdateUserRoles(userId, roleIds)
 	if err != nil {
-		panic(err)
+		return
 	}
-	c.Data["json"] = c.SuccessData(nil)
 }
 
 // GetUserRoles 获取用户权限
@@ -435,7 +479,7 @@ func (c *AdminAPIController) Categories() {
 	c.ServeJSON()
 }
 
-//创建分类
+// 创建分类
 func (c *AdminAPIController) CreateCategories() {
 	name := c.GetString("name")
 	category := Category{
@@ -452,7 +496,7 @@ func (c *AdminAPIController) CreateCategories() {
 	c.ServeJSON()
 }
 
-//修改分类
+// 修改分类
 func (c *AdminAPIController) UpdateCategories() {
 	id, _ := c.GetInt("id")
 	name := c.GetString("name")

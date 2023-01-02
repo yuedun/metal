@@ -1,10 +1,11 @@
 package api
 
 import (
-	"log"
+	"fmt"
 	"metal/controllers"
 	. "metal/models" // 点操作符导入的包可以省略包名直接使用公有属性和方法
 	"metal/service"
+	"net/http"
 	"strconv"
 	"time"
 
@@ -20,24 +21,39 @@ type ArticleAPIController struct {
  * 创建文章接口
  */
 func (c *ArticleAPIController) CreateArticle() {
-	defer func() {
-		if err := recover(); err != nil {
-			c.Data["json"] = c.ErrorMsg(err.(string))
+	var err error
+	var code int
+	var data interface{}
+	defer func(start time.Time) {
+		var rsp controllers.Result
+		rsp.Code = code
+		rsp.Cost = time.Since(start).Milliseconds()
+		rsp.Msg = http.StatusText(code)
+		if err != nil {
+			rsp.Msg = fmt.Sprintf("%s - %s", rsp.Msg, err.Error())
+			logs.Error(rsp.Msg)
+			c.Data["json"] = c.ErrorData(err, code)
+		} else {
+			c.Data["json"] = c.SuccessData(data)
 		}
 		c.ServeJSON()
-	}()
+	}(time.Now())
 	title := c.GetString("title")
 	if title == "" {
-		log.Panic("title不能为空")
+		logs.Warn("title不能为空")
+		err = fmt.Errorf("title不能为空")
+		return
 	}
 	content := c.GetString("content")
 	if content == "" {
-		log.Panic("content不能为空")
+		logs.Warn("content不能为空")
+		err = fmt.Errorf("content不能为空")
+		return
 	}
 	category := c.GetString("category")
 	keywords := c.GetString("keywords")
 
-	article := new(Article)
+	article := Article{}
 	article.Title = title
 	article.Content = content
 	article.Category = category
@@ -46,7 +62,7 @@ func (c *ArticleAPIController) CreateArticle() {
 	article.CreatedAt = time.Now()
 	article.UpdatedAt = time.Now()
 	articleService := service.NewService()
-	_, err := articleService.Save(article)
+	_, err = articleService.Save(article)
 
 	categoryRec := &Category{Name: category}
 	err2 := categoryRec.GetByName()
@@ -57,12 +73,8 @@ func (c *ArticleAPIController) CreateArticle() {
 		categoryRec.Create()
 	}
 	if nil != err {
-		logs.Error(err)
-		c.Data["json"] = c.ErrorData(err)
-	} else {
-		c.Data["json"] = c.SuccessData(nil)
+		return
 	}
-	c.ServeJSON()
 }
 
 /**
@@ -70,6 +82,23 @@ func (c *ArticleAPIController) CreateArticle() {
  * /admin/page/articles
  */
 func (c *ArticleAPIController) ArticlesList() {
+	var err error
+	var code int
+	var data interface{}
+	defer func(start time.Time) {
+		var rsp controllers.Result
+		rsp.Code = code
+		rsp.Cost = time.Since(start).Milliseconds()
+		rsp.Msg = http.StatusText(code)
+		if err != nil {
+			rsp.Msg = fmt.Sprintf("%s - %s", rsp.Msg, err.Error())
+			logs.Error(rsp.Msg)
+			c.Data["json"] = c.ErrorData(err, code)
+		} else {
+			c.Data["json"] = c.SuccessData(data)
+		}
+		c.ServeJSON()
+	}(time.Now())
 	args := c.GetString("search") // 获取所有参数
 	start, _ := c.GetInt("start")
 	perPage, _ := c.GetInt("perPage")
@@ -80,16 +109,14 @@ func (c *ArticleAPIController) ArticlesList() {
 
 	list, total, err := article.GetArticlesByCondition(param, start, perPage)
 	if nil != err {
-		logs.Error(err)
-		c.Data["json"] = c.ErrorData(err)
+		code = http.StatusInternalServerError
+		return
 	} else {
-		data := map[string]any{
+		data = map[string]any{
 			"result": list,
 			"total":  total,
 		}
-		c.Data["json"] = c.SuccessData(data)
 	}
-	c.ServeJSON()
 }
 
 /**
@@ -97,12 +124,23 @@ func (c *ArticleAPIController) ArticlesList() {
  * /admin/page/article/:id
  */
 func (c *ArticleAPIController) ArticleEdit() {
-	defer func() {
-		if err := recover(); err != nil {
-			c.Data["json"] = c.ErrorData(err.(error))
-			c.ServeJSON()
+	var err error
+	var code int
+	var data interface{}
+	defer func(start time.Time) {
+		var rsp controllers.Result
+		rsp.Code = code
+		rsp.Cost = time.Since(start).Milliseconds()
+		rsp.Msg = http.StatusText(code)
+		if err != nil {
+			rsp.Msg = fmt.Sprintf("%s - %s", rsp.Msg, err.Error())
+			logs.Error(rsp.Msg)
+			c.Data["json"] = c.ErrorData(err, code)
+		} else {
+			c.Data["json"] = c.SuccessData(data)
 		}
-	}()
+		c.ServeJSON()
+	}(time.Now())
 	article := new(Article)
 	artId, _ := strconv.Atoi(c.Ctx.Input.Param(":id"))
 	title := c.GetString("title")
@@ -115,23 +153,19 @@ func (c *ArticleAPIController) ArticleEdit() {
 	article.Category = category
 	article.Keywords = keywords
 	article.UpdatedAt = time.Now()
-	_, err := article.Update()
-
+	_, err = article.Update()
+	if err != nil {
+		return
+	}
 	categoryRec := &Category{Name: category}
-	err2 := categoryRec.GetByName()
-	if err2 == orm.ErrNoRows || err2 == orm.ErrMissPK {
+	err = categoryRec.GetByName()
+	if err == orm.ErrNoRows || err == orm.ErrMissPK {
 		logs.Debug("【%s】分类记录不存在，去创建！", category)
 		categoryRec.CreatedAt = time.Now()
 		categoryRec.UpdatedAt = time.Now()
 		categoryRec.Create()
-	}
-	if err != nil {
-		c.Data["json"] = c.ErrorData(err.(error))
-		c.ServeJSON()
 		return
 	}
-	c.Data["json"] = c.SuccessData(nil)
-	c.ServeJSON()
 }
 
 /**

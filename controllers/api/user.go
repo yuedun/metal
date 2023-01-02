@@ -6,6 +6,7 @@ import (
 	"metal/controllers"
 	. "metal/models" // 点操作符导入的包可以省略包名直接使用公有属性和方法
 	"metal/util"
+	"net/http"
 	"strconv"
 	"strings"
 	"time"
@@ -17,53 +18,73 @@ type UserAPIController struct {
 	controllers.AdminBaseController
 }
 
-//登录接口
+// 登录接口
 func (c *UserAPIController) ToLogin() {
+	var err error
+	var code int
+	var data interface{}
+	defer func(start time.Time) {
+		var rsp controllers.Result
+		rsp.Code = code
+		rsp.Cost = time.Since(start).Milliseconds()
+		rsp.Msg = http.StatusText(code)
+		if err != nil {
+			rsp.Msg = fmt.Sprintf("%s - %s", rsp.Msg, err.Error())
+			logs.Error(rsp.Msg)
+			c.Data["json"] = c.ErrorData(err, code)
+		} else {
+			c.Data["json"] = c.SuccessData(data)
+		}
+		c.ServeJSON()
+	}(time.Now())
 	var mobile = c.GetString("mobile")
 	var password = c.GetString("password")
 
 	user := &User{Mobile: mobile}
-	err := user.GetByMobile()
+	err = user.GetByMobile()
+	logs.Debug("user.Password", user.Password)
 	if err != nil {
-		logs.Error(err)
-		c.Data["json"] = c.ErrorData(err)
+		return
 	} else if user.Status == 0 {
-		c.Data["json"] = c.ErrorMsg("该账号已禁用，不能登录！")
+		err = fmt.Errorf("该账号已禁用，不能登录！")
+		code = http.StatusForbidden
+		return
 	} else if user.Password != util.GetMD5(password) {
-		c.Data["json"] = c.ErrorMsg("密码不正确！")
-	} else {
-		group := new(Groups)
-		roleList, err := group.GetGroupByUserId(user.Id)
-		if err != nil {
-			c.Data["json"] = c.ErrorData(err)
-		}
-		var privileges []string
-		for _, v := range roleList {
-			strArr := strings.Split(v.Groups, ",")
-			privileges = append(privileges, strArr...)
-		}
-		userPermission := new(controllers.UserPermission)
-		userPermission.User = *user
-		userPermission.Privileges = privileges
-		c.SetSession("loginUser", userPermission)
-		// c.Ctx.Input.IP()获取到的是Nginx内网ip，需要在Nginx配置proxy_set_header Remote_addr $remote_addr;
-		ip := c.Ctx.Input.Header("Remote_addr")
-		if ip != "" {
-			//第三方接口不稳定，会阻塞整体，所以放到协程中
-			go func() {
-				ipBody := new(util.IPBody)
-				err := util.GetIpGeography(ip, ipBody)
-				if err == nil {
-					loginLog := new(Log)
-					// mark := fmt.Sprintf("登录IP:%s，物理地址：%s %s %s %s", ip, ipBody.Data.Country, ipBody.Data.Area, ipBody.Data.Region, ipBody.Data.City)
-					mark := fmt.Sprintf("登录IP:%s，物理地址：%s", ip, ipBody.Content.Address)
-					loginLog.Save(mark)
-				}
-			}()
-		}
-		c.Data["json"] = c.SuccessData(nil)
+		err = fmt.Errorf("密码不正确！")
+		code = http.StatusBadRequest
+		return
 	}
-	c.ServeJSON()
+	group := new(Groups)
+	roleList, err1 := group.GetGroupByUserId(user.Id)
+	if err1 != nil {
+		err = err1
+		code = http.StatusInternalServerError
+		return
+	}
+	var privileges []string
+	for _, v := range roleList {
+		strArr := strings.Split(v.Groups, ",")
+		privileges = append(privileges, strArr...)
+	}
+	userPermission := new(controllers.UserPermission)
+	userPermission.User = *user
+	userPermission.Privileges = privileges
+	c.SetSession("loginUser", userPermission)
+	// c.Ctx.Input.IP()获取到的是Nginx内网ip，需要在Nginx配置proxy_set_header Remote_addr $remote_addr;
+	ip := c.Ctx.Input.Header("Remote_addr")
+	if ip != "" {
+		//第三方接口不稳定，会阻塞整体，所以放到协程中
+		go func() {
+			ipBody := new(util.IPBody)
+			err := util.GetIpGeography(ip, ipBody)
+			if err == nil {
+				loginLog := new(Log)
+				// mark := fmt.Sprintf("登录IP:%s，物理地址：%s %s %s %s", ip, ipBody.Data.Country, ipBody.Data.Area, ipBody.Data.Region, ipBody.Data.City)
+				mark := fmt.Sprintf("登录IP:%s，物理地址：%s", ip, ipBody.Content.Address)
+				loginLog.Save(mark)
+			}
+		}()
+	}
 }
 
 /**
@@ -135,27 +156,30 @@ func (c *UserAPIController) UserGet() {
  * 修改用户
  */
 func (c *UserAPIController) UpdateUser() {
-	userId, _ := c.GetInt("userId")
-	username := c.GetString("username") // 只能接收url后面的参数，不能接收body中的参数
-	email := c.GetString("email")
-	gender, _ := c.GetInt("gender")
-	mobile := c.GetString("mobile")
-	addr := c.GetString("addr")
-	desc := c.GetString("desc")
-	updatedAt := time.Now()
+	var form struct {
+		UserId   uint   `json:"userId"`
+		Username string `json:"username"`
+		Email    string `json:"email"`
+		Gender   int    `json:"gender"`
+		Mobile   string `json:"mobile"`
+		Addr     string `json:"addr"`
+		Desc     string `json:"desc"`
+	}
+	c.Bind(&form)
+	logs.Debug("%+v", form)
 
-	var user = new(User)
-	user.Id = uint(userId)
-	user.UserName = username
-	user.Gender = gender
-	user.Email = email
-	user.Mobile = mobile
-	user.Addr = addr
-	user.Description = desc
-	user.UpdatedAt = updatedAt
+	user := User{
+		UserName:    form.Username,
+		Gender:      form.Gender,
+		Email:       form.Email,
+		Mobile:      form.Mobile,
+		Addr:        form.Addr,
+		Description: form.Desc,
+	}
+	user.Id = form.UserId
+	user.UpdatedAt = time.Now()
 	upId, err := user.Update()
 	if nil != err {
-		logs.Error(err)
 		c.Data["json"] = c.ErrorData(err)
 	} else {
 		c.Data["json"] = c.SuccessData(upId)

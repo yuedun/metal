@@ -1,16 +1,18 @@
 package util
 
 import (
+	"bytes"
 	"crypto/md5"
 	"encoding/hex"
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
+	"time"
 
+	"github.com/beego/beego/v2/core/config"
 	"github.com/beego/beego/v2/core/logs"
-	beego "github.com/beego/beego/v2/server/web"
 	"github.com/gomarkdown/markdown"
 	"github.com/microcosm-cc/bluemonday"
 	blackfriday "github.com/russross/blackfriday/v2"
@@ -22,7 +24,12 @@ import (
 func GetMD5(password string) string {
 	Md5Inst := md5.New()
 	Md5Inst.Write([]byte(password))
-	Result := Md5Inst.Sum(nil)
+	salt, err := config.String("salt")
+	if err != nil {
+		logs.Error("not found salt")
+	}
+	logs.Debug("salt", salt)
+	Result := Md5Inst.Sum([]byte(salt))
 	// 以下两种输出结果一样
 	logs.Debug("格式化>>>>>>>%x\n", Result)
 	logs.Debug("hex解码>>>>>>>", hex.EncodeToString(Result), "\n")
@@ -40,24 +47,26 @@ func GeneratePassword(mobile string) string {
 }
 
 // 淘宝api
-// type IPBody struct {
-// 	Code int
-// 	Data struct {
-// 		Ip         string
-// 		Country    string
-// 		Area       string
-// 		Region     string
-// 		City       string
-// 		County     string
-// 		Isp        string
-// 		Country_id string
-// 		area_id    string
-// 		Region_id  string
-// 		City_id    string
-// 		County_id  string
-// 		Isp_id     string
-// 	}
-// }
+//
+//	type IPBody struct {
+//		Code int
+//		Data struct {
+//			Ip         string
+//			Country    string
+//			Area       string
+//			Region     string
+//			City       string
+//			County     string
+//			Isp        string
+//			Country_id string
+//			area_id    string
+//			Region_id  string
+//			City_id    string
+//			County_id  string
+//			Isp_id     string
+//		}
+//	}
+//
 // 百度api
 type IPBody struct {
 	Address string
@@ -80,7 +89,7 @@ type IPBody struct {
 }
 
 func GetIpGeography(ip string, objBody *IPBody) error {
-	ipstr, _ := beego.AppConfig.String("ipService")
+	ipstr, _ := config.String("ipService")
 	ipService := ipstr
 	res, err := http.Get(fmt.Sprintf(ipService, ip))
 	if err != nil {
@@ -91,7 +100,7 @@ func GetIpGeography(ip string, objBody *IPBody) error {
 		logs.Error("请求地理位置错误: ", res.Status)
 		return errors.New("请求地理位置错误：" + res.Status)
 	} else {
-		bodyByte, err := ioutil.ReadAll(res.Body)
+		bodyByte, err := io.ReadAll(res.Body)
 		if err != nil {
 			logs.Error("地理位置解析失败：", err)
 		}
@@ -116,4 +125,50 @@ func Md2htmlV2(in string) string {
 	htmlBytes := bluemonday.UGCPolicy().SanitizeBytes(unsafe)
 	html := string(htmlBytes)
 	return html
+}
+
+func HttpGet(url string, s interface{}) (int, []byte, error) {
+	logs.Info(url)
+	buf := new(bytes.Buffer)
+	if err := json.NewEncoder(buf).Encode(s); err != nil {
+		return 0, nil, err
+	}
+	var cli = &http.Client{
+		Timeout: time.Second * 300,
+	}
+	req, _ := http.NewRequest(http.MethodGet, url, buf)
+	resp, err := cli.Do(req)
+	if err != nil {
+		return 0, nil, err
+	}
+	defer resp.Body.Close()
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return 0, nil, err
+	}
+
+	return resp.StatusCode, body, nil
+}
+
+func HttpPost(url string, s interface{}) (int, []byte, error) {
+	buf := new(bytes.Buffer)
+	if err := json.NewEncoder(buf).Encode(s); err != nil {
+		return 0, nil, err
+	}
+	var cli = &http.Client{
+		Timeout: time.Second * 300,
+	}
+	req, _ := http.NewRequest(http.MethodPost, url, buf)
+	req.Header.Set("Content-Type", "application/json")
+	resp, err := cli.Do(req)
+	if err != nil {
+		return 0, nil, err
+	}
+	defer resp.Body.Close()
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return 0, nil, err
+	}
+
+	return resp.StatusCode, body, nil
 }

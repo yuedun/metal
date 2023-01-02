@@ -3,8 +3,7 @@ package util
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"log"
+	"io"
 	. "metal/models"
 	"net/http"
 	"net/url"
@@ -94,14 +93,15 @@ func requestUrl(c chan JobDataLanguage, language, region string) {
 	}
 	defer res.Body.Close()
 	if res.StatusCode != 200 {
-		log.Fatalf("status code error: %d %s", res.StatusCode, res.Status)
-	} else {
-		logs.Info("请求成功")
+		logs.Error("status code error: %d %s", res.StatusCode, res.Status)
+		return
 	}
+	logs.Info("请求成功")
 	//转换数据为HTML对象模型
 	doc, err := goquery.NewDocumentFromReader(res.Body)
 	if err != nil {
-		log.Fatal(err)
+		logs.Error(err)
+		return
 	}
 	//查找元素
 	text := doc.Find("#tab_pos>span").Text()
@@ -124,7 +124,7 @@ func RequestByAjax(c chan JobDataLanguage, language, region string) {
 		fmt.Sprintf("https://m.lagou.com/search.json?city=上海&positionName=%s&pageNo=1&pageSize=1", language),
 		nil)
 	if err != nil {
-		log.Fatal(err)
+		logs.Error(err)
 	}
 
 	req.Header.Set("Referer", "https://m.lagou.com/search.html")
@@ -141,8 +141,12 @@ func RequestByAjax(c chan JobDataLanguage, language, region string) {
 	req.Header.Set("User-Agent", "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1")
 	req.Header.Set("X-Requested-With", "XMLHttpRequest")
 	resp, err := client.Do(req)
+	if err != nil {
+		logs.Error(err)
+		return
+	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		logs.Error("读取body失败：", err)
 	}
@@ -165,7 +169,7 @@ func RequestByAjax(c chan JobDataLanguage, language, region string) {
 	}
 }
 
-//获取页面cookie
+// 获取页面cookie
 func GetCookies(url string) []string {
 	req1 := httplib.Get(url)
 	req1.Header("User-Agent", "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1")
