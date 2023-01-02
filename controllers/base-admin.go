@@ -92,25 +92,34 @@ func (c *AdminBaseController) Prepare() {
 		ctrl, runMethod := c.GetControllerAndAction() // 获取controller和method
 		requestPermission := ctrl + ":" + runMethod
 		logs.Info(reflect.Indirect(reflect.ValueOf(c.AppController)).Type().PkgPath()) //获取包名
-		logs.Info("ctrl:method=", ctrl+":"+runMethod)
+		logs.Info("ctrl:method =", ctrl+":"+runMethod)
 		privileges := userPermission.Privileges // 获取用户拥有的权限
-		hasPermission := true
+		hasPermission := false
 		//检查需要权限的路由和接口用户是否拥有
-		if NeedPermission[requestPermission] {
+		p, ok := NeedPermission[requestPermission]
+		logs.Debug(">>>>>>>", p, ok)
+		if ok {
 			hasPermission = false
-			for _, pri := range privileges {
-				if pri != requestPermission {
-					hasPermission = false
-				} else {
-					hasPermission = true
-					break
+			//需要验证权限
+			if p {
+				for _, pri := range privileges {
+					if pri != requestPermission {
+						hasPermission = false
+					} else {
+						hasPermission = true
+						break
+					}
+				}
+				if !hasPermission {
+					logs.Info("权限不足")
+					c.Data["json"] = c.ErrorMsg("权限不足")
+					c.ServeJSON()
 				}
 			}
-			if !hasPermission {
-				logs.Info("权限不足")
-				c.Data["json"] = c.ErrorMsg("权限不足")
-				c.ServeJSON()
-			}
+		} else {
+			logs.Info("未设置权限")
+			c.Data["json"] = c.ErrorMsg("未设置权限")
+			c.ServeJSON()
 		}
 	}
 }
@@ -119,41 +128,49 @@ func (c *AdminBaseController) Prepare() {
 // 需要验证权限的接口，如果值为false或没有配置代表不需要验证权限
 // 配置以后且值为true代表需要验证权限，并匹配数据库中用户是否存在对应权限
 // 可使用该方式集中维护权限，也可以由各个controller各自在Prepare维护自己权限，缺点是每个controller都要写一遍Prepare
-
 var NeedPermission = map[string]bool{
-	"AdminController:ToLogin":              false,
-	"AdminController:LoginOut":             false,
-	"AdminController:ToRegister":           false,
-	"AdminController:Register":             false,
-	"AdminController:Welcome":              false,
-	"AdminController:UserList":             true,
-	"AdminController:UserListRoute":        true,
-	"AdminController:UpdateUser":           true,
-	"AdminController:DisableUser":          true,
-	"AdminController:EnableUser":           true,
-	"AdminController:DeleteUser":           true,
-	"AdminController:ArticleEdit":          true,
-	"AdminController:ArticleDelete":        true,
-	"AdminController:CreateArticle":        false,
-	"AdminController:ArticleEditRoute":     false,
-	"AdminController:CreateArticleRoute":   false,
-	"AdminController:ArticlesList":         false,
-	"AdminController:ArticlesRoute":        false,
-	"AdminController:GetLogs":              false,
-	"AdminController:LogsRoute":            false,
-	"AdminController:PNameView":            false,
-	"AdminController:TemplatesRoute":       false,
-	"AdminController:CreateTemplate":       false,
-	"AdminController:TemplateView":         false,
-	"AdminController:TemplateList":         false,
-	"AdminController:UploadImg":            false,
-	"JobCountController:JobCount":          false,
-	"JobCountController:CountDataAll":      false,
-	"JobCountController:CountDataRecently": false,
-	"UserGroupController:GetUserRoles":     false,
-	"UserGroupController:AddUserRole":      false,
-	"UserGroupController:AddUserGroup":     false,
-	"UserGroupController:GetAllUserGroup":  false,
+	//页面权限
+	"AdminPageController:Welcome":            false,
+	"AdminPageController:UserListRoute":      true,
+	"AdminPageController:ArticleEditRoute":   false,
+	"AdminPageController:CreateArticleRoute": false,
+	"AdminPageController:ArticlesRoute":      true,
+	"AdminPageController:LogsRoute":          true,
+	"AdminPageController:TemplatesRoute":     true,
+	"AdminPageController:Roles":              false,
+	"AdminPageController:UserList":           false,
+	"AdminPageController:PNameView":          true,
+
+	//接口权限
+	"AdminAPIController:ToLogin":           false,
+	"UserAPIController:LoginOut":           false,
+	"AdminAPIController:ToRegister":        false,
+	"AdminAPIController:Register":          false,
+	"UserAPIController:UserList":           true,
+	"AdminAPIController:GetUserRoles":      true,
+	"AdminAPIController:AddUserRoles":      true,
+	"AdminAPIController:UpdateUser":        true,
+	"AdminAPIController:DisableUser":       true,
+	"AdminAPIController:EnableUser":        true,
+	"AdminAPIController:DeleteUser":        true,
+	"AdminAPIController:GetRolesList":      true,
+	"AdminAPIController:UpdateRole":        true,
+	"AdminAPIController:ArticleEdit":       true,
+	"AdminAPIController:ArticleDelete":     true,
+	"AdminAPIController:CreateArticle":     true,
+	"AdminAPIController:ArticlesList":      true,
+	"AdminAPIController:GetLogs":           true,
+	"AdminAPIController:CreateTemplate":    true,
+	"AdminAPIController:TemplateView":      true,
+	"AdminAPIController:TemplateList":      true,
+	"AdminAPIController:UploadImg":         true,
+	"JobCountController:JobCount":          true,
+	"JobCountController:CountDataAll":      true,
+	"JobCountController:CountDataRecently": true,
+	"UserGroupController:GetUserRoles":     true,
+	"UserGroupController:AddUserRole":      true,
+	"UserGroupController:AddUserGroup":     true,
+	"UserGroupController:GetAllUserGroup":  true,
 	"UserGroupController:Roles":            true,
 	"UserGroupController:UpdateRole":       true,
 	"UserGroupController:CreateRole":       true,

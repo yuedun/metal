@@ -1,16 +1,17 @@
 package api
 
 import (
-	"encoding/json"
 	"fmt"
 	"metal/controllers"
 	. "metal/models" // 点操作符导入的包可以省略包名直接使用公有属性和方法
+	"metal/service"
 	"metal/util"
 	"net/http"
 	"os"
 	"strconv"
 	"time"
 
+	"github.com/beego/beego/v2/client/orm"
 	"github.com/beego/beego/v2/core/logs"
 
 	beego "github.com/beego/beego/v2/server/web"
@@ -186,15 +187,28 @@ func (c *AdminAPIController) CountDataAll() {
 
 // AddPicture 保存图片
 func (c *AdminAPIController) AddPicture() {
-	defer func() {
+	var err error
+	var code int
+	var data interface{}
+	defer func(start time.Time) {
+		var rsp controllers.Result
+		rsp.Code = code
+		rsp.Cost = time.Since(start).Milliseconds()
+		rsp.Msg = http.StatusText(code)
+		if err != nil {
+			rsp.Msg = fmt.Sprintf("%s - %s", rsp.Msg, err.Error())
+			logs.Error(rsp.Msg)
+			c.Data["json"] = c.ErrorData(err, code)
+		} else {
+			c.Data["json"] = c.SuccessData(data)
+		}
 		c.ServeJSON()
-	}()
+	}(time.Now())
 	args := struct {
-		PicUrl string
-		Tag    string
+		PicUrl string `json:"picUrl"`
+		Tag    string `json:"tag"`
 	}{}
-	body := c.Ctx.Input.RequestBody //接收raw body内容
-	err := json.Unmarshal(body, &args)
+	c.Bind(&args)
 	if err != nil {
 		logs.Error(err)
 		c.Data["json"] = c.ErrorData(err)
@@ -221,9 +235,23 @@ func (c *AdminAPIController) AddPicture() {
 
 // ListPicture 图片列表
 func (c *AdminAPIController) ListPicture() {
-	defer func() {
+	var err error
+	var code int
+	var data interface{}
+	defer func(start time.Time) {
+		var rsp controllers.Result
+		rsp.Code = code
+		rsp.Cost = time.Since(start).Milliseconds()
+		rsp.Msg = http.StatusText(code)
+		if err != nil {
+			rsp.Msg = fmt.Sprintf("%s - %s", rsp.Msg, err.Error())
+			logs.Error(rsp.Msg)
+			c.Data["json"] = c.ErrorData(err, code)
+		} else {
+			c.Data["json"] = c.SuccessData(data)
+		}
 		c.ServeJSON()
-	}()
+	}(time.Now())
 	search := c.GetString("search") //搜索框
 	start, _ := c.GetInt("start")
 	perPage, _ := c.GetInt("perPage")
@@ -233,30 +261,40 @@ func (c *AdminAPIController) ListPicture() {
 		logs.Error(err)
 		c.Data["json"] = c.ErrorData(err)
 	} else {
-		data := map[string]any{
+		data = map[string]any{
 			"result": list,
 			"total":  total,
 		}
-		c.Data["json"] = c.SuccessData(data)
 	}
 }
 
 // DeletePicture 删除图片
 func (c *AdminAPIController) DeletePicture() {
-	defer func() {
+	var err error
+	var code int
+	var data interface{}
+	defer func(start time.Time) {
+		var rsp controllers.Result
+		rsp.Code = code
+		rsp.Cost = time.Since(start).Milliseconds()
+		rsp.Msg = http.StatusText(code)
+		if err != nil {
+			rsp.Msg = fmt.Sprintf("%s - %s", rsp.Msg, err.Error())
+			logs.Error(rsp.Msg)
+			c.Data["json"] = c.ErrorData(err, code)
+		} else {
+			c.Data["json"] = c.SuccessData(data)
+		}
 		c.ServeJSON()
-	}()
+	}(time.Now())
 	picture := new(Picture)
 	picId, _ := c.GetInt("picId")
-	logs.Info(">>>>", picId)
 	picture.Id = uint(picId)
 	picture.Status = 0
-	_, err := picture.Delete()
+	_, err = picture.Delete()
 	if nil != err {
 		logs.Error(err)
-		c.Data["json"] = c.ErrorData(err)
-	} else {
-		c.Data["json"] = c.SuccessData(nil)
+		return
 	}
 }
 
@@ -264,9 +302,9 @@ func (c *AdminAPIController) DeletePicture() {
  * 获取所有权限
  */
 // @router /user-group/get-all-user-group [get]
-func (c *AdminAPIController) GetAllUserGroup() {
-	userGroup := new(UserGroup)
-	list, err := userGroup.GetUserGroupList()
+func (c *AdminAPIController) GetAllPermissions() {
+	permissionSrv := service.NewPermissionService(orm.NewOrm())
+	list, err := permissionSrv.GetPermissionList()
 	if nil != err {
 		c.Data["json"] = c.ErrorData(err)
 	} else {
@@ -275,11 +313,8 @@ func (c *AdminAPIController) GetAllUserGroup() {
 	c.ServeJSON()
 }
 
-/**
-用户添加权限
-*/
-// @router /user-group/add-user-group [post]
-func (c *AdminAPIController) AddUserGroup() {
+// 用户添加权限
+func (c *AdminAPIController) AddUserRoles() {
 	var err error
 	var code int
 	var data interface{}
@@ -297,95 +332,41 @@ func (c *AdminAPIController) AddUserGroup() {
 		}
 		c.ServeJSON()
 	}(time.Now())
-	args := UserGroup{}
-	json.Unmarshal(c.Ctx.Input.RequestBody, &args)
-	userId := args.UserId
-	if userId == 0 {
+	var userRoles struct {
+		UserId uint   `json:"userId"`
+		Roles  []uint `json:"roles"`
+	}
+	// json.Unmarshal(c.Ctx.Input.RequestBody, &userRole)
+	c.Bind(&userRoles)
+	logs.Debug(userRoles)
+	if userRoles.UserId == 0 {
 		logs.Warn("userId不能为空")
 		err = fmt.Errorf("userId不能为空")
 		return
 	}
-	groupId := args.GroupId
-	if groupId == 0 {
-		logs.Warn("groupId不能为空")
-		err = fmt.Errorf("groupId不能为空")
-		return
-	}
-	userGroup := UserGroup{}
-	userGroup.UserId = userId
-	userGroup.GroupId = groupId
-	userGroup.CreatedAt = time.Now()
-	userGroup.UpdatedAt = time.Now()
-
-	_, err = userGroup.Save()
+	permissionSrv := service.NewPermissionService(orm.NewOrm())
+	err = permissionSrv.UpdateUserRoles(userRoles.UserId, userRoles.Roles)
 	if nil != err {
 		logs.Error(err)
-		code = http.StatusBadRequest
+		code = http.StatusInternalServerError
 		return
 	}
 }
 
-// AddUserRole 用户添加权限
-func (c *AdminAPIController) AddUserRole() {
-	var err error
-	var code int
-	var data interface{}
-	defer func(start time.Time) {
-		var rsp controllers.Result
-		rsp.Code = code
-		rsp.Cost = time.Since(start).Milliseconds()
-		rsp.Msg = http.StatusText(code)
-		if err != nil {
-			rsp.Msg = fmt.Sprintf("%s - %s", rsp.Msg, err.Error())
-			logs.Error(rsp.Msg)
-			c.Data["json"] = c.ErrorData(err, code)
-		} else {
-			c.Data["json"] = c.SuccessData(data)
-		}
-		c.ServeJSON()
-	}(time.Now())
-	var args struct {
-		UserId uint
-		Roles  []uint
-	}
-	err = json.Unmarshal(c.Ctx.Input.RequestBody, &args)
-	if err != nil {
-		return
-	}
-	logs.Info("参数：", args)
-	userId := args.UserId
-	if userId == 0 {
-		logs.Warn("userId不能为空")
-		err = fmt.Errorf("userId不能为空")
-		return
-	}
-	roleIds := args.Roles
-	if len(roleIds) == 0 {
-		logs.Warn("roleId不能为空")
-		err = fmt.Errorf("roleId不能为空")
-		return
-	}
-	userGroup := Groups{}
-	err = userGroup.UpdateUserRoles(userId, roleIds)
-	if err != nil {
-		return
-	}
-}
-
-// GetUserRoles 获取用户权限
+// 获取用户权限
 func (c *AdminAPIController) GetUserRoles() {
 	userId := c.Ctx.Input.Param(":userId")
 	uid, _ := strconv.Atoi(userId)
-	role := new(Role)
-	allRoles, userRoles, err := role.GetRolesAndUserPermission(uid)
-	logs.Debug("allRoles:", allRoles)
-	logs.Debug("userRoles:", userRoles)
+	permissionSrv := service.NewPermissionService(orm.NewOrm())
+	allRoles, userRoles, err := permissionSrv.GetRolesAndUserPermission(uid)
+	// logs.Debug("allRoles:", allRoles)
+	logs.Debug("userRoles>>>>>>:", userRoles)
 	if nil != err {
 		c.Data["json"] = c.ErrorData(err)
 	}
-	userPermissions := make([]UserGroups, 0, 20)
+	userPermissions := make([]UserRoles, 0, 20)
 	for index, item := range allRoles {
-		userPremis := new(UserGroups)
+		userPremis := new(UserRoles)
 		userPremis.Role_id = uint(item.Id)
 		userPremis.Description = item.Description
 		for _, rid := range userRoles {
@@ -401,35 +382,52 @@ func (c *AdminAPIController) GetUserRoles() {
 }
 
 func (c *AdminAPIController) GetRolesList() {
-	// args := c.GetString("search") //搜索框
+	var err error
+	var code int
+	var data interface{}
+	defer func(start time.Time) {
+		var rsp controllers.Result
+		rsp.Code = code
+		rsp.Cost = time.Since(start).Milliseconds()
+		rsp.Msg = http.StatusText(code)
+		if err != nil {
+			rsp.Msg = fmt.Sprintf("%s - %s", rsp.Msg, err.Error())
+			logs.Error(rsp.Msg)
+			c.Data["json"] = c.ErrorData(err, code)
+		} else {
+			c.Data["json"] = c.SuccessData(data)
+		}
+		c.ServeJSON()
+	}(time.Now())
+	args := c.GetString("search") //搜索框
 	start, _ := c.GetInt("start")
 	perPage, _ := c.GetInt("perPage")
-	role := new(Role)
-
-	list, total, err := role.GetRolesList(*role, start, perPage)
-	if nil != err {
-		logs.Error(err)
-		c.Data["json"] = c.ErrorData(err)
+	role := Role{
+		Description: args,
 	}
-	data := map[string]any{
+	permissionSrv := service.NewPermissionService(orm.NewOrm())
+	list, total, err1 := permissionSrv.GetRolesList(role, start, perPage)
+	if nil != err1 {
+		logs.Error(err)
+		err = err1
+		code = http.StatusInternalServerError
+		return
+	}
+	data = map[string]any{
 		"result": list,
 		"total":  total,
 	}
-	c.Data["json"] = c.SuccessData(data)
-
-	c.ServeJSON()
 }
 
 func (c *AdminAPIController) CreateRole() {
 	roleName := c.GetString("roleName")
-	groups := c.GetString("permissions")
+	permissions := c.GetString("permissions")
 	role := Role{
 		Description: roleName,
-		Groups:      groups,
+		Permissions: permissions,
 	}
-	role.CreatedAt = time.Now()
-	role.UpdatedAt = time.Now()
-	_, err := role.Create()
+	permissionSrv := service.NewPermissionService(orm.NewOrm())
+	_, err := permissionSrv.CreateRole(role)
 	if nil != err {
 		logs.Error(err)
 		c.Data["json"] = c.ErrorData(err)
@@ -439,18 +437,18 @@ func (c *AdminAPIController) CreateRole() {
 }
 
 func (c *AdminAPIController) UpdateRole() {
-	// args := c.GetString("search") //搜索框
 	roleId := c.GetString("roleId")
 	ridint, _ := strconv.Atoi(roleId)
 	rid := uint(ridint)
 	roleName := c.GetString("roleName")
-	groups := c.GetString("permissions")
+	permissions := c.GetString("permissions")
 	role := Role{
 		Description: roleName,
-		Groups:      groups,
+		Permissions: permissions,
 	}
+	permissionSrv := service.NewPermissionService(orm.NewOrm())
 	role.Id = rid
-	_, err := role.Update()
+	_, err := permissionSrv.UpdateRole(role)
 	if nil != err {
 		logs.Error(err)
 		c.Data["json"] = c.ErrorData(err)

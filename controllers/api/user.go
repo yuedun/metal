@@ -1,16 +1,17 @@
 package api
 
 import (
-	"encoding/json"
 	"fmt"
 	"metal/controllers"
 	. "metal/models" // 点操作符导入的包可以省略包名直接使用公有属性和方法
+	"metal/service"
 	"metal/util"
 	"net/http"
 	"strconv"
 	"strings"
 	"time"
 
+	"github.com/beego/beego/v2/client/orm"
 	"github.com/beego/beego/v2/core/logs"
 )
 
@@ -54,8 +55,9 @@ func (c *UserAPIController) ToLogin() {
 		code = http.StatusBadRequest
 		return
 	}
-	group := new(Groups)
-	roleList, err1 := group.GetGroupByUserId(user.Id)
+
+	permissionSrv := service.NewPermissionService(orm.NewOrm())
+	roleList, err1 := permissionSrv.GetPermissionsByUserId(user.Id)
 	if err1 != nil {
 		err = err1
 		code = http.StatusInternalServerError
@@ -63,7 +65,7 @@ func (c *UserAPIController) ToLogin() {
 	}
 	var privileges []string
 	for _, v := range roleList {
-		strArr := strings.Split(v.Groups, ",")
+		strArr := strings.Split(v.Permissions, ",")
 		privileges = append(privileges, strArr...)
 	}
 	userPermission := new(controllers.UserPermission)
@@ -100,8 +102,7 @@ func (c *UserAPIController) LoginOut() {
  */
 func (c *UserAPIController) Post() {
 	args := map[string]string{}
-	body := c.Ctx.Input.RequestBody //接收raw body内容
-	json.Unmarshal(body, &args)
+	c.Bind(&args)
 	mobile := args["mobile"]
 	username := args["username"] // 只能接收url后面的参数，不能接收body中的参数
 	sex := args["sex"]

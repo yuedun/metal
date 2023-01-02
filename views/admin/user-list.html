@@ -435,7 +435,10 @@ desired effect
                 var userId = $(this).closest("tr").attr("id");
                 var userName = $(this).closest("tr").data("user_name");
                 $.get("/admin/api/user-roles/" + userId, function (data) {
-                    // $("#userName").html(userName);
+                    if (data.code == 1) {
+                        layer.msg(data.msg, { icon: 5 });
+                        return
+                    }
                     var ps = "";
                     data.data.forEach(function (item, index) {
                         ps += '<label class="checkbox-inline">'
@@ -457,12 +460,13 @@ desired effect
                                 roles[i] = parseInt($(this).val());
                             });
                             $.ajax({
-                                url: '/admin/api/user/groups',
-                                type: 'POST', //GET
+                                url: '/admin/api/user/add-roles',
+                                type: 'POST',
+                                contentType:'application/json',
                                 async: true,    //或false,是否异步
                                 data: JSON.stringify({
-                                    UserId: parseInt(userId),
-                                    Roles: roles
+                                    userId: parseInt(userId),
+                                    roles: roles
                                 }),
                                 timeout: 5000,    //超时时间
                                 dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text

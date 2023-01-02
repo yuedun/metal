@@ -74,7 +74,6 @@ desired effect
                                             <th>ID</th>
                                             <th>角色</th>
                                             <th>权限</th>
-                                            <th>创建时间</th>
                                             <th>操作</th>
                                         </tr>
                                     </thead>
@@ -88,7 +87,6 @@ desired effect
                                             <th>ID</th>
                                             <th>角色</th>
                                             <th>权限</th>
-                                            <th>创建时间</th>
                                             <th>操作</th>
                                         </tr>
                                     </tfoot>
@@ -170,7 +168,7 @@ desired effect
                         <div class="form-group">
                             <label for="permissions">permissions</label>
                             <textarea type="text" class="form-control" id="permissions" name="permissions"
-                                placeholder="permissions"></textarea>
+                                rows="10" cols="100" placeholder="permissions"></textarea>
                         </div>
                     </div>
                 </form>
@@ -241,15 +239,9 @@ desired effect
                 columns: [
                     { data: 'id' },
                     { data: 'description' },
-                    { data: 'groups', className: "td", width: "70%" },
+                    { data: 'permissions', className: "td", width: "70%" },
                     {
-                        name: "created_at",
-                        data: "created_at",
-                        render: function (data, type, row, settings) {
-                            return moment(data).format("YYYY-MM-DD HH:mm:ss");
-                        }
-                    },
-                    {
+                        // width: '50px',
                         render: function (data, type, row, settings) {
                             var html = '<a href="javascript:void(0);" class="J-update">编辑</a>&nbsp;'
                             html += '<a href="javascript:void(0);" class="J-delete">删除</a>'
@@ -261,7 +253,7 @@ desired effect
                     //有了DT_RowId属性就会自动添加id到行上,不需要在此操作，可以做其他事
                     $(row).data("id", data.id);
                     $(row).data("roleName", data.description);
-                    $(row).data("persmissions", data.groups);
+                    $(row).data("persmissions", data.permissions);
                 }
             });
             // 新增按钮
