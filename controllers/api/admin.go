@@ -155,6 +155,16 @@ func (c *AdminAPIController) MessageUpdate() {
 	c.ServeJSON()
 }
 
+// 删除留言
+func (c *AdminAPIController) MessageDelete() {
+	article := new(Message)
+	artId, _ := strconv.Atoi(c.Ctx.Input.Param(":id"))
+	article.Id = uint(artId)
+	article.Delete()
+	c.Data["json"] = c.SuccessData("删除成功！")
+	c.ServeJSON()
+}
+
 // CountDataRecently 近一个月数据
 func (c *AdminAPIController) CountDataRecently() {
 	startDate := c.GetString("startDate") + " 00:00:00"

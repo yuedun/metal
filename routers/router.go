@@ -73,6 +73,7 @@ func init() {
 			beego.NSRouter("/job-count/count-data-all", &api.AdminAPIController{}, "get:CountDataAll"),
 			beego.NSRouter("/message/list", &api.AdminAPIController{}, "get:MessageList"),
 			beego.NSRouter("/message/update/:id", &api.AdminAPIController{}, "put:MessageUpdate"),
+			beego.NSRouter("/message/delete/:id", &api.AdminAPIController{}, "delete:MessageDelete"),
 			beego.NSRouter("/categories", &api.AdminAPIController{}, "get:Categories"),
 			beego.NSRouter("/categories", &api.AdminAPIController{}, "post:CreateCategories"),
 			beego.NSRouter("/categories", &api.AdminAPIController{}, "put:UpdateCategories"),

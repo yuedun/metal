@@ -165,6 +165,7 @@ var NeedPermission = map[string]bool{
 	"AdminAPIController:Categories":        false,
 	"AdminAPIController:GetLogs":           true,
 	"AdminAPIController:MessageList":       true,
+	"AdminAPIController:MessageDelete":     true,
 	"AdminAPIController:CreateTemplate":    true,
 	"AdminAPIController:TemplateView":      true,
 	"AdminAPIController:TemplateList":      true,

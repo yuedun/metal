@@ -106,7 +106,7 @@ func (msg *Message) UpdateStatus() (int64, error) {
 // 通过id删除用户
 func (msg *Message) Delete() (int64, error) {
 	o := orm.NewOrm()
-	id, err := o.Delete(msg, "status") // 要修改的对象和需要修改的字段
+	id, err := o.Delete(msg) // 要修改的对象和需要修改的字段
 	if err != nil {
 		return id, err
 	}

@@ -218,23 +218,15 @@ desired effect
                 }
             });
 
-            $('#dataList_wrapper').delegate('.J-create', 'click', function () {
-                layer.open({
-                    type: 1,
-                    area: ['500px', 'auto'],
-                    btn: ['确定', '取消'],
-                    fixed: false,//跟随滚动
-                    shadeClose: true, //点击遮罩关闭
-                    content: $("#create-dialog"),
-                    yes: function (index, layero) {
-                        $.ajax({
-                            url: '/admin/api/roles/create',
-                            type: 'POST', //GET
+            $('#dataList_wrapper').delegate('.J-delete', 'click', function () {
+                var id = $(this).closest("tr").attr("id");
+                layer.confirm('确定删除？', {
+                    btn: ['确定', '取消'] //按钮
+                }, function (index,layero) {
+                    $.ajax({
+                            url: '/admin/api/message/delete/'+id,
+                            type: 'DELETE', //GET
                             async: true,    //或false,是否异步
-                            data: {
-                                roleName: $("#roleName").val(),
-                                permissions: $("#permissions").val(),
-                            },
                             timeout: 5000,    //超时时间
                             dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
                             success: function (data, textStatus, jqXHR) {
@@ -242,20 +234,19 @@ desired effect
                                     layer.msg(data.msg, { icon: 5 });
                                     return
                                 }
-                                layer.msg("新增成功！", { icon: 6 });
+                                layer.msg("删除成功！", { icon: 6 });
                                 layer.close(index); //如果设定了yes回调，需进行手工关闭
                                 dataList.ajax.reload();
                             },
                             error: function (xhr, textStatus) {
-                                layer.msg("新增失败！", { icon: 5 });
+                                layer.msg("删除失败！", { icon: 5 });
                             },
                             complete: function () {
 
                             }
                         })
-                    }, btn2: function (index, layero) {
-                        layer.close(index);
-                    }
+                }, function (index,layero) {
+                    layer.close(index);
                 });
             })
             // 审核
