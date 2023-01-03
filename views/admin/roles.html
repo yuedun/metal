@@ -149,7 +149,7 @@ desired effect
     </div>
     <!-- 弹窗内容 修改-->
     <div id="update-dialog" style="display: none;">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <!-- general form elements -->
             <div class="box box-primary">
                 <div class="box-header with-border">
@@ -166,7 +166,7 @@ desired effect
                                 placeholder="roleName">
                         </div>
                         <div class="form-group">
-                            <label for="permissions">permissions</label>
+                            <label for="permissions">权限</label>
                             <textarea type="text" class="form-control" id="permissions" name="permissions"
                                 rows="10" cols="100" placeholder="permissions"></textarea>
                         </div>
@@ -281,7 +281,7 @@ desired effect
                             timeout: 5000,    //超时时间
                             dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
                             success: function (data, textStatus, jqXHR) {
-                                if (data.code == 1) {
+                                if (data.code !== 0) {
                                     layer.msg(data.msg, { icon: 5 });
                                     return
                                 }
@@ -330,7 +330,7 @@ desired effect
                             timeout: 5000,    //超时时间
                             dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
                             success: function (data, textStatus, jqXHR) {
-                                if (data.code == 1) {
+                                if (data.code !== 0) {
                                     layer.msg(data.msg, { icon: 5 });
                                     return
                                 }

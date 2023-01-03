@@ -26,7 +26,7 @@ func NewService() ArticleService {
 
 func (a *articleService) Save(article Article) (int64, error) {
 	o := orm.NewOrm()
-	return o.Insert(article)
+	return o.Insert(&article)
 }
 
 func (a *articleService) GetArticlesByCondition(param map[string]string, pageIndex, pageSize int) (articles []Article, total int64, returnError error) {

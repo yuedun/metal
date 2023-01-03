@@ -97,21 +97,47 @@ func (c *UserAPIController) LoginOut() {
 	c.Redirect("/admin/page/login", 302)
 }
 
-/**
- * 新建用户
- */
-func (c *UserAPIController) Post() {
+// 新建用户
+func (c *UserAPIController) CreateUser() {
+	var err error
+	var code int
+	var data any
+	defer func(start time.Time) {
+		var rsp controllers.Result
+		rsp.Code = code
+		rsp.Cost = time.Since(start).Milliseconds()
+		rsp.Msg = http.StatusText(code)
+		if err != nil {
+			rsp.Msg = fmt.Sprintf("%s - %s", rsp.Msg, err.Error())
+			logs.Error(rsp.Msg)
+			c.Data["json"] = c.ErrorData(err, code)
+		} else {
+			c.Data["json"] = c.SuccessData(data)
+		}
+		c.ServeJSON()
+	}(time.Now())
 	args := map[string]string{}
-	c.Bind(&args)
+	c.BindJSON(&args)
+	logs.Debug(">>>>>>>>", args)
 	mobile := args["mobile"]
+	if mobile == "" {
+		code = http.StatusBadRequest
+		err = fmt.Errorf("手机号不能为空！")
+		return
+	}
 	username := args["username"] // 只能接收url后面的参数，不能接收body中的参数
+	if username == "" {
+		code = http.StatusBadRequest
+		err = fmt.Errorf("名称不能为空！")
+		return
+	}
 	sex := args["sex"]
 	email := args["email"]
 	addr := args["addr"]
 	description := args["description"]
-	password := util.GeneratePassword(mobile)
-	createdAt := time.Now()
-	updatedAt := time.Now()
+	password := util.GeneratePassword(mobile) //metal+手机后4位
+	// createdAt := time.Now()
+	// updatedAt := time.Now()
 
 	var user = new(User)
 	user.UserName = username
@@ -121,17 +147,16 @@ func (c *UserAPIController) Post() {
 	user.Addr = addr
 	user.Description = description
 	user.Password = password
-	user.CreatedAt = createdAt
-	user.UpdatedAt = updatedAt
+	// user.CreatedAt = createdAt
+	// user.UpdatedAt = updatedAt
 
-	id, err := user.Save()
-	if nil != err {
+	id, err1 := user.Save()
+	if nil != err1 {
 		logs.Error(err)
-		c.Data["json"] = c.ErrorData(err)
-	} else {
-		c.Data["json"] = c.SuccessData(id)
+		err = err1
+		return
 	}
-	c.ServeJSON()
+	data = id
 }
 
 /**
@@ -197,7 +222,7 @@ func (c *UserAPIController) UserList() {
 	start, _ := c.GetInt("start")
 	perPage, _ := c.GetInt("perPage")
 	user := new(User)
-	var userVOList = make([]UserVO, 10)
+	var userVOList = make([]UserVO, 0)
 	var param = make(map[string]string)
 	param["mobile"] = args
 	param["username"] = args

@@ -269,7 +269,7 @@ desired effect
 							console.log('发送前')
 						},
 						success: function (data, textStatus, jqXHR) {
-							if (data.code == 1) {
+							if (data.code !== 0) {
 								layer.msg(data.msg, { icon: 5 });
 								return
 							}
@@ -305,7 +305,7 @@ desired effect
 						console.log('发送前')
 					},
 					success: function (data, textStatus, jqXHR) {
-						if (data.code == 1) {
+						if (data.code !== 0) {
 							layer.msg(data.msg, { icon: 5 });
 							return
 						}

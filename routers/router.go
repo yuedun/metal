@@ -51,6 +51,7 @@ func init() {
 			beego.NSRouter("/user/enable/:id", &api.UserAPIController{}, "get:EnableUser"),
 			beego.NSRouter("/user/delete", &api.UserAPIController{}, "delete,post:DeleteUser"),
 			beego.NSRouter("/user/:id", &api.UserAPIController{}, "get:UserGet"),
+			beego.NSRouter("/user", &api.UserAPIController{}, "post:CreateUser"),
 			beego.NSRouter("/user", &api.UserAPIController{}, "put:UpdateUser"),
 			beego.NSRouter("/users", &api.UserAPIController{}, "get:UserList"),
 			beego.NSRouter("/article", &api.ArticleAPIController{}, "post:CreateArticle"),

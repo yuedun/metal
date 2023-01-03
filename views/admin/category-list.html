@@ -268,7 +268,7 @@ desired effect
                             timeout: 5000,    //超时时间
                             dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
                             success: function (data, textStatus, jqXHR) {
-                                if (data.code == 1) {
+                                if (data.code !== 0) {
                                     layer.msg(data.msg, { icon: 5 });
                                     return
                                 }
@@ -312,7 +312,7 @@ desired effect
                             timeout: 5000,    //超时时间
                             dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
                             success: function (data, textStatus, jqXHR) {
-                                if (data.code == 1) {
+                                if (data.code !== 0) {
                                     layer.msg(data.msg, { icon: 5 });
                                     return
                                 }

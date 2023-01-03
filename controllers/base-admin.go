@@ -91,13 +91,13 @@ func (c *AdminBaseController) Prepare() {
 		c.Data["username"] = userPermission.User.UserName
 		ctrl, runMethod := c.GetControllerAndAction() // 获取controller和method
 		requestPermission := ctrl + ":" + runMethod
-		logs.Info(reflect.Indirect(reflect.ValueOf(c.AppController)).Type().PkgPath()) //获取包名
-		logs.Info("ctrl:method =", ctrl+":"+runMethod)
+		logs.Info("包名：", reflect.Indirect(reflect.ValueOf(c.AppController)).Type().PkgPath()) //获取包名
+		logs.Info("ctrl:method =", requestPermission)
 		privileges := userPermission.Privileges // 获取用户拥有的权限
 		hasPermission := false
 		//检查需要权限的路由和接口用户是否拥有
 		p, ok := NeedPermission[requestPermission]
-		logs.Debug(">>>>>>>", p, ok)
+		logs.Debug("已设置权限%v，验证权限%v", ok, p)
 		if ok {
 			hasPermission = false
 			//需要验证权限
@@ -111,13 +111,13 @@ func (c *AdminBaseController) Prepare() {
 					}
 				}
 				if !hasPermission {
-					logs.Info("权限不足")
+					logs.Warn("权限不足")
 					c.Data["json"] = c.ErrorMsg("权限不足")
 					c.ServeJSON()
 				}
 			}
 		} else {
-			logs.Info("未设置权限")
+			logs.Warn("未设置权限")
 			c.Data["json"] = c.ErrorMsg("未设置权限")
 			c.ServeJSON()
 		}
@@ -132,14 +132,25 @@ var NeedPermission = map[string]bool{
 	//页面权限
 	"AdminPageController:Welcome":            false,
 	"AdminPageController:UserListRoute":      true,
-	"AdminPageController:ArticleEditRoute":   false,
-	"AdminPageController:CreateArticleRoute": false,
+	"AdminPageController:ArticleEditRoute":   true,
+	"AdminPageController:CreateArticleRoute": true,
 	"AdminPageController:ArticlesRoute":      true,
 	"AdminPageController:LogsRoute":          true,
 	"AdminPageController:TemplatesRoute":     true,
 	"AdminPageController:Roles":              false,
-	"AdminPageController:UserList":           false,
+	"AdminPageController:UserList":           true,
 	"AdminPageController:PNameView":          true,
+	"AdminPageController:CategoryList":       true,
+	"AdminPageController:CreateArticle":      true,
+	"AdminPageController:ArticleList":        true,
+	"AdminPageController:UserAdd":            true,
+	"AdminPageController:JobCount":           false,
+	"AdminPageController:Messages":           true,
+	"AdminPageController:Logs":               true,
+	"AdminPageController:IconList":           false,
+	"AdminPageController:Picture":            false,
+	"AdminPageController:ListPicture":        false,
+	"AdminPageController:SystemInfo":         false,
 
 	//接口权限
 	"AdminAPIController:ToLogin":           false,
@@ -149,20 +160,26 @@ var NeedPermission = map[string]bool{
 	"UserAPIController:UserList":           true,
 	"AdminAPIController:GetUserRoles":      true,
 	"AdminAPIController:AddUserRoles":      true,
-	"AdminAPIController:UpdateUser":        true,
-	"AdminAPIController:DisableUser":       true,
-	"AdminAPIController:EnableUser":        true,
+	"UserAPIController:EnableUser":         true,
+	"UserAPIController:DisableUser":        true,
+	"UserAPIController:UserGet":            true,
+	"UserAPIController:CreateUser":         true,
+	"UserAPIController:UpdateUser":         true,
 	"AdminAPIController:DeleteUser":        true,
 	"AdminAPIController:GetRolesList":      true,
 	"AdminAPIController:UpdateRole":        true,
+	"ArticleAPIController:CreateArticle":   true,
 	"AdminAPIController:ArticleEdit":       true,
 	"AdminAPIController:ArticleDelete":     true,
 	"AdminAPIController:CreateArticle":     true,
 	"AdminAPIController:ArticlesList":      true,
+	"ArticleAPIController:ArticlesList":    true,
+	"AdminAPIController:Categories":        true,
 	"AdminAPIController:GetLogs":           true,
 	"AdminAPIController:CreateTemplate":    true,
 	"AdminAPIController:TemplateView":      true,
 	"AdminAPIController:TemplateList":      true,
+	"AdminAPIController:ListPicture":       false,
 	"AdminAPIController:UploadImg":         true,
 	"JobCountController:JobCount":          true,
 	"JobCountController:CountDataAll":      true,
