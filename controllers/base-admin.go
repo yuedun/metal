@@ -14,13 +14,6 @@ type AdminBaseController struct {
 	beego.Controller
 }
 
-// 自定义404错误页面
-// 需要beego.Run之前注册beego.ErrorController(&controllers.ErrorController{})
-// func (c *BaseController) Error404() {
-//     c.Data["content"] = ">>>>>>>>>>"
-//     c.TplName = "404.html"
-// }
-
 // 接口返回数据标准化
 type Result struct {
 	Code int         `json:"code"`
@@ -119,6 +112,7 @@ func (c *AdminBaseController) Prepare() {
 		} else {
 			logs.Warn("未设置权限")
 			c.Data["json"] = c.ErrorMsg("未设置权限")
+			// c.Abort("403")
 			c.ServeJSON()
 		}
 	}
@@ -130,27 +124,21 @@ func (c *AdminBaseController) Prepare() {
 // 可使用该方式集中维护权限，也可以由各个controller各自在Prepare维护自己权限，缺点是每个controller都要写一遍Prepare
 var NeedPermission = map[string]bool{
 	//页面权限
-	"AdminPageController:Welcome":            false,
-	"AdminPageController:UserListRoute":      true,
-	"AdminPageController:ArticleEditRoute":   true,
-	"AdminPageController:CreateArticleRoute": true,
-	"AdminPageController:ArticlesRoute":      true,
-	"AdminPageController:LogsRoute":          true,
-	"AdminPageController:TemplatesRoute":     true,
-	"AdminPageController:Roles":              false,
-	"AdminPageController:UserList":           true,
-	"AdminPageController:PNameView":          true,
-	"AdminPageController:CategoryList":       true,
-	"AdminPageController:CreateArticle":      true,
-	"AdminPageController:ArticleList":        true,
-	"AdminPageController:UserAdd":            true,
-	"AdminPageController:JobCount":           false,
-	"AdminPageController:Messages":           true,
-	"AdminPageController:Logs":               true,
-	"AdminPageController:IconList":           false,
-	"AdminPageController:Picture":            false,
-	"AdminPageController:ListPicture":        false,
-	"AdminPageController:SystemInfo":         false,
+	"AdminPageController:Welcome":       false,
+	"AdminPageController:Roles":         false,
+	"AdminPageController:UserList":      true,
+	"AdminPageController:PNameView":     false,
+	"AdminPageController:CategoryList":  false,
+	"AdminPageController:CreateArticle": false,
+	"AdminPageController:ArticleList":   false,
+	"AdminPageController:UserAdd":       false,
+	"AdminPageController:JobCount":      false,
+	"AdminPageController:Messages":      true,
+	"AdminPageController:Logs":          true,
+	"AdminPageController:IconList":      false,
+	"AdminPageController:Picture":       false,
+	"AdminPageController:ListPicture":   false,
+	"AdminPageController:SystemInfo":    false,
 
 	//接口权限
 	"AdminAPIController:ToLogin":           false,
@@ -166,15 +154,15 @@ var NeedPermission = map[string]bool{
 	"UserAPIController:CreateUser":         true,
 	"UserAPIController:UpdateUser":         true,
 	"AdminAPIController:DeleteUser":        true,
-	"AdminAPIController:GetRolesList":      true,
+	"AdminAPIController:GetRolesList":      false,
 	"AdminAPIController:UpdateRole":        true,
+	"AdminAPIController:DeleteRole":        true,
 	"ArticleAPIController:CreateArticle":   true,
 	"AdminAPIController:ArticleEdit":       true,
 	"AdminAPIController:ArticleDelete":     true,
 	"AdminAPIController:CreateArticle":     true,
-	"AdminAPIController:ArticlesList":      true,
-	"ArticleAPIController:ArticlesList":    true,
-	"AdminAPIController:Categories":        true,
+	"ArticleAPIController:ArticlesList":    false,
+	"AdminAPIController:Categories":        false,
 	"AdminAPIController:GetLogs":           true,
 	"AdminAPIController:CreateTemplate":    true,
 	"AdminAPIController:TemplateView":      true,

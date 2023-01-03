@@ -77,5 +77,6 @@ func init() {
 func main() {
 	util.CronStart() //启动定时任务
 	logs.Info("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n浏览器访问：http://localhost:%s\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", port)
+	beego.ErrorController(&controllers.ErrorController{})
 	beego.Run() //下面的代码不会执行，需要执行的代码放到上面
 }

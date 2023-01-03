@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"github.com/beego/beego/v2/client/orm"
+	"github.com/beego/beego/v2/core/config"
 	"github.com/beego/beego/v2/core/logs"
 )
 
@@ -44,13 +45,18 @@ func (c *UserAPIController) ToLogin() {
 	user := &User{Mobile: mobile}
 	err = user.GetByMobile()
 	logs.Debug("user.Password", user.Password)
+	salt, err := config.String("salt")
+	if err != nil {
+		logs.Error("not found salt")
+	}
+	logs.Debug("salt", salt)
 	if err != nil {
 		return
 	} else if user.Status == 0 {
 		err = fmt.Errorf("该账号已禁用，不能登录！")
 		code = http.StatusForbidden
 		return
-	} else if user.Password != util.GetMD5(password) {
+	} else if user.Password != util.GetMD5(password, salt) {
 		err = fmt.Errorf("密码不正确！")
 		code = http.StatusBadRequest
 		return
@@ -135,7 +141,14 @@ func (c *UserAPIController) CreateUser() {
 	email := args["email"]
 	addr := args["addr"]
 	description := args["description"]
-	password := util.GeneratePassword(mobile) //metal+手机后4位
+	salt, err := config.String("salt")
+	if err != nil {
+		logs.Error("not found salt")
+		code = http.StatusInternalServerError
+		err = fmt.Errorf("not found salt")
+	}
+	logs.Debug("salt", salt)
+	password := util.GeneratePassword(mobile, salt) //metal+手机后4位
 	// createdAt := time.Now()
 	// updatedAt := time.Now()
 

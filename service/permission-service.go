@@ -16,6 +16,7 @@ type IPermissionService interface {
 	GetRolesList(search Role, offset, limit int) (allRoles []Role, count int64, err error)
 	CreateRole(role Role) (int64, error)
 	UpdateRole(role Role) (int64, error)
+	DeleteRole(id uint) (int64, error)
 	GetUserGroupList() ([]UserRole, error)
 	GetGroupByUserId(userId int) ([]UserRole, error)
 }
@@ -140,6 +141,12 @@ func (s *PermissionService) CreateRole(role Role) (int64, error) {
 func (s *PermissionService) UpdateRole(role Role) (int64, error) {
 	id, err := s.orm.Update(&role, "description", "permissions") // 要修改的对象和需要修改的字段
 	return id, err
+}
+
+// 通过id删除角色
+func (s *PermissionService) DeleteRole(id uint) (int64, error) {
+	num, err := s.orm.Delete(&Role{Id: id})
+	return num, err
 }
 
 func (s *PermissionService) GetUserGroupList() ([]UserRole, error) {

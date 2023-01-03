@@ -21,14 +21,9 @@ import (
 /**
  * md5加密
  */
-func GetMD5(password string) string {
+func GetMD5(password, salt string) string {
 	Md5Inst := md5.New()
 	Md5Inst.Write([]byte(password))
-	salt, err := config.String("salt")
-	if err != nil {
-		logs.Error("not found salt")
-	}
-	logs.Debug("salt", salt)
 	Result := Md5Inst.Sum([]byte(salt))
 	// 以下两种输出结果一样
 	logs.Debug("格式化>>>>>>>%x\n", Result)
@@ -39,11 +34,11 @@ func GetMD5(password string) string {
 /**
  * 生成密码
  */
-func GeneratePassword(mobile string) string {
+func GeneratePassword(mobile, salt string) string {
 	b := []byte(mobile)
 	p := b[7:]
 	password := "metal" + string(p)
-	return GetMD5(password)
+	return GetMD5(password, salt)
 }
 
 // 淘宝api

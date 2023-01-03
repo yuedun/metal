@@ -63,5 +63,5 @@ func TestBeego(t *testing.T) {
 }
 
 func TestMd5(t *testing.T) {
-	util.GetMD5("hello")
+	util.GeneratePassword("13100000001", "")
 }

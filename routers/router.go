@@ -68,6 +68,7 @@ func init() {
 			beego.NSRouter("/roles/list", &api.AdminAPIController{}, "get:GetRolesList"),
 			beego.NSRouter("/roles/create", &api.AdminAPIController{}, "post:CreateRole"),
 			beego.NSRouter("/roles/update", &api.AdminAPIController{}, "put:UpdateRole"),
+			beego.NSRouter("/roles/delete/:id", &api.AdminAPIController{}, "delete:DeleteRole"),
 			beego.NSRouter("/job-count/count-data-recently", &api.AdminAPIController{}, "get:CountDataRecently"),
 			beego.NSRouter("/job-count/count-data-all", &api.AdminAPIController{}, "get:CountDataAll"),
 			beego.NSRouter("/message/list", &api.AdminAPIController{}, "get:MessageList"),

@@ -59,7 +59,21 @@ desired effect
                     <div class="col-xs-12">
                         <div class="box">
                             <div class="box-header">
-                                <h3 class="box-title">Data Table With Full Features</h3>
+                                <div class="search-box">
+                                    <form class="form-inline">
+                                        <div class="form-group">
+                                            <label for="username">name</label>
+                                            <input type="text" class="form-control" id="username"
+                                                placeholder="">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail2">email</label>
+                                            <input type="email" class="form-control" id="email"
+                                                placeholder="">
+                                        </div>
+                                        <button type="submit" class="btn btn-default">搜索</button>
+                                    </form>
+                                </div>
                             </div>
                             <!-- /.box-header -->
                             <div class="box-body">
@@ -80,7 +94,9 @@ desired effect
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{/*<tr><td></td></tr>*/}}
+                                        {{/*<tr>
+                                            <td></td>
+                                        </tr>*/}}
                                     </tbody>
                                     <tfoot>
                                         <tr>
@@ -222,7 +238,7 @@ desired effect
                 },
                 paging: true,
                 lengthChange: false,
-                searching: true,
+                searching: false,
                 ordering: true,
                 info: true,
                 autoWidth: false,
@@ -270,7 +286,7 @@ desired effect
                     { data: 'id' },
                     { data: 'user_name' },
                     { data: 'gender' },
-                    { data: 'mobile' },
+                    { data: 'mobile', "searchable": true, },
                     { data: 'email' },
                     { data: 'addr' },
                     {
@@ -400,7 +416,7 @@ desired effect
                                 url: '/admin/api/user',
                                 type: 'PUT', //GET
                                 async: true,    //或false,是否异步
-                                contentType:'application/json',
+                                contentType: 'application/json',
                                 data: JSON.stringify({
                                     userId: Number($("#userId").val()),
                                     username: $("#username").val(),
@@ -466,7 +482,7 @@ desired effect
                             $.ajax({
                                 url: '/admin/api/user/add-roles',
                                 type: 'POST',
-                                contentType:'application/json',
+                                contentType: 'application/json',
                                 async: true,    //或false,是否异步
                                 data: JSON.stringify({
                                     userId: parseInt(userId),

@@ -457,6 +457,35 @@ func (c *AdminAPIController) UpdateRole() {
 	c.ServeJSON()
 }
 
+// 删除角色
+func (c *AdminAPIController) DeleteRole() {
+	var err error
+	var code int
+	var data interface{}
+	defer func(start time.Time) {
+		var rsp controllers.Result
+		rsp.Code = code
+		rsp.Cost = time.Since(start).Milliseconds()
+		rsp.Msg = http.StatusText(code)
+		if err != nil {
+			rsp.Msg = fmt.Sprintf("%s - %s", rsp.Msg, err.Error())
+			logs.Error(rsp.Msg)
+			c.Data["json"] = c.ErrorData(err, code)
+		} else {
+			c.Data["json"] = c.SuccessData(data)
+		}
+		c.ServeJSON()
+	}(time.Now())
+	roleId, _ := strconv.Atoi(c.Ctx.Input.Param(":id"))
+	permissionSrv := service.NewPermissionService(orm.NewOrm())
+	_, err = permissionSrv.DeleteRole(uint(roleId))
+	if nil != err {
+		logs.Error(err)
+		code = http.StatusInternalServerError
+		return
+	}
+}
+
 func (c *AdminAPIController) Categories() {
 	// args := c.GetString("search") //搜索框
 	start, _ := c.GetInt("start")
