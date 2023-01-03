@@ -24,6 +24,7 @@ func init() {
 	dbURL, _ := config.String("mysqlurls")
 	dbPort, _ := config.String("mysqlport")
 	port, _ = config.String("httpport")
+	runmode, _ := config.String("runmode")
 
 	orm.RegisterDriver("mysql", orm.DRMySQL)
 	// 参数1        数据库的别名，用来在ORM中切换数据库使用
@@ -35,7 +36,9 @@ func init() {
 	if err := orm.RegisterDataBase("default", "mysql", dbUser+":"+dbPass+"@tcp("+dbURL+":"+dbPort+")/"+dbName+"?charset=utf8&parseTime=true&loc=Asia%2FShanghai"); err != nil {
 		panic(err)
 	}
-	orm.Debug = true // 控制台打印查询语句
+	if runmode == "dev" {
+		orm.Debug = true // 控制台打印查询语句
+	}
 	// 自动建表
 	// orm.RunSyncdb("default", false, true)
 	// 设置为 UTC 时间(default：本地时区)
