@@ -56,28 +56,28 @@ desired effect
 			<section class="content">
 				<div class="row">
 					<div class="col-md-12">
-					  <div class="box box-solid">
-						<div class="box-header with-border">
-						  <i class="fa fa-text-width"></i>
-						  <h3 class="box-title">Headlines</h3>
+						<div class="box box-solid">
+							<div class="box-header with-border">
+								<i class="fa fa-text-width"></i>
+								<h3 class="box-title">Headlines</h3>
+							</div>
+							<!-- /.box-header -->
+							<div class="box-body">
+								<h1>h1. Bootstrap heading</h1>
+
+								<h2>h2. Bootstrap heading</h2>
+
+								<h3>h3. Bootstrap heading</h3>
+								<h4>h4. Bootstrap heading</h4>
+								<h5>h5. Bootstrap heading</h5>
+								<h6>h6. Bootstrap heading</h6>
+							</div>
+							<!-- /.box-body -->
 						</div>
-						<!-- /.box-header -->
-						<div class="box-body">
-						  <h1>h1. Bootstrap heading</h1>
-			
-						  <h2>h2. Bootstrap heading</h2>
-			
-						  <h3>h3. Bootstrap heading</h3>
-						  <h4>h4. Bootstrap heading</h4>
-						  <h5>h5. Bootstrap heading</h5>
-						  <h6>h6. Bootstrap heading</h6>
-						</div>
-						<!-- /.box-body -->
-					  </div>
-					  <!-- /.box -->
+						<!-- /.box -->
 					</div>
 					<!-- ./col -->
-				  </div>
+				</div>
 				<!-- /.row -->
 			</section>
 			<!-- /.content -->
@@ -123,8 +123,7 @@ desired effect
 							</div>
 							<div class="form-group">
 								<label for="url">url</label>
-								<input type="text" class="form-control" id="url" placeholder="url"
-									autocomplete="off">
+								<input type="text" class="form-control" id="url" placeholder="url" autocomplete="off">
 							</div>
 						</div>
 						<!-- /.box-body -->
@@ -187,7 +186,7 @@ desired effect
 							var dtData = {
 								recordsTotal: res.data.total,
 								recordsFiltered: res.data.total,
-								data: res.data.result,
+								data: res.data.result || [],
 								draw: res.data.draw
 							};
 							callback(dtData);
@@ -271,14 +270,15 @@ desired effect
 				var category = $("#category").val();
 				var url = $("#url").val();
 				$.ajax({
-					url: '/admin/template/add',
+					url: '/admin/api/movie/add',
 					type: 'post', //GET
 					async: true,    //或false,是否异步
-					data: {
+					contentType: 'application/json',
+					data: JSON.stringify({
 						name: name,
 						category: category,
 						url: url
-					},
+					}),
 					timeout: 5000,    //超时时间
 					dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
 					beforeSend: function (xhr) {

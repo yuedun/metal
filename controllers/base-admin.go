@@ -153,6 +153,7 @@ var NeedPermission = map[string]bool{
 	"AdminPageController:Picture":       false,
 	"AdminPageController:ListPicture":   false,
 	"AdminPageController:SystemInfo":    false,
+	"AdminPageController:Movies":        false,
 
 	//接口权限
 	"AdminAPIController:ToLogin":           false,
@@ -189,4 +190,8 @@ var NeedPermission = map[string]bool{
 	"AdminAPIController:CountDataAll":      true,
 	"AdminAPIController:CountDataRecently": true,
 	"AdminAPIController:CreateRole":        true,
+	"AdminAPIController:MovieList":         true,
+	"AdminAPIController:MovieAdd":          true,
+	"AdminAPIController:MovieUpdate":       true,
+	"AdminAPIController:MovieDelete":       true,
 }

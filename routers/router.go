@@ -43,6 +43,7 @@ func init() {
 			beego.NSRouter("/roles", &page.AdminPageController{}, "get:RoleList"),
 			beego.NSRouter("/messages", &page.AdminPageController{}, "get:Messages"),
 			beego.NSRouter("/category-list", &page.AdminPageController{}, "get:CategoryList"),
+			beego.NSRouter("/movies", &page.AdminPageController{}, "get:Movies"),
 		),
 		beego.NSNamespace("/api",
 			beego.NSBefore(controllers.HasAdminPermission), //过滤器
@@ -79,6 +80,10 @@ func init() {
 			beego.NSRouter("/categories", &api.AdminAPIController{}, "get:Categories"),
 			beego.NSRouter("/categories", &api.AdminAPIController{}, "post:CreateCategories"),
 			beego.NSRouter("/categories", &api.AdminAPIController{}, "put:UpdateCategories"),
+			beego.NSRouter("/movie/add", &api.AdminAPIController{}, "post:MovieAdd"),
+			beego.NSRouter("/movie/update/:id", &api.AdminAPIController{}, "put:MovieUpdate"),
+			beego.NSRouter("/movie/delete/:id", &api.AdminAPIController{}, "delete:MovieDelete"),
+			beego.NSRouter("/movie-list", &api.AdminAPIController{}, "get:MovieList"),
 		),
 	)
 	//注册namespace

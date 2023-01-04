@@ -551,3 +551,89 @@ func (c *AdminAPIController) UpdateCategories() {
 	c.Data["json"] = c.SuccessData(category)
 	c.ServeJSON()
 }
+
+func (c *AdminAPIController) MovieList() {
+	// args := c.GetString("search") //搜索框
+	start, _ := c.GetInt("start")
+	perPage, _ := c.GetInt("perPage")
+	movie := Movie{}
+
+	list, total, err := movie.GetMovieList("", start, perPage)
+	if nil != err {
+		logs.Error(err)
+		c.Data["json"] = c.ErrorData(err)
+	}
+	data := map[string]any{
+		"result": list,
+		"total":  total,
+	}
+	c.Data["json"] = c.SuccessData(data)
+
+	c.ServeJSON()
+}
+
+// 创建电影网站
+func (c *AdminAPIController) MovieAdd() {
+	name := c.GetString("name")
+	url := c.GetString("url")
+	// url2 := c.GetString("url2")
+	// url3 := c.GetString("url3")
+	// url=strings.Join("")
+	movie := Movie{
+		Name: name,
+		URL:  url,
+	}
+	_, err := movie.Save()
+	if nil != err {
+		logs.Error(err)
+		c.Data["json"] = c.ErrorData(err)
+	}
+	c.Data["json"] = c.SuccessData(nil)
+	c.ServeJSON()
+}
+
+// 修改分类
+func (c *AdminAPIController) MovieUpdate() {
+	id, _ := c.GetInt("id")
+	name := c.GetString("name")
+	movie := new(Movie)
+	movie.Id = uint(id)
+	movie.Name = name
+	_, err := movie.Update()
+	if nil != err {
+		logs.Error(err)
+		c.Data["json"] = c.ErrorData(err)
+	}
+	c.Data["json"] = c.SuccessData(movie)
+	c.ServeJSON()
+}
+
+// 删除角色
+func (c *AdminAPIController) MovieDelete() {
+	var err error
+	var code int
+	var data interface{}
+	defer func(start time.Time) {
+		var rsp controllers.Result
+		rsp.Code = code
+		rsp.Cost = time.Since(start).Milliseconds()
+		rsp.Msg = http.StatusText(code)
+		if err != nil {
+			rsp.Msg = fmt.Sprintf("%s - %s", rsp.Msg, err.Error())
+			logs.Error(rsp.Msg)
+			c.Data["json"] = c.ErrorData(err, code)
+		} else {
+			c.Data["json"] = c.SuccessData(data)
+		}
+		c.ServeJSON()
+	}(time.Now())
+	id, _ := strconv.Atoi(c.Ctx.Input.Param(":id"))
+	movie := Movie{}
+	movie.Id = uint(id)
+	_, err = movie.Delete()
+	if nil != err {
+		logs.Error(err)
+		code = http.StatusInternalServerError
+		return
+	}
+}

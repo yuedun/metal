@@ -222,7 +222,7 @@ desired effect
                             var dtData = {
                                 recordsTotal: res.data.total,
                                 recordsFiltered: res.data.total,
-                                data: res.data.result,
+                                data: res.data.result || [],
                                 draw: res.data.draw
                             };
                             callback(dtData);

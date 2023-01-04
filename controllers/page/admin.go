@@ -217,3 +217,8 @@ func (c *AdminPageController) RoleList() {
 func (c *AdminPageController) CategoryList() {
 	c.TplName = "admin/category-list.html"
 }
+
+// 免费电影管理
+func (c *AdminPageController) Movies() {
+	c.TplName = "admin/movie-list.html"
+}

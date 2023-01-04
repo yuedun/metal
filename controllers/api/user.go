@@ -146,7 +146,6 @@ func (c *UserAPIController) Registration() {
 		Email      string `json:"email"`
 	}{}
 	c.BindJSON(&req)
-	logs.Debug(">>>>>>>>", req)
 
 	if req.Email == "" {
 		code = http.StatusBadRequest
@@ -237,8 +236,6 @@ func (c *UserAPIController) CreateUser() {
 	}
 	logs.Debug("salt", salt)
 	password := util.GeneratePassword(mobile, salt) //metal+手机后4位
-	// createdAt := time.Now()
-	// updatedAt := time.Now()
 
 	var user = new(User)
 	user.Username = username
@@ -248,8 +245,6 @@ func (c *UserAPIController) CreateUser() {
 	user.Addr = addr
 	user.Description = description
 	user.Password = password
-	// user.CreatedAt = createdAt
-	// user.UpdatedAt = updatedAt
 
 	id, err1 := user.Save()
 	if nil != err1 {

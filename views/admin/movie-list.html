@@ -6,7 +6,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <html>
 
 <head>
-	<title>网站模板列表</title>
+	<title>免费电影网站</title>
 	{{template "admin/html-head.html" .}}
 </head>
 <!--
@@ -58,9 +58,11 @@ desired effect
 					<div class="col-xs-12">
 						<div class="box">
 							<div class="box-header">
-								<h3 class="box-title">Data Table With Full Features</h3>
-								<p><button type="button" class="btn btn-primary h-add" data-toggle="modal"
-										data-target="#modal-default">添加</button></p>
+								<h3 class="box-title">注册用户可见</h3>
+								<p>
+									<button type="button" class="btn btn-primary h-add" data-toggle="modal"
+										data-target="#modal-default">添加</button>
+								</p>
 							</div>
 							<!-- /.box-header -->
 							<div class="box-body">
@@ -69,7 +71,7 @@ desired effect
 										<tr>
 											<th>ID</th>
 											<th>name</th>
-											<th>category</th>
+											<th>url</th>
 											<th>status</th>
 											<th>createdAt</th>
 											<th>updatedAt</th>
@@ -77,13 +79,15 @@ desired effect
 										</tr>
 									</thead>
 									<tbody>
-										{{/*<tr><td></td></tr>*/}}
+										{{/*<tr>
+											<td></td>
+										</tr>*/}}
 									</tbody>
 									<tfoot>
 										<tr>
 											<th>ID</th>
 											<th>name</th>
-											<th>category</th>
+											<th>url</th>
 											<th>status</th>
 											<th>createdAt</th>
 											<th>updatedAt</th>
@@ -143,8 +147,15 @@ desired effect
 							</div>
 							<div class="form-group">
 								<label for="url">url</label>
-								<input type="text" class="form-control" id="url" placeholder="url"
-									autocomplete="off">
+								<input type="text" class="form-control" id="url" placeholder="url" autocomplete="off">
+							</div>
+							<div class="form-group">
+								<label for="url2">url2</label>
+								<input type="text" class="form-control" id="url2" placeholder="url" autocomplete="off">
+							</div>
+							<div class="form-group">
+								<label for="url3">url3</label>
+								<input type="text" class="form-control" id="url3" placeholder="url" autocomplete="off">
 							</div>
 						</div>
 						<!-- /.box-body -->
@@ -191,7 +202,7 @@ desired effect
 						search: data.search.value
 					};
 					$.ajax({
-						url: '/admin/templates',
+						url: '/admin/api/movie-list',
 						type: 'GET', //GET
 						data: postData,
 						timeout: 5000,    //超时时间
@@ -207,7 +218,7 @@ desired effect
 							var dtData = {
 								recordsTotal: res.data.total,
 								recordsFiltered: res.data.total,
-								data: res.data.result,
+								data: res.data.result || [],
 								draw: res.data.draw
 							};
 							callback(dtData);
@@ -224,7 +235,13 @@ desired effect
 				columns: [
 					{ data: 'id' },
 					{ data: 'name' },
-					{ data: 'category' },
+					{
+						data: 'url',
+						render: function (data, type, row) {
+							var html = '<a class="" target="_blank" href="' + row.url + '">' + row.url + '</a>';
+							return html;
+						}
+					},
 					{ data: 'status' },
 					{
 						data: 'created_at',
@@ -241,8 +258,8 @@ desired effect
 					{
 						data: 'name',
 						render: function (data, type, row) {
-							var html = '<a class="" href="/admin/template/view/' + row.id + '">查看</a>';
-							html += '&nbsp;<a class="J-delete" href="/admin/template/' + row.id + '">删除</a>';
+							var html = '';
+							html += '&nbsp;<a class="J-delete" href="/admin/api/movie/delete' + row.id + '">删除</a>';
 							return html;
 						}
 					}
@@ -257,8 +274,8 @@ desired effect
 				var id = $(this).closest("tr").attr("id");
 				if (confirm("确定删除？")) {
 					$.ajax({
-						url: '/admin/templates/delete',
-						type: 'post', //GET
+						url: '/admin/api/movie/delete',
+						type: 'delete', //GET
 						async: true,    //或false,是否异步
 						data: {
 							userId: id
@@ -290,14 +307,18 @@ desired effect
 				var name = $("#name").val();
 				var category = $("#category").val();
 				var url = $("#url").val();
+				var url2 = $("#url2").val();
+				var url3 = $("#url3").val();
 				$.ajax({
-					url: '/admin/template/add',
+					url: '/admin/api/movie/add',
 					type: 'post', //GET
 					async: true,    //或false,是否异步
 					data: {
 						name: name,
 						category: category,
-						url: url
+						url: url,
+						url2: url2,
+						url3: url3
 					},
 					timeout: 5000,    //超时时间
 					dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
