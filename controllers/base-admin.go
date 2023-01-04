@@ -173,6 +173,7 @@ var NeedPermission = map[string]bool{
 	"AdminAPIController:CreateArticle":     true,
 	"ArticleAPIController:ArticlesList":    false,
 	"AdminAPIController:Categories":        false,
+	"AdminAPIController:UpdateCategories":  true,
 	"AdminAPIController:GetLogs":           true,
 	"AdminAPIController:MessageList":       true,
 	"AdminAPIController:MessageDelete":     true,

@@ -291,7 +291,7 @@ desired effect
             // 修改
             $("#dataList").on("click", ".J-update", function () {
                 var id = $(this).closest("tr").attr("id");
-                $("#update-dialog #name").val($(this).closest("tr").data("name"));
+                $("#update-dialog input[name=name]").val($(this).closest("tr").data("name"));
                 layer.open({
                     type: 1,
                     area: ['500px', 'auto'],
@@ -316,12 +316,12 @@ desired effect
                                     layer.msg(data.msg, { icon: 5 });
                                     return
                                 }
-                                layer.msg("添加成功！", { icon: 6 });
+                                layer.msg("修改成功！", { icon: 6 });
                                 layer.close(index); //如果设定了yes回调，需进行手工关闭
                                 dataList.ajax.reload();
                             },
                             error: function (xhr, textStatus) {
-                                layer.msg("添加失败！", { icon: 5 });
+                                layer.msg("修改失败！", { icon: 5 });
                             },
                             complete: function () {
 
