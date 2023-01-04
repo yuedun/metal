@@ -28,7 +28,7 @@ func (c *AdminAPIController) GetLogs() {
 	start, _ := c.GetInt("start")
 	perPage, _ := c.GetInt("perPage")
 	var logModel = new(Log)
-	list, total, err := logModel.GetLogs(start, perPage)
+	list, total, err := logModel.GetLogList(start, perPage)
 	if nil != err {
 		logs.Error(err)
 		c.Data["json"] = c.ErrorData(err)

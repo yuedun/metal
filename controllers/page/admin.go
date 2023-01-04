@@ -49,9 +49,9 @@ func (c *AdminPageController) UserList() {
 /**
  * 日志列表路由
  */
-func (c *AdminPageController) Logs() {
+func (c *AdminPageController) LogList() {
 	c.Data["Title"] = "日志列表"
-	c.TplName = "admin/logs.html"
+	c.TplName = "admin/log-list.html"
 }
 
 /**
@@ -204,8 +204,8 @@ func (c *AdminPageController) SystemInfo() {
 	c.TplName = "admin/system-info.html"
 }
 
-func (c *AdminPageController) Roles() {
-	c.TplName = "admin/roles.html"
+func (c *AdminPageController) RoleList() {
+	c.TplName = "admin/role-list.html"
 }
 
 // 文章分类

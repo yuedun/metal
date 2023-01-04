@@ -44,15 +44,13 @@ func (c *UserAPIController) ToLogin() {
 
 	user := &User{Mobile: mobile}
 	err = user.GetByMobile()
-	logs.Debug("user.Password", user.Password)
 	salt, err := config.String("salt")
 	if err != nil {
 		logs.Error("not found salt")
-	}
-	logs.Debug("salt", salt)
-	if err != nil {
+		code = http.StatusInternalServerError
 		return
-	} else if user.Status == 0 {
+	}
+	if user.Status == 0 {
 		err = fmt.Errorf("该账号已禁用，不能登录！")
 		code = http.StatusForbidden
 		return
@@ -69,6 +67,7 @@ func (c *UserAPIController) ToLogin() {
 		code = http.StatusInternalServerError
 		return
 	}
+	//获取权限保存到session中
 	var privileges []string
 	for _, v := range roleList {
 		strArr := strings.Split(v.Permissions, ",")

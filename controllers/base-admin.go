@@ -84,7 +84,10 @@ func (c *AdminBaseController) Prepare() {
 		c.Data["username"] = userPermission.User.UserName
 		ctrl, runMethod := c.GetControllerAndAction() // 获取controller和method
 		requestPermission := ctrl + ":" + runMethod
-		logs.Info("包名：", reflect.Indirect(reflect.ValueOf(c.AppController)).Type().PkgPath()) //获取包名
+		pkgName := reflect.Indirect(reflect.ValueOf(c.AppController)).Type().PkgPath()
+		logs.Info("包名：", pkgName) //获取包名
+		apiOrPage := pkgName[18:]
+		logs.Debug("apiOrPage", apiOrPage)
 		logs.Info("ctrl:method =", requestPermission)
 		privileges := userPermission.Privileges // 获取用户拥有的权限
 		hasPermission := false
@@ -105,15 +108,22 @@ func (c *AdminBaseController) Prepare() {
 				}
 				if !hasPermission {
 					logs.Warn("权限不足")
-					c.Data["json"] = c.ErrorMsg("权限不足")
-					c.ServeJSON()
+					if apiOrPage == "api" {
+						c.Data["json"] = c.ErrorMsg("权限不足")
+						c.ServeJSON()
+					} else {
+						c.Abort("403")
+					}
 				}
 			}
 		} else {
 			logs.Warn("未设置权限")
-			c.Data["json"] = c.ErrorMsg("未设置权限")
-			// c.Abort("403")
-			c.ServeJSON()
+			if apiOrPage == "api" {
+				c.Data["json"] = c.ErrorMsg("未设置权限")
+				c.ServeJSON()
+			} else {
+				c.Abort("403")
+			}
 		}
 	}
 }
@@ -125,7 +135,7 @@ func (c *AdminBaseController) Prepare() {
 var NeedPermission = map[string]bool{
 	//页面权限
 	"AdminPageController:Welcome":       false,
-	"AdminPageController:Roles":         false,
+	"AdminPageController:RoleList":      false,
 	"AdminPageController:UserList":      true,
 	"AdminPageController:PNameView":     false,
 	"AdminPageController:CategoryList":  false,
@@ -134,7 +144,7 @@ var NeedPermission = map[string]bool{
 	"AdminPageController:UserAdd":       false,
 	"AdminPageController:JobCount":      false,
 	"AdminPageController:Messages":      true,
-	"AdminPageController:Logs":          true,
+	"AdminPageController:LogList":       true,
 	"AdminPageController:IconList":      false,
 	"AdminPageController:Picture":       false,
 	"AdminPageController:ListPicture":   false,

@@ -23,7 +23,7 @@ func (log *Log) Save(mark string) (int64, error) {
 	log.Mark = mark
 	return o.Insert(log)
 }
-func (log *Log) GetLogs(start, perPage int) (logs []Log, total int64, newError error) {
+func (log *Log) GetLogList(start, perPage int) (logs []Log, total int64, returnError error) {
 	o := orm.NewOrm()
 	var wg sync.WaitGroup
 	wg.Add(2)
@@ -31,16 +31,16 @@ func (log *Log) GetLogs(start, perPage int) (logs []Log, total int64, newError e
 		defer wg.Done()
 		num, err := o.Raw("select * from log order by id desc limit ?, ?;", start, perPage).QueryRows(&logs)
 		if nil != err && num > 0 {
-			newError = err
+			returnError = err
 		}
 	}()
 	go func() {
 		defer wg.Done()
 		err := o.Raw("select count(*) from log;").QueryRow(&total)
 		if nil != err {
-			newError = err
+			returnError = err
 		}
 	}()
 	wg.Wait()
-	return logs, total, newError
+	return logs, total, returnError
 }
