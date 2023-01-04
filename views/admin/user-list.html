@@ -284,7 +284,7 @@ desired effect
                 rowId: 'id',//自动设置行id
                 columns: [
                     { data: 'id' },
-                    { data: 'user_name' },
+                    { data: 'username' },
                     { data: 'gender' },
                     { data: 'mobile', "searchable": true, },
                     { data: 'email' },
@@ -398,7 +398,7 @@ desired effect
                         return
                     }
                     $("#userId").val(id);
-                    $("#username").val(data.data.user_name);
+                    $("#username").val(data.data.username);
                     $("#gender").val(data.data.gender);
                     $("#email").val(data.data.email);
                     $("#mobile").val(data.data.mobile);
@@ -453,7 +453,7 @@ desired effect
             //权限
             $("#userlist").on("click", ".J-permission", function () {
                 var userId = $(this).closest("tr").attr("id");
-                var userName = $(this).closest("tr").data("user_name");
+                var userName = $(this).closest("tr").data("username");
                 $.get("/admin/api/user-roles/" + userId, function (data) {
                     if (data.code !== 0) {
                         layer.msg(data.msg, { icon: 5 });

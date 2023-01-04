@@ -66,7 +66,11 @@ type UserPermission struct {
 // 后台校验是否登录，未登录请求跳转到登录页
 var HasAdminPermission = func(ctx *context.Context) {
 	loginUser := ctx.Input.Session("loginUser")
-	if loginUser == nil && ctx.Input.URL() != "/admin/page/login" && ctx.Input.URL() != "/admin/api/to-login" {
+	if loginUser == nil &&
+		ctx.Input.URL() != "/admin/page/login" &&
+		ctx.Input.URL() != "/admin/api/to-login" &&
+		ctx.Input.URL() != "/admin/page/register" &&
+		ctx.Input.URL() != "/admin/api/registration" {
 		ctx.Redirect(302, "/admin/page/login")
 	}
 }
@@ -81,7 +85,7 @@ func (c *AdminBaseController) Prepare() {
 	//session为空时不进行权限验证
 	if session != nil {
 		userPermission := session.(*UserPermission)
-		c.Data["username"] = userPermission.User.UserName
+		c.Data["username"] = userPermission.User.Username
 		ctrl, runMethod := c.GetControllerAndAction() // 获取controller和method
 		requestPermission := ctrl + ":" + runMethod
 		pkgName := reflect.Indirect(reflect.ValueOf(c.AppController)).Type().PkgPath()

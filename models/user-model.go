@@ -9,22 +9,29 @@ import (
 	"github.com/beego/beego/v2/client/orm"
 )
 
-//性别
+// 性别
 var SexMap = map[int]string{0: "女", 1: "男"}
+
+const (
+	Forbid     = 0 //禁用
+	Ok         = 1 //正常
+	Unverified = 2 //未验证，注册未验证手机或邮箱
+)
 
 /**
  * 模型与数据库字段多少不一定要匹配
  */
 type User struct {
 	BaseModel
-	UserName    string `json:"user_name"`
+	Username    string `json:"username" orm:"size(20)"`
 	Password    string `json:"password"`
 	Gender      int    `json:"gender" orm:"default(1);description(0女，1男)"` // 0女，1男
 	Mobile      string `json:"mobile"`
-	Email       string `json:"email"`
-	Addr        string `json:"addr"`
+	Email       string `json:"email" orm:"size(30);unique"`
+	Addr        string `json:"addr"  orm:"size(50)"`
 	Description string `json:"description"`
 	Status      int    `json:"status" orm:"default(1);description(0不可用，1可用)"` // 0不可用，1可用
+	Token       string `json:"token" orm:"type(text)"`
 }
 type UserVO struct {
 	User
@@ -69,7 +76,7 @@ func (user *User) GetByName() error {
 // 通过手机号查找用户
 func (user *User) GetByMobile() error {
 	o := orm.NewOrm()
-	err := o.Read(user, "mobile")
+	err := o.Raw("SELECT * FROM user where mobile = ? OR email = ? LIMIT 1;", user.Mobile, user.Mobile).QueryRow(&user)
 	if err != nil {
 		return err
 	}
@@ -91,7 +98,7 @@ func (user *User) GetAllByCondition(cond map[string]string, start, perPage int) 
 	o := orm.NewOrm()
 	var condition = " WHERE 1 "
 	if cond["mobile"] != "" {
-		condition += "and (mobile like '" + cond["username"] + "%' or user_name like '" + cond["username"] + "%' )"
+		condition += "and (mobile like '" + cond["username"] + "%' or username like '" + cond["username"] + "%' )"
 	}
 	var wg sync.WaitGroup
 	wg.Add(2)
@@ -122,7 +129,7 @@ func (user *User) GetAllByCondition(cond map[string]string, start, perPage int) 
 // 通过id修改用户
 func (user *User) Update() (int64, error) {
 	o := orm.NewOrm()
-	id, err := o.Update(user, "username", "gender", "email", "mobile", "addr", "description", "updated_at") // 要修改的对象和需要修改的字段
+	id, err := o.Update(user, "username", "gender", "email", "mobile", "addr", "description", "updated_at", "token") // 要修改的对象和需要修改的字段
 	return id, err
 }
 

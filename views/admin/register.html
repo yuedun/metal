@@ -2,50 +2,53 @@
 <html lang=zh-cmn-Hans>
 
 <head>
-    <title>登录</title>
+    <title>注册</title>
     {{template "admin/html-head.html"}}
 </head>
 
-<body class="hold-transition login-page">
-    <div class="login-box">
-        <div class="login-logo">
+<body class="hold-transition register-page">
+    <div class="register-box">
+        <div class="register-logo">
             <a href="/admin"><b>Admin</b>LTE</a>
         </div>
-        <!-- /.login-logo -->
-        <div class="login-box-body">
-            <p class="login-box-msg">Sign in to start your session</p>
-
-            <div>
+        <div class="register-box-body">
+            <p class="login-box-msg">Register a new membership</p>
+            <form action="" method="post" onsubmit="return false;">
                 <div class="form-group has-feedback">
-                    <input type="text" class="form-control" name="mobile" value="13100000001" placeholder="Mobile">
+                    <input type="text" class="form-control" placeholder="Full name" name="username">
+                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    <input type="email" class="form-control" placeholder="Email" name="email">
                     <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                 </div>
                 <div class="form-group has-feedback">
-                    <input type="password" class="form-control" name="password" value="metal0001"
-                        placeholder="Password">
+                    <input type="password" class="form-control" placeholder="Password" name="password">
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    <input type="password" class="form-control" placeholder="Retype password" name="repassword">
+                    <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
                 </div>
                 <div class="row">
                     <div class="col-xs-8">
                         <div class="checkbox icheck">
                             <label>
-                                <input type="checkbox" name="remember">记住
+                                <input type="checkbox"> I agree to the <a href="#">terms</a>
                             </label>
                         </div>
                     </div>
-                    <!-- /.col -->
+
                     <div class="col-xs-4">
-                        <button class="btn btn-primary btn-block btn-flat" id="login">登陆</button>
+                        <button type="submit" id="register" class="btn btn-primary btn-block btn-flat">注册</button>
                     </div>
-                    <!-- /.col -->
+
                 </div>
-            </div>
-            <a href="#" id="forget-password">忘记密码</a><br>
-            <a href="/admin/page/register" class="text-center">注册</a>
+            </form>
+            <a href="/admin/page/login" class="text-center">已注册，去登陆</a>
         </div>
-        <!-- /.login-box-body -->
+
     </div>
-    <!-- /.login-box -->
 
     <!-- jQuery 3 -->
     <script src="../../static/bower_components/jquery/dist/jquery.min.js"></script>
@@ -60,20 +63,27 @@
                 radioClass: 'iradio_square-blue',
                 increaseArea: '20%' /* optional */
             });
-            $("#login").on("click", function () {
+
+            $("#register").on("click", function () {
+                let username = $("input[name=username]").val();
+                let email = $("input[name=email]").val();
+                let password = $("input[name=password]").val();
+                let repassword = $("input[name=repassword]").val();
                 let remember = $("input[name=remember]").val();
                 if (remember == 'on') {
                     remember = true;
                 }
                 $.ajax({
-                    url: '/admin/api/to-login',
+                    url: '/admin/api/registration',
                     type: 'post', //GET
                     async: true,    //或false,是否异步
-                    data: {
-                        mobile: $("input[name=mobile]").val(),
-                        password: $("input[name=password]").val(),
-                        remember: remember,
-                    },
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        username: username,
+                        password: password,
+                        repassword: repassword,
+                        email: email,
+                    }),
                     timeout: 5000,    //超时时间
                     dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
                     beforeSend: function (xhr) {
@@ -84,8 +94,7 @@
                             alert(data.msg)
                             return
                         }
-                        document.cookie = 'token=' + data.data;
-                        location.href = "/admin/page/welcome"
+                        alert("注册成功，请查收邮件完成验证后登陆");
                     },
                     error: function (xhr, textStatus) {
                         console.log('错误')
@@ -95,10 +104,6 @@
                     }
                 })
             });
-
-            $("#forget-password").click(function () {
-
-            })
         });
     </script>
 </body>

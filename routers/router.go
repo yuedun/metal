@@ -27,6 +27,7 @@ func init() {
 			beego.NSRouter("/", &page.AdminPageController{}, "get:Welcome"),
 			beego.NSRouter("/welcome", &page.AdminPageController{}, "get:Welcome"),
 			beego.NSRouter("/login", &page.AdminPageController{}, "get:Login"),
+			beego.NSRouter("/register", &page.AdminPageController{}, "get:Register"),
 			beego.NSRouter("/user-list", &page.AdminPageController{}, "get:UserList"),
 			beego.NSRouter("/user-add", &page.AdminPageController{}, "get:UserAdd"),
 			beego.NSRouter("/article-add", &page.AdminPageController{}, "get:CreateArticle"),
@@ -47,6 +48,7 @@ func init() {
 			beego.NSBefore(controllers.HasAdminPermission), //过滤器
 			beego.NSRouter("/to-login", &api.UserAPIController{}, "post:ToLogin"),
 			beego.NSRouter("/login-out", &api.UserAPIController{}, "get:LoginOut"),
+			beego.NSRouter("/registration", &api.UserAPIController{}, "post:Registration"),
 			beego.NSRouter("/user/disable/:id", &api.UserAPIController{}, "get:DisableUser"),
 			beego.NSRouter("/user/enable/:id", &api.UserAPIController{}, "get:EnableUser"),
 			beego.NSRouter("/user/delete", &api.UserAPIController{}, "delete,post:DeleteUser"),

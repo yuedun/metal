@@ -256,7 +256,7 @@ desired effect
 				var id = $(this).closest("tr").attr("id");
 				$.get("/admin/user/" + id, function (data) {
 					$("#userId").val(id);
-					$("#username").val(data.data.user_name);
+					$("#username").val(data.data.username);
 					$("#gender").val(data.data.gender);
 					$("#email").val(data.data.email);
 					$("#mobile").val(data.data.mobile);

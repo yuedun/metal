@@ -22,6 +22,11 @@ func (c *AdminPageController) Login() {
 	c.TplName = "admin/login.html"
 }
 
+// 注册路由
+func (c *AdminPageController) Register() {
+	c.TplName = "admin/register.html"
+}
+
 /**
  * 登出
  */

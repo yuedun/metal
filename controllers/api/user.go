@@ -1,6 +1,9 @@
 package api
 
 import (
+	"bytes"
+	"encoding/base64"
+	"encoding/gob"
 	"fmt"
 	"metal/controllers"
 	. "metal/models" // 点操作符导入的包可以省略包名直接使用公有属性和方法
@@ -39,8 +42,9 @@ func (c *UserAPIController) ToLogin() {
 		}
 		c.ServeJSON()
 	}(time.Now())
-	var mobile = c.GetString("mobile")
+	var mobile = c.GetString("mobile") //or email
 	var password = c.GetString("password")
+	var remember, _ = c.GetBool("remember")
 
 	user := &User{Mobile: mobile}
 	err = user.GetByMobile()
@@ -77,6 +81,20 @@ func (c *UserAPIController) ToLogin() {
 	userPermission.User = *user
 	userPermission.Privileges = privileges
 	c.SetSession("loginUser", userPermission)
+	if remember {
+		//存储token到数据库
+		buf := new(bytes.Buffer)
+		//gob编码
+		enc := gob.NewEncoder(buf)
+		if err := enc.Encode(userPermission); err != nil {
+			fmt.Println(err)
+		}
+		encoded := base64.StdEncoding.EncodeToString(buf.Bytes())
+		// logs.Debug(encoded)
+		user.Token = encoded
+		user.Update()
+		data = encoded
+	}
 	// c.Ctx.Input.IP()获取到的是Nginx内网ip，需要在Nginx配置proxy_set_header Remote_addr $remote_addr;
 	ip := c.Ctx.Input.Header("Remote_addr")
 	if ip != "" {
@@ -100,6 +118,77 @@ func (c *UserAPIController) ToLogin() {
 func (c *UserAPIController) LoginOut() {
 	c.DelSession("loginUser")
 	c.Redirect("/admin/page/login", 302)
+}
+
+// 注册接口
+func (c *UserAPIController) Registration() {
+	var err error
+	var code int
+	var data any
+	defer func(start time.Time) {
+		var rsp controllers.Result
+		rsp.Code = code
+		rsp.Cost = time.Since(start).Milliseconds()
+		rsp.Msg = http.StatusText(code)
+		if err != nil {
+			rsp.Msg = fmt.Sprintf("%s - %s", rsp.Msg, err.Error())
+			logs.Error(rsp.Msg)
+			c.Data["json"] = c.ErrorData(err, code)
+		} else {
+			c.Data["json"] = c.SuccessData(data)
+		}
+		c.ServeJSON()
+	}(time.Now())
+	req := struct {
+		Username   string `json:"username"`
+		Password   string `json:"password"`
+		RePassword int    `json:"repassword"`
+		Email      string `json:"email"`
+	}{}
+	c.BindJSON(&req)
+	logs.Debug(">>>>>>>>", req)
+
+	if req.Email == "" {
+		code = http.StatusBadRequest
+		err = fmt.Errorf("手机号不能为空！")
+		return
+	}
+	if req.Username == "" {
+		code = http.StatusBadRequest
+		err = fmt.Errorf("名称不能为空！")
+		return
+	}
+	salt, err := config.String("salt")
+	if err != nil {
+		logs.Error("not found salt")
+		code = http.StatusInternalServerError
+		err = fmt.Errorf("not found salt")
+		return
+	}
+	logs.Debug("salt", salt)
+	password := util.GetMD5(req.Password, salt)
+	var user = new(User)
+	user.Username = req.Username
+	user.Gender = 1
+	user.Email = req.Email
+	user.Password = password
+	user.Status = Unverified
+
+	id, err1 := user.Save()
+	if nil != err1 {
+		logs.Error(err)
+		err = err1
+		code = http.StatusInternalServerError
+		return
+	}
+	permissionSrv := service.NewPermissionService(orm.NewOrm())
+	err = permissionSrv.UpdateUserRoles(user.Id, []uint{3})
+	if nil != err {
+		logs.Error(err)
+		code = http.StatusInternalServerError
+		return
+	}
+	data = id
 }
 
 // 新建用户
@@ -152,7 +241,7 @@ func (c *UserAPIController) CreateUser() {
 	// updatedAt := time.Now()
 
 	var user = new(User)
-	user.UserName = username
+	user.Username = username
 	user.Gender, _ = strconv.Atoi(sex)
 	user.Mobile = mobile
 	user.Email = email
@@ -207,7 +296,7 @@ func (c *UserAPIController) UpdateUser() {
 	logs.Debug("%+v", form)
 
 	user := User{
-		UserName:    form.Username,
+		Username:    form.Username,
 		Gender:      form.Gender,
 		Email:       form.Email,
 		Mobile:      form.Mobile,

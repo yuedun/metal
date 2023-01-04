@@ -1,7 +1,11 @@
 package test
 
 import (
+	"bytes"
+	"encoding/base64"
+	"encoding/gob"
 	"fmt"
+	"metal/models"
 	_ "metal/routers"
 	"metal/util"
 	"net/http"
@@ -64,4 +68,24 @@ func TestBeego(t *testing.T) {
 
 func TestMd5(t *testing.T) {
 	util.GeneratePassword("13100000001", "")
+}
+
+func TestGobEncode(t *testing.T) {
+	u := models.User{}
+	buf := new(bytes.Buffer)
+	//gob编码
+	enc := gob.NewEncoder(buf)
+	if err := enc.Encode(u); err != nil {
+		fmt.Println(err)
+	}
+	t.Logf("%v\n", buf.Bytes())
+	encoded := base64.StdEncoding.EncodeToString(buf.Bytes())
+	t.Log(encoded)
+
+	dec := gob.NewDecoder(buf)
+	if err := dec.Decode(&u); err != nil {
+		fmt.Println(err)
+	}
+	t.Logf("%+v", u)
+
 }

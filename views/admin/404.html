@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>新建文章</title>
+  <title>{{.content}}</title>
   {{template "admin/html-head.html"}}
   <link rel="stylesheet" href="/static/plugins/editor.md/css/editormd.css">
 </head>
@@ -11,7 +11,7 @@
   <div class="wrapper">
 
     <!-- Main Header -->
-    {{template "admin/html-header.html"}}
+    {{template "admin/html-header.html" .}}
     <!-- Left side column. contains the logo and sidebar -->
     {{template "admin/html-aside.html"}}
 
