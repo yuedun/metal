@@ -188,7 +188,6 @@ func (c *PortalController) Message() {
 		c.Data["messageList"] = list
 		c.Data["total"] = total
 	}
-	logs.Info(list)
 	c.Data["messageList"] = list
 	c.Data["total"] = total
 	// c.Data["pageNo"] = pageNo
