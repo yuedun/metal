@@ -314,15 +314,18 @@ func (c *UserAPIController) UpdateUser() {
  * /admin/page/users
  */
 func (c *UserAPIController) UserList() {
-	args := c.GetString("search") //搜索框
 	start, _ := c.GetInt("start")
 	perPage, _ := c.GetInt("perPage")
+	username := c.GetString("username")
+	mobile := c.GetString("mobile")
+	email := c.GetString("email")
 	user := new(User)
 	var userVOList = make([]UserVO, 0)
 	var param = make(map[string]string)
-	param["mobile"] = args
-	param["username"] = args
-	list, total, err := user.GetAllByCondition(param, start, perPage)
+	param["mobile"] = mobile
+	param["username"] = username
+	param["email"] = email
+	list, total, err := user.GetUserList(param, start, perPage)
 	if nil != err {
 		logs.Error(err)
 		c.Data["json"] = c.ErrorData(err)

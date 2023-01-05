@@ -58,18 +58,23 @@ desired effect
                         <div class="box">
                             <div class="box-header">
                                 <div class="search-box">
-                                    <form class="form-inline">
+                                    <form class="form-inline" onsubmit="return false">
                                         <div class="form-group">
-                                            <label for="username">name</label>
+                                            <label for="username">name:</label>
                                             <input type="text" class="form-control" id="username"
                                                 placeholder="">
                                         </div>
                                         <div class="form-group">
-                                            <label for="exampleInputEmail2">email</label>
+                                            <label for="mobile">mobile:</label>
+                                            <input type="text" class="form-control" id="mobile"
+                                                placeholder="">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail2">email:</label>
                                             <input type="email" class="form-control" id="email"
                                                 placeholder="">
                                         </div>
-                                        <button type="submit" class="btn btn-default">搜索</button>
+                                        <button type="submit" id="search" class="btn btn-default">搜索</button>
                                     </form>
                                 </div>
                             </div>
@@ -247,15 +252,23 @@ desired effect
                         draw: data.draw,
                         perPage: data.length,
                         start: data.start,
-                        search: data.search.value
                     };
+                    if($("#username").val()){
+						postData.username=$("#username").val();
+					}					
+                    if($("#mobile").val()){
+						postData.mobile=$("#mobile").val();
+					}					
+                    if($("#email").val()){
+						postData.email=$("#email").val();
+					}					
                     $.ajax({
                         url: '/admin/api/users',
                         type: 'GET', //GET
                         data: postData,
                         timeout: 5000,    //超时时间
                         dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
-                        beforeSend: function (xhr) {
+                        beforeSend: function (xhr,a,b) {
                             console.log('发送前')
                         },
                         success: function (res, textStatus, jqXHR) {
@@ -510,6 +523,9 @@ desired effect
                     });
                 })
             });
+            $("#search").on('click', function(){
+                userList.ajax.reload();//( "sg" ).draw();
+            })
         })
     </script>
 </body>

@@ -94,11 +94,17 @@ func (user *User) GetAll() ([]User, error) {
 }
 
 // 获取用户列表
-func (user *User) GetAllByCondition(cond map[string]string, start, perPage int) (users []User, total int64, newError error) {
+func (user *User) GetUserList(cond map[string]string, start, perPage int) (users []User, total int64, newError error) {
 	o := orm.NewOrm()
 	var condition = " WHERE 1 "
+	if cond["username"] != "" {
+		condition += "and username like '" + cond["username"] + "%'"
+	}
 	if cond["mobile"] != "" {
-		condition += "and (mobile like '" + cond["username"] + "%' or username like '" + cond["username"] + "%' )"
+		condition += "and mobile like '" + cond["mobile"] + "%'"
+	}
+	if cond["email"] != "" {
+		condition += "and email like '" + cond["email"] + "%'"
 	}
 	var wg sync.WaitGroup
 	wg.Add(2)
@@ -114,7 +120,7 @@ func (user *User) GetAllByCondition(cond map[string]string, start, perPage int) 
 	}()
 	go func() {
 		defer wg.Done()
-		var sql = "SELECT COUNT(0) FROM user "
+		var sql = "SELECT COUNT(1) FROM user "
 		sql += condition
 		err := o.Raw(sql).QueryRow(&total)
 		if err != nil {
