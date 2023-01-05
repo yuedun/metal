@@ -81,9 +81,10 @@ func init() {
 			beego.NSRouter("/categories", &api.AdminAPIController{}, "post:CreateCategories"),
 			beego.NSRouter("/categories", &api.AdminAPIController{}, "put:UpdateCategories"),
 			beego.NSRouter("/movie/add", &api.AdminAPIController{}, "post:MovieAdd"),
-			beego.NSRouter("/movie/update/:id", &api.AdminAPIController{}, "put:MovieUpdate"),
+			beego.NSRouter("/movie/update", &api.AdminAPIController{}, "put:MovieUpdate"),
 			beego.NSRouter("/movie/delete/:id", &api.AdminAPIController{}, "delete:MovieDelete"),
 			beego.NSRouter("/movie-list", &api.AdminAPIController{}, "get:MovieList"),
+			beego.NSRouter("/movie/:id", &api.AdminAPIController{}, "get:MovieInfo"),
 		),
 	)
 	//注册namespace

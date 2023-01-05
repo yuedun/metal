@@ -194,4 +194,5 @@ var NeedPermission = map[string]bool{
 	"AdminAPIController:MovieAdd":          true,
 	"AdminAPIController:MovieUpdate":       true,
 	"AdminAPIController:MovieDelete":       true,
+	"AdminAPIController:MovieInfo":         true,
 }

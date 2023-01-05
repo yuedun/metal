@@ -576,9 +576,14 @@ func (c *AdminAPIController) MovieList() {
 func (c *AdminAPIController) MovieAdd() {
 	name := c.GetString("name")
 	url := c.GetString("url")
-	// url2 := c.GetString("url2")
-	// url3 := c.GetString("url3")
-	// url=strings.Join("")
+	url2 := c.GetString("url2")
+	url3 := c.GetString("url3")
+	if url2 != "" {
+		url = url + "," + url2
+	}
+	if url3 != "" {
+		url = url + "," + url3
+	}
 	movie := Movie{
 		Name: name,
 		URL:  url,
@@ -592,13 +597,37 @@ func (c *AdminAPIController) MovieAdd() {
 	c.ServeJSON()
 }
 
+// 电影网站详情
+func (c *AdminAPIController) MovieInfo() {
+	id, _ := strconv.Atoi(c.Ctx.Input.Param(":id"))
+	movie := Movie{}
+	movie.Id = uint(id)
+	err := movie.MovieInfo()
+	if nil != err {
+		logs.Error(err)
+		c.Data["json"] = c.ErrorData(err)
+	}
+	c.Data["json"] = c.SuccessData(movie)
+	c.ServeJSON()
+}
+
 // 修改分类
 func (c *AdminAPIController) MovieUpdate() {
 	id, _ := c.GetInt("id")
 	name := c.GetString("name")
+	url := c.GetString("url")
+	url2 := c.GetString("url2")
+	url3 := c.GetString("url3")
+	if url2 != "" {
+		url = url + "," + url2
+	}
+	if url3 != "" {
+		url = url + "," + url3
+	}
 	movie := new(Movie)
 	movie.Id = uint(id)
 	movie.Name = name
+	movie.URL = url
 	_, err := movie.Update()
 	if nil != err {
 		logs.Error(err)

@@ -2,6 +2,7 @@ package models
 
 import (
 	"strconv"
+	"strings"
 	"sync"
 
 	"github.com/beego/beego/v2/core/logs"
@@ -32,6 +33,15 @@ func (mov *Movie) Save() (int64, error) {
 	return o.Insert(mov)
 }
 
+// 获取单个网站
+func (mov *Movie) MovieInfo() error {
+	//	var o Ormer
+	o := orm.NewOrm()
+	// 每次操作都需要新建一个Ormer变量，当然也可以全局设置
+	// 需要 切换数据库 和 事务处理 的话，不要使用全局保存的 Ormer 对象。
+	return o.Read(mov)
+}
+
 // 获取用户列表
 func (mov *Movie) GetMovieList(cond string, start, perPage int) (list []Movie, total int64, err error) {
 	o := orm.NewOrm()
@@ -49,6 +59,10 @@ func (mov *Movie) GetMovieList(cond string, start, perPage int) (list []Movie, t
 		_, err1 := o.Raw(sql, strconv.Itoa(start), strconv.Itoa(perPage)).QueryRows(&list)
 		if err1 != nil {
 			err = err1
+		}
+		for idx, v := range list {
+			urls := strings.Split(v.URL, ",")
+			list[idx].URL = urls[0]
 		}
 	}()
 	go func() {
@@ -68,7 +82,7 @@ func (mov *Movie) GetMovieList(cond string, start, perPage int) (list []Movie, t
 // 通过id修改
 func (mov *Movie) Update() (int64, error) {
 	o := orm.NewOrm()
-	id, err := o.Update(mov, "username", "gender", "email", "mobile", "addr", "description", "updated_at") // 要修改的对象和需要修改的字段
+	id, err := o.Update(mov, "name", "url") // 要修改的对象和需要修改的字段
 	return id, err
 }
 
