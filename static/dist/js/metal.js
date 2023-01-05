@@ -346,4 +346,17 @@ $(function () {
   setup();
 
   $('[data-toggle="tooltip"]').tooltip();
+  //定位对应的菜单
+  setTimeout(() => {
+    let path = location.pathname;
+    $(".sidebar-menu li a").each(function () {
+      let $this = $(this);
+      console.log($this.attr('href'))
+      if (path == $this.attr('href')) {
+        console.log("ok")
+        $this.parents(".treeview").find("a").eq(0).trigger("click");
+        $this.closest("li").addClass("active");
+      }
+    });
+  }, 1000);
 })
