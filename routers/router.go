@@ -34,7 +34,7 @@ func init() {
 			beego.NSRouter("/article-list", &page.AdminPageController{}, "get:ArticleList"),
 			beego.NSRouter("/article-edit", &page.AdminPageController{}, "get:ArticleEdit"),
 			beego.NSRouter("/logs", &page.AdminPageController{}, "get:LogList"),
-			beego.NSRouter("/pname/view", &page.AdminPageController{}, "get:PNameView"),
+			beego.NSRouter("/pname", &page.AdminPageController{}, "get:PNameView"),
 			beego.NSRouter("/picture", &page.AdminPageController{}, "get:Picture"),
 			beego.NSRouter("/picture-list", &page.AdminPageController{}, "get:ListPicture"),
 			beego.NSRouter("/icons", &page.AdminPageController{}, "get:IconList"),
