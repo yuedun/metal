@@ -137,6 +137,7 @@ func (c *AdminBaseController) Prepare() {
 var NeedPermission = map[string]bool{
 	//页面权限
 	"AdminPageController:Register":      false,
+	"UserAPIController:ToLogin":         false,
 	"AdminPageController:Welcome":       false,
 	"AdminPageController:RoleList":      false,
 	"AdminPageController:UserList":      true,

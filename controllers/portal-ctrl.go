@@ -2,6 +2,7 @@ package controllers
 
 //包名并非必须和文件夹名相同，但是按照惯例最后一个路径名和包名一致
 import (
+	"encoding/base64"
 	"fmt"
 	. "metal/models" // 点操作符导入的包可以省略包名直接使用公有属性和方法
 	"metal/service"
@@ -10,6 +11,7 @@ import (
 	"reflect"
 	"regexp"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/beego/beego/v2/client/orm"
@@ -208,8 +210,6 @@ func (c *PortalController) CreateMessage() {
 	message.Email = email
 	message.Content = content
 	message.Status = 0 //待审核
-	message.CreatedAt = time.Now()
-	message.UpdatedAt = time.Now()
 	_, err := message.Save()
 	if err != nil {
 		c.Data["json"] = Result{
@@ -234,15 +234,9 @@ func (c *PortalController) Registration() {
 		if err != nil {
 			rsp.Msg = fmt.Sprintf("%s - %s", rsp.Msg, err.Error())
 			logs.Error(rsp.Msg)
-			c.Data["json"] = map[string]any{
-				"code": code,
-				"msg":  err.Error(),
-			}
+			c.Data["json"] = rsp
 		} else {
-			c.Data["json"] = map[string]any{
-				"code": 0,
-				"msg":  "ok",
-			}
+			c.Data["json"] = rsp
 		}
 		c.ServeJSON()
 	}(time.Now())
@@ -286,17 +280,61 @@ func (c *PortalController) Registration() {
 		return
 	}
 	permissionSrv := service.NewPermissionService(orm.NewOrm())
-	err = permissionSrv.UpdateUserRoles(user.Id, []uint{3})
+	err = permissionSrv.UpdateUserRoles(user.Id, []uint{2}) //未验证邮箱前是游客权限
 	if nil != err {
 		code = http.StatusInternalServerError
 		return
 	}
-	link := fmt.Sprintf("%s/user/verfify?token=%s", "https://www.hopefly.top", "token")
+	domain, err := config.String("domain")
+	if err != nil {
+		code = http.StatusInternalServerError
+		return
+	}
+	token := base64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("%s:%d", user.Email, user.Id)))
+	link := fmt.Sprintf("%s/verify?token=%s", domain, token)
 	content := fmt.Sprintf("【hopefly.top】点击链接验证邮箱。<a href='%s'>点击验证</a>或复制链接浏览器打开：%s", link, link)
 	err = util.SendEmail("注册验证", content, []string{user.Email})
 	if nil != err {
 		code = http.StatusInternalServerError
 		return
 	}
-	c.ServeJSON()
+}
+
+func (c *PortalController) Verify() {
+	token := c.GetString("token")
+	bts, err := base64.StdEncoding.DecodeString(token)
+	if err != nil {
+		logs.Info("token解码失败", err)
+		c.Abort("500")
+	}
+	token = string(bts)
+	tokenArr := strings.Split(token, ":")
+	email, uid := tokenArr[0], tokenArr[1]
+	userId, err := strconv.Atoi(uid)
+	if err != nil {
+		logs.Info("uid转类型失败", err)
+		c.Abort("500")
+	}
+	logs.Info(">>>>>>>", email, uid)
+	if email == "" || uid == "" {
+		logs.Info("email或uid为空", err)
+		c.Abort("500")
+	}
+	user := User{}
+	user.Id = uint(userId)
+	user.Email = email
+	if err = user.GetByCondition(); err != nil {
+		c.Abort("500")
+	}
+	user.Status = Ok
+	if _, err = user.UpdateStatus(); err != nil {
+		c.Abort("500")
+	}
+	permissionSrv := service.NewPermissionService(orm.NewOrm())
+	err = permissionSrv.UpdateUserRoles(user.Id, []uint{3}) //验证邮箱后是注册用户权限
+	if nil != err {
+		c.Abort("500")
+	}
+
+	c.TplName = "admin/login.html"
 }

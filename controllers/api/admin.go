@@ -311,7 +311,6 @@ func (c *AdminAPIController) DeletePicture() {
 /**
  * 获取所有权限
  */
-// @router /user-group/get-all-user-group [get]
 func (c *AdminAPIController) GetAllPermissions() {
 	permissionSrv := service.NewPermissionService(orm.NewOrm())
 	list, err := permissionSrv.GetPermissionList()

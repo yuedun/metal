@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"strconv"
 	"sync"
 
@@ -64,9 +65,23 @@ func (user *User) GetById() (*User, error) {
 }
 
 // 通过用户名查找用户
-func (user *User) GetByName() error {
+func (user *User) GetByCondition() error {
 	o := orm.NewOrm()
-	err := o.Read(user, "username")
+	sql := "SELECT * FROM user where 1 "
+	if user.Id != 0 {
+		sql += fmt.Sprintf(" and id = %d", user.Id)
+	}
+	if user.Email != "" {
+		sql += fmt.Sprintf(" and email = '%s'", user.Email)
+	}
+	if user.Mobile != "" {
+		sql += fmt.Sprintf(" and mobile = '%s'", user.Mobile)
+	}
+	if user.Username != "" {
+		sql += fmt.Sprintf(" and username = '%s'", user.Username)
+	}
+	sql += " LIMIT 1;"
+	err := o.Raw(sql).QueryRow(&user)
 	if err != nil {
 		return err
 	}
@@ -90,7 +105,6 @@ func (user *User) GetAll() ([]User, error) {
 	num, err := o.Raw("SELECT * FROM user ORDER BY id DESC;").QueryRows(&users)
 	logs.Info("查询到", num, "条数据")
 	return users, err
-
 }
 
 // 获取用户列表

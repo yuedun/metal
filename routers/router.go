@@ -18,6 +18,7 @@ func init() {
 	beego.CtrlGet("/message", (*controllers.PortalController).Message)            //留言列表
 	beego.CtrlPost("/message", (*controllers.PortalController).CreateMessage)     //留言
 	beego.CtrlPost("/registration", (*controllers.PortalController).Registration) //注册
+	beego.CtrlGet("/verify", (*controllers.PortalController).Verify) //验证
 
 	//namespace中的路由推荐用NS开头的方法
 	//admin管理后台路由配置
@@ -53,7 +54,6 @@ func init() {
 			beego.NSBefore(controllers.HasAdminPermission), //过滤器
 			beego.NSCtrlPost("/to-login", (*api.UserAPIController).ToLogin),
 			beego.NSCtrlGet("/login-out", (*api.UserAPIController).LoginOut),
-			// beego.NSCtrlGet("/registration", (*api.UserAPIController).Registration),
 			beego.NSCtrlGet("/user/disable/:id", (*api.UserAPIController).DisableUser),
 			beego.NSCtrlGet("/user/enable/:id", (*api.UserAPIController).EnableUser),
 			beego.NSCtrlDelete("/user/delete", (*api.UserAPIController).DeleteUser),
