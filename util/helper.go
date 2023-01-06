@@ -16,6 +16,7 @@ import (
 	"github.com/gomarkdown/markdown"
 	"github.com/microcosm-cc/bluemonday"
 	blackfriday "github.com/russross/blackfriday/v2"
+	"gopkg.in/gomail.v2"
 )
 
 /**
@@ -166,4 +167,45 @@ func HttpPost(url string, s interface{}) (int, []byte, error) {
 	}
 
 	return resp.StatusCode, body, nil
+}
+
+// 发送邮件
+func SendEmail(subject, body string, to []string) (err error) {
+	var host, user, pwd string
+	var port int
+	host, err = config.String("mailHost")
+	if err != nil {
+		return err
+	}
+	port, err = config.Int("mailPort")
+	if err != nil {
+		return err
+	}
+	user, err = config.String("mailUser")
+	if err != nil {
+		return err
+	}
+	pwd, err = config.String("mailPWD")
+	if err != nil {
+		return err
+	}
+	m := gomail.NewMessage()
+	// 这种方式可以添加别名，即 nickname， 也可以直接用<code>m.SetHeader("From", MAIL_USER)</code>
+	nickname := "hopefly.top"
+	// nickname := "=?UTF-8?B?" + base64.StdEncoding.EncodeToString([]byte("标题")) + "?="//解决中文乱码
+	m.SetHeader("From", nickname+"<"+user+">")
+	// 发送给多个用户
+	m.SetHeader("To", to...)
+	// 设置邮件主题
+	m.SetHeader("Subject", subject)
+	// 设置邮件正文
+	m.SetBody("text/html", body)
+	d := gomail.NewDialer(host, port, user, pwd)
+	// 发送邮件
+	if err = d.DialAndSend(m); err != nil {
+		logs.Info("发送邮件失败", err)
+		return err
+	}
+	logs.Info("发送邮件成功")
+	return nil
 }

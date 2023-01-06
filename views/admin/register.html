@@ -74,7 +74,7 @@
                     remember = true;
                 }
                 $.ajax({
-                    url: '/admin/api/registration',
+                    url: '/registration',
                     type: 'post', //GET
                     async: true,    //或false,是否异步
                     contentType: 'application/json',
@@ -91,7 +91,8 @@
                     },
                     success: function (data, textStatus, jqXHR) {
                         if (data.code !== 0) {
-                            alert(data.msg)
+                            console.log(data.msg)
+                            alert("注册失败！")
                             return
                         }
                         alert("注册成功，请查收邮件完成验证后登陆");

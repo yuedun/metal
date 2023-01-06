@@ -89,3 +89,7 @@ func TestGobEncode(t *testing.T) {
 	t.Logf("%+v", u)
 
 }
+
+func TestEmail(t *testing.T) {
+	util.SendEmail("测试邮件", "测试内容", []string{""})
+}

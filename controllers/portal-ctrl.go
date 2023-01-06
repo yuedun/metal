@@ -2,13 +2,18 @@ package controllers
 
 //包名并非必须和文件夹名相同，但是按照惯例最后一个路径名和包名一致
 import (
+	"fmt"
 	. "metal/models" // 点操作符导入的包可以省略包名直接使用公有属性和方法
+	"metal/service"
 	"metal/util"
+	"net/http"
 	"reflect"
 	"regexp"
 	"strconv"
 	"time"
 
+	"github.com/beego/beego/v2/client/orm"
+	"github.com/beego/beego/v2/core/config"
 	"github.com/beego/beego/v2/core/logs"
 	beego "github.com/beego/beego/v2/server/web"
 )
@@ -24,7 +29,7 @@ type PortalController struct {
 // 	c.Mapping("MyRoute", c.MyRoute)
 // }
 
-//预处理，会在下面每个路由执行前执行，可当做前置中间件使用
+// 预处理，会在下面每个路由执行前执行，可当做前置中间件使用
 func (c *PortalController) Prepare() {
 	val, _ := beego.AppConfig.String("runmode")
 	c.Data["env"] = val // 用户百度统计设置，测服环境不需要统计
@@ -36,12 +41,12 @@ func (c *PortalController) Prepare() {
 	logs.Debug("包， 结构体，请求方法:%s, %s, %s", reflect.TypeOf(PortalController{}).PkgPath(), ctr, method)
 }
 
-//收尾处理，在路由执行完执行，已经渲染了数据，所以Finish里设置数据不会渲染到模板中
+// 收尾处理，在路由执行完执行，已经渲染了数据，所以Finish里设置数据不会渲染到模板中
 func (c *PortalController) Finish() {
 	logs.Debug(">>>>>>>>>>Finish 执行完相应的 HTTP Method 方法之后执行的")
 }
 
-//首页
+// 首页
 // @router / [get]
 func (c *PortalController) Get() {
 	pageNo, err := c.GetInt("pageNo")
@@ -222,6 +227,85 @@ func (c *PortalController) CreateMessage() {
 	}
 	c.Data["json"] = Result{
 		Msg: "留言成功",
+	}
+	c.ServeJSON()
+}
+
+// @router /registration [post]
+func (c *PortalController) Registration() {
+	var err error
+	var code int
+	defer func(start time.Time) {
+		var rsp Result
+		rsp.Code = code
+		rsp.Cost = time.Since(start).Milliseconds()
+		rsp.Msg = http.StatusText(code)
+		if err != nil {
+			rsp.Msg = fmt.Sprintf("%s - %s", rsp.Msg, err.Error())
+			logs.Error(rsp.Msg)
+			c.Data["json"] = map[string]any{
+				"code": code,
+				"msg":  err.Error(),
+			}
+		} else {
+			c.Data["json"] = map[string]any{
+				"code": 0,
+				"msg":  "ok",
+			}
+		}
+		c.ServeJSON()
+	}(time.Now())
+	req := struct {
+		Username   string `json:"username"`
+		Password   string `json:"password"`
+		RePassword int    `json:"repassword"`
+		Email      string `json:"email"`
+	}{}
+	c.BindJSON(&req)
+
+	if req.Email == "" {
+		code = http.StatusBadRequest
+		err = fmt.Errorf("手机号不能为空！")
+		return
+	}
+	if req.Username == "" {
+		code = http.StatusBadRequest
+		err = fmt.Errorf("名称不能为空！")
+		return
+	}
+	salt, err := config.String("salt")
+	if err != nil {
+		logs.Error("not found salt")
+		code = http.StatusInternalServerError
+		err = fmt.Errorf("not found salt")
+		return
+	}
+	logs.Debug("salt", salt)
+	password := util.GetMD5(req.Password, salt)
+	var user = new(User)
+	user.Username = req.Username
+	user.Gender = 1
+	user.Email = req.Email
+	user.Password = password
+	user.Status = Unverified
+
+	//TODO 事务注册
+	if _, err = user.Save(); err != nil {
+		code = http.StatusInternalServerError
+		return
+	}
+	permissionSrv := service.NewPermissionService(orm.NewOrm())
+	err = permissionSrv.UpdateUserRoles(user.Id, []uint{3})
+	if nil != err {
+		code = http.StatusInternalServerError
+		return
+	}
+	link := fmt.Sprintf("%s/user/verfify?token=%s", "https://www.hopefly.top", "token")
+	content := fmt.Sprintf("【hopefly.top】点击链接验证邮箱。<a href='%s'>点击验证</a>或复制链接浏览器打开：%s", link, link)
+	err = util.SendEmail("注册验证", content, []string{user.Email})
+	if nil != err {
+		code = http.StatusInternalServerError
+		return
 	}
 	c.ServeJSON()
 }

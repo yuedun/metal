@@ -69,8 +69,7 @@ var HasAdminPermission = func(ctx *context.Context) {
 	if loginUser == nil &&
 		ctx.Input.URL() != "/admin/page/login" &&
 		ctx.Input.URL() != "/admin/api/to-login" &&
-		ctx.Input.URL() != "/admin/page/register" &&
-		ctx.Input.URL() != "/admin/api/registration" {
+		ctx.Input.URL() != "/admin/page/register" {
 		ctx.Redirect(302, "/admin/page/login")
 	}
 }

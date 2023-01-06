@@ -49,7 +49,7 @@ func init() {
 			beego.NSBefore(controllers.HasAdminPermission), //过滤器
 			beego.NSRouter("/to-login", &api.UserAPIController{}, "post:ToLogin"),
 			beego.NSRouter("/login-out", &api.UserAPIController{}, "get:LoginOut"),
-			beego.NSRouter("/registration", &api.UserAPIController{}, "post:Registration"),
+			// beego.NSRouter("/registration", &api.UserAPIController{}, "post:Registration"),
 			beego.NSRouter("/user/disable/:id", &api.UserAPIController{}, "get:DisableUser"),
 			beego.NSRouter("/user/enable/:id", &api.UserAPIController{}, "get:EnableUser"),
 			beego.NSRouter("/user/delete", &api.UserAPIController{}, "delete,post:DeleteUser"),
