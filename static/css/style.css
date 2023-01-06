@@ -17,6 +17,9 @@ body {
 a:hover {
     text-decoration-line: underline;
 }
+.layui-nav .layui-nav-item a{
+    padding: 0 18px;
+}
 
 .system-description {
     min-height: 160px;

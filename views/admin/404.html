@@ -17,8 +17,27 @@
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <div><h1>{{.content}}</h1></div>
-      <!-- /.content -->
+      <section class="content-header">
+        <h1>
+          {{.content}}
+        </h1>
+        <ol class="breadcrumb">
+          <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+          <li class="active">403 error</li>
+        </ol>
+      </section>
+      <section class="content">
+        <div class="error-page">
+          <h2 class="headline text-yellow"> 403</h2>
+          <div class="error-content">
+            <h3><i class="fa fa-warning text-yellow"></i>{{.content}}</h3>
+            <p>
+              若您使用的是访客账号，可尝试注册新账号登陆。
+               <a href="/admin/page/register">去注册</a>
+            </p>
+          </div>
+        </div>
+      </section>
     </div>
     <!-- /.content-wrapper -->
     <footer class="main-footer">
