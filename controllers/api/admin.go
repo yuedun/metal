@@ -49,7 +49,7 @@ func (c *AdminAPIController) GetLogs() {
 func (c *AdminAPIController) UploadImg() {
 	var err error
 	var code int
-	var data interface{}
+	var data any
 	defer func(start time.Time) {
 		var rsp controllers.Result
 		rsp.Code = code
@@ -58,63 +58,50 @@ func (c *AdminAPIController) UploadImg() {
 		if err != nil {
 			rsp.Msg = fmt.Sprintf("%s - %s", rsp.Msg, err.Error())
 			logs.Error(rsp.Msg)
-			c.Data["json"] = c.ErrorData(err, code)
+			c.Data["json"] = map[string]any{
+				"success": 0,
+				"message": err.Error(),
+			}
 		} else {
-			c.Data["json"] = c.SuccessData(data)
+			c.Data["json"] = map[string]any{
+				"success": 1,
+				"message": "ok",
+				"url":     data,
+			}
 		}
 		c.ServeJSON()
 	}(time.Now())
 	file, h, err := c.GetFile("editormd-image-file")
 	if err != nil {
 		logs.Error("getfile err ", err)
-		code = http.StatusBadRequest
 		return
 	}
 	defer file.Close()
 	_, err = os.Stat("tmp/upload")
 	if err != nil {
+		logs.Error("Stat err ", err)
 		os.Mkdir("tmp/upload", os.ModePerm)
 	}
 
 	fileName := "tmp/upload/" + h.Filename
 	err = c.SaveToFile("editormd-image-file", fileName)
 	if err != nil {
-		data = map[string]any{
-			"success": 0,
-			"message": err.Error(),
-		}
+		logs.Error("SaveToFile err ", err)
 		return
 	}
 	//接收成功上传到七牛
 	ret, err := util.UploadFile(fileName, h.Filename)
 	if err != nil {
-		data = map[string]any{
-			"success": 0,
-			"message": err,
-			"url":     fileName,
-		}
+		logs.Error("UploadFile err ", err)
 		return
 	}
 	//上传到七牛后删除本地文件
-	localFile, err := os.Open(fileName)
-	if err != nil {
-		logs.Error(err.Error())
-		code = http.StatusInternalServerError
+	if err := os.Remove(fileName); err != nil {
+		logs.Error("Remove err ", err)
 		return
 	}
-	defer localFile.Close()
-	if err := localFile.Close(); err != nil {
-		logs.Error(err)
-		code = http.StatusInternalServerError
-		return
-	}
-	os.Remove(fileName)
 	url, _ := beego.AppConfig.String("qiniuUrl")
-	c.Data["json"] = map[string]any{
-		"success": 1,
-		"message": "ok",
-		"url":     url + ret.Key,
-	}
+	data = url + ret.Key
 }
 
 /**
