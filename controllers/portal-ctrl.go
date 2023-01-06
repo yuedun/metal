@@ -47,7 +47,6 @@ func (c *PortalController) Finish() {
 }
 
 // 首页
-// @router / [get]
 func (c *PortalController) Get() {
 	pageNo, err := c.GetInt("pageNo")
 	if err != nil {
@@ -90,7 +89,6 @@ func (c *PortalController) Get() {
 	c.TplName = "index.html"
 }
 
-// @router /article/:id [get]
 func (c *PortalController) Article() {
 	artId, err := strconv.Atoi(c.Ctx.Input.Param(":id"))
 	if err != nil {
@@ -117,7 +115,6 @@ func (c *PortalController) Article() {
 	}
 }
 
-// @router /categories/:category [get]
 func (c *PortalController) Categories() {
 	category := c.Ctx.Input.Param(":category")
 	params := map[string]string{}
@@ -141,7 +138,6 @@ func (c *PortalController) Categories() {
 	c.TplName = "categories-tags.html"
 }
 
-// @router /tags/:tag [get]
 func (c *PortalController) Tags() {
 	tag := c.Ctx.Input.Param(":tag")
 	params := map[string]string{}
@@ -165,7 +161,6 @@ func (c *PortalController) Tags() {
 	c.TplName = "categories-tags.html"
 }
 
-// @router /catalog [get]
 func (c *PortalController) Catalog() {
 	article := new(Article)
 	titles, err := article.GetCatalog()
@@ -178,12 +173,10 @@ func (c *PortalController) Catalog() {
 	c.TplName = "catalog.html"
 }
 
-// @router /about [get]
 func (c *PortalController) About() {
 	c.TplName = "about.html"
 }
 
-// @router /message [get]
 func (c *PortalController) Message() {
 	message := new(Message)
 	cond := map[string]string{}
@@ -200,7 +193,6 @@ func (c *PortalController) Message() {
 	c.TplName = "message.html"
 }
 
-// @router /message [post]
 func (c *PortalController) CreateMessage() {
 	nickName := c.GetString("nickName")
 	email := c.GetString("email")
@@ -231,7 +223,6 @@ func (c *PortalController) CreateMessage() {
 	c.ServeJSON()
 }
 
-// @router /registration [post]
 func (c *PortalController) Registration() {
 	var err error
 	var code int
