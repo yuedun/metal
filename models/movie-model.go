@@ -73,7 +73,7 @@ func (mov *Movie) GetMovieList(cond string, start, perPage int) (list []Movie, t
 		if err1 != nil {
 			err = err1
 		}
-		logs.Info("mysql row affected nums: ", total)
+		logs.Debug("mysql row affected nums: ", total)
 	}()
 	wg.Wait()
 	return list, total, err

@@ -62,7 +62,7 @@ func (pic *Picture) GetAllByCondition(cond string, start, perPage int) (pics []P
 		if err != nil {
 			newError = err
 		}
-		logs.Info("mysql row affected nums: ", total)
+		logs.Debug("mysql row affected nums: ", total)
 	}()
 	wg.Wait()
 	return pics, total, newError

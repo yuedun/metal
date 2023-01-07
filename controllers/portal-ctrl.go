@@ -93,7 +93,7 @@ func (c *PortalController) Get() {
 		c.Data["pageNo"] = pageNo
 		c.Data["pageSize"] = pageSize
 	}
-	logs.Info("访问ip:", c.Ctx.Input.Header("Remote_addr"))
+	logs.Info("首页访问ip:", c.Ctx.Input.Header("Remote_addr"))
 	//默认tpl或html后缀
 	c.TplName = "index.html"
 }
@@ -111,7 +111,7 @@ func (c *PortalController) Article() {
 		c.Abort("404")
 	}
 	artLog := &ArticleLog{}
-	artLog.Save(article.Id, "") //记录访问日志
+	artLog.Save(article.Id, c.Ctx.Input.Header("Remote_addr")) //记录访问日志
 	if err != nil {
 		logs.Error(err)
 	}

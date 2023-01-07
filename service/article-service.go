@@ -56,7 +56,7 @@ func (a *articleService) GetArticlesByCondition(param map[string]string, pageInd
 		if err != nil {
 			returnError = err
 		}
-		logs.Info("mysql row affected nums: ", total)
+		logs.Debug("mysql row affected nums: ", total)
 	}()
 	wg.Wait()
 	return articles, total, returnError

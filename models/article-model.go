@@ -87,7 +87,7 @@ func (model *Article) GetArticlesByCondition(param map[string]string, pageIndex,
 		if err != nil {
 			returnError = err
 		}
-		logs.Info("mysql row affected nums: ", total)
+		logs.Debug("mysql row affected nums: ", total)
 	}()
 	wg.Wait()
 	return articles, total, returnError
@@ -110,7 +110,7 @@ func (model *Article) Delete() (int64, error) {
 	return id, err
 }
 
-//目录
+// 目录
 func (model *Article) GetCatalog() ([]ArticlePortal, error) {
 	o := orm.NewOrm()
 	titles := make([]ArticlePortal, 1)
@@ -118,7 +118,7 @@ func (model *Article) GetCatalog() ([]ArticlePortal, error) {
 	return titles, err
 }
 
-//查询所有分类
+// 查询所有分类
 func (model *Article) GetCategories() ([]string, error) {
 	o := orm.NewOrm()
 	titles := make([]string, 1)
@@ -126,7 +126,7 @@ func (model *Article) GetCategories() ([]string, error) {
 	return titles, err
 }
 
-//查询所有标签
+// 查询所有标签
 func (model *Article) GetKeywords() ([]ArticlePortal, error) {
 	o := orm.NewOrm()
 	titles := make([]ArticlePortal, 1)

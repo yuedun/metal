@@ -140,7 +140,7 @@ func (user *User) GetUserList(cond map[string]string, start, perPage int) (users
 		if err != nil {
 			newError = err
 		}
-		logs.Info("mysql row affected nums: ", total)
+		logs.Debug("mysql row affected nums: ", total)
 	}()
 	wg.Wait()
 	return users, total, newError

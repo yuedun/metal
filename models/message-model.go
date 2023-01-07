@@ -80,7 +80,7 @@ func (msg *Message) GetAllByCondition(cond map[string]string, start, perPage int
 		if err != nil {
 			newError = err
 		}
-		logs.Info("mysql row affected nums: ", total)
+		logs.Debug("mysql row affected nums: ", total)
 	}()
 	wg.Wait()
 	return list, total, newError
