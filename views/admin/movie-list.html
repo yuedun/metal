@@ -67,7 +67,6 @@ desired effect
 								<table id="dataList" class="table table-bordered table-striped">
 									<thead>
 										<tr>
-											<th>ID</th>
 											<th>name</th>
 											<th>url</th>
 											<th>status</th>
@@ -83,7 +82,6 @@ desired effect
 									</tbody>
 									<tfoot>
 										<tr>
-											<th>ID</th>
 											<th>name</th>
 											<th>url</th>
 											<th>status</th>
@@ -236,10 +234,11 @@ desired effect
 				},
 				paging: true,
 				lengthChange: false,
-				searching: true,
+				searching: false,
 				ordering: true,
 				info: true,
-				autoWidth: false,
+				scrollX: true,
+				autoWidth: true,
 				serverSide: true,
 				processing: true,
 				ajax: function (data, callback, settings) {
@@ -281,7 +280,7 @@ desired effect
 				},
 				rowId: 'id',//自动设置行id
 				columns: [
-					{ data: 'id' },
+					// { data: 'id' },
 					{ data: 'name' },
 					{
 						data: 'url',
@@ -299,6 +298,7 @@ desired effect
 					},
 					{
 						data: 'updated_at',
+						
 						render: function (data, type, row) {
 							return moment(data).format("YYYY-MM-DD HH:mm:ss");
 						}
@@ -362,7 +362,6 @@ desired effect
 					async: true,    //或false,是否异步
 					data: {
 						name: name,
-						category: category,
 						url: url,
 						url2: url2,
 						url3: url3
