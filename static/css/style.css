@@ -3,6 +3,7 @@ body {
     margin: 0;
     padding: 0;
 }
+
 body {
     margin: 0;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
@@ -10,14 +11,21 @@ body {
     line-height: 20px;
     background-color: #f7f7f7;
 }
+
 .layui-container a {
     color: #572c82 !important;
     text-decoration: none !important;
 }
+
+.layui-layout-admin .layui-header {
+    background-color: #FF6666;
+}
+
 a:hover {
     text-decoration-line: underline;
 }
-.layui-nav .layui-nav-item a{
+
+.layui-nav .layui-nav-item a {
     padding: 0 18px;
 }
 
@@ -26,20 +34,25 @@ a:hover {
     text-align: center;
     padding: 0 140px;
 }
+
 .system-description p {
     font-size: 24px;
 }
+
 .width-visual {
-	width: 1100px;
-	margin: 0 auto
+    width: 1100px;
+    margin: 0 auto
 }
+
 .page-container {
     width: 70%;
 }
+
 .siderbar {
     width: 30%;
 
 }
+
 .siderbar .box {
     background-color: #fff;
     border-color: #e2e2e2;
@@ -48,11 +61,13 @@ a:hover {
     margin: 10px;
     padding: 10px;
 }
+
 .home-page {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
 }
+
 .home-page .article {
     background-color: #fff;
     border-color: #e2e2e2;
@@ -61,27 +76,37 @@ a:hover {
     margin: 10px;
     padding: 10px;
 }
+
+.home-page .article h2 {
+    font-size: 20px;
+    line-height: 24px;
+}
+
 .home-page .article section {
     font-size: 16px;
 }
+
 .home-page .article ul li {
     display: inline-block;
-    width: 22%;
+    width: 25%;
     padding: 0 5px;
 }
 
 .home-page .article section img {
-    max-width: 50%;
+    max-width: 35%;
     height: auto;
 }
+
 .home-page .article .article-info {
     color: #6e7373;
     font-size: 14px;
     margin: 5px;
 }
-.home-page .article .article-info a{
+
+.home-page .article .article-info a {
     color: #6e7373;
 }
+
 .home-page #page {
     padding-left: 20px;
 }
@@ -93,66 +118,84 @@ a:hover {
     padding-top: 10px;
     padding-bottom: 10px;
 }
+
 .article-page .title-header h1 {
     font-size: 22px;
     line-height: 22px;
 }
+
 .article-page .description {
     line-height: 1.8;
     font-size: 16px;
 }
+
 .article-page .description p {
     padding: 10px;
     word-break: break-all;
 }
+
 .article-page .description img {
     max-width: 100%;
 }
+
 .article-page .article-info li {
     display: inline;
 }
+
 .article-page .article-info {
     font-size: small;
     color: #6e7373;
 }
+
 .catalog-page header {
     margin-top: 20px;
     margin-bottom: 20px;
 }
+
 .about-page .description {
     margin: 20px 0;
     font-size: 16px;
 }
+
 .about-page .wechat {
     text-align: center;
 }
+
 .about-page .wechat img {
     width: 20%;
 }
+
 .message-page textarea {
     width: 100%;
 }
+
 .footer-container .info {
     margin: 30px 20px;
     text-align: center;
 }
+
 .footer {
     background-color: #23262E;
     color: #999;
 }
+
 .footer a {
     color: #999;
 }
-@media screen and (max-width: 768px){
+
+@media screen and (max-width: 768px) {
     .width-visual {
         width: 100%;
     }
-    .page-container{
+
+    .page-container {
         width: 100%;
     }
+
     .about-page .wechat img {
         width: 70%;
     }
+
     .home-page .article section img {
         max-width: 100%;
         height: auto;

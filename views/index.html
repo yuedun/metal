@@ -21,14 +21,16 @@
                     <header>
                         <h2><a href="/article/{{$elem.Id}}" title="{{$elem.Title}}">{{$elem.Title}}</a></h2>
                         <ul class="article-info">
-							<li><time>发布时间：{{$elem.UpdatedAt}}</time></li>
-							<li>分类：<a href="/categories/{{$elem.Category}}">{{$elem.Category}}</a></li>
+							<li><time>{{$elem.UpdatedAt}}</time></li>
+							<li><a href="/categories/{{$elem.Category}}">{{$elem.Category}}</a></li>
 							<li>浏览：{{$elem.ViewCount}}</li>
 						</ul>
                     </header>
                     <section>
                         <p>{{str2html $elem.Content}}</p>
-                        <p>{{str2html $elem.Img}}</p>
+                        {{if ne $elem.Img ""}}
+                        <p><img src="{{str2html $elem.Img}}?imageView2/2/w/200" /></p>
+                        {{end}}
                     </section>
                 </article>
                 {{end}}

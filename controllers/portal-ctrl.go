@@ -9,11 +9,11 @@ import (
 	"metal/util"
 	"net/http"
 	"reflect"
-	"regexp"
 	"strconv"
 	"strings"
 	"time"
 
+	"github.com/PuerkitoBio/goquery"
 	"github.com/beego/beego/v2/client/orm"
 	"github.com/beego/beego/v2/core/config"
 	"github.com/beego/beego/v2/core/logs"
@@ -68,13 +68,20 @@ func (c *PortalController) Get() {
 	} else {
 		var artList = make([]ArticlePortal, len(articleList)) // 切片长度去实际数据长度
 		for index, art := range articleList {
-			re := regexp.MustCompile(`\\<[\\S\\s]+?\\>`)                //html标签
-			reimg := regexp.MustCompile(`<img (\S*?)[^>]*>.*?|<.*? />`) //获取一张图片
+			// re := regexp.MustCompile(`\\<[\\S\\s]+?\\>`)                //html标签
+			// reimg := regexp.MustCompile(`<img (\S*?)[^>]*>.*?|<.*? />`) //获取一张图片
 			htmlStr := util.Md2html(art.Content)
+			doc, err := goquery.NewDocumentFromReader(strings.NewReader(htmlStr))
+			if err != nil {
+				continue
+			}
+			//查找元素
+			text := doc.Text()
+			img, _ := doc.Find("img").Attr("src")
 			artList[index].Id = art.Id
 			artList[index].Title = art.Title
-			artList[index].Content = beego.Substr(re.ReplaceAllString(htmlStr, ""), 0, 300)
-			artList[index].Img = string(reimg.Find([]byte(htmlStr)))
+			artList[index].Content = beego.Substr(text, 0, 300)
+			artList[index].Img = img
 			artList[index].Status = art.Status
 			artList[index].Category = art.Category
 			count, _ := article.GetArticleViewCount(art.Id)
@@ -91,30 +98,33 @@ func (c *PortalController) Get() {
 	c.TplName = "index.html"
 }
 
+// 文章详情
 func (c *PortalController) Article() {
 	artId, err := strconv.Atoi(c.Ctx.Input.Param(":id"))
 	if err != nil {
-		c.Data["content"] = err
-		c.TplName = "404.html"
-	} else {
-		article := &Article{}
-		article.Id = uint(artId)
-		articlePortal, err := article.ArticleDetail()
-
-		artLog := &ArticleLog{}
-		artLog.Save(article.Id, "") //记录访问日志
-		if err != nil {
-			logs.Error(err)
-		}
-		articlePortal.Title = article.Title
-		articlePortal.Keywords = article.Keywords
-		articlePortal.Content = util.Md2html(article.Content)
-		articlePortal.Category = article.Category
-		articlePortal.UpdatedAt = article.UpdatedAt.Format("2006-01-02 15:04")
-		c.Data["article"] = articlePortal
-		c.Data["zero"] = uint(0)
-		c.TplName = "article.html"
+		c.Abort("404")
 	}
+	article := &Article{}
+	article.Id = uint(artId)
+	articlePortal, err := article.ArticleDetail()
+	if err != nil {
+		c.Abort("404")
+	}
+	artLog := &ArticleLog{}
+	artLog.Save(article.Id, "") //记录访问日志
+	if err != nil {
+		logs.Error(err)
+	}
+	articlePortal.Title = article.Title
+	articlePortal.Keywords = article.Keywords
+	articlePortal.Content = util.Md2html(article.Content)
+	// reimg := regexp.MustCompile(`<img (\S*?)[^>]*>.*?|<.*? />`) //获取一张图片
+	// print(string(reimg.Find([]byte(articlePortal.Content))))
+	articlePortal.Category = article.Category
+	articlePortal.UpdatedAt = article.UpdatedAt.Format("2006-01-02 15:04")
+	c.Data["article"] = articlePortal
+	c.Data["zero"] = uint(0)
+	c.TplName = "article.html"
 }
 
 func (c *PortalController) Categories() {
