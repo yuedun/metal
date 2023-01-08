@@ -90,10 +90,9 @@ func (c *AdminBaseController) Prepare() {
 		ctrl, runMethod := c.GetControllerAndAction() // 获取controller和method
 		requestPermission := ctrl + ":" + runMethod
 		pkgName := reflect.Indirect(reflect.ValueOf(c.AppController)).Type().PkgPath()
-		logs.Info("包名：", pkgName) //获取包名
+		logs.Debug("包:%s, 结构体:请求方法:%s", reflect.TypeOf(PortalController{}).PkgPath(), requestPermission)
 		apiOrPage := pkgName[18:]
 		logs.Debug("apiOrPage", apiOrPage)
-		logs.Info("ctrl:method =", requestPermission)
 		privileges := userPermission.Privileges // 获取用户拥有的权限
 		hasPermission := false
 		//检查需要权限的路由和接口用户是否拥有

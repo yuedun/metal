@@ -114,9 +114,7 @@ func (c *PortalController) Article() {
 		ArticleId: article.Id,
 		Mark:      c.Ctx.Input.Header("Remote_addr"),
 	}
-	artLog.Save(
-
-	) //记录访问日志
+	artLog.Save() //记录访问日志
 	if err != nil {
 		logs.Error(err)
 	}
@@ -129,6 +127,7 @@ func (c *PortalController) Article() {
 	articlePortal.UpdatedAt = article.UpdatedAt.Format("2006-01-02 15:04")
 	c.Data["article"] = articlePortal
 	c.Data["zero"] = uint(0)
+	logs.Info("博客详情:", article.Title, c.Ctx.Input.Header("Remote_addr"))
 	c.TplName = "article.html"
 }
 
