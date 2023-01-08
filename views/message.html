@@ -16,23 +16,23 @@
         <!-- 中间内容区 -->
         <section class="message-page  width-visual">
             <div class="layui-container page-container">
-                <div class="layui-row">
-                    <div class="layui-col-md12">
-                        <ul class="layui-timeline">
-                            {{range $index, $elem := .messageList}}
-                            <li class="layui-timeline-item">
-                                <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
-                                <div class="layui-timeline-content layui-text">
-                                    <h3 class="layui-timeline-title">{{$elem.NickName}}</h3>
-                                    <p>{{$elem.Content}}</p>
-                                    <p>创建于：{{$elem.CreatedAt}}</p>
-                                </div>
-                            </li>
-                            {{end}}
-                        </ul>
-                    </div>
-                </div>
-
+                <header class="page-header">
+                    <strong class="catalog-count">留言</strong>
+                </header>
+                <section>
+                    <ul class="layui-timeline">
+                        {{range $index, $elem := .messageList}}
+                        <li class="layui-timeline-item">
+                            <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                            <div class="layui-timeline-content layui-text">
+                                <h3 class="layui-timeline-title">{{$elem.NickName}}</h3>
+                                <p>{{$elem.Content}}</p>
+                                <p>创建于：{{$elem.CreatedAt}}</p>
+                            </div>
+                        </li>
+                        {{end}}
+                    </ul>
+                </section>
                 <div class="layui-row">
                     <div class="layui-col-md12">
                         <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">

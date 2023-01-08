@@ -84,6 +84,7 @@ a:hover {
 
 .home-page .article section {
     font-size: 16px;
+    word-break: break-all;
 }
 
 .home-page .article ul li {
@@ -147,7 +148,7 @@ a:hover {
     color: #6e7373;
 }
 
-.catalog-page header {
+.page-header {
     margin-top: 20px;
     margin-bottom: 20px;
 }

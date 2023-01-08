@@ -8,23 +8,21 @@ import (
 )
 
 type ArticleLog struct {
-	BaseModel
-	ArticleId uint   `orm:"index" json:"articleId"`
-	Mark      string `json:"mark"`
+	Id        uint      `json:"id" orm:"pk;auto"`
+	CreatedAt time.Time `json:"created_at" orm:"auto_now_add;type(datetime)"`
+	ArticleId uint      `json:"articleId" orm:"index"`
+	Mark      string    `json:"mark"`
 }
 
 func init() {
 	orm.RegisterModel(new(ArticleLog))
 }
 
-func (log *ArticleLog) Save(artId uint, mark string) (int64, error) {
+func (log *ArticleLog) Save() (int64, error) {
 	o := orm.NewOrm()
-	log.CreatedAt = time.Now()
-	log.UpdatedAt = time.Now()
-	log.ArticleId = artId
-	log.Mark = mark
 	return o.Insert(log)
 }
+
 func (log *ArticleLog) GetLogs(start, perPage int) (logs []Log, total int64, newError error) {
 	o := orm.NewOrm()
 	var wg sync.WaitGroup

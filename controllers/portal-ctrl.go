@@ -37,10 +37,10 @@ func (c *PortalController) Prepare() {
 	c.Data["env"] = val // 用户百度统计设置，测服环境不需要统计
 	// 设置TKD信息
 	c.Data["title"] = "月盾的网站，基于beego v2开发的web项目"
-	c.Data["keywords"] = "golang,go-micro,beego v2博客,管理后台"
-	c.Data["description"] = "golang,go-micro,beego v2博客,管理后台"
+	c.Data["keywords"] = "golang,beego v2博客,管理后台"
+	c.Data["description"] = "golang,beego v2博客,管理后台"
 	ctr, method := c.GetControllerAndAction()
-	logs.Debug("包， 结构体，请求方法:%s, %s, %s", reflect.TypeOf(PortalController{}).PkgPath(), ctr, method)
+	logs.Debug("包:%s, 结构体:请求方法:%s:%s", reflect.TypeOf(PortalController{}).PkgPath(), ctr, method)
 }
 
 // 收尾处理，在路由执行完执行，已经渲染了数据，所以Finish里设置数据不会渲染到模板中
@@ -110,8 +110,13 @@ func (c *PortalController) Article() {
 	if err != nil {
 		c.Abort("404")
 	}
-	artLog := &ArticleLog{}
-	artLog.Save(article.Id, c.Ctx.Input.Header("Remote_addr")) //记录访问日志
+	artLog := &ArticleLog{
+		ArticleId: article.Id,
+		Mark:      c.Ctx.Input.Header("Remote_addr"),
+	}
+	artLog.Save(
+
+	) //记录访问日志
 	if err != nil {
 		logs.Error(err)
 	}
