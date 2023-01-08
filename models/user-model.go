@@ -124,7 +124,7 @@ func (user *User) GetUserList(cond map[string]string, start, perPage int) (users
 	wg.Add(2)
 	go func() {
 		defer wg.Done()
-		var sql = "SELECT * FROM user "
+		var sql = "SELECT id, mobile, username, password, gender, email, addr, status, description, created_at, updated_at FROM `user` "
 		sql += condition
 		sql += " LIMIT ?, ?"
 		_, err := o.Raw(sql, strconv.Itoa(start), strconv.Itoa(perPage)).QueryRows(&users)

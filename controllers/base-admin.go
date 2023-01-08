@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"metal/models"
 	"reflect"
 
@@ -85,6 +86,7 @@ func (c *AdminBaseController) Prepare() {
 	if session != nil {
 		userPermission := session.(*UserPermission)
 		c.Data["username"] = userPermission.User.Username
+		c.Data["created_at"] = fmt.Sprintf("%d-%s", userPermission.User.CreatedAt.Year(), userPermission.User.CreatedAt.Month())
 		ctrl, runMethod := c.GetControllerAndAction() // 获取controller和method
 		requestPermission := ctrl + ":" + runMethod
 		pkgName := reflect.Indirect(reflect.ValueOf(c.AppController)).Type().PkgPath()

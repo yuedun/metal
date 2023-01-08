@@ -1,6 +1,6 @@
 # 项目说明
-![前台模板](https://hopefully-img.yuedun.wang/c1ba1907e36a3440dad489c99ca53f11 "前台模板")
-![后台模板](https://hopefully-img.yuedun.wang/adminlte.png "后台模板")
+![前台模板](https://hopefully-img.yuedun.wang/c1ba1907e36a3440dad489c99ca53f11?imageslim "前台模板")
+![后台模板](https://hopefully-img.yuedun.wang/adminlte.png?imageslim "后台模板")
 
 ## go版本要求
 本项目使用了`go 1.16`，`beego v2`, `bee v2`。

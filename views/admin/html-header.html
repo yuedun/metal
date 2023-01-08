@@ -139,8 +139,8 @@
                 alt="User Image">
 
               <p>
-                {{.username}} - Web Developer
-                <small>Member since Nov. 2012</small>
+                {{.username}}
+                <small>注册于：{{.created_at}}</small>
               </p>
             </li>
             <!-- Menu Body -->
@@ -161,7 +161,7 @@
             <!-- Menu Footer-->
             <li class="user-footer">
               <div class="pull-left">
-                <a href="#" class="btn btn-default btn-flat">Profile</a>
+                <a href="/admin/page/" class="btn btn-default btn-flat">Profile</a>
               </div>
               <div class="pull-right">
                 <a href="/admin/api/login-out" class="btn btn-warning btn-flat">Sign out</a>
