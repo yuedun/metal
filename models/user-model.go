@@ -32,7 +32,7 @@ type User struct {
 	Addr        string `json:"addr"  orm:"size(50)"`
 	Description string `json:"description"`
 	Status      int    `json:"status" orm:"default(1);description(0不可用，1可用)"` // 0不可用，1可用
-	Token       string `json:"token" orm:"type(text)"`
+	Token       string `json:"-" orm:"type(text)"`
 }
 type UserVO struct {
 	User
@@ -67,7 +67,7 @@ func (user *User) GetById() (*User, error) {
 // 通过用户名查找用户
 func (user *User) GetByCondition() error {
 	o := orm.NewOrm()
-	sql := "SELECT * FROM user where 1 "
+	sql := "SELECT id, mobile, username, password, gender, email, addr, status, description, created_at, updated_at FROM user where 1 "
 	if user.Id != 0 {
 		sql += fmt.Sprintf(" and id = %d", user.Id)
 	}
@@ -91,7 +91,7 @@ func (user *User) GetByCondition() error {
 // 通过手机号查找用户
 func (user *User) GetByMobile() error {
 	o := orm.NewOrm()
-	err := o.Raw("SELECT * FROM user where mobile = ? OR email = ? LIMIT 1;", user.Mobile, user.Mobile).QueryRow(&user)
+	err := o.Raw("SELECT id, mobile, username, password, gender, email, addr, status, description, created_at, updated_at FROM user where mobile = ? OR email = ? LIMIT 1;", user.Mobile, user.Mobile).QueryRow(&user)
 	if err != nil {
 		return err
 	}
@@ -102,7 +102,7 @@ func (user *User) GetByMobile() error {
 func (user *User) GetAll() ([]User, error) {
 	o := orm.NewOrm()
 	var users []User
-	num, err := o.Raw("SELECT * FROM user ORDER BY id DESC;").QueryRows(&users)
+	num, err := o.Raw("SELECT id, mobile, username, password, gender, email, addr, status, description, created_at, updated_at FROM user ORDER BY id DESC;").QueryRows(&users)
 	logs.Info("查询到", num, "条数据")
 	return users, err
 }
@@ -147,9 +147,9 @@ func (user *User) GetUserList(cond map[string]string, start, perPage int) (users
 }
 
 // 通过id修改用户
-func (user *User) Update() (int64, error) {
+func (user *User) Update(col ...string) (int64, error) {
 	o := orm.NewOrm()
-	id, err := o.Update(user, "username", "gender", "email", "mobile", "addr", "description", "updated_at", "token") // 要修改的对象和需要修改的字段
+	id, err := o.Update(user, col...) // 要修改的对象和需要修改的字段
 	return id, err
 }
 

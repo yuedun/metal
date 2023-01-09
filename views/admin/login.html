@@ -26,13 +26,13 @@
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                 </div>
                 <div class="row">
-                    <div class="col-xs-8">
+                    <!-- <div class="col-xs-8">
                         <div class="checkbox icheck">
                             <label>
                                 <input type="checkbox" name="remember">记住
                             </label>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- /.col -->
                     <div class="col-xs-4">
                         <button class="btn btn-primary btn-block btn-flat" id="login">登陆</button>
@@ -61,10 +61,7 @@
                 increaseArea: '20%' /* optional */
             });
             $("#login").on("click", function () {
-                let remember = $("input[name=remember]").val();
-                if (remember == 'on') {
-                    remember = true;
-                }
+                let remember = $("input[name=remember]").is(':checked');
                 $.ajax({
                     url: '/admin/api/to-login',
                     type: 'post', //GET

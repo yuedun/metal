@@ -90,10 +90,10 @@ func (c *UserAPIController) ToLogin() {
 			fmt.Println(err)
 		}
 		encoded := base64.StdEncoding.EncodeToString(buf.Bytes())
-		// logs.Debug(encoded)
-		user.Token = encoded
-		user.Update()
-		data = encoded
+		logs.Debug(encoded)
+		// user.Token = encoded
+		// user.Update("token")
+		// data = encoded
 	}
 	// c.Ctx.Input.IP()获取到的是Nginx内网ip，需要在Nginx配置proxy_set_header Remote_addr $remote_addr;
 	ip := c.Ctx.Input.Header("Remote_addr")
@@ -230,7 +230,7 @@ func (c *UserAPIController) UpdateUser() {
 	}
 	user.Id = form.UserId
 	user.UpdatedAt = time.Now()
-	upId, err := user.Update()
+	upId, err := user.Update("username", "gender", "email", "mobile", "addr", "description")
 	if nil != err {
 		c.Data["json"] = c.ErrorData(err)
 	} else {

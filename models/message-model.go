@@ -1,6 +1,7 @@
 package models
 
 import (
+	"encoding/json"
 	"strconv"
 	"sync"
 
@@ -18,6 +19,19 @@ type Message struct {
 	Email    string `json:"email" orm:"size(30)"`
 	Content  string `json:"content" orm:"size(200)"`
 	Status   int    `json:"status" orm:"default(0);description(0待审核，1通过，2不通过)"` // 0待审核，1通过，2不通过
+}
+
+func (a Message) MarshalJSON() ([]byte, error) {
+	type TT Message
+	return json.Marshal(struct {
+		TT
+		CreatedAt string `json:"created_at"`
+		UpdatedAt string `json:"updated_at"`
+	}{
+		TT(a),
+		a.CreatedAt.Format("2006-01-02 15:04"),
+		a.CreatedAt.Format("2006-01-02 15:04"),
+	})
 }
 
 func init() {
