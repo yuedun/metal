@@ -61,18 +61,15 @@ desired effect
                                     <form class="form-inline" onsubmit="return false">
                                         <div class="form-group">
                                             <label for="username">name:</label>
-                                            <input type="text" class="form-control" id="username"
-                                                placeholder="">
+                                            <input type="text" class="form-control" placeholder="">
                                         </div>
                                         <div class="form-group">
                                             <label for="mobile">mobile:</label>
-                                            <input type="text" class="form-control" id="mobile"
-                                                placeholder="">
+                                            <input type="text" class="form-control" id="mobile" placeholder="">
                                         </div>
                                         <div class="form-group">
                                             <label for="exampleInputEmail2">email:</label>
-                                            <input type="email" class="form-control" id="email"
-                                                placeholder="">
+                                            <input type="email" class="form-control" id="email" placeholder="">
                                         </div>
                                         <button type="submit" id="search" class="btn btn-default">搜索</button>
                                     </form>
@@ -157,36 +154,34 @@ desired effect
                 <!-- /.box-header -->
                 <!-- form start -->
                 <form role="form" method="post" onsubmit="return false">
-                    <input type="hidden" id="userId">
+                    <input type="hidden" name="userId">
                     <div class="box-body">
                         <div class="form-group">
                             <label for="name">name</label>
-                            <input type="text" class="form-control" id="username" name="username"
-                                placeholder="username">
+                            <input type="text" class="form-control" name="username" placeholder="username">
                         </div>
                         <div class="form-group">
                             <label for="gender">gender</label>
-                            <select id="gender" name="gender" class="form-control">
+                            <select name="gender" class="form-control">
                                 <option value="0">女</option>
                                 <option value="1">男</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="mobile">mobile</label>
-                            <input type="text" class="form-control" id="mobile" name="mobile" placeholder="mobile"
-                                disabled>
+                            <input type="text" class="form-control" name="mobile" placeholder="mobile" disabled>
                         </div>
                         <div class="form-group">
                             <label for="email">email</label>
-                            <input type="text" class="form-control" id="email" name="email" placeholder="email">
+                            <input type="text" class="form-control" name="email" placeholder="email">
                         </div>
                         <div class="form-group">
                             <label for="address">address</label>
-                            <input type="text" class="form-control" id="address" name="addr" placeholder="addr">
+                            <input type="text" class="form-control" name="addr" placeholder="addr">
                         </div>
                         <div class="form-group">
-                            <label for="desc">description</label>
-                            <input type="text" class="form-control" id="desc" name="desc" placeholder="description">
+                            <label for="description">description</label>
+                            <input type="text" class="form-control" name="desc" placeholder="description">
                         </div>
                     </div>
                     <!-- /.box-body 使用layer的回调执行提交
@@ -245,7 +240,7 @@ desired effect
                 ordering: true,
                 info: true,
                 scrollX: true,
-				autoWidth: true,
+                autoWidth: true,
                 serverSide: true,
                 processing: true,
                 ajax: function (data, callback, settings) {
@@ -254,22 +249,22 @@ desired effect
                         perPage: data.length,
                         start: data.start,
                     };
-                    if($("#username").val()){
-						postData.username=$("#username").val();
-					}					
-                    if($("#mobile").val()){
-						postData.mobile=$("#mobile").val();
-					}					
-                    if($("#email").val()){
-						postData.email=$("#email").val();
-					}					
+                    if ($(".search-box input[name=username]").val()) {
+                        postData.username = $(".search-box input[name=username]").val();
+                    }
+                    if ($(".search-box input[name=mobile]").val()) {
+                        postData.mobile = $(".search-box input[name=mobile]").val();
+                    }
+                    if ($(".search-box input[name=email]").val()) {
+                        postData.email = $(".search-box input[name=email]").val();
+                    }
                     $.ajax({
                         url: '/admin/api/users',
                         type: 'GET', //GET
                         data: postData,
                         timeout: 5000,    //超时时间
                         dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
-                        beforeSend: function (xhr,a,b) {
+                        beforeSend: function (xhr, a, b) {
                             console.log('发送前')
                         },
                         success: function (res, textStatus, jqXHR) {
@@ -409,13 +404,14 @@ desired effect
                         layer.msg(data.msg, { icon: 5 });
                         return
                     }
-                    $("#userId").val(id);
-                    $("#username").val(data.data.username);
-                    $("#gender").val(data.data.gender);
-                    $("#email").val(data.data.email);
-                    $("#mobile").val(data.data.mobile);
-                    $("#desc").val(data.data.description);
-                    $("#address").val(data.data.addr);
+                    let $updatedialog=$("#update-dialog");
+                    $updatedialog.find("input[name=userId]").val(id);
+                    $updatedialog.find("input[name=username]").val(data.data.username);
+                    $updatedialog.find("input[name=gender]").val(data.data.gender);
+                    $updatedialog.find("input[name=email]").val(data.data.email);
+                    $updatedialog.find("input[name=mobile]").val(data.data.mobile);
+                    $updatedialog.find("input[name=addr]").val(data.data.addr);
+                    $updatedialog.find("input[name=desc]").val(data.data.description);
                     layer.open({
                         type: 1,
                         area: ['500px', 'auto'],
@@ -424,20 +420,20 @@ desired effect
                         shadeClose: true, //点击遮罩关闭
                         content: $("#update-dialog"),
                         yes: function (index, layero) {
+                            let params = $updatedialog.find("form").serializeArray();
+                            var values = {};
+                            for (x in params) {
+                                values[params[x].name] = params[x].value;
+                            }
+                            values.userId=Number(values.userId);
+                            var idata = JSON.stringify(values)
+                            console.log(idata);
                             $.ajax({
                                 url: '/admin/api/user',
                                 type: 'PUT', //GET
                                 async: true,    //或false,是否异步
                                 contentType: 'application/json',
-                                data: JSON.stringify({
-                                    userId: Number($("#userId").val()),
-                                    username: $("#username").val(),
-                                    gender: $("#gender").val(),
-                                    email: $("#email").val(),
-                                    mobile: $("#mobile").val(),
-                                    desc: $("#desc").val(),
-                                    addr: $("#address").val()
-                                }),
+                                data: idata,
                                 timeout: 5000,    //超时时间
                                 dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
                                 success: function (data, textStatus, jqXHR) {
@@ -524,7 +520,7 @@ desired effect
                     });
                 })
             });
-            $("#search").on('click', function(){
+            $("#search").on('click', function () {
                 userList.ajax.reload();//( "sg" ).draw();
             })
         })
