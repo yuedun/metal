@@ -107,7 +107,7 @@ func (c *ArticleAPIController) ArticlesList() {
 		"title": args,
 	}
 
-	list, total, err := article.GetArticlesByCondition(param, start, perPage)
+	list, total, err := article.GetArticlesList(param, start, perPage)
 	if nil != err {
 		code = http.StatusInternalServerError
 		return

@@ -54,6 +54,7 @@ func (model *Article) Save() (int64, error) {
 	return o.Insert(model)
 }
 
+// 前台使用
 func (model *Article) GetArticlesByCondition(param map[string]string, pageIndex, pageSize int) (articles []Article, total int64, returnError error) {
 	o := orm.NewOrm()
 	var condition = ""
@@ -70,7 +71,7 @@ func (model *Article) GetArticlesByCondition(param map[string]string, pageIndex,
 	wg.Add(2)
 	go func() {
 		defer wg.Done()
-		var sql = "SELECT * FROM article WHERE status = 1"
+		var sql = "SELECT * FROM article WHERE status = 1 "
 		sql += condition
 		sql += " ORDER BY id DESC"
 		sql += " LIMIT ?, ?;"
@@ -82,6 +83,40 @@ func (model *Article) GetArticlesByCondition(param map[string]string, pageIndex,
 	go func() {
 		defer wg.Done()
 		var sql = "SELECT COUNT(0) FROM article WHERE status = 1"
+		sql += condition
+		err := o.Raw(sql).QueryRow(&total)
+		if err != nil {
+			returnError = err
+		}
+		logs.Debug("mysql row affected nums: ", total)
+	}()
+	wg.Wait()
+	return articles, total, returnError
+}
+
+// 后台使用
+func (model *Article) GetArticlesList(param map[string]string, pageIndex, pageSize int) (articles []Article, total int64, returnError error) {
+	o := orm.NewOrm()
+	var condition = ""
+	if param["title"] != "" {
+		condition += "WHERE 1 AND title LIKE '" + param["title"] + "%'"
+	}
+	var wg sync.WaitGroup
+	wg.Add(2)
+	go func() {
+		defer wg.Done()
+		var sql = "SELECT * FROM article "
+		sql += condition
+		sql += " ORDER BY id DESC"
+		sql += " LIMIT ?, ?;"
+		_, err := o.Raw(sql, pageIndex, pageSize).QueryRows(&articles)
+		if err != nil {
+			returnError = err
+		}
+	}()
+	go func() {
+		defer wg.Done()
+		var sql = "SELECT COUNT(0) FROM article "
 		sql += condition
 		err := o.Raw(sql).QueryRow(&total)
 		if err != nil {
