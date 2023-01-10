@@ -217,7 +217,7 @@ func (c *UserAPIController) UpdateUser() {
 		Addr     string `json:"addr"`
 		Desc     string `json:"desc"`
 	}
-	c.Bind(&form)
+	c.BindJSON(&form)
 	logs.Debug("%+v", form)
 
 	user := User{
