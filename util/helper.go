@@ -8,6 +8,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"math/rand"
 	"net/http"
 	"time"
 
@@ -208,4 +209,9 @@ func SendEmail(subject, body string, to []string) (err error) {
 	}
 	logs.Info("发送邮件成功")
 	return nil
+}
+
+func GetRandomWithAll(min, max int) int64 {
+	rand.Seed(time.Now().Unix())
+	return int64(rand.Intn(max-min+1) + min)
 }

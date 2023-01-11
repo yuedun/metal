@@ -5,6 +5,7 @@ import (
 	"encoding/base64"
 	"encoding/gob"
 	"fmt"
+	"log"
 	"metal/models"
 	_ "metal/routers"
 	"metal/util"
@@ -12,6 +13,7 @@ import (
 	"net/http/httptest"
 	"path/filepath"
 	"runtime"
+	"sync"
 	"testing"
 	"time"
 
@@ -92,4 +94,28 @@ func TestGobEncode(t *testing.T) {
 
 func TestEmail(t *testing.T) {
 	util.SendEmail("测试邮件", "测试内容", []string{""})
+}
+
+// 并发数控制
+func TestGoroutin(t *testing.T) {
+	var wg sync.WaitGroup
+	// 限制最大并发数为10
+	limitGoroutine := make(chan int, 10)
+	wg.Add(100)
+	for i := 0; i < 100; i++ {
+		// 每启动一个协程，就往channel里写入一位数
+		// limitGoroutine <- 0 //放这也行
+		go func(i int) {
+			limitGoroutine <- 0
+			// 并发请求获取信息
+			// 存入数据库
+			wg.Done()
+			sl := time.Duration(util.GetRandomWithAll(1, 10)) * time.Second
+			time.Sleep(sl)
+			log.Println(i, sl)
+			// 协程执行完退出时，就从channel里读一位数
+			<-limitGoroutine
+		}(i)
+	}
+	wg.Wait()
 }
