@@ -212,6 +212,5 @@ func SendEmail(subject, body string, to []string) (err error) {
 }
 
 func GetRandomWithAll(min, max int) int64 {
-	rand.Seed(time.Now().Unix())
 	return int64(rand.Intn(max-min+1) + min)
 }

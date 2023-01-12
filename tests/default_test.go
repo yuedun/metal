@@ -6,6 +6,7 @@ import (
 	"encoding/gob"
 	"fmt"
 	"log"
+	"math/rand"
 	"metal/models"
 	_ "metal/routers"
 	"metal/util"
@@ -25,6 +26,7 @@ import (
 )
 
 func init() {
+	rand.Seed(time.Now().Unix())
 	_, file, _, _ := runtime.Caller(0)
 	apppath, _ := filepath.Abs(filepath.Dir(filepath.Join(file, ".."+string(filepath.Separator))))
 	logs.Debug("apppath", apppath)
@@ -104,17 +106,19 @@ func TestGoroutin(t *testing.T) {
 	wg.Add(100)
 	for i := 0; i < 100; i++ {
 		// 每启动一个协程，就往channel里写入一位数
-		// limitGoroutine <- 0 //放这也行
+		limitGoroutine <- 0 //放这也行
 		go func(i int) {
-			limitGoroutine <- 0
+			// limitGoroutine <- 0
 			// 并发请求获取信息
 			// 存入数据库
-			wg.Done()
+			defer func() {
+				wg.Done()
+				// 协程执行完退出时，就从channel里读一位数
+				<-limitGoroutine
+			}()
 			sl := time.Duration(util.GetRandomWithAll(1, 10)) * time.Second
 			time.Sleep(sl)
 			log.Println(i, sl)
-			// 协程执行完退出时，就从channel里读一位数
-			<-limitGoroutine
 		}(i)
 	}
 	wg.Wait()

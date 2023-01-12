@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/gob"
+	"math/rand"
 	"metal/controllers"
 	_ "metal/routers"
 	"metal/util"
@@ -18,6 +19,7 @@ import (
 var port string
 
 func init() {
+	rand.Seed(time.Now().Unix())
 	dbUser, _ := config.String("mysqluser")
 	dbPass, _ := config.String("mysqlpass")
 	dbName, _ := config.String("mysqldb")
