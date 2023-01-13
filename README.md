@@ -65,3 +65,4 @@ GOOS=linux GOARCH=amd64 go build
 [图标库](https://iconpark.oceanengine.com/official)
 [beego](https://beego.gocn.vip/beego/zh/developing/)
 [七牛图片处理](https://developer.qiniu.com/dora/1279/basic-processing-images-imageview2)
+[后台模板](https://adminlte.io/themes/AdminLTE/index2.html#)

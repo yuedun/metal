@@ -123,3 +123,13 @@ func TestGoroutin(t *testing.T) {
 	}
 	wg.Wait()
 }
+
+func TestRedis(t *testing.T) {
+	util.ExampleNewClient()
+}
+
+func TestRequestByAjax3(t *testing.T) {
+	ch1 := make(chan util.JobDataLanguage)
+	go util.RequestByAjax3(ch1, "上海", "nodejs")
+	t.Log(">>>>ch1", <-ch1)
+}

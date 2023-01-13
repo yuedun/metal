@@ -158,7 +158,7 @@ func RequestByAjax(c chan JobDataLanguage, language, region string) {
 		logs.Error("解析body失败:", err2)
 	}
 	if resBody.State != 1 {
-		logs.Error("获取"+language+"数据为空!", fmt.Sprint("%+v", resBody))
+		logs.Error("获取"+language+"数据为空!", fmt.Sprintf("%+v", resBody))
 	}
 	countStr := resBody.Content.Data.Page.TotalCount
 	count, _ := strconv.Atoi(countStr)
@@ -177,7 +177,7 @@ func GetCookies(url string) []string {
 	if err != nil {
 		logs.Error("请求页面错误", err.Error())
 	}
-	logs.Info("%+v", resp.Header["Set-Cookie"])
+	logs.Info("Set-Cookie", resp, resp.Header["Set-Cookie"])
 	for key, val := range resp.Header["Set-Cookie"] {
 		logs.Debug(key, "-:", val)
 	}
@@ -200,17 +200,17 @@ func RequestByAjax3(c chan JobDataLanguage, region, language string) {
 	req.Header("User-Agent", "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1")
 	var resBody wapResBody
 	req.ToJSON(&resBody)
-	logs.Debug(">>>>>>%+v", resBody)
 	if resBody.State != 1 {
-		logs.Error("获取"+language+"数据为空!", fmt.Sprint("%+v", resBody))
+		logs.Error("获取"+language+"数据为空!", fmt.Sprintf("%+v", resBody))
 	}
 	countStr := resBody.Content.Data.Page.TotalCount
 	count, _ := strconv.Atoi(countStr)
-	c <- JobDataLanguage{
+	j := JobDataLanguage{
 		Count:    count,
 		Region:   region,
 		Language: language,
 	}
+	c <- j
 }
 
 // 保存数据
