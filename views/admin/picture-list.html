@@ -3,11 +3,11 @@
 This is a starter template page. Use this page to start your new project from
 scratch. This page gets rid of all links and provides the needed markup only.
 -->
-<html>
+<html lang="zh-cn-Hans">
 
 <head>
 	<title>图片列表</title>
-	{{template "admin/html-head.html" .}}
+	{{template "admin/partials/html-head.html" .}}
 </head>
 <!--
 BODY TAG OPTIONS:
@@ -34,9 +34,9 @@ desired effect
 	<div class="wrapper">
 
 		<!-- Main Header -->
-		{{template "admin/html-header.html" .}}
+		{{template "admin/partials/html-header.html" .}}
 		<!-- Left side column. contains the logo and sidebar -->
-		{{template "admin/html-aside.html" .}}
+		{{template "admin/partials/html-menu.html" .}}
 
 		<!-- Content Wrapper. Contains page content -->
 		<div class="content-wrapper">
@@ -73,8 +73,8 @@ desired effect
 									</thead>
 									<tbody>
 										{{/*<tr>
-                      <td></td>
-                    </tr>*/}}
+											<td></td>
+										</tr>*/}}
 									</tbody>
 									<tfoot>
 										<tr>
@@ -100,23 +100,16 @@ desired effect
 		<!-- /.content-wrapper -->
 
 		<!-- Main Footer -->
-		<footer class="main-footer">
-			<!-- To the right -->
-			<div class="pull-right hidden-xs">
-				Anything you want
-			</div>
-			<!-- Default to the left -->
-			<strong>Copyright &copy; 2016 <a href="#">Company</a>.</strong> All rights reserved.
-		</footer>
+		{{template "admin/partials/html-footer.html"}}
 
 		<!-- Control Sidebar -->
-		{{template "admin/html-control-sidebar.html"}}
+		{{template "admin/partials/html-control-sidebar.html"}}
 		<!-- /.Control-sidebar -->
 	</div>
 	<!-- ./wrapper -->
 
 	<!-- REQUIRED JS SCRIPTS -->
-	{{template "admin/html-js.html"}}
+	{{template "admin/partials/html-js.html"}}
 	<!-- /REQUIRED JS SCRIPTS -->
 
 	<!-- page script -->

@@ -3,10 +3,11 @@
 This is a starter template page. Use this page to start your new project from
 scratch. This page gets rid of all links and provides the needed markup only.
 -->
-<html>
+<html lang="zh-cn-Hans">
+
 <head>
-<title>登录日志</title>
-{{template "admin/html-head.html" .}}
+    <title>登录日志</title>
+    {{template "admin/partials/html-head.html" .}}
 </head>
 <!--
 BODY TAG OPTIONS:
@@ -28,161 +29,158 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
+
 <body class="hold-transition skin-blue sidebar-mini">
-<div class="wrapper">
+    <div class="wrapper">
 
-    <!-- Main Header -->
-{{template "admin/html-header.html" .}}
-    <!-- Left side column. contains the logo and sidebar -->
-{{template "admin/html-aside.html" .}}
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <h1>
-                日志列表
-            </h1>
-            <ol class="breadcrumb">
-                <li><a href="/admin/page/welcome"><i class="fa fa-dashboard"></i>首页</a></li>
-                <li class="active">日志列表</li>
-            </ol>
-        </section>
+        <!-- Main Header -->
+        {{template "admin/partials/html-header.html" .}}
+        <!-- Left side column. contains the logo and sidebar -->
+        {{template "admin/partials/html-menu.html" .}}
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    日志列表
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="/admin/page/welcome"><i class="fa fa-dashboard"></i>首页</a></li>
+                    <li class="active">日志列表</li>
+                </ol>
+            </section>
 
-        <!-- Main content -->
-        <section class="content">
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="box">
-                        <div class="box-header">
-                            <h3 class="box-title">Data Table With Full Features</h3>
+            <!-- Main content -->
+            <section class="content">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="box">
+                            <div class="box-header">
+                                <h3 class="box-title">Data Table With Full Features</h3>
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <table id="userlist" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>操作说明</th>
+                                            <th>创建时间</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{/*<tr>
+                                            <td></td>
+                                        </tr>*/}}
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>操作说明</th>
+                                            <th>创建时间</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <!-- /.box-body -->
                         </div>
-                        <!-- /.box-header -->
-                        <div class="box-body">
-                            <table id="userlist" class="table table-bordered table-striped">
-                                <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>操作说明</th>
-                                    <th>创建时间</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {{/*<tr><td></td></tr>*/}}
-                                </tbody>
-                                <tfoot>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>操作说明</th>
-                                    <th>创建时间</th>
-                                </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                        <!-- /.box-body -->
+                        <!-- /.box -->
                     </div>
-                    <!-- /.box -->
+                    <!-- /.col -->
                 </div>
-                <!-- /.col -->
-            </div>
-            <!-- /.row -->
-        </section>
-        <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
-
-    <!-- Main Footer -->
-    <footer class="main-footer">
-        <!-- To the right -->
-        <div class="pull-right hidden-xs">
-            Anything you want
+                <!-- /.row -->
+            </section>
+            <!-- /.content -->
         </div>
-        <!-- Default to the left -->
-        <strong>Copyright &copy; 2016 <a href="#">Company</a>.</strong> All rights reserved.
-    </footer>
+        <!-- /.content-wrapper -->
 
-    <!-- Control Sidebar -->
-    {{template "admin/html-control-sidebar.html"}}
-    <!-- /.Control-sidebar -->
-</div>
-<!-- ./wrapper -->
+        <!-- Main Footer -->
+        {{template "admin/partials/html-footer.html"}}
 
-<!-- REQUIRED JS SCRIPTS -->
-{{template "admin/html-js.html"}}
-<!-- /REQUIRED JS SCRIPTS -->
+        <!-- Control Sidebar -->
+        {{template "admin/partials/html-control-sidebar.html"}}
+        <!-- /.Control-sidebar -->
+    </div>
+    <!-- ./wrapper -->
 
-<!-- page script -->
-<script type="text/javascript">
-    $(function() {
-        //列表
-        var userList = $('#userlist').DataTable({
-            language: {
-                processing: "数据加载中……",
-                zeroRecords: "No records to display"
-            },
-            paging: true,
-            lengthChange: false,
-            searching: false,
-            ordering: true,
-            info: true,
-            scrollX: true,
-			autoWidth: true,
-            serverSide: true,
-            processing: true,
-            ajax: function (data, callback, settings) {
-                var postData = {
-                    draw: data.draw,
-                    perPage: 15,
-                    start: data.start,
-                    search: data.search.value
-                };
-                $.ajax({
-                    url: '/admin/api/logs',
-                    type: 'GET', //GET
-                    data: postData,
-                    timeout: 5000,    //超时时间
-                    dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
-                    beforeSend: function (xhr) {
-                        console.log('发送前')
-                    },
-                    success: function (res, textStatus, jqXHR) {
-                        if(res.code == 1){
-                            layer.msg(res.msg, {icon: 5});
-                            return
+    <!-- REQUIRED JS SCRIPTS -->
+    {{template "admin/partials/html-js.html"}}
+    <!-- /REQUIRED JS SCRIPTS -->
+
+    <!-- page script -->
+    <script type="text/javascript">
+        $(function () {
+            //列表
+            var userList = $('#userlist').DataTable({
+                language: {
+                    processing: "数据加载中……",
+                    zeroRecords: "No records to display"
+                },
+                paging: true,
+                lengthChange: false,
+                searching: false,
+                ordering: true,
+                info: true,
+                scrollX: true,
+                autoWidth: true,
+                serverSide: true,
+                processing: true,
+                ajax: function (data, callback, settings) {
+                    var postData = {
+                        draw: data.draw,
+                        perPage: 15,
+                        start: data.start,
+                        search: data.search.value
+                    };
+                    $.ajax({
+                        url: '/admin/api/logs',
+                        type: 'GET', //GET
+                        data: postData,
+                        timeout: 5000,    //超时时间
+                        dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                        beforeSend: function (xhr) {
+                            console.log('发送前')
+                        },
+                        success: function (res, textStatus, jqXHR) {
+                            if (res.code == 1) {
+                                layer.msg(res.msg, { icon: 5 });
+                                return
+                            }
+                            var dtData = {
+                                recordsTotal: res.data.total,
+                                recordsFiltered: res.data.total,
+                                data: res.data.result || [],
+                                draw: res.data.draw
+                            };
+                            callback(dtData);
+                        },
+                        error: function (xhr, textStatus) {
+                            console.log('错误')
+                        },
+                        complete: function () {
+                            console.log('结束')
                         }
-                        var dtData = {
-                            recordsTotal: res.data.total,
-                            recordsFiltered: res.data.total,
-                            data: res.data.result || [],
-                            draw: res.data.draw
-                        };
-                        callback(dtData);
-                    },
-                    error: function (xhr, textStatus) {
-                        console.log('错误')
-                    },
-                    complete: function () {
-                        console.log('结束')
+                    })
+                },
+                rowId: 'id',//自动设置行id
+                columns: [
+                    { data: 'id' },
+                    { data: 'mark' },
+                    {
+                        name: "created_at",
+                        data: "created_at",
+                        render: function (data, type, row, settings) {
+                            return moment(data).format("YYYY-MM-DD HH:mm:ss");
+                        }
                     }
-                })
-            },
-            rowId: 'id',//自动设置行id
-            columns: [
-                {data: 'id'},
-                {data: 'mark'},
-                {
-                    name: "created_at",
-                    data: "created_at",
-                    render: function (data, type, row, settings) {
-                        return moment(data).format("YYYY-MM-DD HH:mm:ss");
-                    }
+                ],
+                createdRow: function (row, data, dataIndex) {
+                    //有了DT_RowId属性就会自动添加id到行上,不需要在此操作，可以做其他事
+                    $(row).data("mark", data.mark);
                 }
-            ],
-            createdRow: function( row, data, dataIndex ) {
-                 //有了DT_RowId属性就会自动添加id到行上,不需要在此操作，可以做其他事
-                $(row).data("mark", data.mark);
-            }
-        });
-    })
-</script>
+            });
+        })
+    </script>
 </body>
+
 </html>

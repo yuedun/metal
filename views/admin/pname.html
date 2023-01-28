@@ -3,11 +3,11 @@
 This is a starter template page. Use this page to start your new project from
 scratch. This page gets rid of all links and provides the needed markup only.
 -->
-<html>
-    
+<html lang="zh-cn-Hans">
+
 <head>
-<title>通讯录</title>
-{{template "admin/html-head.html" .}}
+    <title>通讯录</title>
+    {{template "admin/partials/html-head.html" .}}
 </head>
 <!--
 BODY TAG OPTIONS:
@@ -29,307 +29,331 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
+
 <body class="hold-transition skin-blue sidebar-mini">
-<div class="wrapper">
-    <!-- Main Header -->
-{{template "admin/html-header.html" .}}
-    <!-- Left side column. contains the logo and sidebar -->
-{{template "admin/html-aside.html" .}}
+    <div class="wrapper">
+        <!-- Main Header -->
+        {{template "admin/partials/html-header.html" .}}
+        <!-- Left side column. contains the logo and sidebar -->
+        {{template "admin/partials/html-menu.html" .}}
 
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <h1>
-                文章列表
-            </h1>
-            <ol class="breadcrumb">
-                <li><a href="/admin/page/welcome"><i class="fa fa-dashboard"></i>首页</a></li>
-                <li class="active">文章列表</li>
-            </ol>
-        </section>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    文章列表
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="/admin/page/welcome"><i class="fa fa-dashboard"></i>首页</a></li>
+                    <li class="active">文章列表</li>
+                </ol>
+            </section>
 
-        <!-- Main content -->
-        <section class="content">
-            <div class="row">
-                <div class="col-md-3">
-                    <!-- Widget: user widget style 1 -->
-                    <div class="box box-widget widget-user-2">
-                        <!-- Add the bg color to the header using any of the bg-* classes -->
-                        <div class="widget-user-header bg-yellow">
-                            <div class="widget-user-image">
-                                <img class="img-circle" src="/static/dist/img/user7-128x128.jpg" alt="User Avatar">
-                            </div>
-                            <!-- /.widget-user-image -->
-                            <h3 class="widget-user-username">戈薇</h3>
-                            <h5 class="widget-user-desc">Lead Developer</h5>
-                        </div>
-                        <div class="box-footer no-padding">
-                            <ul class="list-group">
-                                <li class="list-group-item">
-                                    手机：18765676787 <a data-toggle="collapse" href="#collapseExample"><span class="pull-right badge bg-blue">2</span></a>
-                                </li>
-                                <div id="collapseExample" class="collapse">
-                                    <ul class="list-group">
-                                        <li class="list-group-item">手机2:18765676787</li>
-                                        <li class="list-group-item">手机3:18765676787</li>
-                                    </ul>
+            <!-- Main content -->
+            <section class="content">
+                <div class="row">
+                    <div class="col-md-3">
+                        <!-- Widget: user widget style 1 -->
+                        <div class="box box-widget widget-user-2">
+                            <!-- Add the bg color to the header using any of the bg-* classes -->
+                            <div class="widget-user-header bg-yellow">
+                                <div class="widget-user-image">
+                                    <img class="img-circle" src="/static/dist/img/user7-128x128.jpg" alt="User Avatar">
                                 </div>
-                                <li class="list-group-item">微信：wechat <span class="pull-right badge bg-aqua">1</span></li>
-                                <li class="list-group-item">QQ：4548978973 <span class="pull-right badge bg-green">2</span></li>
-                                <li class="list-group-item">邮箱：4548978973@qq.com <span class="pull-right badge bg-red">1</span></li>
-                                <li class="list-group-item">照片 <span class="pull-right badge bg-red">1</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- /.widget-user -->
-                </div>
-                <!-- /.col -->
-                <div class="col-md-3">
-                    <!-- Widget: user widget style 1 -->
-                    <div class="box box-widget widget-user-2">
-                        <!-- Add the bg color to the header using any of the bg-* classes -->
-                        <div class="widget-user-header bg-yellow">
-                            <div class="widget-user-image">
-                                <img class="img-circle" src="/static/dist/img/user7-128x128.jpg" alt="User Avatar">
+                                <!-- /.widget-user-image -->
+                                <h3 class="widget-user-username">戈薇</h3>
+                                <h5 class="widget-user-desc">Lead Developer</h5>
                             </div>
-                            <!-- /.widget-user-image -->
-                            <h3 class="widget-user-username">Nadia Carmichael</h3>
-                            <h5 class="widget-user-desc">Lead Developer</h5>
-                        </div>
-                        <div class="box-footer no-padding">
-                            <ul class="nav nav-stacked">
-                                <li><a data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">手机 <span class="pull-right badge bg-blue">31</span></a></li>
-                                <div id="collapseExample" class="collapse" role="tabpanel" aria-labelledby="headingOne">
-                                    <div class="panel-body">
-                                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                            <div class="box-footer no-padding">
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        手机：18765676787 <a data-toggle="collapse" href="#collapseExample"><span
+                                                class="pull-right badge bg-blue">2</span></a>
+                                    </li>
+                                    <div id="collapseExample" class="collapse">
+                                        <ul class="list-group">
+                                            <li class="list-group-item">手机2:18765676787</li>
+                                            <li class="list-group-item">手机3:18765676787</li>
+                                        </ul>
                                     </div>
-                                </div>
-                                <li><a href="#">微信 <span class="pull-right badge bg-aqua">5</span></a></li>
-                                <li><a href="#">QQ <span class="pull-right badge bg-green">12</span></a></li>
-                                <li><a href="#">邮箱 <span class="pull-right badge bg-red">842</span></a></li>
-                                <li><a href="#">照片 <span class="pull-right badge bg-red">842</span></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- /.widget-user -->
-                </div>
-                <!-- /.col -->
-                <div class="col-md-3">
-                    <!-- Widget: user widget style 1 -->
-                    <div class="box box-widget widget-user-2">
-                        <!-- Add the bg color to the header using any of the bg-* classes -->
-                        <div class="widget-user-header bg-yellow">
-                            <div class="widget-user-image">
-                                <img class="img-circle" src="/static/dist/img/user7-128x128.jpg" alt="User Avatar">
+                                    <li class="list-group-item">微信：wechat <span
+                                            class="pull-right badge bg-aqua">1</span></li>
+                                    <li class="list-group-item">QQ：4548978973 <span
+                                            class="pull-right badge bg-green">2</span></li>
+                                    <li class="list-group-item">邮箱：4548978973@qq.com <span
+                                            class="pull-right badge bg-red">1</span></li>
+                                    <li class="list-group-item">照片 <span class="pull-right badge bg-red">1</span></li>
+                                </ul>
                             </div>
-                            <!-- /.widget-user-image -->
-                            <h3 class="widget-user-username">Nadia Carmichael</h3>
-                            <h5 class="widget-user-desc">Lead Developer</h5>
                         </div>
-                        <div class="box-footer no-padding">
-                            <ul class="nav nav-stacked">
-                                <li><a data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">手机 <span class="pull-right badge bg-blue">31</span></a></li>
-                                <div id="collapseExample" class="collapse" role="tabpanel" aria-labelledby="headingOne">
-                                    <div class="panel-body">
-                                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                        <!-- /.widget-user -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-3">
+                        <!-- Widget: user widget style 1 -->
+                        <div class="box box-widget widget-user-2">
+                            <!-- Add the bg color to the header using any of the bg-* classes -->
+                            <div class="widget-user-header bg-yellow">
+                                <div class="widget-user-image">
+                                    <img class="img-circle" src="/static/dist/img/user7-128x128.jpg" alt="User Avatar">
+                                </div>
+                                <!-- /.widget-user-image -->
+                                <h3 class="widget-user-username">Nadia Carmichael</h3>
+                                <h5 class="widget-user-desc">Lead Developer</h5>
+                            </div>
+                            <div class="box-footer no-padding">
+                                <ul class="nav nav-stacked">
+                                    <li><a data-toggle="collapse" href="#collapseExample" aria-expanded="false"
+                                            aria-controls="collapseExample">手机 <span
+                                                class="pull-right badge bg-blue">31</span></a></li>
+                                    <div id="collapseExample" class="collapse" role="tabpanel"
+                                        aria-labelledby="headingOne">
+                                        <div class="panel-body">
+                                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
+                                            richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard
+                                            dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon
+                                            tempor, sunt aliqua put a bird on it squid single-origin coffee nulla
+                                            assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore
+                                            wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher
+                                            vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic
+                                            synth nesciunt you probably haven't heard of them accusamus labore
+                                            sustainable VHS.
+                                        </div>
                                     </div>
-                                </div>
-                                <li><a href="#">微信 <span class="pull-right badge bg-aqua">5</span></a></li>
-                                <li><a href="#">QQ <span class="pull-right badge bg-green">12</span></a></li>
-                                <li><a href="#">邮箱 <span class="pull-right badge bg-red">842</span></a></li>
-                                <li><a href="#">照片 <span class="pull-right badge bg-red">842</span></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- /.widget-user -->
-                </div>
-                <!-- /.col -->
-                <div class="col-md-3">
-                    <!-- Widget: user widget style 1 -->
-                    <div class="box box-widget widget-user-2">
-                        <!-- Add the bg color to the header using any of the bg-* classes -->
-                        <div class="widget-user-header bg-yellow">
-                            <div class="widget-user-image">
-                                <img class="img-circle" src="/static/dist/img/user7-128x128.jpg" alt="User Avatar">
+                                    <li><a href="#">微信 <span class="pull-right badge bg-aqua">5</span></a></li>
+                                    <li><a href="#">QQ <span class="pull-right badge bg-green">12</span></a></li>
+                                    <li><a href="#">邮箱 <span class="pull-right badge bg-red">842</span></a></li>
+                                    <li><a href="#">照片 <span class="pull-right badge bg-red">842</span></a></li>
+                                </ul>
                             </div>
-                            <!-- /.widget-user-image -->
-                            <h3 class="widget-user-username">Nadia Carmichael</h3>
-                            <h5 class="widget-user-desc">Lead Developer</h5>
                         </div>
-                        <div class="box-footer no-padding">
-                            <ul class="nav nav-stacked">
-                                <li><a data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">手机 <span class="pull-right badge bg-blue">31</span></a></li>
-                                <div id="collapseExample" class="collapse">
-                                    <ul class="nav nav-stacked">
-                                        <li><a href="#">微信 <span class="pull-right badge bg-aqua">5</span></a></li>
-                                        <li><a href="#">QQ <span class="pull-right badge bg-green">12</span></a></li>
-                                        <li><a href="#">邮箱 <span class="pull-right badge bg-red">842</span></a></li>
-                                        <li><a href="#">照片 <span class="pull-right badge bg-red">842</span></a></li>
-                                    </ul>
-                                </div>
-                                <li><a href="#">微信 <span class="pull-right badge bg-aqua">5</span></a></li>
-                                <li><a href="#">QQ <span class="pull-right badge bg-green">12</span></a></li>
-                                <li><a href="#">邮箱 <span class="pull-right badge bg-red">842</span></a></li>
-                                <li><a href="#">照片 <span class="pull-right badge bg-red">842</span></a></li>
-                            </ul>
-                        </div>
+                        <!-- /.widget-user -->
                     </div>
-                    <!-- /.widget-user -->
+                    <!-- /.col -->
+                    <div class="col-md-3">
+                        <!-- Widget: user widget style 1 -->
+                        <div class="box box-widget widget-user-2">
+                            <!-- Add the bg color to the header using any of the bg-* classes -->
+                            <div class="widget-user-header bg-yellow">
+                                <div class="widget-user-image">
+                                    <img class="img-circle" src="/static/dist/img/user7-128x128.jpg" alt="User Avatar">
+                                </div>
+                                <!-- /.widget-user-image -->
+                                <h3 class="widget-user-username">Nadia Carmichael</h3>
+                                <h5 class="widget-user-desc">Lead Developer</h5>
+                            </div>
+                            <div class="box-footer no-padding">
+                                <ul class="nav nav-stacked">
+                                    <li><a data-toggle="collapse" href="#collapseExample" aria-expanded="false"
+                                            aria-controls="collapseExample">手机 <span
+                                                class="pull-right badge bg-blue">31</span></a></li>
+                                    <div id="collapseExample" class="collapse" role="tabpanel"
+                                        aria-labelledby="headingOne">
+                                        <div class="panel-body">
+                                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
+                                            richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard
+                                            dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon
+                                            tempor, sunt aliqua put a bird on it squid single-origin coffee nulla
+                                            assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore
+                                            wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher
+                                            vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic
+                                            synth nesciunt you probably haven't heard of them accusamus labore
+                                            sustainable VHS.
+                                        </div>
+                                    </div>
+                                    <li><a href="#">微信 <span class="pull-right badge bg-aqua">5</span></a></li>
+                                    <li><a href="#">QQ <span class="pull-right badge bg-green">12</span></a></li>
+                                    <li><a href="#">邮箱 <span class="pull-right badge bg-red">842</span></a></li>
+                                    <li><a href="#">照片 <span class="pull-right badge bg-red">842</span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- /.widget-user -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-3">
+                        <!-- Widget: user widget style 1 -->
+                        <div class="box box-widget widget-user-2">
+                            <!-- Add the bg color to the header using any of the bg-* classes -->
+                            <div class="widget-user-header bg-yellow">
+                                <div class="widget-user-image">
+                                    <img class="img-circle" src="/static/dist/img/user7-128x128.jpg" alt="User Avatar">
+                                </div>
+                                <!-- /.widget-user-image -->
+                                <h3 class="widget-user-username">Nadia Carmichael</h3>
+                                <h5 class="widget-user-desc">Lead Developer</h5>
+                            </div>
+                            <div class="box-footer no-padding">
+                                <ul class="nav nav-stacked">
+                                    <li><a data-toggle="collapse" href="#collapseExample" aria-expanded="false"
+                                            aria-controls="collapseExample">手机 <span
+                                                class="pull-right badge bg-blue">31</span></a></li>
+                                    <div id="collapseExample" class="collapse">
+                                        <ul class="nav nav-stacked">
+                                            <li><a href="#">微信 <span class="pull-right badge bg-aqua">5</span></a></li>
+                                            <li><a href="#">QQ <span class="pull-right badge bg-green">12</span></a>
+                                            </li>
+                                            <li><a href="#">邮箱 <span class="pull-right badge bg-red">842</span></a></li>
+                                            <li><a href="#">照片 <span class="pull-right badge bg-red">842</span></a></li>
+                                        </ul>
+                                    </div>
+                                    <li><a href="#">微信 <span class="pull-right badge bg-aqua">5</span></a></li>
+                                    <li><a href="#">QQ <span class="pull-right badge bg-green">12</span></a></li>
+                                    <li><a href="#">邮箱 <span class="pull-right badge bg-red">842</span></a></li>
+                                    <li><a href="#">照片 <span class="pull-right badge bg-red">842</span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- /.widget-user -->
+                    </div>
+                    <!-- /.col -->
                 </div>
-                <!-- /.col -->
-            </div>
-            <!-- /.row -->
-        </section>
-        <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
-
-    <!-- Main Footer -->
-    <footer class="main-footer">
-        <!-- To the right -->
-        <div class="pull-right hidden-xs">
-            Anything you want
+                <!-- /.row -->
+            </section>
+            <!-- /.content -->
         </div>
-        <!-- Default to the left -->
-        <strong>Copyright &copy; 2016 <a href="#">Company</a>.</strong> All rights reserved.
-    </footer>
+        <!-- /.content-wrapper -->
 
-    <!-- Control Sidebar -->
-    {{template "admin/html-control-sidebar.html"}}
-    <!-- /.Control-sidebar -->
-</div>
-<!-- ./wrapper -->
+        <!-- Main Footer -->
+        {{template "admin/partials/html-footer.html"}}
 
-<!-- 弹窗内容-->
+        <!-- Control Sidebar -->
+        {{template "admin/partials/html-control-sidebar.html"}}
+        <!-- /.Control-sidebar -->
+    </div>
+    <!-- ./wrapper -->
 
-<!-- /弹窗内容-->
+    <!-- 弹窗内容-->
 
-<!-- REQUIRED JS SCRIPTS -->
-{{template "admin/html-js.html"}}
-<!-- /REQUIRED JS SCRIPTS -->
+    <!-- /弹窗内容-->
 
-<!-- page script -->
-<script type="text/javascript">
-    $(function() {
-        //列表
-        var articlelist = $('#articlelist').DataTable({
-            language: {
-                processing: "数据加载中……",
-                zeroRecords: "No records to display"
-            },
-            paging: true,
-            lengthChange: false,
-            searching: true,
-            ordering: true,
-            info: true,
-            scrollX: true,
-			autoWidth: true,
-            serverSide: true,
-            processing: true,
-            ajax: function (data, callback, settings) {
-                var postData = {
-                    draw: data.draw,
-                    perPage: data.length,
-                    start: data.start,
-                    search: data.search.value
-                };
-                $.ajax({
-                    url: '/admin/api/articles',
-                    type: 'GET', //GET
-                    data: postData,
-                    timeout: 5000,    //超时时间
-                    dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
-                    beforeSend: function (xhr) {
-                        console.log('发送前')
-                    },
-                    success: function (res, textStatus, jqXHR) {
-                        if(res.code == 1){
-                            layer.msg(res.msg, {icon: 5});
-                            return
+    <!-- REQUIRED JS SCRIPTS -->
+    {{template "admin/partials/html-js.html"}}
+    <!-- /REQUIRED JS SCRIPTS -->
+
+    <!-- page script -->
+    <script type="text/javascript">
+        $(function () {
+            //列表
+            var articlelist = $('#articlelist').DataTable({
+                language: {
+                    processing: "数据加载中……",
+                    zeroRecords: "No records to display"
+                },
+                paging: true,
+                lengthChange: false,
+                searching: true,
+                ordering: true,
+                info: true,
+                scrollX: true,
+                autoWidth: true,
+                serverSide: true,
+                processing: true,
+                ajax: function (data, callback, settings) {
+                    var postData = {
+                        draw: data.draw,
+                        perPage: data.length,
+                        start: data.start,
+                        search: data.search.value
+                    };
+                    $.ajax({
+                        url: '/admin/api/articles',
+                        type: 'GET', //GET
+                        data: postData,
+                        timeout: 5000,    //超时时间
+                        dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                        beforeSend: function (xhr) {
+                            console.log('发送前')
+                        },
+                        success: function (res, textStatus, jqXHR) {
+                            if (res.code == 1) {
+                                layer.msg(res.msg, { icon: 5 });
+                                return
+                            }
+                            var dtData = {
+                                recordsTotal: res.data.total,
+                                recordsFiltered: res.data.total,
+                                data: res.data.result || [],
+                                draw: res.data.draw
+                            };
+                            callback(dtData);
+                        },
+                        error: function (xhr, textStatus) {
+                            console.log('错误')
+                        },
+                        complete: function () {
+                            console.log('结束')
                         }
-                        var dtData = {
-                            recordsTotal: res.data.total,
-                            recordsFiltered: res.data.total,
-                            data: res.data.result || [],
-                            draw: res.data.draw
-                        };
-                        callback(dtData);
-                    },
-                    error: function (xhr, textStatus) {
-                        console.log('错误')
-                    },
-                    complete: function () {
-                        console.log('结束')
-                    }
-                })
-            },
-            rowId: 'id',//自动设置行id
-            columns: [
-                {data: 'id'},
-                {data: 'title'},
-                {data: 'status'},
-                {data: 'category'},
-                {data: 'keywords'},
-                {
-                    data: 'created_at',
-                    render: function (data, type, row) {
-                        return moment(data).format("YYYY-MM-DD HH:mm:ss");
-                    }
+                    })
                 },
-                {
-                    data: 'updated_at',
-                    render: function (data, type, row) {
-                        return moment(data).format("YYYY-MM-DD HH:mm:ss");
+                rowId: 'id',//自动设置行id
+                columns: [
+                    { data: 'id' },
+                    { data: 'title' },
+                    { data: 'status' },
+                    { data: 'category' },
+                    { data: 'keywords' },
+                    {
+                        data: 'created_at',
+                        render: function (data, type, row) {
+                            return moment(data).format("YYYY-MM-DD HH:mm:ss");
+                        }
+                    },
+                    {
+                        data: 'updated_at',
+                        render: function (data, type, row) {
+                            return moment(data).format("YYYY-MM-DD HH:mm:ss");
+                        }
+                    },
+                    {
+                        data: 'title',
+                        render: function (data, type, row) {
+                            var html = '<a class="J-update" href="/admin/page/article-edit?id=' + row.id + '">编辑</a>'
+                            return html;
+                        }
                     }
-                },
-                {
-                    data: 'title',
-                    render: function (data, type, row) {
-                        var html = '<a class="J-update" href="/admin/page/article-edit?id='+row.id+'">编辑</a>'
-                        return html;
-                    }
+                ],
+                "createdRow": function (row, data, dataIndex) {
+                    //有了DT_RowId属性就会自动添加id到行上,不需要在此操作，可以做其他事
+                    $(row).data("userName", data.userName);
                 }
-            ],
-            "createdRow": function( row, data, dataIndex ) {
-                 //有了DT_RowId属性就会自动添加id到行上,不需要在此操作，可以做其他事
-                $(row).data("userName", data.userName);
-            }
-        });
-        //删除
-        $("#articlelist").on("click", ".J-delete", function () {
-            var id = $(this).closest("tr").attr("id");
-            if (confirm("确定删除？")) {
-                $.ajax({
-                    url: '/admin/api/articles/delete',
-                    type: 'post', //GET
-                    async: true,    //或false,是否异步
-                    data: {
-                        userId: id
-                    },
-                    timeout: 5000,    //超时时间
-                    dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
-                    beforeSend: function (xhr) {
-                        console.log('发送前')
-                    },
-                    success: function (data, textStatus, jqXHR) {
-                        if (data.code == 1){
-                            layer.msg(data.msg, {icon: 5});
-                            return
+            });
+            //删除
+            $("#articlelist").on("click", ".J-delete", function () {
+                var id = $(this).closest("tr").attr("id");
+                if (confirm("确定删除？")) {
+                    $.ajax({
+                        url: '/admin/api/articles/delete',
+                        type: 'post', //GET
+                        async: true,    //或false,是否异步
+                        data: {
+                            userId: id
+                        },
+                        timeout: 5000,    //超时时间
+                        dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                        beforeSend: function (xhr) {
+                            console.log('发送前')
+                        },
+                        success: function (data, textStatus, jqXHR) {
+                            if (data.code == 1) {
+                                layer.msg(data.msg, { icon: 5 });
+                                return
+                            }
+                            layer.msg("删除成功！", { icon: 6 });
+                            articlelist.ajax.reload();
+                        },
+                        error: function (xhr, textStatus) {
+                            console.log('错误')
+                        },
+                        complete: function () {
+                            console.log('结束')
                         }
-                        layer.msg("删除成功！", {icon: 6});
-                        articlelist.ajax.reload();
-                    },
-                    error: function (xhr, textStatus) {
-                        console.log('错误')
-                    },
-                    complete: function () {
-                        console.log('结束')
-                    }
-                })
-            }
-        });
-    })
-</script>
+                    })
+                }
+            });
+        })
+    </script>
 </body>
+
 </html>

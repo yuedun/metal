@@ -3,10 +3,11 @@
 This is a starter template page. Use this page to start your new project from
 scratch. This page gets rid of all links and provides the needed markup only.
 -->
-<html>
+<html lang="zh-cn-Hans">
+
 <head>
-<title>添加用户</title>
-{{template "admin/html-head.html"}}
+    <title>添加用户</title>
+    {{template "admin/partials/html-head.html"}}
 </head>
 <!--
 BODY TAG OPTIONS:
@@ -28,149 +29,144 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
+
 <body class="hold-transition skin-blue sidebar-mini">
-<div class="wrapper">
+    <div class="wrapper">
 
-    <!-- Main Header -->
-{{template "admin/html-header.html" .}}
-    <!-- Left side column. contains the logo and sidebar -->
-{{template "admin/html-aside.html"}}
+        <!-- Main Header -->
+        {{template "admin/partials/html-header.html" .}}
+        <!-- Left side column. contains the logo and sidebar -->
+        {{template "admin/partials/html-menu.html"}}
 
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <h1>
-                General Form Elements
-                <small>Preview</small>
-            </h1>
-            <ol class="breadcrumb">
-                <li><a href="/admin/page/welcome"><i class="fa fa-dashboard"></i>首页</a></li>
-                <li><a href="#">Forms</a></li>
-                <li class="active">General Elements</li>
-            </ol>
-        </section>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    General Form Elements
+                    <small>Preview</small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="/admin/page/welcome"><i class="fa fa-dashboard"></i>首页</a></li>
+                    <li><a href="#">Forms</a></li>
+                    <li class="active">General Elements</li>
+                </ol>
+            </section>
 
-        <!-- Main content -->
-        <section class="content">
-            <div class="row">
-                <!-- left column -->
-                <div class="col-md-6">
-                    <!-- general form elements -->
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Quick Example</h3>
+            <!-- Main content -->
+            <section class="content">
+                <div class="row">
+                    <!-- left column -->
+                    <div class="col-md-6">
+                        <!-- general form elements -->
+                        <div class="box box-primary">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Quick Example</h3>
+                            </div>
+                            <!-- /.box-header -->
+                            <!-- form start -->
+                            <form role="form" method="post" action="" onsubmit="return false;">
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label for="name">name</label>
+                                        <input type="text" class="form-control" id="username" name="username"
+                                            placeholder="username">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="gender">gender</label>
+                                        <select name="sex" class="form-control">
+                                            <option value="0">女</option>
+                                            <option value="1">男</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="mobile">mobile</label>
+                                        <input type="text" class="form-control" id="mobile" name="mobile"
+                                            placeholder="mobile">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">email</label>
+                                        <input type="text" class="form-control" id="email" name="email"
+                                            placeholder="email">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="address">address</label>
+                                        <input type="text" class="form-control" id="address" name="addr"
+                                            placeholder="addr">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="description">description</label>
+                                        <input type="text" class="form-control" id="description" name="description"
+                                            placeholder="description">
+                                    </div>
+                                </div>
+                                <!-- /.box-body -->
+                                <div class="box-footer">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </form>
                         </div>
-                        <!-- /.box-header -->
-                        <!-- form start -->
-                        <form role="form" method="post" action="" onsubmit="return false;">
-                            <div class="box-body">
-                                <div class="form-group">
-                                    <label for="name">name</label>
-                                    <input type="text" class="form-control" id="username" name="username"
-                                           placeholder="username">
-                                </div>
-                                <div class="form-group">
-                                    <label for="gender">gender</label>
-                                    <select name="sex" class="form-control">
-                                        <option value="0">女</option>
-                                        <option value="1">男</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="mobile">mobile</label>
-                                    <input type="text" class="form-control" id="mobile" name="mobile"
-                                           placeholder="mobile">
-                                </div>
-                                <div class="form-group">
-                                    <label for="email">email</label>
-                                    <input type="text" class="form-control" id="email" name="email" placeholder="email">
-                                </div>
-                                <div class="form-group">
-                                    <label for="address">address</label>
-                                    <input type="text" class="form-control" id="address" name="addr" placeholder="addr">
-                                </div>
-                                <div class="form-group">
-                                    <label for="description">description</label>
-                                    <input type="text" class="form-control" id="description" name="description"
-                                           placeholder="description">
-                                </div>
-                            </div>
-                            <!-- /.box-body -->
-                            <div class="box-footer">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
-                        </form>
+                        <!-- /.box -->
                     </div>
-                    <!-- /.box -->
+                    <!--/.col (left) -->
                 </div>
-                <!--/.col (left) -->
-            </div>
-            <!-- /.row -->
-        </section>
-        <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
-
-    <!-- Main Footer -->
-    <footer class="main-footer">
-        <!-- To the right -->
-        <div class="pull-right hidden-xs">
-            Anything you want
+                <!-- /.row -->
+            </section>
+            <!-- /.content -->
         </div>
-        <!-- Default to the left -->
-        <strong>Copyright &copy; 2016 <a href="#">Company</a>.</strong> All rights reserved.
-    </footer>
+        <!-- /.content-wrapper -->
 
-    <!-- Control Sidebar -->
-    {{template "admin/html-control-sidebar.html"}}
-    <!-- /.control-sidebar -->
-    <!-- Add the sidebar's background. This div must be placed
-    immediately after the control sidebar -->
-    <div class="control-sidebar-bg"></div>
-</div>
-<!-- ./wrapper -->
+        <!-- Main Footer -->
+        {{template "admin/partials/html-footer.html"}}
 
-<!-- REQUIRED JS SCRIPTS -->
-{{template "admin/html-js.html"}}
-<!-- /REQUIRED JS SCRIPTS -->
+        <!-- Control Sidebar -->
+        {{template "admin/partials/html-control-sidebar.html"}}
+        <!-- /.control-sidebar -->
 
-<!-- page script -->
-<script>
-    $(function () {
-        $("form").on("submit", function () {
-            var params = $("form").serializeArray();
-            var values = {};
-            for( x in params ){
-                values[params[x].name] = params[x].value;
-            }
-            var idata = JSON.stringify(values)
-            $.ajax({
-                url: '/admin/api/user',
-                type: 'post', //GET
-                async: true,    //或false,是否异步
-                data: idata,
-                timeout: 5000,    //超时时间
-                dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
-                beforeSend: function (xhr) {
-                    console.log('发送前')
-                },
-                success: function (data, textStatus, jqXHR) {
-                    if (data.code !== 0) {
-                        layer.msg(data.msg, { icon: 5 });
-                        return
-                    }
-                    layer.msg(data.msg)
-                },
-                error: function (xhr, textStatus) {
-                    console.log('错误', textStatus)
-                },
-                complete: function () {
-                    console.log('结束')
+    </div>
+    <!-- ./wrapper -->
+
+    <!-- REQUIRED JS SCRIPTS -->
+    {{template "admin/partials/html-js.html"}}
+    <!-- /REQUIRED JS SCRIPTS -->
+
+    <!-- page script -->
+    <script>
+        $(function () {
+            $("form").on("submit", function () {
+                var params = $("form").serializeArray();
+                var values = {};
+                for (x in params) {
+                    values[params[x].name] = params[x].value;
                 }
-            })
-        });
-    })
-</script>
+                var idata = JSON.stringify(values)
+                $.ajax({
+                    url: '/admin/api/user',
+                    type: 'post', //GET
+                    async: true,    //或false,是否异步
+                    data: idata,
+                    timeout: 5000,    //超时时间
+                    dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                    beforeSend: function (xhr) {
+                        console.log('发送前')
+                    },
+                    success: function (data, textStatus, jqXHR) {
+                        if (data.code !== 0) {
+                            layer.msg(data.msg, { icon: 5 });
+                            return
+                        }
+                        layer.msg(data.msg)
+                    },
+                    error: function (xhr, textStatus) {
+                        console.log('错误', textStatus)
+                    },
+                    complete: function () {
+                        console.log('结束')
+                    }
+                })
+            });
+        })
+    </script>
 </body>
+
 </html>

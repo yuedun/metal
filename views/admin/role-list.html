@@ -3,11 +3,11 @@
 This is a starter template page. Use this page to start your new project from
 scratch. This page gets rid of all links and provides the needed markup only.
 -->
-<html>
+<html lang="zh-cn-Hans">
 
 <head>
     <title>角色管理</title>
-    {{template "admin/html-head.html" .}}
+    {{template "admin/partials/html-head.html" .}}
     <style>
         .td {
             word-break: break-all;
@@ -39,9 +39,9 @@ desired effect
     <div class="wrapper">
 
         <!-- Main Header -->
-        {{template "admin/html-header.html" .}}
+        {{template "admin/partials/html-header.html" .}}
         <!-- Left side column. contains the logo and sidebar -->
-        {{template "admin/html-aside.html" .}}
+        {{template "admin/partials/html-menu.html" .}}
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
@@ -103,17 +103,10 @@ desired effect
         <!-- /.content-wrapper -->
 
         <!-- Main Footer -->
-        <footer class="main-footer">
-            <!-- To the right -->
-            <div class="pull-right hidden-xs">
-                Anything you want
-            </div>
-            <!-- Default to the left -->
-            <strong>Copyright &copy; 2016 <a href="#">Company</a>.</strong> All rights reserved.
-        </footer>
+        {{template "admin/partials/html-footer.html"}}
 
         <!-- Control Sidebar -->
-        {{template "admin/html-control-sidebar.html"}}
+        {{template "admin/partials/html-control-sidebar.html"}}
         <!-- /.Control-sidebar -->
     </div>
     <!-- ./wrapper -->
@@ -131,8 +124,7 @@ desired effect
                     <div class="box-body">
                         <div class="form-group">
                             <label for="roleName">角色</label>
-                            <input type="text" class="form-control" name="roleName"
-                                placeholder="roleName">
+                            <input type="text" class="form-control" name="roleName" placeholder="roleName">
                         </div>
                         <div class="form-group">
                             <label for="permissions">permissions</label>
@@ -160,13 +152,12 @@ desired effect
                     <div class="box-body">
                         <div class="form-group">
                             <label for="roleName">角色</label>
-                            <input type="text" class="form-control" name="roleName"
-                                placeholder="roleName">
+                            <input type="text" class="form-control" name="roleName" placeholder="roleName">
                         </div>
                         <div class="form-group">
                             <label for="permissions">权限</label>
-                            <textarea type="text" class="form-control" name="permissions" rows="10"
-                                cols="100" placeholder="permissions"></textarea>
+                            <textarea type="text" class="form-control" name="permissions" rows="10" cols="100"
+                                placeholder="permissions"></textarea>
                         </div>
                     </div>
                 </form>
@@ -176,7 +167,7 @@ desired effect
     </div>
 
     <!-- REQUIRED JS SCRIPTS -->
-    {{template "admin/html-js.html"}}
+    {{template "admin/partials/html-js.html"}}
     <!-- /REQUIRED JS SCRIPTS -->
 
     <!-- page script -->
@@ -194,7 +185,7 @@ desired effect
                 ordering: true,
                 info: true,
                 scrollX: true,
-				autoWidth: true,
+                autoWidth: true,
                 serverSide: true,
                 processing: true,
                 ajax: function (data, callback, settings) {
@@ -355,30 +346,30 @@ desired effect
                 var id = $(this).closest("tr").attr("id");
                 layer.confirm('确定删除？', {
                     btn: ['确定', '取消'] //按钮
-                }, function (index,layero) {
+                }, function (index, layero) {
                     $.ajax({
-                            url: '/admin/api/roles/delete/'+id,
-                            type: 'DELETE', //GET
-                            async: true,    //或false,是否异步
-                            timeout: 5000,    //超时时间
-                            dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
-                            success: function (data, textStatus, jqXHR) {
-                                if (data.code !== 0) {
-                                    layer.msg(data.msg, { icon: 5 });
-                                    return
-                                }
-                                layer.msg("删除成功！", { icon: 6 });
-                                layer.close(index); //如果设定了yes回调，需进行手工关闭
-                                dataList.ajax.reload();
-                            },
-                            error: function (xhr, textStatus) {
-                                layer.msg("删除失败！", { icon: 5 });
-                            },
-                            complete: function () {
-
+                        url: '/admin/api/roles/delete/' + id,
+                        type: 'DELETE', //GET
+                        async: true,    //或false,是否异步
+                        timeout: 5000,    //超时时间
+                        dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                        success: function (data, textStatus, jqXHR) {
+                            if (data.code !== 0) {
+                                layer.msg(data.msg, { icon: 5 });
+                                return
                             }
-                        })
-                }, function (index,layero) {
+                            layer.msg("删除成功！", { icon: 6 });
+                            layer.close(index); //如果设定了yes回调，需进行手工关闭
+                            dataList.ajax.reload();
+                        },
+                        error: function (xhr, textStatus) {
+                            layer.msg("删除失败！", { icon: 5 });
+                        },
+                        complete: function () {
+
+                        }
+                    })
+                }, function (index, layero) {
                     layer.close(index);
                 });
             });

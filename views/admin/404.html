@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-cn-Hans">
 
 <head>
   <title>{{.content}}</title>
-  {{template "admin/html-head.html"}}
+  {{template "admin/partials/html-head.html"}}
   <link rel="stylesheet" href="/static/plugins/editor.md/css/editormd.css">
 </head>
 
@@ -11,9 +11,9 @@
   <div class="wrapper">
 
     <!-- Main Header -->
-    {{template "admin/html-header.html" .}}
+    {{template "admin/partials/html-header.html" .}}
     <!-- Left side column. contains the logo and sidebar -->
-    {{template "admin/html-aside.html"}}
+    {{template "admin/partials/html-menu.html"}}
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -33,31 +33,23 @@
             <h3><i class="fa fa-warning text-yellow"></i>{{.content}}</h3>
             <p>
               若您使用的是访客账号，可尝试注册新账号登陆。
-               <a href="/admin/page/register">去注册</a>
+              <a href="/admin/page/register">去注册</a>
             </p>
           </div>
         </div>
       </section>
     </div>
     <!-- /.content-wrapper -->
-    <footer class="main-footer">
-      <div class="pull-right hidden-xs">
-        <b>Version</b> 2.4.0
-      </div>
-      <strong>Copyright &copy; 2014-2016 <a href="#">Almsaeed Studio</a>.</strong> All rights
-      reserved.
-    </footer>
+    {{template "admin/partials/html-footer.html"}}
 
     <!-- Control Sidebar -->
-    {{template "admin/html-control-sidebar.html"}}
+    {{template "admin/partials/html-control-sidebar.html"}}
     <!-- /.control-sidebar -->
-    <!-- Add the sidebar's background. This div must be placed
-       immediately after the control sidebar -->
-    <div class="control-sidebar-bg"></div>
+
   </div>
   <!-- ./wrapper -->
   <!-- REQUIRED JS SCRIPTS -->
-  {{template "admin/html-js.html"}}
+  {{template "admin/partials/html-js.html"}}
   <!-- Bootstrap WYSIHTML5 -->
   <script src="../../static/plugins/editor.md/editormd.min.js"></script>
   <!-- /REQUIRED JS SCRIPTS -->

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-cn-Hans">
 
 <head>
   <title>新建文章</title>
-  {{template "admin/html-head.html"}}
+  {{template "admin/partials/html-head.html"}}
   <link rel="stylesheet" href="/static/plugins/editor.md/css/editormd.css">
 </head>
 
@@ -11,9 +11,9 @@
   <div class="wrapper">
 
     <!-- Main Header -->
-    {{template "admin/html-header.html" .}}
+    {{template "admin/partials/html-header.html" .}}
     <!-- Left side column. contains the logo and sidebar -->
-    {{template "admin/html-aside.html"}}
+    {{template "admin/partials/html-menu.html"}}
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -57,12 +57,13 @@
                     <div class="col-lg-6">
                       <div class="form-group">
                         <label for="art_category">gender</label>
-                        <input type="text" class="form-control" id="art_category" list="catelist" value="{{.article.Category}}" placeholder="分类">
+                        <input type="text" class="form-control" id="art_category" list="catelist"
+                          value="{{.article.Category}}" placeholder="分类">
                         <datalist id="catelist">
                           <option value="">选择</option>
                           {{range $index, $item := .categories}}
                           <option value="{{$item.Name}}">
-                          {{end}}
+                            {{end}}
                         </datalist>
                       </div>
                     </div>
@@ -87,24 +88,16 @@
       <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
-    <footer class="main-footer">
-      <div class="pull-right hidden-xs">
-        <b>Version</b> 2.4.0
-      </div>
-      <strong>Copyright &copy; 2014-2016 <a href="#">Almsaeed Studio</a>.</strong> All rights
-      reserved.
-    </footer>
+    {{template "admin/partials/html-footer.html"}}
 
     <!-- Control Sidebar -->
-    {{template "admin/html-control-sidebar.html"}}
+    {{template "admin/partials/html-control-sidebar.html"}}
     <!-- /.control-sidebar -->
-    <!-- Add the sidebar's background. This div must be placed
-       immediately after the control sidebar -->
-    <div class="control-sidebar-bg"></div>
+
   </div>
   <!-- ./wrapper -->
   <!-- REQUIRED JS SCRIPTS -->
-  {{template "admin/html-js.html"}}
+  {{template "admin/partials/html-js.html"}}
   <!-- Bootstrap WYSIHTML5 -->
   <script src="../../static/plugins/editor.md/editormd.min.js"></script>
   <!-- /REQUIRED JS SCRIPTS -->
