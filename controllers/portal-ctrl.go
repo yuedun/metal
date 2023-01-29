@@ -24,13 +24,6 @@ type PortalController struct {
 	beego.Controller
 }
 
-//用户如果没有进行注册，那么就会通过反射来执行对应的函数，如果注册了就会通过 interface 来进行执行函数
-//官方文档说可以提高性能
-// func (c *PortalController) URLMapping() {
-// 	c.Mapping("Get", c.Get)
-// 	c.Mapping("MyRoute", c.MyRoute)
-// }
-
 // 预处理，会在下面每个路由执行前执行，可当做前置中间件使用
 func (c *PortalController) Prepare() {
 	val, _ := beego.AppConfig.String("runmode")
@@ -210,6 +203,9 @@ func (c *PortalController) Message() {
 }
 
 func (c *PortalController) CreateMessage() {
+	defer func() {
+		c.ServeJSON()
+	}()
 	nickName := c.GetString("nickName")
 	email := c.GetString("email")
 	content := c.GetString("content")
@@ -218,6 +214,7 @@ func (c *PortalController) CreateMessage() {
 			Code: 1,
 			Msg:  "留言失败！",
 		}
+		return
 	}
 	message := Message{}
 	message.NickName = nickName
@@ -230,11 +227,11 @@ func (c *PortalController) CreateMessage() {
 			Code: 1,
 			Msg:  "留言失败！",
 		}
+		return
 	}
 	c.Data["json"] = Result{
 		Msg: "留言成功",
 	}
-	c.ServeJSON()
 }
 
 func (c *PortalController) Registration() {
