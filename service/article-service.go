@@ -8,7 +8,7 @@ import (
 	"github.com/beego/beego/v2/core/logs"
 )
 
-type ArticleService interface {
+type IArticleService interface {
 	Save(article Article) (int64, error)
 	GetArticlesByCondition(param map[string]string, pageIndex, pageSize int) (articles []Article, total int64, returnError error)
 	GetById() error
@@ -17,20 +17,21 @@ type ArticleService interface {
 	GetCategory() ([]Article, error)
 }
 
-type articleService struct {
+type ArticleService struct {
+	orm orm.Ormer
 }
 
-func NewService() ArticleService {
-	return &articleService{}
+func NewArticleService(o orm.Ormer) IArticleService {
+	return &ArticleService{
+		orm: o,
+	}
 }
 
-func (a *articleService) Save(article Article) (int64, error) {
-	o := orm.NewOrm()
-	return o.Insert(&article)
+func (s *ArticleService) Save(article Article) (int64, error) {
+	return s.orm.Insert(&article)
 }
 
-func (a *articleService) GetArticlesByCondition(param map[string]string, pageIndex, pageSize int) (articles []Article, total int64, returnError error) {
-	o := orm.NewOrm()
+func (s *ArticleService) GetArticlesByCondition(param map[string]string, pageIndex, pageSize int) (articles []Article, total int64, returnError error) {
 	var condition = ""
 	if param["title"] != "" {
 		condition += " AND title LIKE '" + param["title"] + "%'"
@@ -43,7 +44,7 @@ func (a *articleService) GetArticlesByCondition(param map[string]string, pageInd
 		sql += condition
 		sql += " ORDER BY id DESC"
 		sql += " LIMIT ?, ?;"
-		_, err := o.Raw(sql, pageIndex, pageSize).QueryRows(&articles)
+		_, err := s.orm.Raw(sql, pageIndex, pageSize).QueryRows(&articles)
 		if err != nil {
 			returnError = err
 		}
@@ -52,7 +53,7 @@ func (a *articleService) GetArticlesByCondition(param map[string]string, pageInd
 		defer wg.Done()
 		var sql = "SELECT COUNT(0) FROM article WHERE status = 1"
 		sql += condition
-		err := o.Raw(sql).QueryRow(&total)
+		err := s.orm.Raw(sql).QueryRow(&total)
 		if err != nil {
 			returnError = err
 		}
@@ -62,26 +63,23 @@ func (a *articleService) GetArticlesByCondition(param map[string]string, pageInd
 	return articles, total, returnError
 }
 
-func (article *articleService) GetById() error {
-	o := orm.NewOrm()
-	err := o.Read(article, "id")
+func (s *ArticleService) GetById() error {
+	err := s.orm.Read(&Article{}, "id")
 	return err
 }
 
-func (article *articleService) Update() (int64, error) {
-	o := orm.NewOrm()
-	id, err := o.Update(article, "title", "content", "updated_at")
-	return id, err
-}
-func (article *articleService) Delete() (int64, error) {
-	o := orm.NewOrm()
-	id, err := o.Delete(article)
+func (s *ArticleService) Update() (int64, error) {
+	id, err := s.orm.Update((*Article)(nil), "title", "content", "updated_at")
 	return id, err
 }
 
-func (article *articleService) GetCategory() ([]Article, error) {
-	o := orm.NewOrm()
+func (s *ArticleService) Delete() (int64, error) {
+	id, err := s.orm.Delete((*Article)(nil), "id")
+	return id, err
+}
+
+func (s *ArticleService) GetCategory() ([]Article, error) {
 	titles := make([]Article, 1)
-	_, err := o.Raw("SELECT id, title FROM article WHERE status = 1 ORDER BY id DESC;").QueryRows(&titles)
+	_, err := s.orm.Raw("SELECT id, title FROM article WHERE status = 1 ORDER BY id DESC;").QueryRows(&titles)
 	return titles, err
 }

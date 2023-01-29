@@ -61,7 +61,7 @@ func (c *ArticleAPIController) CreateArticle() {
 	article.Status = 1
 	article.CreatedAt = time.Now()
 	article.UpdatedAt = time.Now()
-	articleService := service.NewService()
+	articleService := service.NewArticleService(orm.NewOrm())
 	_, err = articleService.Save(article)
 
 	categoryRec := &Category{Name: category}

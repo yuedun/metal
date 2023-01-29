@@ -46,14 +46,13 @@ func (s *PermissionService) GetPermissionList() ([]Permission, error) {
  * 根据userid获取usergroup list
  */
 func (s *PermissionService) GetPermissionsByUserId(userId uint) ([]Role, error) {
-	o := orm.NewOrm()
 	var userPermission []Role
 	qb, _ := orm.NewQueryBuilder("mysql")
 	qb.Select("role.permissions").From("role").InnerJoin("user_role as ur").On("role.id = ur.role_id").Where("ur.user_id = ?")
 	// 导出 SQL 语句
 	sql := qb.String()
 	// 执行 SQL 语句
-	_, err := o.Raw(sql, userId).QueryRows(&userPermission)
+	_, err := s.orm.Raw(sql, userId).QueryRows(&userPermission)
 
 	if nil != err {
 		return nil, err
@@ -97,16 +96,15 @@ func (s *PermissionService) UpdateUserRoles(userId uint, roleIds []uint) error {
 
 // GetRolesAndUserPermission 获取所有权限和单个用户拥有的权限
 func (s *PermissionService) GetRolesAndUserPermission(userId int) (allRoles []Role, userRoles []uint, err error) {
-	o := orm.NewOrm()
 	var wg sync.WaitGroup
 	wg.Add(2)
 	go func() {
 		defer wg.Done()
-		_, err = o.Raw("SELECT id, description FROM role ORDER BY id DESC;").QueryRows(&allRoles)
+		_, err = s.orm.Raw("SELECT id, description FROM role ORDER BY id DESC;").QueryRows(&allRoles)
 	}()
 	go func() {
 		defer wg.Done()
-		_, err = o.Raw("SELECT role_id FROM user_role WHERE user_id = ? ORDER BY id DESC;", userId).QueryRows(&userRoles)
+		_, err = s.orm.Raw("SELECT role_id FROM user_role WHERE user_id = ? ORDER BY id DESC;", userId).QueryRows(&userRoles)
 	}()
 	wg.Wait()
 	return
@@ -132,8 +130,7 @@ func (s *PermissionService) GetRolesList(search Role, offset, limit int) (allRol
 
 // 创建角色
 func (s *PermissionService) CreateRole(role Role) (int64, error) {
-	o := orm.NewOrm()
-	id, err := o.Insert(role) // 要修改的对象和需要修改的字段
+	id, err := s.orm.Insert(role) // 要修改的对象和需要修改的字段
 	return id, err
 }
 
@@ -150,10 +147,9 @@ func (s *PermissionService) DeleteRole(id uint) (int64, error) {
 }
 
 func (s *PermissionService) GetUserGroupList() ([]UserRole, error) {
-	o := orm.NewOrm()
 	var userGroups []UserRole
 	//var userGroups []orm.Params//orm.Params是一个map类型
-	num, err := o.Raw("select * from user_group order by id desc;").QueryRows(&userGroups)
+	num, err := s.orm.Raw("select * from user_group order by id desc;").QueryRows(&userGroups)
 	if nil != err && num > 0 {
 		return nil, err
 	}
@@ -164,10 +160,9 @@ func (s *PermissionService) GetUserGroupList() ([]UserRole, error) {
  * 根据userid获取usergroup list
  */
 func (s *PermissionService) GetGroupByUserId(userId int) ([]UserRole, error) {
-	o := orm.NewOrm()
 	var userGroups []UserRole
 	//var userGroups []orm.Params//orm.Params是一个map类型
-	num, err := o.Raw("select * from user_group where user_id = ?;", userId).QueryRows(&userGroups)
+	num, err := s.orm.Raw("select * from user_group where user_id = ?;", userId).QueryRows(&userGroups)
 	if nil != err && num > 0 {
 		return nil, err
 	}
