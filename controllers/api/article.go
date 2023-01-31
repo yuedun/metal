@@ -42,12 +42,14 @@ func (c *ArticleAPIController) CreateArticle() {
 	if title == "" {
 		logs.Warn("title不能为空")
 		err = fmt.Errorf("title不能为空")
+		code = http.StatusBadRequest
 		return
 	}
 	content := c.GetString("content")
 	if content == "" {
 		logs.Warn("content不能为空")
 		err = fmt.Errorf("content不能为空")
+		code = http.StatusBadRequest
 		return
 	}
 	category := c.GetString("category")
@@ -63,16 +65,79 @@ func (c *ArticleAPIController) CreateArticle() {
 	article.UpdatedAt = time.Now()
 	articleService := service.NewArticleService(orm.NewOrm())
 	_, err = articleService.Save(article)
-
+	if err != nil {
+		logs.Warn("创建文章失败")
+		err = fmt.Errorf("创建文章失败")
+		code = http.StatusInternalServerError
+		return
+	}
 	categoryRec := &Category{Name: category}
-	err2 := categoryRec.GetByName()
-	if err2 == orm.ErrNoRows || err2 == orm.ErrMissPK {
+	err = categoryRec.GetByName()
+	if err == orm.ErrNoRows || err == orm.ErrMissPK {
 		logs.Debug("【%s】分类记录不存在，去创建！", category)
-		categoryRec.CreatedAt = time.Now()
-		categoryRec.UpdatedAt = time.Now()
 		categoryRec.Create()
 	}
-	if nil != err {
+}
+
+/**
+ * 修改文章接口
+ * /admin/page/article/:id
+ */
+func (c *ArticleAPIController) ArticleEdit() {
+	var err error
+	var code int
+	var data interface{}
+	defer func(start time.Time) {
+		var rsp controllers.Result
+		rsp.Code = code
+		rsp.Cost = time.Since(start).Milliseconds()
+		rsp.Msg = http.StatusText(code)
+		if err != nil {
+			rsp.Msg = fmt.Sprintf("%s - %s", rsp.Msg, err.Error())
+			logs.Error(rsp.Msg)
+			c.Data["json"] = c.ErrorData(err, code)
+		} else {
+			c.Data["json"] = c.SuccessData(data)
+		}
+		c.ServeJSON()
+	}(time.Now())
+	article := new(Article)
+	artId, _ := strconv.Atoi(c.Ctx.Input.Param(":id"))
+	title := c.GetString("title")
+	if title == "" {
+		logs.Warn("title不能为空")
+		err = fmt.Errorf("title不能为空")
+		code = http.StatusBadRequest
+		return
+	}
+	content := c.GetString("content")
+	if content == "" {
+		logs.Warn("content不能为空")
+		err = fmt.Errorf("content不能为空")
+		code = http.StatusBadRequest
+		return
+	}
+	category := c.GetString("category")
+	keywords := c.GetString("keywords")
+	article.Id = uint(artId)
+	article.Title = title
+	article.Content = content
+	article.Category = category
+	article.Keywords = keywords
+	article.UpdatedAt = time.Now()
+	_, err = article.Update()
+	if err != nil {
+		logs.Warn("更新文章失败")
+		err = fmt.Errorf("更新文章失败")
+		code = http.StatusInternalServerError
+		return
+	}
+	categoryRec := &Category{Name: category}
+	err = categoryRec.GetByName()
+	if err == orm.ErrNoRows || err == orm.ErrMissPK {
+		logs.Debug(err)
+		logs.Debug("【%s】分类记录不存在，去创建！", category)
+		categoryRec.Create()
 		return
 	}
 }
@@ -116,55 +181,6 @@ func (c *ArticleAPIController) ArticlesList() {
 			"result": list,
 			"total":  total,
 		}
-	}
-}
-
-/**
- * 修改文章接口
- * /admin/page/article/:id
- */
-func (c *ArticleAPIController) ArticleEdit() {
-	var err error
-	var code int
-	var data interface{}
-	defer func(start time.Time) {
-		var rsp controllers.Result
-		rsp.Code = code
-		rsp.Cost = time.Since(start).Milliseconds()
-		rsp.Msg = http.StatusText(code)
-		if err != nil {
-			rsp.Msg = fmt.Sprintf("%s - %s", rsp.Msg, err.Error())
-			logs.Error(rsp.Msg)
-			c.Data["json"] = c.ErrorData(err, code)
-		} else {
-			c.Data["json"] = c.SuccessData(data)
-		}
-		c.ServeJSON()
-	}(time.Now())
-	article := new(Article)
-	artId, _ := strconv.Atoi(c.Ctx.Input.Param(":id"))
-	title := c.GetString("title")
-	content := c.GetString("content")
-	category := c.GetString("category")
-	keywords := c.GetString("keywords")
-	article.Id = uint(artId)
-	article.Title = title
-	article.Content = content
-	article.Category = category
-	article.Keywords = keywords
-	article.UpdatedAt = time.Now()
-	_, err = article.Update()
-	if err != nil {
-		return
-	}
-	categoryRec := &Category{Name: category}
-	err = categoryRec.GetByName()
-	if err == orm.ErrNoRows || err == orm.ErrMissPK {
-		logs.Debug("【%s】分类记录不存在，去创建！", category)
-		categoryRec.CreatedAt = time.Now()
-		categoryRec.UpdatedAt = time.Now()
-		categoryRec.Create()
-		return
 	}
 }
 

@@ -66,8 +66,6 @@ desired effect
                                         <tr>
                                             <th>ID</th>
                                             <th>name</th>
-                                            <th>createdAt</th>
-                                            <th>updatedAt</th>
                                             <th width="120px">操作</th>
                                         </tr>
                                     </thead>
@@ -80,8 +78,6 @@ desired effect
                                         <tr>
                                             <th>ID</th>
                                             <th>name</th>
-                                            <th>createdAt</th>
-                                            <th>updatedAt</th>
                                             <th>操作</th>
                                         </tr>
                                     </tfoot>
@@ -114,7 +110,7 @@ desired effect
             <!-- general form elements -->
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Quick Example</h3>
+                    <h3 class="box-title">创建分类</h3>
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
@@ -144,7 +140,7 @@ desired effect
             <!-- general form elements -->
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Quick Example</h3>
+                    <h3 class="box-title">修改分类</h3>
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
@@ -177,8 +173,8 @@ desired effect
                     zeroRecords: "No records to display"
                 },
                 paging: true,
-                lengthChange: false,
-                searching: true,
+                lengthChange: true,
+                searching: false,
                 ordering: true,
                 info: true,
                 scrollX: true,
@@ -225,11 +221,9 @@ desired effect
                 rowId: 'id',//自动设置行id
                 columns: [
                     { data: 'id' },
-                    { data: 'name' },
-                    { data: 'created_at' },
-                    { data: 'updated_at' },
+                    { data: 'name', width: '100px' },
                     {
-                        data: 'mobile',
+                        data: 'id',
                         render: function (data, type, row) {
                             var html = '<a href="javascript:void(0);" class="J-update">编辑</a>';
                             return html;
