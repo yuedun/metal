@@ -34,6 +34,7 @@ func (c *PortalController) Prepare() {
 	c.Data["description"] = "golang,beego v2博客,管理后台"
 	ctr, method := c.GetControllerAndAction()
 	logs.Debug("包:%s, 结构体:请求方法:%s:%s", reflect.TypeOf(PortalController{}).PkgPath(), ctr, method)
+	logs.Info("IP:%s URL:%s", c.Ctx.Input.Header("Remote_addr"), c.Ctx.Request.URL)
 }
 
 // 收尾处理，在路由执行完执行，已经渲染了数据，所以Finish里设置数据不会渲染到模板中
@@ -86,7 +87,6 @@ func (c *PortalController) Get() {
 		c.Data["pageNo"] = pageNo
 		c.Data["pageSize"] = pageSize
 	}
-	logs.Info("首页访问ip:", c.Ctx.Input.Header("Remote_addr"))
 	//默认tpl或html后缀
 	c.TplName = "index.html"
 }
@@ -120,7 +120,7 @@ func (c *PortalController) Article() {
 	articlePortal.UpdatedAt = article.UpdatedAt.Format("2006-01-02 15:04")
 	c.Data["article"] = articlePortal
 	c.Data["zero"] = uint(0)
-	logs.Info("博客详情:", article.Title, c.Ctx.Input.Header("Remote_addr"))
+	logs.Info("博客详情:", article.Title)
 	c.TplName = "article.html"
 }
 

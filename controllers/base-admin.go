@@ -79,6 +79,7 @@ var HasAdminPermission = func(ctx *context.Context) {
  *这个函数会在每个Method方法之前执行，用户可以重写这个函数实现类似用户验证之类
  */
 func (c *AdminBaseController) Prepare() {
+	logs.Info("IP:%s URL:%s", c.Ctx.Input.Header("Remote_addr"), c.Ctx.Request.URL)
 	// 凡是继承了AdminBaseController的controller都会自动执行该方法进行权限校验
 	// 因为前端用户界面不需要权限验证，管理后台才需要
 	session := c.GetSession("loginUser")
