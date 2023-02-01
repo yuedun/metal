@@ -58,10 +58,27 @@ desired effect
                         <div class="box">
                             <div class="box-header">
                                 <h3 class="box-title">Data Table With Full Features</h3>
+                                <div class="search-box">
+                                    <form class="form-inline" onsubmit="return false">
+                                        <div class="form-group">
+                                            <label for="title">title:</label>
+                                            <input type="text" class="form-control" name="title" placeholder="">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="category">category:</label>
+                                            <input type="text" class="form-control" name="category" placeholder="">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="keywords">keywords:</label>
+                                            <input type="text" class="form-control" name="keywords" placeholder="">
+                                        </div>
+                                        <button type="submit" id="search" class="btn btn-default">搜索</button>
+                                    </form>
+                                </div>
                             </div>
                             <!-- /.box-header -->
                             <div class="box-body">
-                                <table id="articlelist" class="table table-bordered table-striped">
+                                <table id="dataList" class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
@@ -126,14 +143,14 @@ desired effect
     <script type="text/javascript">
         $(function () {
             //列表
-            var articlelist = $('#articlelist').DataTable({
+            var dataList = $('#dataList').DataTable({
                 language: {
                     processing: "数据加载中……",
                     zeroRecords: "No records to display"
                 },
                 paging: true,
                 lengthChange: false,
-                searching: true,
+                searching: false,
                 ordering: true,
                 info: true,
                 scrollX: true,
@@ -147,6 +164,15 @@ desired effect
                         start: data.start,
                         search: data.search.value
                     };
+                    if ($(".search-box input[name=title]").val()) {
+                        postData.title = $(".search-box input[name=title]").val();
+                    }
+                    if ($(".search-box input[name=category]").val()) {
+                        postData.category = $(".search-box input[name=category]").val();
+                    }
+                    if ($(".search-box input[name=keywords]").val()) {
+                        postData.keywords = $(".search-box input[name=keywords]").val();
+                    }
                     $.ajax({
                         url: '/admin/api/articles',
                         type: 'GET', //GET
@@ -210,7 +236,7 @@ desired effect
                 }
             });
             //删除
-            $("#articlelist").on("click", ".J-delete", function () {
+            $("#dataList").on("click", ".J-delete", function () {
                 var id = $(this).closest("tr").attr("id");
                 if (confirm("确定删除？")) {
                     $.ajax({
@@ -231,7 +257,7 @@ desired effect
                                 return
                             }
                             layer.msg("删除成功！", { icon: 6 });
-                            articlelist.ajax.reload();
+                            dataList.ajax.reload();
                         },
                         error: function (xhr, textStatus) {
                             console.log('错误')
@@ -242,6 +268,10 @@ desired effect
                     })
                 }
             });
+            $("#search").on('click', function () {
+                dataList.ajax.reload();
+                // dataList.draw(false);//两种方式都可以带参查询
+            })
         })
     </script>
 </body>

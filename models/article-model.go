@@ -97,9 +97,15 @@ func (model *Article) GetArticlesByCondition(param map[string]string, pageIndex,
 // 后台使用
 func (model *Article) GetArticlesList(param map[string]string, pageIndex, pageSize int) (articles []Article, total int64, returnError error) {
 	o := orm.NewOrm()
-	var condition = ""
+	var condition = "WHERE 1"
 	if param["title"] != "" {
-		condition += "WHERE 1 AND title LIKE '" + param["title"] + "%'"
+		condition += " AND title LIKE '" + param["title"] + "%'"
+	}
+	if param["category"] != "" {
+		condition += " AND category LIKE '%" + param["category"] + "%'"
+	}
+	if param["keywords"] != "" {
+		condition += " AND keywords LIKE '%" + param["keywords"] + "%'"
 	}
 	var wg sync.WaitGroup
 	wg.Add(2)

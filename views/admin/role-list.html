@@ -63,6 +63,16 @@ desired effect
                         <div class="box">
                             <div class="box-header">
                                 <h3 class="box-title">Data Table With Full Features</h3>
+                                <div class="search-box">
+                                    <form class="form-inline" onsubmit="return false">
+                                        <div class="form-group">
+                                            <label for="role">角色:</label>
+                                            <input type="text" class="form-control" name="role" placeholder="">
+                                        </div>
+                                        <button type="submit" id="search" class="btn btn-default">搜索</button>
+                                        <button type="button" id="J-create" class="btn btn-primary J-create">新增</button>
+                                    </form>
+                                </div>
                             </div>
                             <!-- /.box-header -->
                             <div class="box-body">
@@ -181,7 +191,7 @@ desired effect
                 },
                 paging: true,
                 lengthChange: false,
-                searching: true,
+                searching: false,
                 ordering: true,
                 info: true,
                 scrollX: true,
@@ -246,12 +256,7 @@ desired effect
                     $(row).data("persmissions", data.permissions);
                 }
             });
-            // 新增按钮
-            $('#dataList_wrapper').find('.row').eq(0).find('.col-sm-6').eq(0).html('<div class="btn-group">'
-                + '<button type="button" class="btn btn-info J-create"><i class="fa fa-plus">新增</i></button>'
-                + '</div>');
-
-            $('#dataList_wrapper').delegate('.J-create', 'click', function () {
+            $('.search-box').on('click', '.J-create', function () {
                 layer.open({
                     type: 1,
                     area: ['500px', 'auto'],

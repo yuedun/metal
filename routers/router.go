@@ -51,7 +51,7 @@ func init() {
 			beego.NSCtrlGet("/movies", (*page.AdminPageController).Movies),
 		),
 		beego.NSNamespace("/api",
-			beego.NSBefore(controllers.HasAdminPermission), //过滤器
+			// beego.NSBefore(controllers.HasAdminPermission), //过滤器
 			beego.NSCtrlPost("/to-login", (*api.UserAPIController).ToLogin),
 			beego.NSCtrlGet("/login-out", (*api.UserAPIController).LoginOut),
 			beego.NSCtrlGet("/user/disable/:id", (*api.UserAPIController).DisableUser),
@@ -61,8 +61,8 @@ func init() {
 			beego.NSCtrlPost("/user", (*api.UserAPIController).CreateUser),
 			beego.NSCtrlPut("/user", (*api.UserAPIController).UpdateUser),
 			beego.NSCtrlGet("/users", (*api.UserAPIController).UserList),
-			beego.NSCtrlPost("/article", (*api.ArticleAPIController).CreateArticle),
-			beego.NSCtrlGet("/articles", (*api.ArticleAPIController).ArticlesList),
+			beego.NSCtrlPost("/article", (*api.ArticleAPIController).ArticleCreate),
+			beego.NSCtrlGet("/articles", (*api.ArticleAPIController).ArticleList),
 			beego.NSCtrlPut("/article/:id", (*api.ArticleAPIController).ArticleEdit),
 			beego.NSCtrlDelete("/article/:id", (*api.ArticleAPIController).ArticleDelete),
 			beego.NSCtrlGet("/logs", (*api.AdminAPIController).GetLogs),

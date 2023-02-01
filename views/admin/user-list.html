@@ -56,6 +56,7 @@ desired effect
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="box">
+                            <!-- .box-header -->
                             <div class="box-header">
                                 <div class="search-box">
                                     <form class="form-inline" onsubmit="return false">
@@ -77,7 +78,7 @@ desired effect
                             </div>
                             <!-- /.box-header -->
                             <div class="box-body">
-                                <table id="userlist" class="table table-bordered table-striped">
+                                <table id="dataList" class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
@@ -222,7 +223,7 @@ desired effect
     <script type="text/javascript">
         $(function () {
             //列表
-            var userList = $('#userlist').DataTable({
+            var dataList = $('#dataList').DataTable({
                 language: {
                     processing: "数据加载中……",
                     zeroRecords: "No records to display"
@@ -324,7 +325,7 @@ desired effect
                 }
             });
             //禁用
-            $("#userlist").on("click", ".J-disable", function () {
+            $("#dataList").on("click", ".J-disable", function () {
                 var id = $(this).closest("tr").attr("id");
                 if (confirm("禁用后不可登录，确定？")) {
                     $.ajax({
@@ -345,7 +346,7 @@ desired effect
                                 return
                             }
                             layer.msg("操作成功！", { icon: 6 });
-                            userList.ajax.reload();
+                            dataList.ajax.reload();
                         },
                         error: function (xhr, textStatus) {
                             console.log('错误')
@@ -357,7 +358,7 @@ desired effect
                 }
             });
             //启用
-            $("#userlist").on("click", ".J-enable", function () {
+            $("#dataList").on("click", ".J-enable", function () {
                 var id = $(this).closest("tr").attr("id");
                 if (confirm("确定启用？")) {
                     $.ajax({
@@ -378,7 +379,7 @@ desired effect
                                 return
                             }
                             layer.msg("操作成功！", { icon: 6 });
-                            userList.ajax.reload();
+                            dataList.ajax.reload();
                         },
                         error: function (xhr, textStatus) {
                             console.log('错误')
@@ -390,7 +391,7 @@ desired effect
                 }
             });
             //修改
-            $("#userlist").on("click", ".J-update", function () {
+            $("#dataList").on("click", ".J-update", function () {
                 var id = $(this).closest("tr").attr("id");
                 $.get("/admin/api/user/" + id, function (data) {
                     if (data.code !== 0) {
@@ -436,7 +437,7 @@ desired effect
                                     }
                                     layer.msg("修改成功！", { icon: 6 });
                                     layer.close(index); //如果设定了yes回调，需进行手工关闭
-                                    userList.ajax.reload();
+                                    dataList.ajax.reload();
                                 },
                                 error: function (xhr, textStatus) {
                                     layer.msg("修改失败！", { icon: 5 });
@@ -452,7 +453,7 @@ desired effect
                 })
             });
             //权限
-            $("#userlist").on("click", ".J-permission", function () {
+            $("#dataList").on("click", ".J-permission", function () {
                 var userId = $(this).closest("tr").attr("id");
                 var userName = $(this).closest("tr").data("username");
                 $.get("/admin/api/user-roles/" + userId, function (data) {
@@ -498,7 +499,7 @@ desired effect
                                     }
                                     layer.msg("修改成功！", { icon: 6 });
                                     layer.close(index); //如果设定了yes回调，需进行手工关闭
-                                    userList.ajax.reload();
+                                    dataList.ajax.reload();
                                 },
                                 error: function (xhr, textStatus) {
                                     layer.msg("修改失败！", { icon: 5 });
@@ -514,7 +515,7 @@ desired effect
                 })
             });
             $("#search").on('click', function () {
-                userList.ajax.reload();//( "sg" ).draw();
+                dataList.ajax.reload();//( "sg" ).draw();
             })
         })
     </script>

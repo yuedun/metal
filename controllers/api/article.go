@@ -20,7 +20,7 @@ type ArticleAPIController struct {
 /**
  * 创建文章接口
  */
-func (c *ArticleAPIController) CreateArticle() {
+func (c *ArticleAPIController) ArticleCreate() {
 	var err error
 	var code int
 	var data interface{}
@@ -146,7 +146,7 @@ func (c *ArticleAPIController) ArticleEdit() {
  * 文章列表接口
  * /admin/page/articles
  */
-func (c *ArticleAPIController) ArticlesList() {
+func (c *ArticleAPIController) ArticleList() {
 	var err error
 	var code int
 	var data interface{}
@@ -164,12 +164,16 @@ func (c *ArticleAPIController) ArticlesList() {
 		}
 		c.ServeJSON()
 	}(time.Now())
-	args := c.GetString("search") // 获取所有参数
+	title := c.GetString("title")
+	category := c.GetString("category")
+	keywords := c.GetString("keywords")
 	start, _ := c.GetInt("start")
 	perPage, _ := c.GetInt("perPage")
 	article := new(Article)
 	param := map[string]string{
-		"title": args,
+		"title":    title,
+		"category": category,
+		"keywords": keywords,
 	}
 
 	list, total, err := article.GetArticlesList(param, start, perPage)
