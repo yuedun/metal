@@ -183,7 +183,7 @@ func (c *AdminAPIController) CountDataAll() {
 }
 
 // AddPicture 保存图片
-func (c *AdminAPIController) AddPicture() {
+func (c *AdminAPIController) PictureAdd() {
 	var err error
 	var code int
 	var data interface{}
@@ -231,7 +231,7 @@ func (c *AdminAPIController) AddPicture() {
 }
 
 // ListPicture 图片列表
-func (c *AdminAPIController) ListPicture() {
+func (c *AdminAPIController) PictureList() {
 	var err error
 	var code int
 	var data interface{}
@@ -266,7 +266,7 @@ func (c *AdminAPIController) ListPicture() {
 }
 
 // DeletePicture 删除图片
-func (c *AdminAPIController) DeletePicture() {
+func (c *AdminAPIController) PictureDelete() {
 	var err error
 	var code int
 	var data interface{}
@@ -415,7 +415,7 @@ func (c *AdminAPIController) GetRolesList() {
 	}
 }
 
-func (c *AdminAPIController) CreateRole() {
+func (c *AdminAPIController) RoleCreate() {
 	roleName := c.GetString("roleName")
 	permissions := c.GetString("permissions")
 	role := Role{
@@ -432,7 +432,7 @@ func (c *AdminAPIController) CreateRole() {
 	c.ServeJSON()
 }
 
-func (c *AdminAPIController) UpdateRole() {
+func (c *AdminAPIController) RoleUpdate() {
 	roleId := c.GetString("roleId")
 	ridint, _ := strconv.Atoi(roleId)
 	rid := uint(ridint)
@@ -454,7 +454,7 @@ func (c *AdminAPIController) UpdateRole() {
 }
 
 // 删除角色
-func (c *AdminAPIController) DeleteRole() {
+func (c *AdminAPIController) RoleDelete() {
 	var err error
 	var code int
 	var data interface{}
@@ -503,7 +503,7 @@ func (c *AdminAPIController) Categories() {
 }
 
 // 创建分类
-func (c *AdminAPIController) CreateCategories() {
+func (c *AdminAPIController) CategoriesCreate() {
 	name := c.GetString("name")
 	category := Category{
 		Name: name,
@@ -520,7 +520,7 @@ func (c *AdminAPIController) CreateCategories() {
 }
 
 // 修改分类
-func (c *AdminAPIController) UpdateCategories() {
+func (c *AdminAPIController) CategoriesUpdate() {
 	id, _ := c.GetInt("id")
 	name := c.GetString("name")
 	category := new(Category)

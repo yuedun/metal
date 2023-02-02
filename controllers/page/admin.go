@@ -62,7 +62,7 @@ func (c *AdminPageController) LogList() {
 /**
  * 创建文章路由
  */
-func (c *AdminPageController) CreateArticle() {
+func (c *AdminPageController) ArticleCreate() {
 	category := &Category{}
 	list, err := category.GetAllCategories()
 	if err != nil {
@@ -160,7 +160,7 @@ func (c *AdminPageController) Picture() {
 }
 
 // ListPicture 图片列表路由
-func (c *AdminPageController) ListPicture() {
+func (c *AdminPageController) PictureList() {
 	c.TplName = "admin/picture-list.html"
 }
 

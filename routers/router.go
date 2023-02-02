@@ -18,7 +18,7 @@ func init() {
 	beego.CtrlGet("/message", (*controllers.PortalController).Message)            //留言列表
 	beego.CtrlPost("/message", (*controllers.PortalController).CreateMessage)     //留言
 	beego.CtrlPost("/registration", (*controllers.PortalController).Registration) //注册
-	beego.CtrlGet("/verify", (*controllers.PortalController).Verify) //验证
+	beego.CtrlGet("/verify", (*controllers.PortalController).Verify)              //验证
 
 	//namespace中的路由推荐用NS开头的方法
 	//admin管理后台路由配置
@@ -35,13 +35,13 @@ func init() {
 			beego.NSCtrlGet("/register", (*page.AdminPageController).Register),
 			beego.NSCtrlGet("/user-list", (*page.AdminPageController).UserList),
 			beego.NSCtrlGet("/user-add", (*page.AdminPageController).UserAdd),
-			beego.NSCtrlGet("/article-add", (*page.AdminPageController).CreateArticle),
+			beego.NSCtrlGet("/article-add", (*page.AdminPageController).ArticleCreate),
 			beego.NSCtrlGet("/article-list", (*page.AdminPageController).ArticleList),
 			beego.NSCtrlGet("/article-edit", (*page.AdminPageController).ArticleEdit),
 			beego.NSCtrlGet("/logs", (*page.AdminPageController).LogList),
 			beego.NSCtrlGet("/pname", (*page.AdminPageController).PNameView),
 			beego.NSCtrlGet("/picture", (*page.AdminPageController).Picture),
-			beego.NSCtrlGet("/picture-list", (*page.AdminPageController).ListPicture),
+			beego.NSCtrlGet("/picture-list", (*page.AdminPageController).PictureList),
 			beego.NSCtrlGet("/icons", (*page.AdminPageController).IconList),
 			beego.NSCtrlGet("/system-info", (*page.AdminPageController).SystemInfo),
 			beego.NSCtrlGet("/job-count", (*page.AdminPageController).JobCount),
@@ -67,23 +67,23 @@ func init() {
 			beego.NSCtrlDelete("/article/:id", (*api.ArticleAPIController).ArticleDelete),
 			beego.NSCtrlGet("/logs", (*api.AdminAPIController).GetLogs),
 			beego.NSCtrlPost("/upload-img", (*api.AdminAPIController).UploadImg),
-			beego.NSCtrlPost("/pictures", (*api.AdminAPIController).AddPicture),
-			beego.NSCtrlGet("/picture-list", (*api.AdminAPIController).ListPicture),
-			beego.NSCtrlDelete("/picture-delete", (*api.AdminAPIController).DeletePicture),
+			beego.NSCtrlPost("/pictures", (*api.AdminAPIController).PictureAdd),
+			beego.NSCtrlGet("/picture-list", (*api.AdminAPIController).PictureList),
+			beego.NSCtrlDelete("/picture-delete", (*api.AdminAPIController).PictureDelete),
 			beego.NSCtrlPost("/user/add-roles", (*api.AdminAPIController).AddUserRoles),
 			beego.NSCtrlGet("/user-roles/:userId", (*api.AdminAPIController).GetUserRoles),
 			beego.NSCtrlGet("/roles/list", (*api.AdminAPIController).GetRolesList),
-			beego.NSCtrlPost("/roles/create", (*api.AdminAPIController).CreateRole),
-			beego.NSCtrlPut("/roles/update", (*api.AdminAPIController).UpdateRole),
-			beego.NSCtrlDelete("/roles/delete/:id", (*api.AdminAPIController).DeleteRole),
+			beego.NSCtrlPost("/roles/create", (*api.AdminAPIController).RoleCreate),
+			beego.NSCtrlPut("/roles/update", (*api.AdminAPIController).RoleUpdate),
+			beego.NSCtrlDelete("/roles/delete/:id", (*api.AdminAPIController).RoleDelete),
 			beego.NSCtrlGet("/job-count/count-data-recently", (*api.AdminAPIController).CountDataRecently),
 			beego.NSCtrlGet("/job-count/count-data-all", (*api.AdminAPIController).CountDataAll),
 			beego.NSCtrlGet("/message/list", (*api.AdminAPIController).MessageList),
 			beego.NSCtrlPut("/message/update/:id", (*api.AdminAPIController).MessageUpdate),
 			beego.NSCtrlDelete("/message/delete/:id", (*api.AdminAPIController).MessageDelete),
 			beego.NSCtrlGet("/categories", (*api.AdminAPIController).Categories),
-			beego.NSCtrlPost("/categories", (*api.AdminAPIController).CreateCategories),
-			beego.NSCtrlPut("/categories", (*api.AdminAPIController).UpdateCategories),
+			beego.NSCtrlPost("/categories", (*api.AdminAPIController).CategoriesCreate),
+			beego.NSCtrlPut("/categories", (*api.AdminAPIController).CategoriesUpdate),
 			beego.NSCtrlPost("/movie/add", (*api.AdminAPIController).MovieAdd),
 			beego.NSCtrlPut("/movie/update", (*api.AdminAPIController).MovieUpdate),
 			beego.NSCtrlDelete("/movie/delete/:id", (*api.AdminAPIController).MovieDelete),

@@ -10,7 +10,7 @@ import (
 
 type IArticleService interface {
 	Save(article Article) (int64, error)
-	GetArticlesByCondition(param map[string]string, pageIndex, pageSize int) (articles []Article, total int64, returnError error)
+	GetArticleList(param map[string]string, pageIndex, pageSize int) (articles []Article, total int64, returnError error)
 	GetById() error
 	Update() (int64, error)
 	Delete() (int64, error)
@@ -31,27 +31,33 @@ func (s *ArticleService) Save(article Article) (int64, error) {
 	return s.orm.Insert(&article)
 }
 
-func (s *ArticleService) GetArticlesByCondition(param map[string]string, pageIndex, pageSize int) (articles []Article, total int64, returnError error) {
-	var condition = ""
+func (s *ArticleService) GetArticleList(param map[string]string, pageIndex, pageSize int) (list []Article, total int64, returnError error) {
+	var condition = "WHERE 1"
 	if param["title"] != "" {
 		condition += " AND title LIKE '" + param["title"] + "%'"
+	}
+	if param["category"] != "" {
+		condition += " AND category LIKE '%" + param["category"] + "%'"
+	}
+	if param["keywords"] != "" {
+		condition += " AND keywords LIKE '%" + param["keywords"] + "%'"
 	}
 	var wg sync.WaitGroup
 	wg.Add(2)
 	go func() {
 		defer wg.Done()
-		var sql = "SELECT * FROM article WHERE status = 1"
+		var sql = "SELECT * FROM article "
 		sql += condition
 		sql += " ORDER BY id DESC"
 		sql += " LIMIT ?, ?;"
-		_, err := s.orm.Raw(sql, pageIndex, pageSize).QueryRows(&articles)
+		_, err := s.orm.Raw(sql, pageIndex, pageSize).QueryRows(&list)
 		if err != nil {
 			returnError = err
 		}
 	}()
 	go func() {
 		defer wg.Done()
-		var sql = "SELECT COUNT(0) FROM article WHERE status = 1"
+		var sql = "SELECT COUNT(0) FROM article "
 		sql += condition
 		err := s.orm.Raw(sql).QueryRow(&total)
 		if err != nil {
@@ -60,7 +66,7 @@ func (s *ArticleService) GetArticlesByCondition(param map[string]string, pageInd
 		logs.Debug("mysql row affected nums: ", total)
 	}()
 	wg.Wait()
-	return articles, total, returnError
+	return list, total, returnError
 }
 
 func (s *ArticleService) GetById() error {
@@ -69,7 +75,7 @@ func (s *ArticleService) GetById() error {
 }
 
 func (s *ArticleService) Update() (int64, error) {
-	id, err := s.orm.Update((*Article)(nil), "title", "content", "updated_at")
+	id, err := s.orm.Update((*Article)(nil), "title", "content", "category", "keywords", "updated_at")
 	return id, err
 }
 

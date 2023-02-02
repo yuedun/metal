@@ -145,6 +145,7 @@ func (model *Article) Update() (int64, error) {
 	id, err := o.Update(model, "title", "content", "category", "keywords", "updated_at")
 	return id, err
 }
+
 func (model *Article) Delete() (int64, error) {
 	o := orm.NewOrm()
 	id, err := o.Delete(model)
