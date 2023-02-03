@@ -82,7 +82,6 @@ func init() {
 func main() {
 	util.CronStart() //启动定时任务
 	logs.Info("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n浏览器访问：http://localhost:%s\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", port)
-	beego.ErrorController(&controllers.ErrorController{})
 	//查看所有路由
 	// tree := beego.PrintTree()
 	// methods := tree["Data"].(beego.M)

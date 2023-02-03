@@ -329,11 +329,12 @@ desired effect
                 var id = $(this).closest("tr").attr("id");
                 if (confirm("禁用后不可登录，确定？")) {
                     $.ajax({
-                        url: '/admin/api/user/disable/' + id,
-                        type: 'get', //GET
+                        url: '/admin/api/user/' + id + '/status',
+                        type: 'put', //GET
                         async: true,    //或false,是否异步
                         data: {
-                            userId: id
+                            userId: id,
+                            status: 0
                         },
                         timeout: 5000,    //超时时间
                         dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
@@ -362,11 +363,12 @@ desired effect
                 var id = $(this).closest("tr").attr("id");
                 if (confirm("确定启用？")) {
                     $.ajax({
-                        url: '/admin/api/user/enable/' + id,
-                        type: 'get', //GET
+                        url: '/admin/api/user/' + id + '/status',
+                        type: 'put', //GET
                         async: true,    //或false,是否异步
                         data: {
-                            userId: id
+                            userId: id,
+                            status: 1
                         },
                         timeout: 5000,    //超时时间
                         dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text

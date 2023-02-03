@@ -68,7 +68,7 @@ func (msg *Message) GetAll() ([]Message, error) {
 }
 
 // 获取用户列表
-func (msg *Message) GetAllByCondition(cond map[string]string, start, perPage int) (list []Message, total int64, newError error) {
+func (msg *Message) GetMessageList(cond map[string]string, start, perPage int) (list []Message, total int64, newError error) {
 	o := orm.NewOrm()
 	var condition = " WHERE 1 "
 	if cond["status"] != "" {

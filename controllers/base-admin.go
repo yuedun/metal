@@ -91,7 +91,7 @@ func (c *AdminBaseController) Prepare() {
 		ctrl, runMethod := c.GetControllerAndAction() // 获取controller和method
 		requestPermission := ctrl + ":" + runMethod
 		pkgName := reflect.Indirect(reflect.ValueOf(c.AppController)).Type().PkgPath()
-		logs.Debug("包:%s, 结构体:请求方法:%s", reflect.TypeOf(PortalController{}).PkgPath(), requestPermission)
+		logs.Debug("包:%s, 结构体:请求方法: %s", reflect.TypeOf(PortalController{}).PkgPath(), requestPermission)
 		apiOrPage := pkgName[18:]
 		logs.Debug("apiOrPage", apiOrPage)
 		privileges := userPermission.Privileges // 获取用户拥有的权限
@@ -165,8 +165,7 @@ var NeedPermission = map[string]bool{
 	"AdminAPIController:Register":          false,
 	"AdminAPIController:GetUserRoles":      true,
 	"AdminAPIController:AddUserRoles":      true,
-	"UserAPIController:UserEnable":         true,
-	"UserAPIController:UserDisable":        true,
+	"UserAPIController:UserUpdateStatus":   true,
 	"UserAPIController:UserList":           true,
 	"UserAPIController:UserGet":            true,
 	"UserAPIController:UserCreate":         true,
@@ -184,6 +183,7 @@ var NeedPermission = map[string]bool{
 	"AdminAPIController:CategoriesUpdate":  true,
 	"AdminAPIController:GetLogs":           true,
 	"AdminAPIController:MessageList":       true,
+	"AdminAPIController:MessageUpdate":     true,
 	"AdminAPIController:MessageDelete":     true,
 	"AdminAPIController:CreateTemplate":    true,
 	"AdminAPIController:TemplateView":      true,

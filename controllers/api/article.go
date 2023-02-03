@@ -54,13 +54,14 @@ func (c *ArticleAPIController) ArticleCreate() {
 	}
 	category := c.GetString("category")
 	keywords := c.GetString("keywords")
+	status, _ := c.GetInt("status")
 
 	article := Article{}
 	article.Title = title
 	article.Content = content
 	article.Category = category
 	article.Keywords = keywords
-	article.Status = 1
+	article.Status = uint8(status)
 	article.CreatedAt = time.Now()
 	article.UpdatedAt = time.Now()
 	articleService := service.NewArticleService(orm.NewOrm())

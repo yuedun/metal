@@ -116,7 +116,7 @@ func (c *AdminAPIController) MessageList() {
 	var param = make(map[string]string)
 	param["mobile"] = args
 	param["username"] = args
-	list, total, err := message.GetAllByCondition(param, start, perPage)
+	list, total, err := message.GetMessageList(param, start, perPage)
 	if err != nil {
 		c.ErrorMsg(err.Error())
 	}

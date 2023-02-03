@@ -9,6 +9,8 @@ import (
 )
 
 func init() {
+	beego.ErrorController(&controllers.ErrorController{}) //自定义错误页面
+
 	beego.CtrlGet("/", (*controllers.PortalController).Get)                            //首页
 	beego.CtrlGet("/article/:id", (*controllers.PortalController).Article)             //文章详情
 	beego.CtrlGet("/catalog", (*controllers.PortalController).Catalog)                 //分类
@@ -54,11 +56,10 @@ func init() {
 			// beego.NSBefore(controllers.HasAdminPermission), //过滤器
 			beego.NSCtrlPost("/to-login", (*api.UserAPIController).ToLogin),
 			beego.NSCtrlGet("/login-out", (*api.UserAPIController).LoginOut),
-			beego.NSCtrlGet("/user/disable/:id", (*api.UserAPIController).DisableUser),
-			beego.NSCtrlGet("/user/enable/:id", (*api.UserAPIController).EnableUser),
-			beego.NSCtrlDelete("/user/delete", (*api.UserAPIController).DeleteUser),
+			beego.NSCtrlPut("/user/:id/status", (*api.UserAPIController).UserUpdateStatus),
+			beego.NSCtrlDelete("/user/delete", (*api.UserAPIController).UserDelete),
 			beego.NSCtrlGet("/user/:id", (*api.UserAPIController).UserGet),
-			beego.NSCtrlPost("/user", (*api.UserAPIController).CreateUser),
+			beego.NSCtrlPost("/user", (*api.UserAPIController).UserCreate),
 			beego.NSCtrlPut("/user", (*api.UserAPIController).UpdateUser),
 			beego.NSCtrlGet("/users", (*api.UserAPIController).UserList),
 			beego.NSCtrlPost("/article", (*api.ArticleAPIController).ArticleCreate),

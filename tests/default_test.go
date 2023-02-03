@@ -5,6 +5,7 @@ import (
 	"encoding/base64"
 	"encoding/gob"
 	"fmt"
+	"html"
 	"log"
 	"math/rand"
 	"metal/models"
@@ -126,6 +127,10 @@ func TestGoroutin(t *testing.T) {
 
 func TestRedis(t *testing.T) {
 	util.ExampleNewClient()
+}
+
+func TestHtmlToText(t *testing.T) {
+	t.Log(html.EscapeString("To estimate the relative BCKDH activity in adipose tissue versus liver, we determined the enzymatic activity of BCKDH in WAT <a href=http://bestcialis20mg.com/>cialis online no prescription</a>"))
 }
 
 func TestRequestByAjax3(t *testing.T) {

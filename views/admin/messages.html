@@ -126,8 +126,9 @@ desired effect
                 },
                 paging: true,
                 lengthChange: false,
-                searching: true,
+                searching: false,
                 ordering: true,
+                // "order": [[ 1, "desc" ]],
                 info: true,
                 scrollX: true,
                 autoWidth: true,
@@ -178,6 +179,7 @@ desired effect
                     { data: 'content' },
                     {
                         data: 'status',
+                        width: '80px',
                         render: function (data, type, row, settings) {
                             const mm = {
                                 0: '待审核',
@@ -195,6 +197,7 @@ desired effect
                         }
                     },
                     {
+                        width: '100px',
                         render: function (data, type, row, settings) {
                             var html = '<a href="javascript:void(0);" class="J-update">审核通过</a>&nbsp;'
                             html += '<a href="javascript:void(0);" class="J-delete">删除</a>'
@@ -205,8 +208,6 @@ desired effect
                 createdRow: function (row, data, dataIndex) {
                     //有了DT_RowId属性就会自动添加id到行上,不需要在此操作，可以做其他事
                     $(row).data("id", data.id);
-                    $(row).data("roleName", data.description);
-                    $(row).data("persmissions", data.groups);
                 }
             });
 

@@ -190,7 +190,7 @@ func (c *PortalController) Message() {
 	message := new(Message)
 	cond := map[string]string{}
 	cond["status"] = "1"
-	list, total, err := message.GetAllByCondition(cond, 0, 10)
+	list, total, err := message.GetMessageList(cond, 0, 10)
 	if err != nil {
 		c.Data["messageList"] = list
 		c.Data["total"] = total

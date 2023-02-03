@@ -121,7 +121,7 @@ func (c *UserAPIController) LoginOut() {
 }
 
 // 新建用户
-func (c *UserAPIController) CreateUser() {
+func (c *UserAPIController) UserCreate() {
 	var err error
 	var code int
 	var data any
@@ -277,32 +277,13 @@ func (c *UserAPIController) UserList() {
 	c.ServeJSON()
 }
 
-/**
- * 禁用用户
- */
-func (c *UserAPIController) DisableUser() {
+// 修改用户状态
+func (c *UserAPIController) UserUpdateStatus() {
 	id, _ := strconv.Atoi(c.Ctx.Input.Param(":id"))
+	status, _ := c.GetInt("status")
 	var user = new(User)
 	user.Id = uint(id)
-	user.Status = 0
-	id64, err := user.UpdateStatus()
-	if nil != err {
-		logs.Error(err)
-		c.Data["json"] = c.ErrorData(err)
-	} else {
-		c.Data["json"] = c.SuccessData(id64)
-	}
-	c.ServeJSON()
-}
-
-/**
- * 启用用户
- */
-func (c *UserAPIController) EnableUser() {
-	id, _ := strconv.Atoi(c.Ctx.Input.Param(":id"))
-	var user = new(User)
-	user.Id = uint(id)
-	user.Status = 1
+	user.Status = status
 	id64, err := user.UpdateStatus()
 	if nil != err {
 		logs.Error(err)
@@ -316,7 +297,7 @@ func (c *UserAPIController) EnableUser() {
 /**
  * 删除用户
  */
-func (c *UserAPIController) DeleteUser() {
+func (c *UserAPIController) UserDelete() {
 	id, _ := c.GetInt("userId")
 	var user = new(User)
 	user.Id = uint(id)

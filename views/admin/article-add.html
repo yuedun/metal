@@ -76,7 +76,8 @@
                   </div>
                 </form>
                 <div class="box-footer">
-                  <button type="submit" class="btn btn-primary J-submit">Submit</button>
+                  <button type="submit" class="btn btn-primary J-submit">发布</button>
+                  <button type="button" class="btn btn-defalt J-save">保存</button>
                 </div>
               </div>
             </div>
@@ -131,12 +132,25 @@
         var content = $("#art_content").val();
         var category = $("#art_category").val();
         var keywords = $("#art_keywords").val();
-        $.post("/admin/api/article", { title: title, content: content, category: category, keywords: keywords }, function (result) {
+        $.post("/admin/api/article", { title: title, content: content, category: category, keywords: keywords, status: 1 }, function (result) {
           if (result.code == 0) {
             // layer.msg("新建成功！", { icon: 6 });
             location.href = "/admin/page/article-list"
           } else {
             layer.msg("新建失败！" + result.msg, { icon: 5 });
+          }
+        }, "json");
+      })
+      $(".J-save").on("click", function () {
+        var title = $("#art_title").val();
+        var content = $("#art_content").val();
+        var category = $("#art_category").val();
+        var keywords = $("#art_keywords").val();
+        $.post("/admin/api/article", { title: title, content: content, category: category, keywords: keywords }, function (result) {
+          if (result.code == 0) {
+            layer.msg("保存成功！", { icon: 6 });
+          } else {
+            layer.msg("保存失败！" + result.msg, { icon: 5 });
           }
         }, "json");
       })
