@@ -80,7 +80,7 @@ func init() {
 }
 
 func main() {
-	util.CronStart() //启动定时任务
+	go util.CronStart() //启动定时任务
 	logs.Info("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n浏览器访问：http://localhost:%s\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", port)
 	//查看所有路由
 	// tree := beego.PrintTree()

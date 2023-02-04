@@ -70,8 +70,9 @@ desired effect
 											<th>name</th>
 											<th>url</th>
 											<th>status</th>
-											<th>createdAt</th>
-											<th>updatedAt</th>
+											<th>状态说明</th>
+											<th>创建时间</th>
+											<th>更新时间</th>
 											<th width="120px">操作</th>
 										</tr>
 									</thead>
@@ -85,8 +86,9 @@ desired effect
 											<th>name</th>
 											<th>url</th>
 											<th>status</th>
-											<th>createdAt</th>
-											<th>updatedAt</th>
+											<th>状态说明</th>
+											<th>创建时间</th>
+											<th>更新时间</th>
 											<th>操作</th>
 										</tr>
 									</tfoot>
@@ -288,7 +290,18 @@ desired effect
 							return html;
 						}
 					},
-					{ data: 'status' },
+					{
+						data: 'status',
+						render: function (data, type, row) {
+							let statusMap = {
+								0: '<small class="label bg-green">正常</small>',
+								1: '<small class="label bg-red">不能访问</small>',
+								2: '<small class="label bg-orange">异常</small>',
+							};
+							return statusMap[data];
+						}
+					},
+					{ data: 'statusCommnet' },
 					{
 						data: 'created_at',
 						render: function (data, type, row) {

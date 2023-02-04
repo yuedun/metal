@@ -106,7 +106,8 @@ func (c *UserAPIController) ToLogin() {
 				loginLog := new(Log)
 				// mark := fmt.Sprintf("登录IP:%s，物理地址：%s %s %s %s", ip, ipBody.Data.Country, ipBody.Data.Area, ipBody.Data.Region, ipBody.Data.City)
 				mark := fmt.Sprintf("登录IP:%s，物理地址：%s", ip, ipBody.Content.Address)
-				loginLog.Save(mark)
+				loginLog.Mark = mark
+				loginLog.Save()
 			}
 		}()
 	}

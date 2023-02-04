@@ -614,7 +614,7 @@ func (c *AdminAPIController) MovieUpdate() {
 	movie.Id = uint(id)
 	movie.Name = name
 	movie.URL = url
-	_, err := movie.Update()
+	_, err := movie.Update([]string{"name", "url"})
 	if nil != err {
 		logs.Error(err)
 		c.Data["json"] = c.ErrorData(err)

@@ -2,7 +2,6 @@ package models
 
 import (
 	"sync"
-	"time"
 
 	"github.com/beego/beego/v2/client/orm"
 )
@@ -16,11 +15,8 @@ func init() {
 	orm.RegisterModel(new(Log))
 }
 
-func (log *Log) Save(mark string) (int64, error) {
+func (log *Log) Save() (int64, error) {
 	o := orm.NewOrm()
-	log.CreatedAt = time.Now()
-	log.UpdatedAt = time.Now()
-	log.Mark = mark
 	return o.Insert(log)
 }
 func (log *Log) GetLogList(start, perPage int) (logs []Log, total int64, returnError error) {

@@ -12,9 +12,10 @@ import (
 
 type Movie struct {
 	BaseModel
-	Name   string `json:"name" orm:"size(50)"`
-	URL    string `json:"url" orm:"column(url)"`
-	Status int    `json:"status"`
+	Name          string `json:"name" orm:"size(50)"`
+	URL           string `json:"url" orm:"column(url)"`
+	Status        int    `json:"status"` //0:正常，1:禁用，2:有异常
+	StatusComment string `json:"statusCommnet"`
 }
 
 func init() {
@@ -42,7 +43,6 @@ func (mov *Movie) MovieInfo() error {
 	return o.Read(mov)
 }
 
-// 获取用户列表
 func (mov *Movie) GetMovieList(cond string, start, perPage int) (list []Movie, total int64, err error) {
 	o := orm.NewOrm()
 	var condition = " WHERE 1 = 1 "
@@ -80,9 +80,9 @@ func (mov *Movie) GetMovieList(cond string, start, perPage int) (list []Movie, t
 }
 
 // 通过id修改
-func (mov *Movie) Update() (int64, error) {
+func (mov *Movie) Update(cols []string) (int64, error) {
 	o := orm.NewOrm()
-	id, err := o.Update(mov, "name", "url") // 要修改的对象和需要修改的字段
+	id, err := o.Update(mov, cols...) // 要修改的对象和需要修改的字段
 	return id, err
 }
 
@@ -95,4 +95,14 @@ func (mov *Movie) Delete() (int64, error) {
 	} else {
 		return id, nil
 	}
+}
+
+func (mov *Movie) AllMovie() (list []Movie, err error) {
+	o := orm.NewOrm()
+	var sql = "SELECT * FROM movie;"
+	_, err = o.Raw(sql).QueryRows(&list)
+	if err != nil {
+		return nil, err
+	}
+	return list, nil
 }
