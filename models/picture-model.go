@@ -69,9 +69,9 @@ func (pic *Picture) GetAllByCondition(cond string, start, perPage int) (pics []P
 }
 
 // 通过id修改用户
-func (pic *Picture) Update() (int64, error) {
+func (pic *Picture) Update(cols []string) (int64, error) {
 	o := orm.NewOrm()
-	id, err := o.Update(pic, "username", "gender", "email", "mobile", "addr", "description", "updated_at") // 要修改的对象和需要修改的字段
+	id, err := o.Update(pic, cols...) // 要修改的对象和需要修改的字段
 	return id, err
 }
 

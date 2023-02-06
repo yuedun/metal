@@ -125,8 +125,7 @@ func (c *ArticleAPIController) ArticleEdit() {
 	article.Content = content
 	article.Category = category
 	article.Keywords = keywords
-	article.UpdatedAt = time.Now()
-	_, err = article.Update()
+	_, err = article.Update([]string{"title", "content", "category", "keywords", "updated_at"})
 	if err != nil {
 		logs.Warn("更新文章失败")
 		err = fmt.Errorf("更新文章失败")

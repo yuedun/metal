@@ -38,7 +38,8 @@ func CronStart() {
 			}
 			for _, v := range list {
 				urls := strings.Split(v.URL, ",")
-				logs.Debug(urls)
+				logs.Debug(v.Id, urls)
+				u, status, statusComments := v, 0, []string{}
 				for _, url := range urls {
 					trans := &http.Transport{
 						DisableKeepAlives: true,
@@ -51,27 +52,32 @@ func CronStart() {
 					req, err := http.NewRequest(http.MethodGet, url, nil)
 					if err != nil {
 						logs.Error(err)
-						v.Status = 2
-						v.StatusComment = fmt.Sprintf("%s %s", url, err.Error())
-						v.Update([]string{"status", "status_comment"})
-						continue
+						status = 2
+						statusComments = append(statusComments, fmt.Sprintf("%s %s", url, err.Error()))
+						break
 					}
 					resp, err := cli.Do(req)
 					if err != nil {
-						logs.Debug(err)
-						v.Status = 2
-						v.StatusComment = fmt.Sprintf("%s %s", url, err.Error())
-						v.Update([]string{"status", "status_comment"})
-						continue
+						logs.Error(err)
+						status = 2
+						statusComments = append(statusComments, fmt.Sprintf("%s %s", url, err.Error()))
+						break
 					}
 					defer resp.Body.Close()
-					if resp.StatusCode != 200 {
-						logs.Error(resp.Status, resp.StatusCode)
-						v.Status = 2
-						v.StatusComment = fmt.Sprintf("%s %s", url, resp.Status)
-						v.Update([]string{"status", "status_comment"})
+					if resp.StatusCode != 200 && resp.StatusCode != 512 && resp.StatusCode != 403 {
+						logs.Error(url, resp.Status)
+						status = 2
+						statusComments = append(statusComments, fmt.Sprintf("%s %s", url, resp.Status))
 					}
 				}
+				if status == 2 {
+					u.Status = status
+					u.StatusComment = strings.Join(statusComments, ",")
+				} else {
+					u.Status = 0
+					u.StatusComment = ""
+				}
+				u.Update([]string{"status", "status_comment"})
 			}
 		})
 		logs.Debug(id, err)

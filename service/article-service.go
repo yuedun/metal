@@ -12,7 +12,7 @@ type IArticleService interface {
 	Save(article Article) (int64, error)
 	GetArticleList(param map[string]string, pageIndex, pageSize int) (articles []Article, total int64, returnError error)
 	GetById() error
-	Update() (int64, error)
+	Update(article Article, cols []string) (int64, error)
 	Delete() (int64, error)
 	GetCategory() ([]Article, error)
 }
@@ -74,8 +74,8 @@ func (s *ArticleService) GetById() error {
 	return err
 }
 
-func (s *ArticleService) Update() (int64, error) {
-	id, err := s.orm.Update((*Article)(nil), "title", "content", "category", "keywords", "updated_at")
+func (s *ArticleService) Update(article Article, cols []string) (int64, error) {
+	id, err := s.orm.Update(&article, cols...)
 	return id, err
 }
 

@@ -101,9 +101,9 @@ func (msg *Message) GetMessageList(cond map[string]string, start, perPage int) (
 }
 
 // 通过id修改用户
-func (msg *Message) Update() (int64, error) {
+func (msg *Message) Update(cols []string) (int64, error) {
 	o := orm.NewOrm()
-	id, err := o.Update(msg, "username", "gender", "email", "mobile", "addr", "description", "updated_at") // 要修改的对象和需要修改的字段
+	id, err := o.Update(msg, cols...) // 要修改的对象和需要修改的字段
 	return id, err
 }
 

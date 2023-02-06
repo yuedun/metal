@@ -51,9 +51,9 @@ func (category *Category) Create() (int64, error) {
 }
 
 // 通过id修改
-func (category *Category) Update() (int64, error) {
+func (category *Category) Update(cols []string) (int64, error) {
 	o := orm.NewOrm()
-	id, err := o.Update(category) // 要修改的对象和需要修改的字段
+	id, err := o.Update(category, cols...) // 要修改的对象和需要修改的字段
 	return id, err
 }
 

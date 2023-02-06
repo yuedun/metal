@@ -140,9 +140,9 @@ func (model *Article) GetById() error {
 	return err
 }
 
-func (model *Article) Update() (int64, error) {
+func (model *Article) Update(cols []string) (int64, error) {
 	o := orm.NewOrm()
-	id, err := o.Update(model, "title", "content", "category", "keywords", "updated_at")
+	id, err := o.Update(model, cols...)
 	return id, err
 }
 

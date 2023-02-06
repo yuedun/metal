@@ -526,10 +526,7 @@ func (c *AdminAPIController) CategoriesUpdate() {
 	category := new(Category)
 	category.Id = uint(id)
 	category.Name = name
-
-	category.CreatedAt = time.Now()
-	category.UpdatedAt = time.Now()
-	_, err := category.Update()
+	_, err := category.Update([]string{"name"})
 	if nil != err {
 		logs.Error(err)
 		c.Data["json"] = c.ErrorData(err)

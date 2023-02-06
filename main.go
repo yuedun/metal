@@ -81,12 +81,11 @@ func init() {
 
 func main() {
 	go util.CronStart() //启动定时任务
-	logs.Info("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n浏览器访问：http://localhost:%s\n\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", port)
 	//查看所有路由
 	// tree := beego.PrintTree()
 	// methods := tree["Data"].(beego.M)
 	// for k, v := range methods {
 	// 	fmt.Printf("%s => %v\n", k, v)
 	// }
-	beego.Run() //下面的代码不会执行，需要执行的代码放到上面
+	beego.Run("localhost:" + port) //下面的代码不会执行，需要执行的代码放到上面
 }
