@@ -29,9 +29,9 @@ func (c *PortalController) Prepare() {
 	val, _ := beego.AppConfig.String("runmode")
 	c.Data["env"] = val // 用户百度统计设置，测服环境不需要统计
 	// 设置TKD信息
-	c.Data["title"] = "月盾的网站，基于beego v2开发的web项目"
-	c.Data["keywords"] = "golang,beego v2博客,管理后台"
-	c.Data["description"] = "golang,beego v2博客,管理后台"
+	c.Data["title"] = "月盾的网站，基于beego开发的web项目"
+	c.Data["keywords"] = "golang,beego,博客,管理后台"
+	c.Data["description"] = "golang,beego,博客,管理后台"
 	ctr, method := c.GetControllerAndAction()
 	logs.Debug("包:%s, 结构体:请求方法:%s:%s", reflect.TypeOf(PortalController{}).PkgPath(), ctr, method)
 	logs.Info("IP:%s URL:%s", c.Ctx.Input.Header("Remote_addr"), c.Ctx.Request.URL)
@@ -114,8 +114,6 @@ func (c *PortalController) Article() {
 	articlePortal.Title = article.Title
 	articlePortal.Keywords = article.Keywords
 	articlePortal.Content = util.Md2html(article.Content)
-	// reimg := regexp.MustCompile(`<img (\S*?)[^>]*>.*?|<.*? />`) //获取一张图片
-	// print(string(reimg.Find([]byte(articlePortal.Content))))
 	articlePortal.Category = article.Category
 	articlePortal.UpdatedAt = article.UpdatedAt.Format("2006-01-02 15:04")
 	c.Data["article"] = articlePortal

@@ -14,8 +14,7 @@
         <!-- /.login-logo -->
         <div class="login-box-body">
             <p class="login-box-msg">Sign in to start your session</p>
-
-            <div>
+            <form onsubmit="return false">
                 <div class="form-group has-feedback">
                     <input type="text" class="form-control" name="mobile" value="13100000001" placeholder="手机或邮箱">
                     <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
@@ -35,11 +34,11 @@
                     </div> -->
                     <!-- /.col -->
                     <div class="col-xs-4">
-                        <button class="btn btn-primary btn-block btn-flat" id="login">登陆</button>
+                        <button type="submit" class="btn btn-primary btn-block btn-flat" id="login">登陆</button>
                     </div>
                     <!-- /.col -->
                 </div>
-            </div>
+            </form>
             <a href="#" id="forget-password">忘记密码</a><br>
             <a href="/admin/page/register" class="text-center">注册</a>
         </div>
@@ -60,7 +59,13 @@
                 radioClass: 'iradio_square-blue',
                 increaseArea: '20%' /* optional */
             });
+            $("form").on('submit', function () {
+                login();
+            });
             $("#login").on("click", function () {
+                login();
+            });
+            function login() {
                 let remember = $("input[name=remember]").is(':checked');
                 $.ajax({
                     url: '/admin/api/to-login',
@@ -91,8 +96,7 @@
                         console.log('结束')
                     }
                 })
-            });
-
+            }
             $("#forget-password").click(function () {
 
             })
