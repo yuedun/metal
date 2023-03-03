@@ -54,9 +54,9 @@
                     </div>
                   </div>
                   <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-4">
                       <div class="form-group">
-                        <label for="art_category">gender</label>
+                        <label for="art_category">分类</label>
                         <input type="text" class="form-control" id="art_category" list="catelist"
                           value="{{.article.Category}}" placeholder="分类">
                         <datalist id="catelist">
@@ -67,17 +67,24 @@
                         </datalist>
                       </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-4">
                       <div class="form-group">
                         <label for="art_keywords">关键词</label>
-                        <input type="text" class="form-control" id="art_keywords" placeholder="关键词，多个词用逗号分隔">
+                        <input type="text" class="form-control" id="art_keywords" value=""
+                          placeholder="关键词，多个词用逗号分隔">
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <label for="art_status">发布状态</label>
+                        <input type="number" min="0" max="1" class="form-control" id="art_status" value="0"
+                          placeholder="1:发布，0:草稿">
                       </div>
                     </div>
                   </div>
                 </form>
                 <div class="box-footer">
-                  <button type="submit" class="btn btn-primary J-submit">发布</button>
-                  <button type="button" class="btn btn-defalt J-save">保存</button>
+                  <button type="submit" class="btn btn-primary J-submit">提交</button>
                 </div>
               </div>
             </div>
@@ -132,25 +139,13 @@
         var content = $("#art_content").val();
         var category = $("#art_category").val();
         var keywords = $("#art_keywords").val();
-        $.post("/admin/api/article", { title: title, content: content, category: category, keywords: keywords, status: 1 }, function (result) {
+        var status = $("#art_status").val();
+        $.post("/admin/api/article", { title: title, content: content, category: category, keywords: keywords, status: status }, function (result) {
           if (result.code == 0) {
             // layer.msg("新建成功！", { icon: 6 });
             location.href = "/admin/page/article-list"
           } else {
             layer.msg("新建失败！" + result.msg, { icon: 5 });
-          }
-        }, "json");
-      })
-      $(".J-save").on("click", function () {
-        var title = $("#art_title").val();
-        var content = $("#art_content").val();
-        var category = $("#art_category").val();
-        var keywords = $("#art_keywords").val();
-        $.post("/admin/api/article", { title: title, content: content, category: category, keywords: keywords }, function (result) {
-          if (result.code == 0) {
-            layer.msg("保存成功！", { icon: 6 });
-          } else {
-            layer.msg("保存失败！" + result.msg, { icon: 5 });
           }
         }, "json");
       })
