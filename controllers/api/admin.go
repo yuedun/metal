@@ -21,9 +21,6 @@ type AdminAPIController struct {
 	controllers.AdminBaseController
 }
 
-/**
- * 日志列表接口
- */
 func (c *AdminAPIController) GetLogs() {
 	start, _ := c.GetInt("start")
 	perPage, _ := c.GetInt("perPage")
@@ -42,10 +39,6 @@ func (c *AdminAPIController) GetLogs() {
 	c.ServeJSON()
 }
 
-/**
- * 上传图片
- * /admin/page/upload-img
- */
 func (c *AdminAPIController) UploadImg() {
 	var err error
 	var code int
@@ -104,10 +97,6 @@ func (c *AdminAPIController) UploadImg() {
 	data = url + ret.Key + "?imageslim"
 }
 
-/**
- * 留言查看，审核
- * /admin/api/message/list
- */
 func (c *AdminAPIController) MessageList() {
 	args := c.GetString("search")
 	start, _ := c.GetInt("start")
@@ -128,10 +117,6 @@ func (c *AdminAPIController) MessageList() {
 	c.ServeJSON()
 }
 
-/**
- * 留言审核通过
- * /admin/api/message/update
- */
 func (c *AdminAPIController) MessageUpdate() {
 	article := new(Message)
 	artId, _ := strconv.Atoi(c.Ctx.Input.Param(":id"))
@@ -142,7 +127,6 @@ func (c *AdminAPIController) MessageUpdate() {
 	c.ServeJSON()
 }
 
-// 删除留言
 func (c *AdminAPIController) MessageDelete() {
 	article := new(Message)
 	artId, _ := strconv.Atoi(c.Ctx.Input.Param(":id"))
@@ -152,7 +136,6 @@ func (c *AdminAPIController) MessageDelete() {
 	c.ServeJSON()
 }
 
-// CountDataRecently 近一个月数据
 func (c *AdminAPIController) CountDataRecently() {
 	startDate := c.GetString("startDate") + " 00:00:00"
 	endDate := c.GetString("endDate") + " 23:59:59"
@@ -169,7 +152,6 @@ func (c *AdminAPIController) CountDataRecently() {
 	c.ServeJSON()
 }
 
-// CountDataAll 所有历史数据，按月平均值统计
 func (c *AdminAPIController) CountDataAll() {
 	jobCount := new(JobCount)
 	list, err := jobCount.GetCountDataAll()
@@ -182,7 +164,6 @@ func (c *AdminAPIController) CountDataAll() {
 	c.ServeJSON()
 }
 
-// AddPicture 保存图片
 func (c *AdminAPIController) PictureAdd() {
 	var err error
 	var code int
@@ -230,7 +211,6 @@ func (c *AdminAPIController) PictureAdd() {
 	}
 }
 
-// ListPicture 图片列表
 func (c *AdminAPIController) PictureList() {
 	var err error
 	var code int
@@ -265,7 +245,6 @@ func (c *AdminAPIController) PictureList() {
 	}
 }
 
-// DeletePicture 删除图片
 func (c *AdminAPIController) PictureDelete() {
 	var err error
 	var code int
@@ -295,9 +274,6 @@ func (c *AdminAPIController) PictureDelete() {
 	}
 }
 
-/**
- * 获取所有权限
- */
 func (c *AdminAPIController) GetAllPermissions() {
 	permissionSrv := service.NewPermissionService(orm.NewOrm())
 	list, err := permissionSrv.GetPermissionList()
@@ -309,7 +285,6 @@ func (c *AdminAPIController) GetAllPermissions() {
 	c.ServeJSON()
 }
 
-// 用户添加权限
 func (c *AdminAPIController) AddUserRoles() {
 	var err error
 	var code int
@@ -349,7 +324,6 @@ func (c *AdminAPIController) AddUserRoles() {
 	}
 }
 
-// 获取用户权限
 func (c *AdminAPIController) GetUserRoles() {
 	userId := c.Ctx.Input.Param(":userId")
 	uid, _ := strconv.Atoi(userId)
@@ -453,7 +427,6 @@ func (c *AdminAPIController) RoleUpdate() {
 	c.ServeJSON()
 }
 
-// 删除角色
 func (c *AdminAPIController) RoleDelete() {
 	var err error
 	var code int
@@ -502,7 +475,6 @@ func (c *AdminAPIController) Categories() {
 	c.ServeJSON()
 }
 
-// 创建分类
 func (c *AdminAPIController) CategoriesCreate() {
 	name := c.GetString("name")
 	category := Category{
@@ -519,7 +491,6 @@ func (c *AdminAPIController) CategoriesCreate() {
 	c.ServeJSON()
 }
 
-// 修改分类
 func (c *AdminAPIController) CategoriesUpdate() {
 	id, _ := c.GetInt("id")
 	name := c.GetString("name")
@@ -555,7 +526,6 @@ func (c *AdminAPIController) MovieList() {
 	c.ServeJSON()
 }
 
-// 创建电影网站
 func (c *AdminAPIController) MovieAdd() {
 	name := c.GetString("name")
 	url := c.GetString("url")
@@ -580,7 +550,6 @@ func (c *AdminAPIController) MovieAdd() {
 	c.ServeJSON()
 }
 
-// 电影网站详情
 func (c *AdminAPIController) MovieInfo() {
 	id, _ := strconv.Atoi(c.Ctx.Input.Param(":id"))
 	movie := Movie{}
@@ -594,7 +563,6 @@ func (c *AdminAPIController) MovieInfo() {
 	c.ServeJSON()
 }
 
-// 修改分类
 func (c *AdminAPIController) MovieUpdate() {
 	id, _ := c.GetInt("id")
 	name := c.GetString("name")
@@ -620,7 +588,6 @@ func (c *AdminAPIController) MovieUpdate() {
 	c.ServeJSON()
 }
 
-// 删除角色
 func (c *AdminAPIController) MovieDelete() {
 	var err error
 	var code int

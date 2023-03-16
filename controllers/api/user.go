@@ -23,7 +23,6 @@ type UserAPIController struct {
 	controllers.AdminBaseController
 }
 
-// 登录接口
 func (c *UserAPIController) ToLogin() {
 	var err error
 	var code int
@@ -113,15 +112,11 @@ func (c *UserAPIController) ToLogin() {
 	}
 }
 
-/**
- * 登出
- */
 func (c *UserAPIController) LoginOut() {
 	c.DelSession("loginUser")
 	c.Redirect("/admin/page/login", 302)
 }
 
-// 新建用户
 func (c *UserAPIController) UserCreate() {
 	var err error
 	var code int
@@ -186,11 +181,6 @@ func (c *UserAPIController) UserCreate() {
 	data = id
 }
 
-/**
- * 通过如下方式获取路由参数
- * /admin/page/user/:id
- * c.Ctx.Input.Param(":id")
- */
 func (c *UserAPIController) UserGet() {
 	idstr := c.Ctx.Input.Param(":id")
 	id, _ := strconv.Atoi(idstr)
@@ -205,9 +195,6 @@ func (c *UserAPIController) UserGet() {
 	c.ServeJSON()
 }
 
-/**
- * 修改用户
- */
 func (c *UserAPIController) UpdateUser() {
 	var form struct {
 		UserId   uint   `json:"userId"`
@@ -240,10 +227,6 @@ func (c *UserAPIController) UpdateUser() {
 	c.ServeJSON()
 }
 
-/**
- * 用户列表接口
- * /admin/page/users
- */
 func (c *UserAPIController) UserList() {
 	start, _ := c.GetInt("start")
 	perPage, _ := c.GetInt("perPage")
@@ -278,7 +261,6 @@ func (c *UserAPIController) UserList() {
 	c.ServeJSON()
 }
 
-// 修改用户状态
 func (c *UserAPIController) UserUpdateStatus() {
 	id, _ := strconv.Atoi(c.Ctx.Input.Param(":id"))
 	status, _ := c.GetInt("status")
@@ -295,9 +277,6 @@ func (c *UserAPIController) UserUpdateStatus() {
 	c.ServeJSON()
 }
 
-/**
- * 删除用户
- */
 func (c *UserAPIController) UserDelete() {
 	id, _ := c.GetInt("userId")
 	var user = new(User)

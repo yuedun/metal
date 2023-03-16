@@ -42,7 +42,6 @@ func (c *PortalController) Finish() {
 	logs.Debug(">>>>>>>>>>Finish 执行完相应的 HTTP Method 方法之后执行的")
 }
 
-// 首页
 func (c *PortalController) Get() {
 	pageNo, err := c.GetInt("pageNo")
 	if err != nil {
@@ -91,7 +90,6 @@ func (c *PortalController) Get() {
 	c.TplName = "index.html"
 }
 
-// 文章详情
 func (c *PortalController) Article() {
 	artId, err := strconv.Atoi(c.Ctx.Input.Param(":id"))
 	if err != nil {

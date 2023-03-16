@@ -17,9 +17,6 @@ type ArticleAPIController struct {
 	controllers.AdminBaseController
 }
 
-/**
- * 创建文章接口
- */
 func (c *ArticleAPIController) ArticleCreate() {
 	var err error
 	var code int
@@ -78,10 +75,6 @@ func (c *ArticleAPIController) ArticleCreate() {
 	}
 }
 
-/**
- * 修改文章接口
- * /admin/page/article/:id
- */
 func (c *ArticleAPIController) ArticleEdit() {
 	var err error
 	var code int
@@ -142,10 +135,6 @@ func (c *ArticleAPIController) ArticleEdit() {
 	}
 }
 
-/**
- * 文章列表接口
- * /admin/page/articles
- */
 func (c *ArticleAPIController) ArticleList() {
 	var err error
 	var code int
@@ -188,10 +177,6 @@ func (c *ArticleAPIController) ArticleList() {
 	}
 }
 
-/**
- * 删除文章接口
- * /admin/page/articles
- */
 func (c *ArticleAPIController) ArticleDelete() {
 	article := new(Article)
 	artId, _ := strconv.Atoi(c.Ctx.Input.Param(":id"))

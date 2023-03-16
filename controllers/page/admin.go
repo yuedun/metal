@@ -17,19 +17,14 @@ type AdminPageController struct {
 	controllers.AdminBaseController
 }
 
-// 登录路由
 func (c *AdminPageController) Login() {
 	c.TplName = "admin/login.html"
 }
 
-// 注册路由
 func (c *AdminPageController) Register() {
 	c.TplName = "admin/register.html"
 }
 
-/**
- * 登出
- */
 func (c *AdminPageController) LoginOut() {
 	c.DelSession("loginUser")
 	c.Redirect("/admin/page/login", 302)
@@ -43,25 +38,16 @@ func (c *AdminPageController) UserAdd() {
 	c.TplName = "admin/user-add.html"
 }
 
-/**
- * 用户列表路由
- */
 func (c *AdminPageController) UserList() {
 	c.Data["Title"] = "用户列表"
 	c.TplName = "admin/user-list.html"
 }
 
-/**
- * 日志列表路由
- */
 func (c *AdminPageController) LogList() {
 	c.Data["Title"] = "日志列表"
 	c.TplName = "admin/log-list.html"
 }
 
-/**
- * 创建文章路由
- */
 func (c *AdminPageController) ArticleCreate() {
 	category := &Category{}
 	list, err := category.GetAllCategories()
@@ -73,17 +59,10 @@ func (c *AdminPageController) ArticleCreate() {
 	c.TplName = "admin/article-add.html"
 }
 
-/**
- * 文章列表路由
- */
 func (c *AdminPageController) ArticleList() {
 	c.TplName = "admin/article-list.html"
 }
 
-/**
- * 编辑文章路由
- * /admin/page/articles
- */
 func (c *AdminPageController) ArticleEdit() {
 	article := new(Article)
 	artId, _ := c.GetInt("id")
@@ -101,15 +80,10 @@ func (c *AdminPageController) ArticleEdit() {
 	c.TplName = "admin/article-edit.html"
 }
 
-// 通讯录
 func (c *AdminPageController) PNameView() {
 	c.TplName = "admin/pname.html"
 }
 
-/**
- * 留言查看，审核 页面
- * /admin/page/messages
- */
 func (c *AdminPageController) Messages() {
 	article := new(Article)
 	artId, _ := c.GetInt("id")
@@ -119,18 +93,15 @@ func (c *AdminPageController) Messages() {
 	c.TplName = "admin/messages.html"
 }
 
-// JobCount 工作数量统计
 func (c *AdminPageController) JobCount() {
 	c.Data["title"] = "报表"
 	c.TplName = "admin/job-count.html"
 }
 
-// IconList 列表
 func (c *AdminPageController) IconList() {
 	c.TplName = "admin/icons.html"
 }
 
-// Picture 图片检索
 func (c *AdminPageController) Picture() {
 	url := c.GetString("url")
 	if url != "" {
@@ -159,7 +130,6 @@ func (c *AdminPageController) Picture() {
 	c.TplName = "admin/picture.html"
 }
 
-// ListPicture 图片列表路由
 func (c *AdminPageController) PictureList() {
 	c.TplName = "admin/picture-list.html"
 }
@@ -213,12 +183,10 @@ func (c *AdminPageController) RoleList() {
 	c.TplName = "admin/role-list.html"
 }
 
-// 文章分类
 func (c *AdminPageController) CategoryList() {
 	c.TplName = "admin/category-list.html"
 }
 
-// 免费电影管理
 func (c *AdminPageController) Movies() {
 	c.TplName = "admin/movie-list.html"
 }
