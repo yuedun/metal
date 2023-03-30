@@ -62,9 +62,6 @@
             $("form").on('submit', function () {
                 login();
             });
-            $("#login").on("click", function () {
-                login();
-            });
             function login() {
                 let remember = $("input[name=remember]").is(':checked');
                 $.ajax({
