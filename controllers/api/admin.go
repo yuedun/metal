@@ -609,6 +609,7 @@ func (c *AdminAPIController) MovieDelete() {
 	id, _ := strconv.Atoi(c.Ctx.Input.Param(":id"))
 	movie := Movie{}
 	movie.Id = uint(id)
+	movie.Status = 1
 	_, err = movie.Delete()
 	if nil != err {
 		logs.Error(err)
