@@ -1,56 +1,46 @@
 version: '1.0'
 name: master-pipeline
 displayName: MasterPipeline
-stages:
-  - stage: 
-    name: compile
-    displayName: 编译
-    steps:
-      - step: build@golang
-        name: build_golang
-        displayName: Golang 构建
-        # 支持1.8、1.10、1.11、1.12、1.13、1.14、1.15、1.16八个版本
-        golangVersion: 1.12
-        # 构建命令
-        commands: |
-          mkdir output
-          GOOS=linux GOARCH=amd64 go build -o output/main.amd64 main.go
-          GOOS=linux GOARCH=386 go build -o output/main.linux32 main.go
-          GOOS=windows GOARCH=amd64 go build -o output/main.win64.exe main.go
-          GOOS=windows GOARCH=386 go build -o output/main.win32.exe main.go
-          GOOS=darwin GOARCH=amd64 go build -o output/main.darwin main.go 
-          chmod +X output/main.linux32
-          ./output/main.linux32
-        # 非必填字段，开启后表示将构建产物暂存，但不会上传到制品库中，24小时后自动清除
-        artifacts:
-            # 构建产物名字，作为产物的唯一标识可向下传递，支持自定义，默认为BUILD_ARTIFACT。在下游可以通过${BUILD_ARTIFACT}方式引用来获取构建物地址
-          - name: BUILD_ARTIFACT
-            # 构建产物获取路径，是指代码编译完毕之后构建物的所在路径
-            path:
-              - ./output
-      - step: publish@general_artifacts
-        name: publish_general_artifacts
-        displayName: 上传制品
-        # 上游构建任务定义的产物名，默认BUILD_ARTIFACT
-        dependArtifact: BUILD_ARTIFACT
-        # 上传到制品库时的制品命名，默认output
-        artifactName: output
-        dependsOn: build_golang
-  - stage: 
-    name: release
-    displayName: 发布
-    steps:
-      - step: publish@release_artifacts
-        name: publish_release_artifacts
-        displayName: '发布'
-        # 上游上传制品任务的产出
-        dependArtifact: output
-        # 发布制品版本号
-        version: '1.0.0.0'
-        # 是否开启版本号自增，默认开启
-        autoIncrement: true
 triggers:
+  trigger: auto
   push:
     branches:
       include:
         - master
+stages:
+  - name: deploy
+    displayName: 发布
+    strategy: naturally
+    trigger: auto
+    executor:
+      - hpgt
+    steps:
+      - step: deploy@agent
+        name: deploy_agent
+        displayName: 主机部署
+        hostGroupID:
+          ID: hecs-221218
+          hostID:
+            - 0c385664-d621-436e-b587-970f9b9d7962
+        deployArtifact:
+          - source: artifact
+            name: output
+            target: ~/gitee_go/deploy
+            artifactRepository: default
+            artifactName: output
+            artifactVersion: latest
+        script:
+          - '# 功能：部署脚本会在部署主机组的每台机器上执行'
+          - '# 使用场景：先将制品包解压缩到指定目录中，再执行启动脚本deploy.sh，脚本示例地址：https://gitee.com/gitee-go/spring-boot-maven-deploy-case/blob/master/deploy.sh'
+          - '# mkdir -p /home/admin/app'
+          - '# tar zxvf ~/gitee_go/deploy/output.tar.gz -C /home/admin/app'
+          - '# sh /home/admin/app/deploy.sh restart'
+          - '# 如果你是php之类的无需制品包的制品方式，可以使用 git clone 或者 git pull 将源代码更新到服务器，再执行其他命令'
+          - '# git clone ***@***.git'
+          - cd /home/yuedun/www/metal
+          - git pull origin master
+          - go build
+          - pm2 restart metal
+        notify: []
+        strategy:
+          retry: '0'
