@@ -5,6 +5,10 @@
     <title>{{.title}}</title>
     <meta name="keywords" content="{{.keywords}}">
     <meta name="description" content="{{.description}}">
+    <meta property="og:title" content="{{.title}}" />
+    <meta property="og:description" content="{{.description}}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.yuedun.wang/" />
     {{template "./layout-head.html" .}}
 </head>
 

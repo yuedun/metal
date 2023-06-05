@@ -79,8 +79,10 @@
                     <div class="col-lg-4">
                       <div class="form-group">
                         <label for="art_status">发布状态</label>
-                        <input type="number" class="form-control" id="art_status" value="{{.article.Status}}"
-                          placeholder="1:发布，0:草稿">
+                        <select class="form-control" id="art_status">
+                          <option value="0">草稿</option>
+                          <option value="1">发布</option>
+                        </select>
                       </div>
                     </div>
                   </div>
