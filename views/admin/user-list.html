@@ -139,11 +139,11 @@ desired effect
 
     <!-- 弹窗内容-->
     <div id="update-dialog" style="display: none;">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <!-- general form elements -->
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Quick Example</h3>
+                    <h3 class="box-title">修改用户</h3>
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
@@ -403,7 +403,7 @@ desired effect
                     let $updatedialog = $("#update-dialog");
                     $updatedialog.find("input[name=userId]").val(id);
                     $updatedialog.find("input[name=username]").val(data.data.username);
-                    $updatedialog.find("input[name=gender]").val(data.data.gender);
+                    $updatedialog.find("select[name=gender]").val(data.data.gender);
                     $updatedialog.find("input[name=email]").val(data.data.email);
                     $updatedialog.find("input[name=mobile]").val(data.data.mobile);
                     $updatedialog.find("input[name=addr]").val(data.data.addr);

@@ -80,8 +80,8 @@
                       <div class="form-group">
                         <label for="art_status">发布状态</label>
                         <select class="form-control" id="art_status">
-                          <option value="0">草稿</option>
-                          <option value="1">发布</option>
+                          <option value="0" {{if eq .article.Status 0}}selected="selected"{{end}}>草稿</option>
+                          <option value="1" {{if eq .article.Status 1}}selected="selected"{{end}}>发布</option>
                         </select>
                       </div>
                     </div>
