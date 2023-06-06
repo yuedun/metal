@@ -41,6 +41,19 @@ stages:
           - git pull origin master
           - go build
           - pm2 restart metal
-        notify: []
+        notify:
+          - certificate: d2ef7bd0-e644-013b-d532-2658c59f079a
+            events:
+              - success
+              - fail
+            content:
+              - repository
+              - pipeline
+              - stage
+              - task
+              - operator
+              - branch
+              - detail
+            type: dingtalk
         strategy:
           retry: '0'
