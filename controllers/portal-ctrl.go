@@ -97,8 +97,10 @@ func (c *PortalController) Article() {
 	}
 	article := &Article{}
 	article.Id = uint(artId)
+	article.Status = 1
 	articlePortal, err := article.ArticleDetail()
 	if err != nil {
+		logs.Error(err)
 		c.Abort("404")
 	}
 	artLog := &ArticleLog{

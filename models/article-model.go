@@ -1,7 +1,6 @@
 package models
 
 import (
-	"strconv"
 	"sync"
 	"time"
 
@@ -179,13 +178,24 @@ func (model *Article) GetKeywords() ([]ArticlePortal, error) {
 // 文章详情
 func (model *Article) ArticleDetail() (ArticlePortal, error) {
 	o := orm.NewOrm()
-	err := o.Read(model)
 	articlePortal := ArticlePortal{}
-	strID := strconv.Itoa(int(model.Id))
-	o.Raw("SELECT count(1) FROM article_log WHERE article_id = ?", model.Id).QueryRow(&articlePortal.ViewCount)
-	o.Raw("SELECT id, title FROM article WHERE id < " + strID + " ORDER BY id DESC LIMIT 1;").QueryRow(&articlePortal.Previous)
-	o.Raw("SELECT id, title FROM article WHERE id > " + strID + " ORDER BY id ASC LIMIT 1;").QueryRow(&articlePortal.Next)
-	return articlePortal, err
+	err := o.Read(model)
+	if err != nil {
+		return articlePortal, err
+	}
+	err = o.Raw("SELECT count(1) FROM article_log WHERE article_id = ?", model.Id).QueryRow(&articlePortal.ViewCount)
+	if err != nil {
+		return articlePortal, err
+	}
+	err = o.Raw("SELECT id, title FROM article WHERE id < ? and status = 1 ORDER BY id DESC LIMIT 1;", model.Id).QueryRow(&articlePortal.Previous)
+	if err != nil {
+		logs.Info("忽略该错误", err)
+	}
+	err = o.Raw("SELECT id, title FROM article WHERE id > ? and status = 1 ORDER BY id ASC LIMIT 1;", model.Id).QueryRow(&articlePortal.Next)
+	if err != nil {
+		logs.Info("忽略该错误", err)
+	}
+	return articlePortal, nil
 }
 
 func (model *Article) GetArticleViewCount(id uint) (int, error) {
