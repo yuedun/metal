@@ -32,6 +32,8 @@ windows:`$env:GOPROXY = "https://goproxy.cn"`
 GOOS=linux GOARCH=amd64 go build
 ```
 这个命令会生成一个linux可执行程序。然后上传到服务器即可。
+## 发送本地编译文件到服务器
+scp metal username@ip:~/home/username/www/metal
 
 ## 测试
 进入到有测试文件的目录执行`go test`可测试所有测试函数，如只需测试指定的函数。

@@ -138,3 +138,15 @@ func TestRequestByAjax3(t *testing.T) {
 	go util.RequestByAjax3(ch1, "上海", "nodejs")
 	t.Log(">>>>ch1", <-ch1)
 }
+
+func TestJWTCreate(t *testing.T) {
+	token, err := util.GetJwtToken("secret-key", 100000, util.AuthClaim{Username: "hello", Email: "hello@example.com"})
+	t.Log(err)
+	t.Log(token)
+}
+func TestJWTParse(t *testing.T) {
+	token := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MCwidXNlcm5hbWUiOiJoZWxsbyIsImVtYWlsIjoiaGVsbG9AZXhhbXBsZS5jb20iLCJleHAiOjE2OTMyMDYzMjksIm5iZiI6MTY5MzEwNjMyOSwiaWF0IjoxNjkzMTA2MzI5fQ.WhzEyF_nlWmxE5WPzZ5JiQdjgnbJH1sB1Ez8HYg-yv4"
+	claim, err := util.ParseToken(token, "secret-key")
+	t.Log(err)
+	t.Logf("%+v", claim)
+}
