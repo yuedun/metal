@@ -4,5 +4,8 @@
         "build.buildFlags": [
             "-tags=dis"
         ]
+    },
+    "go.testEnvVars": {
+        "CGO_CFLAGS":"-mmacosx-version-min=10.12"
     }
 }

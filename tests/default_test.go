@@ -13,12 +13,15 @@ import (
 	"metal/util"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"path/filepath"
 	"runtime"
+	"strings"
 	"sync"
 	"testing"
 	"time"
 
+	"github.com/PuerkitoBio/goquery"
 	"github.com/beego/beego/v2/client/orm"
 	"github.com/beego/beego/v2/core/logs"
 	beego "github.com/beego/beego/v2/server/web"
@@ -149,4 +152,26 @@ func TestJWTParse(t *testing.T) {
 	claim, err := util.ParseToken(token, "secret-key")
 	t.Log(err)
 	t.Logf("%+v", claim)
+}
+
+func TestMysql(t *testing.T) {
+	bts, err := os.ReadFile("./mysql.html")
+	if err != nil {
+		t.Error(err)
+	}
+	doc, err := goquery.NewDocumentFromReader(strings.NewReader(string(bts)))
+	if err != nil {
+		t.Error(err)
+	}
+	doc.Find(".section").Each(func(i int, s *goquery.Selection) {
+		idx := s.Find(".index").Text()
+		idx = strings.TrimSpace(idx)
+		title := s.Find(".title-text").Text()
+		title = strings.TrimSpace(title)
+		// fmt.Printf("%s:%s\n", strings.TrimSpace(idx), strings.TrimSpace(title))
+		err := os.Rename(fmt.Sprintf("/Users/huopanpan/Desktop/MySQL/%sMySQL 是怎样运行的：从根儿上理解 MySQL - 小孩子4919 - 掘金小册.pdf", idx), fmt.Sprintf("/Users/huopanpan/Desktop/MySQL/%s.pdf", idx+title))
+		if err != nil {
+			t.Log("改名错误：", err)
+		}
+	})
 }
