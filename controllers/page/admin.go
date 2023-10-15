@@ -18,6 +18,7 @@ type AdminPageController struct {
 }
 
 func (c *AdminPageController) Login() {
+	c.Data["status"] = 0
 	c.TplName = "admin/login.html"
 }
 
