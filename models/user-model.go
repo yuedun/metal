@@ -13,10 +13,12 @@ import (
 // 性别
 var SexMap = map[int]string{0: "女", 1: "男"}
 
+type USERSTATUS int
+
 const (
-	Forbid     = 0 //禁用
-	Ok         = 1 //正常
-	Unverified = 2 //未验证，注册未验证手机或邮箱
+	UserStatusForbid     USERSTATUS = 0 //禁用
+	UserStatusOk         USERSTATUS = 1 //正常
+	UserStatusUnverified USERSTATUS = 2 //未验证，注册未验证手机或邮箱
 )
 
 /**
@@ -24,15 +26,15 @@ const (
  */
 type User struct {
 	BaseModel
-	Username    string `json:"username" orm:"size(20)"`
-	Password    string `json:"password"`
-	Gender      int    `json:"gender" orm:"default(1);description(0女，1男)"` // 0女，1男
-	Mobile      string `json:"mobile"`
-	Email       string `json:"email" orm:"size(30);unique"`
-	Addr        string `json:"addr"  orm:"size(50)"`
-	Description string `json:"description"`
-	Status      int    `json:"status" orm:"default(1);description(0不可用，1可用)"` // 0不可用，1可用
-	Token       string `json:"-" orm:"type(text)"`
+	Username    string     `json:"username" orm:"size(20)"`
+	Password    string     `json:"password"`
+	Gender      int        `json:"gender" orm:"default(1);description(0女，1男)"` // 0女，1男
+	Mobile      string     `json:"mobile"`
+	Email       string     `json:"email" orm:"size(30);unique"`
+	Addr        string     `json:"addr"  orm:"size(50)"`
+	Description string     `json:"description"`
+	Status      USERSTATUS `json:"status" orm:"default(1);description(0不可用，1可用)"` // 0不可用，1可用
+	Token       string     `json:"-" orm:"type(text)"`
 }
 type UserVO struct {
 	User

@@ -53,10 +53,13 @@ func (c *UserAPIController) ToLogin() {
 		code = http.StatusInternalServerError
 		return
 	}
-	if user.Status == 0 {
+	if user.Status == UserStatusForbid {
 		err = fmt.Errorf("该账号已禁用，不能登录！")
 		code = http.StatusForbidden
 		return
+	} else if user.Status == UserStatusUnverified {
+		err = fmt.Errorf("账号未验证！")
+		code = http.StatusForbidden
 	} else if user.Password != util.GetMD5(password, salt) {
 		err = fmt.Errorf("密码不正确！")
 		code = http.StatusBadRequest
@@ -266,7 +269,7 @@ func (c *UserAPIController) UserUpdateStatus() {
 	status, _ := c.GetInt("status")
 	var user = new(User)
 	user.Id = uint(id)
-	user.Status = status
+	user.Status = USERSTATUS(status)
 	id64, err := user.UpdateStatus()
 	if nil != err {
 		logs.Error(err)

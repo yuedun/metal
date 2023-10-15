@@ -281,7 +281,7 @@ func (c *PortalController) Registration() {
 	user.Gender = 1
 	user.Email = req.Email
 	user.Password = password
-	user.Status = Unverified
+	user.Status = UserStatusUnverified
 
 	//TODO 事务注册
 	if _, err = user.Save(); err != nil {
@@ -324,7 +324,7 @@ func (c *PortalController) Verify() {
 		logs.Info("uid转类型失败", err)
 		c.Abort("500")
 	}
-	logs.Info(">>>>>>>", email, uid)
+	logs.Debug(">>>>>>>", email, uid)
 	if email == "" || uid == "" {
 		logs.Info("email或uid为空", err)
 		c.Abort("500")
@@ -335,7 +335,7 @@ func (c *PortalController) Verify() {
 	if err = user.GetByCondition(); err != nil {
 		c.Abort("500")
 	}
-	user.Status = Ok
+	user.Status = UserStatusOk
 	if _, err = user.UpdateStatus(); err != nil {
 		c.Abort("500")
 	}
@@ -344,6 +344,7 @@ func (c *PortalController) Verify() {
 	if nil != err {
 		c.Abort("500")
 	}
+	c.Data["status"] = UserStatusOk
 
 	c.TplName = "admin/login.html"
 }

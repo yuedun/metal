@@ -20,7 +20,7 @@ func init() {
 	beego.CtrlGet("/message", (*controllers.PortalController).Message)            //留言列表
 	beego.CtrlPost("/message", (*controllers.PortalController).CreateMessage)     //留言
 	beego.CtrlPost("/registration", (*controllers.PortalController).Registration) //注册
-	beego.CtrlGet("/verify", (*controllers.PortalController).Verify)              //验证
+	beego.CtrlGet("/verify", (*controllers.PortalController).Verify)              //验证账号
 
 	//namespace中的路由推荐用NS开头的方法
 	//admin管理后台路由配置
