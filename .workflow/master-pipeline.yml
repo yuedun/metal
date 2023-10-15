@@ -21,7 +21,7 @@ stages:
         hostGroupID:
           ID: hecs-221218
           hostID:
-            - 0c385664-d621-436e-b587-970f9b9d7962
+            - 8a65484b-1006-40bf-8515-bf3cbc56dcc8
         deployArtifact:
           - source: artifact
             name: output
