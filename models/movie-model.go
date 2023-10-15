@@ -47,7 +47,7 @@ func (mov *Movie) GetMovieList(cond string, start, perPage int) (list []Movie, t
 	o := orm.NewOrm()
 	var condition = " WHERE 1 = 1 "
 	if cond != "" {
-		condition += "and tag like '%" + cond + "%' "
+		condition += "and name like '%" + cond + "%' "
 	}
 	var wg sync.WaitGroup
 	wg.Add(2)
@@ -55,7 +55,7 @@ func (mov *Movie) GetMovieList(cond string, start, perPage int) (list []Movie, t
 		defer wg.Done()
 		var sql = "SELECT * FROM movie "
 		sql += condition
-		sql += " LIMIT ?, ?"
+		sql += " order by status LIMIT ?, ?"
 		_, err1 := o.Raw(sql, strconv.Itoa(start), strconv.Itoa(perPage)).QueryRows(&list)
 		if err1 != nil {
 			err = err1
@@ -89,7 +89,7 @@ func (mov *Movie) Update(cols []string) (int64, error) {
 // 通过id删除
 func (mov *Movie) Delete() (int64, error) {
 	o := orm.NewOrm()
-	id, err := o.Update(mov, "status") // 要修改的对象和需要修改的字段
+	id, err := o.Delete(mov) // 要修改的对象和需要修改的字段
 	if err != nil {
 		return id, err
 	} else {
