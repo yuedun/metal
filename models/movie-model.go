@@ -55,7 +55,7 @@ func (mov *Movie) GetMovieList(cond string, start, perPage int) (list []Movie, t
 		defer wg.Done()
 		var sql = "SELECT * FROM movie "
 		sql += condition
-		sql += " order by status LIMIT ?, ?"
+		sql += " order by status, created_at LIMIT ?, ?"
 		_, err1 := o.Raw(sql, strconv.Itoa(start), strconv.Itoa(perPage)).QueryRows(&list)
 		if err1 != nil {
 			err = err1

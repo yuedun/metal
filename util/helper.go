@@ -214,3 +214,17 @@ func SendEmail(subject, body string, to []string) (err error) {
 func GetRandomWithAll(min, max int) int64 {
 	return int64(rand.Intn(max-min+1) + min)
 }
+
+func Retry(attempts int, sleep time.Duration, f func(c int) error) (err error) {
+	for i := 0; i < attempts; i++ {
+		if i > 0 {
+			time.Sleep(sleep)
+			sleep *= 2
+		}
+		err = f(i)
+		if err == nil {
+			return nil
+		}
+	}
+	return fmt.Errorf("after %d attempts, last error: %s", attempts, err)
+}
