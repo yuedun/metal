@@ -43,11 +43,14 @@ func (mov *Movie) MovieInfo() error {
 	return o.Read(mov)
 }
 
-func (mov *Movie) GetMovieList(cond string, start, perPage int) (list []Movie, total int64, err error) {
+func (mov *Movie) GetMovieList(name, url string, start, perPage int) (list []Movie, total int64, err error) {
 	o := orm.NewOrm()
 	var condition = " WHERE 1 = 1 "
-	if cond != "" {
-		condition += "and name like '%" + cond + "%' "
+	if name != "" {
+		condition += "and name like '%" + name + "%' "
+	}
+	if url != "" {
+		condition += "and url like '%" + url + "%' "
 	}
 	var wg sync.WaitGroup
 	wg.Add(2)

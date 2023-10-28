@@ -510,9 +510,11 @@ func (c *AdminAPIController) MovieList() {
 	// args := c.GetString("search") //搜索框
 	start, _ := c.GetInt("start")
 	perPage, _ := c.GetInt("perPage")
+	mname := c.GetString("name")
+	url := c.GetString("url")
 	movie := Movie{}
 
-	list, total, err := movie.GetMovieList("", start, perPage)
+	list, total, err := movie.GetMovieList(mname, url, start, perPage)
 	if nil != err {
 		logs.Error(err)
 		c.Data["json"] = c.ErrorData(err)
