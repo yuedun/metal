@@ -1,0 +1,102 @@
+variables:
+  GOPATH: ${CI_PROJECT_DIR}/.go
+  GOMODCACHE: ${CI_PROJECT_DIR}/.go/pkg/mod
+  GOCACHE: ${CI_PROJECT_DIR}/.go/.cache/go-build
+  GOLANGCI_LINT_CACHE: ${CI_PROJECT_DIR}/.go/.cache/golangci-lint
+
+stages:
+  - build-binary
+  - build-image
+  - deploy
+
+build-binary:
+  stage: build-binary
+  # when: manual
+  only:
+    - dev
+    - master
+    - tags
+  image: golang:1.20
+  script:
+    - git version
+    - go env -w GOPROXY=https://goproxy.cn,direct
+    - sh build.sh -l
+  cache:
+    paths:
+      - .go
+  artifacts:
+    paths:
+      - out/metal
+
+build-image-test:
+  stage: build-image
+  # when: manual
+  only:
+    - dev
+  before_script:
+    - apk add git
+  dependencies:
+    - build-binary
+  artifacts:
+    paths:
+      - out/metal
+  script:
+    - docker version
+    - docker login -u $user -p $password
+    - git version
+    - sh image/build-image.sh -p
+
+build-image-prod:
+  stage: build-image
+  when: manual
+  only:
+    - master
+    - tags
+  before_script:
+    - apk add git
+  dependencies:
+    - build-binary
+  artifacts:
+    paths:
+      - out/metal
+  script:
+    - docker version
+    - docker login -u $user -p $password
+    - git version
+    - sh image/build-image.sh -p -v $CI_COMMIT_SHORT_SHA
+
+deploy_test:
+  stage: deploy
+  # when: manual
+  only:
+    - dev
+  image: kube_ci:admin
+  script:
+    - kubectl config set-cluster my-cluster --insecure-skip-tls-verify=true --server=https://xxx/k8s/clusters/c-vqt2j
+    - kubectl config set-credentials my-user --token=xxx
+    - kubectl config set-context my-context --cluster=my-cluster --user=my-user --namespace=test
+    - kubectl config use-context my-context
+    - kubectl -n test rollout restart deployment metal
+
+deploy_prod:
+  stage: deploy
+  when: manual
+  only:
+    - master
+    - tags
+  image: kube_ci:admin
+  script:
+    - kubectl config set-cluster my-cluster --insecure-skip-tls-verify=true --server=https://xxx/k8s/clusters/c-vqt2j
+    - kubectl config set-credentials my-user --token=xxx
+    - kubectl config set-context my-context --cluster=my-cluster --user=my-user --namespace=production
+    - kubectl config use-context my-context
+    - kubectl set image -n production deployment/metal metal=metal:v$CI_COMMIT_SHORT_SHA
+
+# dingding:
+#   stage: .post
+#   before_script:
+#     - apk add curl
+#   script:
+#     - " curl 'https://oapi.dingtalk.com/robot/send?access_token=defe18e361514bb3b1ac7b44ff25e0862498e6e681fedcf28563dc15205001eb' \
+#         -H 'Content-Type: application/json' \
+#         -d '{\"msgtype\": \"markdown\",\"markdown\": {\"title\":\"测服发布\",\"text\": \"发布成功\"}}'"

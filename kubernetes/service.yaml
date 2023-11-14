@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: metal
+  labels:
+    app: metal
+spec:
+  type: NodePort
+  ports:
+  - name: http
+    port: 9030
+    targetPort: 9030
+    protocol: TCP
+  selector:
+    app: metal
