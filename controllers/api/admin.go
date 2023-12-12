@@ -94,7 +94,7 @@ func (c *AdminAPIController) UploadImg() {
 		return
 	}
 	url, _ := beego.AppConfig.String("qiniuUrl")
-	data = url + ret.Key + "?imageslim"
+	data = url + ret.Key
 }
 
 func (c *AdminAPIController) MessageList() {
