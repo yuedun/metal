@@ -103,16 +103,20 @@ func (c *PortalController) Article() {
 		logs.Error(err)
 		c.Abort("404")
 	}
-	artLog := &ArticleLog{
-		ArticleId: article.Id,
-		Mark:      c.Ctx.Input.Header("Remote_addr"),
-	}
-	artLog.Save() //记录访问日志
-	if err != nil {
-		logs.Error(err)
+	runmode, _ := config.String("runmode")
+	if runmode == "prod" {
+		artLog := &ArticleLog{
+			ArticleId: article.Id,
+			Mark:      c.Ctx.Input.Header("Remote_addr"),
+		}
+		_, err = artLog.Save() //记录访问日志
+		if err != nil {
+			logs.Error(err)
+		}
 	}
 	articlePortal.Title = article.Title
 	articlePortal.Keywords = article.Keywords
+	articlePortal.Description = article.Description
 	articlePortal.Content = util.Md2html(article.Content)
 	articlePortal.Category = article.Category
 	articlePortal.UpdatedAt = article.UpdatedAt.Format("2006-01-02 15:04")

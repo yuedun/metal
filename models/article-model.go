@@ -11,11 +11,12 @@ import (
 
 type Article struct {
 	BaseModel
-	Title    string `json:"title"`
-	Keywords string `json:"keywords"`
-	Content  string `json:"content" org:"type(text)"`
-	Category string `json:"category"` //分类
-	Status   uint8  `json:"status"`
+	Title       string `json:"title"`
+	Keywords    string `json:"keywords"`
+	Description string `json:"description"`
+	Content     string `json:"content" org:"type(text)"`
+	Category    string `json:"category"` //分类
+	Status      uint8  `json:"status"`
 }
 
 // func (a Article) MarshalJSON() ([]byte, error) {

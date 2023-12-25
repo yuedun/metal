@@ -148,6 +148,10 @@ a:hover {
     color: #6e7373;
 }
 
+.article-page .layui-row{
+    margin: 10px 0;
+}
+
 .page-header {
     margin-top: 20px;
     margin-bottom: 20px;

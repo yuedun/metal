@@ -4,7 +4,11 @@
 <head>
 	<title>{{.article.Title}}-月盾的网站</title>
 	<meta name="keywords" content="{{.article.Keywords}}">
+	{{if eq .article.Description ""}}
 	<meta name="description" content="{{substr .article.Content 0 200}}">
+	{{else}}
+	<meta name="description" content="{{.article.Description}}">
+	{{end}}
 	{{template "./layout-head.html" .}}
 	<link rel="stylesheet" href="/static/css/markdown.css" />
 </head>
@@ -31,8 +35,6 @@
 						{{str2html .article.Content}}
 					</div>
 				</article>
-				<hr>
-				<p>关键词：{{.article.Keywords}}</p>
 				<hr>
 				<div class="layui-row">
 					<div class="layui-col-md6">{{if gt .article.Previous.Id .zero}}<i

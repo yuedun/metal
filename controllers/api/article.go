@@ -51,6 +51,7 @@ func (c *ArticleAPIController) ArticleCreate() {
 	}
 	category := c.GetString("category")
 	keywords := c.GetString("keywords")
+	description := c.GetString("description")
 	status, _ := c.GetUint8("status")
 
 	article := Article{}
@@ -58,6 +59,7 @@ func (c *ArticleAPIController) ArticleCreate() {
 	article.Content = content
 	article.Category = category
 	article.Keywords = keywords
+	article.Description = description
 	article.Status = status
 	articleService := service.NewArticleService(orm.NewOrm())
 	_, err = articleService.Save(article)
@@ -111,14 +113,16 @@ func (c *ArticleAPIController) ArticleEdit() {
 	}
 	category := c.GetString("category")
 	keywords := c.GetString("keywords")
+	description := c.GetString("description")
 	status, _ := c.GetUint8("status")
 	article.Id = uint(artId)
 	article.Title = title
 	article.Content = content
 	article.Category = category
 	article.Keywords = keywords
+	article.Description = description
 	article.Status = status
-	_, err = article.Update([]string{"title", "content", "category", "keywords", "status", "updated_at"})
+	_, err = article.Update([]string{"title", "content", "category", "keywords", "description", "status", "updated_at"})
 	if err != nil {
 		logs.Warn("更新文章失败")
 		err = fmt.Errorf("更新文章失败")
