@@ -175,3 +175,24 @@ func TestMysql(t *testing.T) {
 		}
 	})
 }
+func TestMovie(t *testing.T) {
+	o := orm.NewOrm()
+	list := []models.Movie{}
+	o.Raw("select * from movie").QueryRows(&list)
+	// for _, v := range list {
+	// urls := strings.Split(v.URL, ",")
+	// for _, v2 := range urls {
+	// 	murl := models.MovieUrl{
+	// 		Movie:         &models.Movie{BaseModel: models.BaseModel{Id: v.Id}},
+	// 		URL:           v2,
+	// 		Status:        v.Status,
+	// 		StatusComment: v.StatusComment,
+	// 		BaseModel: models.BaseModel{
+	// 			CreatedAt: v.CreatedAt,
+	// 			UpdatedAt: v.UpdatedAt,
+	// 		},
+	// 	}
+	// 	o.Insert(&murl)
+	// }
+	// }
+}

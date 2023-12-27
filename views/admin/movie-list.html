@@ -70,12 +70,51 @@ desired effect
                     </div>
                     <button type="submit" id="search" class="btn btn-default">搜索</button>
                     <button type="button" class="btn btn-primary h-add" data-toggle="modal"
-                    data-target="#modal-default">添加</button>
+                      data-target="#modal-default">添加</button>
                   </form>
                 </div>
               </div>
               <!-- /.box-header search-->
               <div class="box-body">
+                <div class="card">
+                  <div class="card-header">
+                    <h3 class="card-title">Condensed Full Width Table</h3>
+                  </div>
+
+                  <div class="card-body p-0">
+                    <table class="table table-sm">
+                      <thead>
+                        <tr>
+                          <th style="width: 10px">#</th>
+                          <th>网站名称</th>
+                          <th>地址</th>
+                          <th>状态</th>
+                          <th>状态说明</th>
+                          <th>创建时间</th>
+                          <th>更新时间</th>
+                          <th style="width: 40px">操作</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>1.</td>
+                          <td>Update software</td>
+                          <td>
+                            <div class="progress progress-xs">
+                              <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
+                            </div>
+                          </td>
+                          <td><span class="badge bg-danger">55%</span></td>
+                          <td><span class="badge bg-danger">55%</span></td>
+                          <td><span class="badge bg-danger">55%</span></td>
+                          <td><span class="badge bg-danger">55%</span></td>
+                          <td><span class="badge bg-danger">55%</span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                
                 <table id="dataList" class="table table-bordered table-striped">
                   <thead>
                     <tr>
@@ -292,7 +331,7 @@ desired effect
           {
             data: 'url',
             render: function (data, type, row) {
-              var html = '<a class="" target="_blank" href="' + row.url + '">' + row.url + '</a>';
+              var html = '<a class="" target="_blank" href="' + data + '">' + data + '</a>';
               return html;
             }
           },
@@ -307,7 +346,12 @@ desired effect
               return statusMap[data];
             }
           },
-          { data: 'statusCommnet' },
+          {
+            data: 'statusCommnet',
+            render: function (data, type, row) {
+              return data;
+            }
+          },
           {
             data: 'created_at',
             render: function (data, type, row) {
@@ -316,7 +360,6 @@ desired effect
           },
           {
             data: 'updated_at',
-
             render: function (data, type, row) {
               return moment(data).format("YYYY-MM-DD HH:mm:ss");
             }
@@ -415,12 +458,12 @@ desired effect
             layer.msg(data.msg, { icon: 5 });
             return
           }
-          let urlArr = data.data.url.split(",");
+          let urlArr = data.data.urls;
           $("#movieId").val(id);
           $("#update-dialog input[name=name]").val(data.data.name);
-          $("#update-dialog input[name=url]").val(urlArr[0]);
-          $("#update-dialog input[name=url2]").val(urlArr[1]);
-          $("#update-dialog input[name=url3]").val(urlArr[2]);
+          $("#update-dialog input[name=url]").val(urlArr[0].url);
+          $("#update-dialog input[name=url2]").val(urlArr[1]?.url);
+          $("#update-dialog input[name=url3]").val(urlArr[2]?.url);
           layer.open({
             type: 1,
             area: ['500px', 'auto'],

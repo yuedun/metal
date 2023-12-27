@@ -541,7 +541,7 @@ func (c *AdminAPIController) MovieAdd() {
 	}
 	movie := Movie{
 		Name: name,
-		URL:  url,
+		// URL:  url,
 	}
 	_, err := movie.Save()
 	if nil != err {
@@ -566,6 +566,23 @@ func (c *AdminAPIController) MovieInfo() {
 }
 
 func (c *AdminAPIController) MovieUpdate() {
+	var err error
+	var code int
+	var data interface{}
+	defer func(start time.Time) {
+		var rsp controllers.Result
+		rsp.Code = code
+		rsp.Cost = time.Since(start).Milliseconds()
+		rsp.Msg = http.StatusText(code)
+		if err != nil {
+			rsp.Msg = fmt.Sprintf("%s - %s", rsp.Msg, err.Error())
+			logs.Error(rsp.Msg)
+			c.Data["json"] = c.ErrorData(err, code)
+		} else {
+			c.Data["json"] = c.SuccessData(data)
+		}
+		c.ServeJSON()
+	}(time.Now())
 	id, _ := c.GetInt("id")
 	name := c.GetString("name")
 	url := c.GetString("url")
@@ -577,17 +594,28 @@ func (c *AdminAPIController) MovieUpdate() {
 	if url3 != "" {
 		url = url + "," + url3
 	}
-	movie := new(Movie)
-	movie.Id = uint(id)
-	movie.Name = name
-	movie.URL = url
-	_, err := movie.Update([]string{"name", "url"})
+
+	movurl := MovieUrl{}
+	movurl.Id = uint(id)
+	err = movurl.FindById()
 	if nil != err {
 		logs.Error(err)
-		c.Data["json"] = c.ErrorData(err)
+		return
 	}
-	c.Data["json"] = c.SuccessData(movie)
-	c.ServeJSON()
+	movurl.URL = url
+	_, err = movurl.Update([]string{"url"})
+	if nil != err {
+		logs.Error(err)
+		return
+	}
+	movie := new(Movie)
+	movie.Id = movurl.Movie.Id
+	movie.Name = name
+	_, err = movie.Update([]string{"name"})
+	if nil != err {
+		logs.Error(err)
+		return
+	}
 }
 
 func (c *AdminAPIController) MovieDelete() {
@@ -611,7 +639,7 @@ func (c *AdminAPIController) MovieDelete() {
 	id, _ := strconv.Atoi(c.Ctx.Input.Param(":id"))
 	movie := Movie{}
 	movie.Id = uint(id)
-	movie.Status = 1
+	// movie.Status = 1
 	_, err = movie.Delete()
 	if nil != err {
 		logs.Error(err)

@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"metal/models"
 	"net/http"
-	"strings"
 	"time"
 
 	"github.com/beego/beego/v2/core/config"
@@ -37,47 +36,53 @@ func CronStart() {
 				logs.Error(err)
 			}
 			for _, v := range list {
-				urls := strings.Split(v.URL, ",")
-				logs.Debug(v.Id, urls)
-				u, status, statusComments := v, 0, []string{}
-				for _, url := range urls {
-					trans := &http.Transport{
-						DisableKeepAlives: true,
-						TLSClientConfig:   &tls.Config{InsecureSkipVerify: true},
-					}
-					var cli = &http.Client{
-						Timeout:   time.Second * 300,
-						Transport: trans,
-					}
-					req, err := http.NewRequest(http.MethodGet, url, nil)
-					if err != nil {
-						logs.Error(err)
-						status = 2
-						statusComments = append(statusComments, fmt.Sprintf("%s %s", url, err.Error()))
-						break
-					}
-					resp, err := cli.Do(req)
-					if err != nil {
-						logs.Error(err)
-						status = 2
-						statusComments = append(statusComments, fmt.Sprintf("%s %s", url, err.Error()))
-						break
-					}
-					defer resp.Body.Close()
-					if resp.StatusCode != 200 && resp.StatusCode != 512 && resp.StatusCode != 403 {
-						logs.Error(url, resp.Status)
-						status = 2
-						statusComments = append(statusComments, fmt.Sprintf("%s %s", url, resp.Status))
-					}
+				urls := v.URLs
+				status, statusComment := 0, ""
+				for _, urlss := range urls {
+					go func(url models.MovieUrl) {
+						logs.Debug(url.Id, url.URL)
+						defer func() {
+							if status == 2 {
+								url.Status = status
+								url.StatusComment = statusComment
+							} else {
+								url.Status = 0
+								url.StatusComment = ""
+							}
+							logs.Debug("更新数据", url.Id)
+							url.Update([]string{"status", "status_comment"})
+						}()
+						trans := &http.Transport{
+							DisableKeepAlives: true,
+							TLSClientConfig:   &tls.Config{InsecureSkipVerify: true},
+						}
+						var cli = &http.Client{
+							Timeout:   time.Second * 300,
+							Transport: trans,
+						}
+						req, err := http.NewRequest(http.MethodGet, url.URL, nil)
+						if err != nil {
+							logs.Error(err)
+							status = 2 //异常
+							statusComment = fmt.Sprintf("%s %s", url.URL, err.Error())
+							return
+						}
+						resp, err := cli.Do(req)
+						if err != nil {
+							logs.Error(err)
+							status = 2
+							statusComment = fmt.Sprintf("%s %s", url.URL, err.Error())
+							return
+						}
+						defer resp.Body.Close()
+						if resp.StatusCode != 200 && resp.StatusCode != 512 && resp.StatusCode != 403 {
+							logs.Error(url.URL, resp.Status)
+							status = 2
+							statusComment = fmt.Sprintf("%s %s", url.URL, resp.Status)
+							return
+						}
+					}(*urlss)
 				}
-				if status == 2 {
-					u.Status = status
-					u.StatusComment = strings.Join(statusComments, ",")
-				} else {
-					u.Status = 0
-					u.StatusComment = ""
-				}
-				u.Update([]string{"status", "status_comment"})
 			}
 		})
 		logs.Debug(id, err)
