@@ -1,7 +1,6 @@
 package models
 
 import (
-	"strconv"
 	"sync"
 
 	"github.com/beego/beego/v2/core/logs"
@@ -9,35 +8,26 @@ import (
 	"github.com/beego/beego/v2/client/orm"
 )
 
-// type Movie struct {
-// 	BaseModel
-// 	Name          string `json:"name" orm:"size(50)"`
-// 	URL           string `json:"urls" orm:"column(url)"`
-// 	Status        int    `json:"status"` //0:正常，1:禁用，2:有异常
-// 	StatusComment string `json:"statusCommnet"`
-// }
-
 type Movie struct {
 	BaseModel
 	Name          string      `json:"name" orm:"size(50)"`
-	URLs          []*MovieUrl `json:"urls" orm:"reverse(many)"`
-	Status        int         `json:"status"` //0:正常，1:禁用，2:有异常
-	StatusComment string      `json:"statusCommnet"`
+	URLs          []*MovieUrl `json:"urls" orm:"-"`
+	Status        int         `json:"-"`
+	StatusComment string      `json:"-"`
 }
 type MovieUrl struct {
 	BaseModel
-	Movie         *Movie `orm:"rel(fk)"` // RelForeignKey relation
+	MovieId       uint   `json:"-" orm:"column(movie_id)"`
 	URL           string `json:"url" orm:"column(url)"`
 	Status        int    `json:"status"` //0:正常，1:禁用，2:有异常
 	StatusComment string `json:"statusCommnet"`
 }
 
-type MovieView struct {
-	BaseModel
-	Name          string `json:"name" orm:"size(50)"`
-	URL           string `json:"url" orm:"column(url)"`
-	Status        int    `json:"status"` //0:正常，1:禁用，2:有异常
-	StatusComment string `json:"statusCommnet"`
+// 视图结构体
+type MovieVO struct {
+	Id     uint   `json:"id"`
+	Name   string `json:"name"`
+	Movies []MovieUrl
 }
 
 func init() {
@@ -66,7 +56,7 @@ func (mov *Movie) MovieInfo() error {
 	return nil
 }
 
-func (mov *Movie) GetMovieList(name, url string, start, perPage int) (list []MovieView, total int64, err error) {
+func (mov *Movie) GetMovieList(name, url string, start, perPage int) (list []Movie, total int64, err error) {
 	o := orm.NewOrm()
 	var condition = " WHERE 1 = 1 "
 	if name != "" {
@@ -79,21 +69,46 @@ func (mov *Movie) GetMovieList(name, url string, start, perPage int) (list []Mov
 	wg.Add(2)
 	go func() {
 		defer wg.Done()
-		var sql = "SELECT movie_url.id, movie.name, movie_url.url, movie_url.status, movie_url.status_comment, movie_url.created_at,movie_url.updated_at FROM movie left join movie_url on movie.id = movie_url.movie_id "
+		var sql = "SELECT movie.id, movie.name FROM movie "
 		sql += condition
-		sql += " order by movie_url.status, movie.created_at LIMIT ?, ?"
-		_, err1 := o.Raw(sql, strconv.Itoa(start), strconv.Itoa(perPage)).QueryRows(&list)
+		sql += " order by movie.created_at LIMIT ?, ?"
+		_, err1 := o.Raw(sql, start, perPage).QueryRows(&list)
 		if err1 != nil {
 			err = err1
 		}
-		// for idx, v := range list {
-		// 	o.Raw("select * from movie_url where movie_id = ?", v.Id).QueryRows(&v.URLs)
-		// 	list[idx].URLs = v.URLs
-		// }
+		movieIds := []uint{}
+		for _, v := range list {
+			movieIds = append(movieIds, v.Id)
+		}
+		list2 := []MovieUrl{}
+		qs := "select * from movie_url where movie_id IN ("
+		for i, _ := range movieIds {
+			if i > 0 {
+				qs += ","
+			}
+			qs += "?"
+		}
+		qs += ")"
+		if _, err1 := o.Raw(qs, movieIds).QueryRows(&list2); err != nil {
+			err = err1
+		}
+		movieMap := make(map[uint][]*MovieUrl)
+		for i := 0; i < len(list2); i++ {
+			movieMap[list2[i].MovieId] = append(movieMap[list2[i].MovieId], &list2[i])
+		}
+		for idx, v := range list {
+			list[idx].Id = v.Id
+			list[idx].Name = v.Name
+			if _, ok := movieMap[v.Id]; ok {
+				list[idx].URLs = movieMap[v.Id]
+			} else {
+				list[idx].URLs = []*MovieUrl{}
+			}
+		}
 	}()
 	go func() {
 		defer wg.Done()
-		var sql = "SELECT COUNT(0) FROM movie left join movie_url on movie.id = movie_url.movie_id "
+		var sql = "SELECT COUNT(0) FROM movie "
 		sql += condition
 		err1 := o.Raw(sql).QueryRow(&total)
 		if err1 != nil {

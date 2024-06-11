@@ -3,7 +3,7 @@
 This is a starter template page. Use this page to start your new project from
 scratch. This page gets rid of all links and provides the needed markup only.
 -->
-<html lang="zh-cn-Hans">
+<html lang="cmn-Hans">
 
 <head>
   <title>免费电影网站</title>
@@ -76,45 +76,6 @@ desired effect
               </div>
               <!-- /.box-header search-->
               <div class="box-body">
-                <div class="card">
-                  <div class="card-header">
-                    <h3 class="card-title">Condensed Full Width Table</h3>
-                  </div>
-
-                  <div class="card-body p-0">
-                    <table class="table table-sm">
-                      <thead>
-                        <tr>
-                          <th style="width: 10px">#</th>
-                          <th>网站名称</th>
-                          <th>地址</th>
-                          <th>状态</th>
-                          <th>状态说明</th>
-                          <th>创建时间</th>
-                          <th>更新时间</th>
-                          <th style="width: 40px">操作</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>1.</td>
-                          <td>Update software</td>
-                          <td>
-                            <div class="progress progress-xs">
-                              <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-                            </div>
-                          </td>
-                          <td><span class="badge bg-danger">55%</span></td>
-                          <td><span class="badge bg-danger">55%</span></td>
-                          <td><span class="badge bg-danger">55%</span></td>
-                          <td><span class="badge bg-danger">55%</span></td>
-                          <td><span class="badge bg-danger">55%</span></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-                
                 <table id="dataList" class="table table-bordered table-striped">
                   <thead>
                     <tr>
@@ -329,39 +290,59 @@ desired effect
           // { data: 'id' },
           { data: 'name', width: '100px', searchable: true },
           {
-            data: 'url',
+            data: 'urls',
             render: function (data, type, row) {
-              var html = '<a class="" target="_blank" href="' + data + '">' + data + '</a>';
+              var html = '';
+              data.forEach(element => {
+                html += '<a href="' + element.url + '" target="_blank">' + element.url + '</a><br />';
+              });
               return html;
             }
           },
           {
-            data: 'status',
+            data: 'urls',
             render: function (data, type, row) {
               let statusMap = {
                 0: '<small class="label bg-green">正常</small>',
                 1: '<small class="label bg-red">不能访问</small>',
                 2: '<small class="label bg-orange">异常</small>',
               };
-              return statusMap[data];
+              var html = '';
+              data.forEach(element => {
+                html += statusMap[element.status] + '<br />';
+              });
+              return html;
             }
           },
           {
-            data: 'statusCommnet',
+            data: 'urls',
             render: function (data, type, row) {
-              return data;
+              var html = '';
+              data.forEach(element => {
+                html += element.statusCommnet + '<br />';
+              });
+              return html;
             }
           },
           {
-            data: 'created_at',
+            data: 'urls',
             render: function (data, type, row) {
-              return moment(data).format("YYYY-MM-DD HH:mm:ss");
+              var html = '';
+              data.forEach(element => {
+                html += moment(element.created_at).format("YYYY-MM-DD HH:mm:ss") + '<br />';
+              });
+              return html;
             }
           },
           {
-            data: 'updated_at',
+            data: 'urls',
+            width: '200px',
             render: function (data, type, row) {
-              return moment(data).format("YYYY-MM-DD HH:mm:ss");
+              var html = '';
+              data.forEach(element => {
+                html += moment(element.updated_at).format("YYYY-MM-DD HH:mm:ss") + '<br />';
+              });
+              return html;
             }
           },
           {

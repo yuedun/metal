@@ -609,7 +609,7 @@ func (c *AdminAPIController) MovieUpdate() {
 		return
 	}
 	movie := new(Movie)
-	movie.Id = movurl.Movie.Id
+	movie.Id = movurl.MovieId
 	movie.Name = name
 	_, err = movie.Update([]string{"name"})
 	if nil != err {

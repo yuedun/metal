@@ -228,3 +228,14 @@ func Retry(attempts int, sleep time.Duration, f func(c int) error) (err error) {
 	}
 	return fmt.Errorf("after %d attempts, last error: %s", attempts, err)
 }
+
+func BuildInSQL[T any](arr []T) string {
+	qs := ""
+	for i, _ := range arr {
+		if i > 0 {
+			qs += ","
+		}
+		qs += "?"
+	}
+	return qs
+}

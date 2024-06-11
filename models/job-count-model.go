@@ -8,7 +8,7 @@ import (
 	"github.com/beego/beego/v2/client/orm"
 )
 
-//JobCount 添加tag标签
+// JobCount 添加tag标签
 type JobCount struct {
 	BaseModel
 	JobTitle string `json:"job_title"`
@@ -20,7 +20,7 @@ func init() {
 	orm.RegisterModel(new(JobCount))
 }
 
-//Save 添加记录
+// Save 添加记录
 func (jobCount *JobCount) Save() (int64, error) {
 	o := orm.NewOrm()
 	return o.Insert(jobCount)
@@ -32,7 +32,7 @@ type JobData struct {
 	Nodejs    string `json:"nodejs"`
 }
 
-//GetCountData 获取记录列表，利用行专列将同一天数据一行展示
+// GetCountData 获取记录列表，利用行专列将同一天数据一行展示
 func (jobCount *JobCount) GetCountData(startDate, endDate string) ([]JobData, error) {
 	o := orm.NewOrm()
 	var jobCounts []JobData
@@ -50,7 +50,7 @@ func (jobCount *JobCount) GetCountData(startDate, endDate string) ([]JobData, er
 	return jobCounts, err
 }
 
-//GetCountDataAll 所有历史数据，按月平均值统计
+// GetCountDataAll 所有历史数据，按月平均值统计
 func (jobCount *JobCount) GetCountDataAll() ([]JobData, error) {
 	o := orm.NewOrm()
 	var jobCounts []JobData
@@ -64,4 +64,21 @@ func (jobCount *JobCount) GetCountDataAll() ([]JobData, error) {
 	num, err := o.Raw(sql).QueryRows(&jobCounts)
 	logs.Info("每月平均查询到", num, "条数据")
 	return jobCounts, err
+}
+
+type JobDataLanguage struct {
+	Count    int    //数量
+	Region   string //地区
+	Language string //语言
+}
+
+// 保存数据
+func SaveJob(c JobDataLanguage) {
+	jobCount := &JobCount{
+		JobTitle: c.Language,
+		Amount:   uint(c.Count),
+		Region:   c.Region,
+	}
+	jobCount.Save()
+	logs.Info("保存job成功", c.Language, c.Count)
 }
