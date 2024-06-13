@@ -70,7 +70,7 @@ desired effect
                     </div>
                     <button type="submit" id="search" class="btn btn-default">搜索</button>
                     <button type="button" class="btn btn-primary h-add" data-toggle="modal"
-                      data-target="#modal-default">添加</button>
+                      data-target="#modal-mv-add">添加</button>
                   </form>
                 </div>
               </div>
@@ -79,9 +79,9 @@ desired effect
                 <table id="dataList" class="table table-bordered table-striped">
                   <thead>
                     <tr>
-                      <th>name</th>
-                      <th>url</th>
-                      <th>status</th>
+                      <th>网站名称</th>
+                      <th>地址</th>
+                      <th>状态</th>
                       <th>状态说明</th>
                       <th>创建时间</th>
                       <th>更新时间</th>
@@ -95,13 +95,13 @@ desired effect
                   </tbody>
                   <tfoot>
                     <tr>
-                      <th>name</th>
-                      <th>url</th>
-                      <th>status</th>
+                      <th>网站名称</th>
+                      <th>地址</th>
+                      <th>状态</th>
                       <th>状态说明</th>
                       <th>创建时间</th>
                       <th>更新时间</th>
-                      <th>操作</th>
+                      <th width="120px">操作</th>
                     </tr>
                   </tfoot>
                 </table>
@@ -128,7 +128,7 @@ desired effect
   <!-- ./wrapper -->
 
   <!-- 弹窗内容-->
-  <div class="modal fade" id="modal-default">
+  <div class="modal fade" id="modal-mv-add">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -141,32 +141,20 @@ desired effect
             <div class="box-body">
               <div class="form-group">
                 <label for="name">网站名称</label>
-                <input type="text" class="form-control" name="name" placeholder="name" autocomplete="off">
+                <input type="text" class="form-control" name="name" placeholder="名称" autocomplete="off">
               </div>
-              <!-- <div class="form-group">
-								<label for="category">分类</label>
-								<input type="text" class="form-control" name="category" placeholder="category"
-									autocomplete="off">
-							</div> -->
-              <div class="form-group">
+              <div class="form-group add-movie-temp">
                 <label for="url">url</label>
-                <input type="text" class="form-control" name="url" placeholder="url" autocomplete="off">
+                <input type="text" class="form-control" name="url" placeholder="地址" autocomplete="off">
               </div>
-              <div class="form-group">
-                <label for="url2">url2</label>
-                <input type="text" class="form-control" name="url2" placeholder="url" autocomplete="off">
-              </div>
-              <div class="form-group">
-                <label for="url3">url3</label>
-                <input type="text" class="form-control" name="url3" placeholder="url" autocomplete="off">
-              </div>
+              <button type="button" class="btn btn-primary" id="add-movie">添加</button>
             </div>
             <!-- /.box-body -->
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary h-save">Save</button>
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-primary h-save">保存</button>
         </div>
       </div>
       <!-- /.modal-content -->
@@ -177,7 +165,7 @@ desired effect
   <!-- /弹窗内容-->
 
   <!-- 弹窗内容-->
-  <div id="update-dialog" style="display: none;">
+  <div style="display: none;" id="update-dialog">
     <div class="col-md-12">
       <!-- general form elements -->
       <div class="box box-primary">
@@ -191,25 +179,24 @@ desired effect
           <div class="box-body">
             <div class="form-group">
               <label for="name">网站名称</label>
-              <input type="text" class="form-control" name="name" placeholder="name" autocomplete="off">
+              <div class="input-group">
+                <input type="text" class="form-control" name="name" placeholder="name" autocomplete="off">
+                <span class="input-group-btn">
+                  <button class="btn btn-default" type="button">保存</button>
+                </span>
+              </div>
             </div>
-            <!-- <div class="form-group">
-							<label for="category">分类</label>
-							<input type="text" class="form-control" name="category" placeholder="category"
-								autocomplete="off">
-						</div> -->
-            <div class="form-group">
+            <div class="form-group url-copy">
               <label for="url">url</label>
-              <input type="text" class="form-control" name="url" placeholder="url" autocomplete="off">
+              <div class="input-group">
+                <input type="text" class="form-control" name="url" placeholder="url" autocomplete="off">
+                <span class="input-group-btn">
+                  <button class="btn btn-default" type="button">保存</button>
+                  <button class="btn btn-danger" type="button">删除</button>
+                </span>
+              </div>
             </div>
-            <div class="form-group">
-              <label for="url2">url2</label>
-              <input type="text" class="form-control" name="url2" placeholder="url" autocomplete="off">
-            </div>
-            <div class="form-group">
-              <label for="url3">url3</label>
-              <input type="text" class="form-control" name="url3" placeholder="url" autocomplete="off">
-            </div>
+            <button type="button" class="btn btn-primary" id="add-movie">添加</button>
           </div>
           <!-- /.box-body -->
         </form>
@@ -325,28 +312,29 @@ desired effect
             }
           },
           {
-            data: 'urls',
+            data: 'urls',//创建时间
+            width: '150px',
             render: function (data, type, row) {
               var html = '';
               data.forEach(element => {
-                html += moment(element.created_at).format("YYYY-MM-DD HH:mm:ss") + '<br />';
+                html += moment(element.created_at).format("YYYY-MM-DD HH:mm") + '<br />';
+              });
+              return html;
+            }
+          },
+          {
+            data: 'urls',//更新时间
+            width: '100px',
+            render: function (data, type, row) {
+              var html = '';
+              data.forEach(element => {
+                html += moment(element.updated_at).format("MM-DD HH:mm") + '<br />';
               });
               return html;
             }
           },
           {
             data: 'urls',
-            width: '200px',
-            render: function (data, type, row) {
-              var html = '';
-              data.forEach(element => {
-                html += moment(element.updated_at).format("YYYY-MM-DD HH:mm:ss") + '<br />';
-              });
-              return html;
-            }
-          },
-          {
-            data: 'name',
             render: function (data, type, row) {
               var html = '<a href="javascript:void(0);" class="J-update">修改</a>';
               html += '&nbsp;<a href="javascript:void(0);" class="J-delete">删除</a>';
@@ -393,21 +381,29 @@ desired effect
           })
         }
       });
+      //添加一行
+      $('#add-movie').on('click', function () {
+        //复制模板自身
+        var html = $('.add-movie-temp').clone();
+        $(this).before(html);
+      })
       //保存
       $(".h-save").on("click", function () {
-        var name = $("#modal-default input[name=name]").val();
-        var url = $("#modal-default input[name=url]").val();
-        var url2 = $("#modal-default input[name=url2]").val();
-        var url3 = $("#modal-default input[name=url3]").val();
+        var name = $("#modal-mv-add input[name=name]").val();
+        //获取多个url
+        var urlinputs = $("#modal-mv-add input[name=url]");
+        // 如果需要将这些值存储在数组中
+        var urls = [];
+        urlinputs.each(function () {
+          urls.push($(this).val());
+        });
         $.ajax({
           url: '/admin/api/movie/add',
           type: 'post', //GET
           async: true,    //或false,是否异步
           data: {
             name: name,
-            url: url,
-            url2: url2,
-            url3: url3
+            urls: urls,
           },
           timeout: 5000,    //超时时间
           dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
@@ -442,9 +438,13 @@ desired effect
           let urlArr = data.data.urls;
           $("#movieId").val(id);
           $("#update-dialog input[name=name]").val(data.data.name);
-          $("#update-dialog input[name=url]").val(urlArr[0].url);
-          $("#update-dialog input[name=url2]").val(urlArr[1]?.url);
-          $("#update-dialog input[name=url3]").val(urlArr[2]?.url);
+          var urlhtml = $("#update-dialog .url-copy").clone();
+          // $("#update-dialog .url-copy").remove();
+          urlArr.forEach(element => {
+            urlhtml.find("input[name=url]").val(element.url);
+            urlhtml.attr("data-id", element.id);
+            $("#update-dialog #add-movie").before(urlhtml);
+          });
           layer.open({
             type: 1,
             area: ['500px', 'auto'],

@@ -46,6 +46,17 @@ func (mov *Movie) Save() (int64, error) {
 	return o.Insert(mov)
 }
 
+// 添加网站
+func (mov *Movie) SaveUrls(urls []string) (int64, error) {
+	//	var o Ormer
+	o := orm.NewOrm()
+	murls := []MovieUrl{}
+	for _, v := range urls {
+		murls = append(murls, MovieUrl{MovieId: mov.Id, URL: v})
+	}
+	return o.InsertMulti(len(murls), murls)
+}
+
 // 获取单个网站
 func (mov *Movie) MovieInfo() error {
 	//	var o Ormer

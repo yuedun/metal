@@ -528,30 +528,6 @@ func (c *AdminAPIController) MovieList() {
 	c.ServeJSON()
 }
 
-func (c *AdminAPIController) MovieAdd() {
-	name := c.GetString("name")
-	url := c.GetString("url")
-	url2 := c.GetString("url2")
-	url3 := c.GetString("url3")
-	if url2 != "" {
-		url = url + "," + url2
-	}
-	if url3 != "" {
-		url = url + "," + url3
-	}
-	movie := Movie{
-		Name: name,
-		// URL:  url,
-	}
-	_, err := movie.Save()
-	if nil != err {
-		logs.Error(err)
-		c.Data["json"] = c.ErrorData(err)
-	}
-	c.Data["json"] = c.SuccessData(nil)
-	c.ServeJSON()
-}
-
 func (c *AdminAPIController) MovieInfo() {
 	id, _ := strconv.Atoi(c.Ctx.Input.Param(":id"))
 	movie := Movie{}
@@ -562,6 +538,27 @@ func (c *AdminAPIController) MovieInfo() {
 		c.Data["json"] = c.ErrorData(err)
 	}
 	c.Data["json"] = c.SuccessData(movie)
+	c.ServeJSON()
+}
+
+func (c *AdminAPIController) MovieAdd() {
+	name := c.GetString("name")
+	urls := c.GetStrings("urls[]")
+	logs.Debug(name, urls)
+	movie := Movie{
+		Name: name,
+	}
+	_, err := movie.Save()
+	if nil != err {
+		logs.Error(err)
+		c.Data["json"] = c.ErrorData(err)
+	}
+	_, err = movie.SaveUrls(urls)
+	if nil != err {
+		logs.Error(err)
+		c.Data["json"] = c.ErrorData(err)
+	}
+	c.Data["json"] = c.SuccessData(nil)
 	c.ServeJSON()
 }
 
